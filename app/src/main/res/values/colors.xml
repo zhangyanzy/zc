@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--主题色-->
     <color name="colorPrimary">#3F51B5</color>
+    <!--主题色 辅色-->
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!--文字标题-->
+    <color name="colorFont3">#3e3e3e</color>
+    <!--文字正文-->
+    <color name="colorFont6">#6e6e6e</color>
+    <!--文字提示-->
+    <color name="colorFont9">#c0c0c0</color>
+    <!--线-->
+    <color name="colorLine">#dedede</color>
+    <!--表格表头与正文分割线／结尾分割线-->
+    <color name="colorHeadLine">#6e6e6e</color>
+    <!--功能区域背景 非底色-->
+    <color name="colorBg">#F2F4F8</color>
+    <!--底色-->
+    <color name="colorGround">#ffffff</color>
+    <!--文字提醒 错误 金额-->
+    <color name="colorRemind">#FF4949</color>
+    <!--成功-->
+    <color name="colorSuccess">#1DCB00</color>
+    <!--文字链接 提示-->
+    <color name="colorLink">#3B70E3</color>
+    <!--警告-->
+    <color name="colorWarning">#f68306</color>
+
 </resources>
