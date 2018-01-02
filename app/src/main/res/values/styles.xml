@@ -5,18 +5,8 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <!--<item name="colorFont3">@color/colorFont3</item>
-        <item name="colorFont6">@color/colorFont6</item>
-        <item name="colorFont9">@color/colorFont9</item>
-        <item name="colorLine">@color/colorLine</item>
-        <item name="colorHeadLine">@color/colorHeadLine</item>
-        <item name="colorBg">@color/colorBg</item>
-        <item name="colorGround">@color/colorGround</item>
-        <item name="colorRemind">@color/colorRemind</item>
-        <item name="colorSuccess">@color/colorSuccess</item>
-        <item name="colorLink">@color/colorLink</item>
-        <item name="colorWarning">@color/colorWarning</item>-->
     </style>
+
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
