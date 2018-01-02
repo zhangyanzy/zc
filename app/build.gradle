@@ -3,6 +3,10 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         zhaocai {
+            keyAlias 'jinxun'
+            keyPassword 'jinxun@2017'
+            storeFile file('../keystore.jks')
+            storePassword 'admin1234888'
         }
     }
     compileSdkVersion 26
