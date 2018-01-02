@@ -2,11 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        zaocai {
-            keyAlias 'jinxun'
-            keyPassword 'jinxun@2017'
-            storeFile file('/keystore.jks')
-            storePassword 'admin1234888'
+        zhaocai {
         }
     }
     compileSdkVersion 26
@@ -22,7 +18,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.zaocai
+            signingConfig signingConfigs.zhaocai
+        }
+        debug {
+            signingConfig signingConfigs.zhaocai
         }
     }
 }
