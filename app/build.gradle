@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         zhaocai {
-            keyAlias 'jinxun'
+            keyAlias 'jinxun2017'
             keyPassword 'jinxun@2017'
             storeFile file('../keystore.jks')
             storePassword 'admin1234888'
