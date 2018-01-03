@@ -61,6 +61,15 @@ public abstract class BaseActivity<T> extends AppCompatActivity {
     }
 
     /**
+     * 发送黏性事件
+     *
+     * @param obj
+     */
+    protected void postStickyEvent(T obj){
+        EventBus.getDefault().postSticky(obj);
+    }
+
+    /**
      * 处理事件
      *
      * @param obj
