@@ -1,12 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.constant;
 
 /**
- * <全局常量>
- *
- * @author caoyinfei
- * @version [版本号, 2016/6/6]
- * @see [相关类/方法]
- * @since [V1]
+ * 全局常量
  */
 public class Constants {
 
