@@ -7,6 +7,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import cn.zhaocaiapp.zc_app_android.R;
 
@@ -16,7 +18,7 @@ import cn.zhaocaiapp.zc_app_android.R;
  * Created by jinxunmediapty.ltd on 2018/1/3.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity<T> extends AppCompatActivity {
 
     public final String TAG = this.getClass().getSimpleName();
 
@@ -49,4 +51,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
     }
 
+    /**
+     * 发送事件
+     *
+     * @param obj
+     */
+    protected void postEvent(T obj){
+        EventBus.getDefault().post(obj);
+    }
+
+    /**
+     * 处理事件
+     *
+     * @param obj
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    protected abstract void doEvent(T obj);
 }

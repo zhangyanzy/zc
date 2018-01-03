@@ -45,4 +45,14 @@ public class ZcApplication extends Application {
             activity = null;
         }
     }
+
+    /**
+     * 退出程序 清理内存
+     *
+     */
+    @Override
+    public void onTerminate()
+    {
+        super.onTerminate();
+    }
 }
