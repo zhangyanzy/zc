@@ -3,11 +3,11 @@ package cn.zhaocaiapp.zc_app_android.util;
 import android.content.Context;
 import android.widget.Toast;
 
-import cn.zhaocaiapp.zc_app_android.common.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
 
 /**
  * 提示
- *
+ * <p>
  * Created by jinxunmediapty.ltd on 2018/1/3.
  */
 
@@ -20,7 +20,6 @@ public class ToastUtil {
      *
      * @param context
      * @param msg
-     *
      */
     public static void makeText(Context context, String msg) {
 
@@ -37,7 +36,6 @@ public class ToastUtil {
      *
      * @param context
      * @param msg
-     *
      */
     public static void makeTextLong(Context context, String msg) {
 
@@ -53,20 +51,18 @@ public class ToastUtil {
      * 显示失败信息
      *
      * @param context
-     *
      */
     public static void makeTextError(Context context) {
-        makeText(context, Constants.TOAST_COMMON_ERROR);
+        makeText(context, Constants.ERROR_MESSAGE);
     }
 
     /**
      * 显示失败信息
      *
      * @param context
-     *
      */
     public static void makeTextErrorLong(Context context) {
-        makeTextLong(context, Constants.TOAST_COMMON_ERROR);
+        makeTextLong(context, Constants.ERROR_MESSAGE);
     }
 
     /**
