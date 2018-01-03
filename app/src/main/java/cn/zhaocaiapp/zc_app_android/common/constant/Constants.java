@@ -6,8 +6,8 @@ package cn.zhaocaiapp.zc_app_android.common.constant;
  * Created by jinxunmediapty.ltd on 2018/1/3.
  */
 
-public class Constants {
+public interface Constants {
 
     //toast提示相关
-    public final static String TOAST_COMMON_ERROR = "失败";
+    String TOAST_COMMON_ERROR = "失败";
 }
