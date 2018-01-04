@@ -2,9 +2,6 @@ package cn.zhaocaiapp.zc_app_android;
 
 import android.app.Activity;
 import android.app.Application;
-import android.util.Log;
-
-import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;

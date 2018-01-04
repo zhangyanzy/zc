@@ -17,8 +17,6 @@ import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
-;
-import org.xutils.http.RequestParams;
 
 import java.io.File;
 
@@ -113,8 +111,6 @@ public class UpdateManager {
      * 下载apk
      */
     public void downloadFile(final Context context) {
-        RequestParams params = new RequestParams(url);
-        params.setSaveFilePath(downLoadPath + fileName);
         //TODO 下载app
     }
 
