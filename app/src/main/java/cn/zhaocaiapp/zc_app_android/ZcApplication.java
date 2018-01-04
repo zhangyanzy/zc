@@ -2,6 +2,7 @@ package cn.zhaocaiapp.zc_app_android;
 
 import android.app.Activity;
 import android.app.Application;
+import android.util.Log;
 
 import org.xutils.x;
 
@@ -29,8 +30,6 @@ public class ZcApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        x.Ext.init(this);
-        x.Ext.setDebug(true);
 
         BaseAndroid.init(new BaseConfig()
                 .setAppColor(R.color.colorPrimary)//app主调颜色，用于标题栏等背景颜色

@@ -15,8 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.xutils.x;
-
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.widget.LoadingDialog;
@@ -30,7 +28,6 @@ public class BaseFragmentActivity extends FragmentActivity {
                 | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        x.view().inject(this);
     }
 
     /**

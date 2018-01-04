@@ -17,11 +17,8 @@ import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
-
-import org.xutils.common.Callback;
-import org.xutils.http.HttpMethod;
+;
 import org.xutils.http.RequestParams;
-import org.xutils.x;
 
 import java.io.File;
 
@@ -118,67 +115,7 @@ public class UpdateManager {
     public void downloadFile(final Context context) {
         RequestParams params = new RequestParams(url);
         params.setSaveFilePath(downLoadPath + fileName);
-        x.http().request(HttpMethod.GET, params, new Callback.ProgressCallback<File>() {
-
-            @Override
-            public void onSuccess(File result) {
-                if (type == 0) {
-                    mBuilder.setContentTitle("下载完成");
-                    mBuilder.setContentText("点击安装");
-                    mBuilder.setProgress(100, 100, false);
-                    //点击安装PendingIntent
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_VIEW);
-                    intent.setDataAndType(Uri.fromFile(new File(downLoadPath, fileName)), "application/vnd.android.package-archive");
-                    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    mBuilder.setContentIntent(pendingIntent);
-                    mNotifyManager.notify(10086, mBuilder.build());
-                } else if (type == 2) {
-                    progressDialog.setMessage("下载完成");
-                }
-                if (type == 1) {
-                    showDialog(context);
-                } else {
-                    installApk(context, new File(downLoadPath, fileName));
-                }
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(context, ex.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-
-            @Override
-            public void onWaiting() {
-
-            }
-
-            @Override
-            public void onStarted() {
-
-            }
-
-            @Override
-            public void onLoading(long total, long current, boolean isDownloading) {
-                //实时更新通知栏进度条
-                if (type == 0) {
-                    mBuilder.setProgress((int) total, (int) current, false);
-                    mNotifyManager.notify(10086, mBuilder.build());
-                } else if (type == 2) {
-                    progressDialog.setProgress((int) (current * 100 / total));
-                }
-            }
-        });
+        //TODO 下载app
     }
 
 
