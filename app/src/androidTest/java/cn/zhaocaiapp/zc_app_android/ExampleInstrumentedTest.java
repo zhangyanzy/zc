@@ -4,8 +4,20 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
+import java.util.HashMap;
+
+import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 import static org.junit.Assert.*;
 
@@ -22,5 +34,29 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("cn.zhaocaiapp.zc_app_android", appContext.getPackageName());
+
+        HttpUtil.get("message",new HashMap()).subscribe(new Observer<JsonObject>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                System.out.print("1");
+            }
+
+            @Override
+            public void onNext(JsonObject value) {
+                value.toString();
+                System.out.print(value);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                System.out.print("1");
+            }
+
+            @Override
+            public void onComplete() {
+                System.out.print("1");
+            }
+        });
     }
 }

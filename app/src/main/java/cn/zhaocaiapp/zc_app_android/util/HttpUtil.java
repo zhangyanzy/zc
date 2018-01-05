@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 import cn.zhaocaiapp.zc_app_android.base.BaseHttpService;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -21,10 +23,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HttpUtil {
 
-    private final static String SERVER_URL = "http://123:8080/";    //必须以／结尾否则初始化会报错
+    private final static String SERVER_URL = "http://appapi.zhaocaiapp.local/";    //必须以／结尾否则初始化会报错
     private static final int DEFAULT_TIMEOUT = 5;                   //请求超时时间
 
-    private static String USER_TOKEN = "123";
+    private static String USER_TOKEN = "523710acbcb15683f157e1aed39294cd";
 
     private final static BaseHttpService http;
 
@@ -58,7 +60,10 @@ public class HttpUtil {
      */
     public static Observable get(String url,Map params){
 
-        return http.get(url,USER_TOKEN,params);
+        return http.get(url,USER_TOKEN,params)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
@@ -70,7 +75,10 @@ public class HttpUtil {
      */
     public static Observable post(String url,Map params){
 
-        return http.post(url,USER_TOKEN,params);
+        return http.post(url,USER_TOKEN,params)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
@@ -82,7 +90,10 @@ public class HttpUtil {
      */
     public static Observable put(String url,Map params){
 
-        return http.put(url,USER_TOKEN,params);
+        return http.put(url,USER_TOKEN,params)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
@@ -94,7 +105,10 @@ public class HttpUtil {
      */
     public static Observable delete(String url,Map params){
 
-        return http.delete(url,USER_TOKEN,params);
+        return http.delete(url,USER_TOKEN,params)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
 }
