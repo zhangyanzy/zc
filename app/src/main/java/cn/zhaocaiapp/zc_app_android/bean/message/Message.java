@@ -21,7 +21,7 @@ public class Message {
     /**
      * 创建时间
      */
-    private String createTime;
+    private Date createTime;
 
     public Integer getId() {
         return id;
@@ -39,11 +39,11 @@ public class Message {
         this.msg = msg;
     }
 
-    public String getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 }

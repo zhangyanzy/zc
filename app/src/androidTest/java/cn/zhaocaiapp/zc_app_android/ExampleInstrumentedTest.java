@@ -48,13 +48,10 @@ public class ExampleInstrumentedTest {
         });*/
         synchronized (appContext) {
 
-            HttpUtil.get("/message", new HashMap()).subscribe(new BaseResponseObserver<List<Message>>() {
+            HttpUtil.get("/message/1", new HashMap()).subscribe(new BaseResponseObserver<Message>() {
                 @Override
-                public void success(List<Message> result) {
-
-                    for(Message message : result){
-                        System.out.print(message.getMsg());
-                    }
+                public void success(Message result) {
+                    System.out.print(result.getMsg());
                 }
             });
             appContext.wait();
