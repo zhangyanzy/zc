@@ -3,6 +3,9 @@ package cn.zhaocaiapp.zc_app_android;
 import android.app.Activity;
 import android.app.Application;
 
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +17,12 @@ import cn.zhaocaiapp.zc_app_android.base.BaseConfig;
  */
 
 public class ZcApplication extends Application {
+
+    { // 配置三方appkey
+        PlatformConfig.setWeixin("", "");
+        PlatformConfig.setQQZone("1106660590", "mh54ewnGH5QCRwPN");
+        PlatformConfig.setSinaWeibo("2998825649", "9251f8e40b6ab489d56dbfd18f545297", "http://sns.whalecloud.com");
+    }
 
     //app 实例
     public static ZcApplication application;
@@ -37,6 +46,9 @@ public class ZcApplication extends Application {
                 .setHttpCode("code")//网络请求返回的code字段名称，默认为code
                 .setHttpMessage("message")//网络请求返回的message字段名称，默认为message
                 .setHttpResult("response"));//网络请求返回的result字段名称，默认为result
+
+        //初始化友盟sdk
+        UMShareAPI.get(this);
     }
 
     /**
