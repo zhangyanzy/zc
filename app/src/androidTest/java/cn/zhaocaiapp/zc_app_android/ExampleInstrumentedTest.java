@@ -3,21 +3,22 @@ package cn.zhaocaiapp.zc_app_android;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
 import java.util.HashMap;
+import java.util.List;
 
+import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+
+import cn.zhaocaiapp.zc_app_android.bean.message.Message;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+
 
 import static org.junit.Assert.*;
 
@@ -28,6 +29,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
+
     @Test
     public void useAppContext() throws Exception {
         // Context of the app under test.
@@ -35,28 +37,28 @@ public class ExampleInstrumentedTest {
 
         assertEquals("cn.zhaocaiapp.zc_app_android", appContext.getPackageName());
 
-        HttpUtil.get("message",new HashMap()).subscribe(new Observer<JsonObject>() {
+        /*HttpUtil.get("message",new HashMap()).subscribe(new BaseResponseObserver<Response<List<Message>>>() {
+            //判断code返回
             @Override
-            public void onSubscribe(Disposable d) {
-                System.out.print("1");
+            public void onNext(Response<List<Message>> response) {
+                if(response.getCode().equals(0)){
+                    System.out.print(response.getData().toString());
+                }
             }
+        });*/
+        synchronized (appContext) {
 
-            @Override
-            public void onNext(JsonObject value) {
-                value.toString();
-                System.out.print(value);
-            }
+            HttpUtil.get("/message", new HashMap()).subscribe(new BaseResponseObserver<List<Message>>() {
+                @Override
+                public void success(List<Message> result) {
 
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-                System.out.print("1");
-            }
+                    for(Message message : result){
+                        System.out.print(message.getMsg());
+                    }
+                }
+            });
+            appContext.wait();
 
-            @Override
-            public void onComplete() {
-                System.out.print("1");
-            }
-        });
+        }
     }
 }
