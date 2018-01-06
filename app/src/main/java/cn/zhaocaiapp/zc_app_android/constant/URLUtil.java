@@ -21,6 +21,9 @@ public class URLUtil {
      * 用户登陆
      */
     public static final String USER_LOGIN = "user/login";
-
+    //user
+    //user/10001
+    //user/10001/pay/100
+    //user/%s/pay/%s
 
 }

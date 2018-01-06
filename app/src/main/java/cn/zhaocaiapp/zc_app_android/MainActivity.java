@@ -49,7 +49,7 @@ public class MainActivity extends BaseActivity {
                 mMap.put("password", "123456");
                 EBLog.i("tag", mMap.toString());
                 EBLog.i("tag", URLUtil.USER_LOGIN);
-                EBLog.i("tag", String.format("user/%s", "10001"));
+                EBLog.i("tag", String.format("user/11100/12", "10001","22"));
                 /*HttpUtil.post(URLUtil.USER_LOGIN, new HashMap()).subscribe(new BaseResponseObserver<LoginResp>() {
                     @Override
                     public void success(LoginResp result) {
