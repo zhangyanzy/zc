@@ -32,4 +32,9 @@ public class Constants {
      * 请求失败展示信息
      */
     public static final String ERROR_MESSAGE = "请求失败，请稍后再试";
+
+    /**
+     * 请求超时时间
+     */
+    public static final int DEFAULT_TIMEOUT = 5;
 }

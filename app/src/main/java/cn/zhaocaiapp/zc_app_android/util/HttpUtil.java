@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import cn.zhaocaiapp.zc_app_android.base.BaseHttpService;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.constant.URLUtil;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -18,14 +19,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * 网络请求
- *
+ * <p>
  * Created by jinxunmediapty.ltd on 2018/1/4.
  */
 
 public class HttpUtil {
-
-    private final static String SERVER_URL = "http://appapi.zhaocaiapp.local/";    //必须以／结尾否则初始化会报错
-    private static final int DEFAULT_TIMEOUT = 5;                   //请求超时时间
 
     private static String USER_TOKEN = "523710acbcb15683f157e1aed39294cd";
 
@@ -38,15 +36,15 @@ public class HttpUtil {
                 .create();
 
         OkHttpClient client = new OkHttpClient.Builder()
-                    .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)          //设置连接超时时间
-                    .build();
+                .connectTimeout(Constants.DEFAULT_TIMEOUT, TimeUnit.SECONDS)          //设置连接超时时间
+                .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(URLUtil.SERVER)                                        //设置服务器地址
-                    .client(client)
-                    .addConverterFactory(GsonConverterFactory.create(gson))     //添加gson支持
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())  //添加RxJava2支持
-                    .build();
+                .baseUrl(URLUtil.SERVER)                                        //设置服务器地址
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))     //添加gson支持
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())  //添加RxJava2支持
+                .build();
 
         http = retrofit.create(BaseHttpService.class);
     }
@@ -59,9 +57,9 @@ public class HttpUtil {
      * @param params
      * @return
      */
-    public static Observable get(String url,Map params){
+    public static Observable get(String url, Map params) {
 
-        return http.get(url,USER_TOKEN,params)
+        return http.get(url, USER_TOKEN, params)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -74,9 +72,9 @@ public class HttpUtil {
      * @param params
      * @return
      */
-    public static Observable post(String url,Map params){
+    public static Observable post(String url, Map params) {
 
-        return http.post(url,USER_TOKEN,params)
+        return http.post(url, USER_TOKEN, params)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -89,9 +87,9 @@ public class HttpUtil {
      * @param params
      * @return
      */
-    public static Observable put(String url,Map params){
+    public static Observable put(String url, Map params) {
 
-        return http.put(url,USER_TOKEN,params)
+        return http.put(url, USER_TOKEN, params)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -104,9 +102,9 @@ public class HttpUtil {
      * @param params
      * @return
      */
-    public static Observable delete(String url,Map params){
+    public static Observable delete(String url, Map params) {
 
-        return http.delete(url,USER_TOKEN,params)
+        return http.delete(url, USER_TOKEN, params)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
