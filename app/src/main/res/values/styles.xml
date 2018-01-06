@@ -41,4 +41,8 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+
+    <style name="StartTheme" parent="AppTheme">
+        <item name="android:windowBackground">@mipmap/ic_launcher</item>
+    </style>
 </resources>
