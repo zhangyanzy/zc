@@ -49,37 +49,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         init(savedInstanceState);
     }
 
-    @Override
-    public void setContentView(int layoutResId){
-        super.setContentView(layoutResId);
-        //Butter Knife初始化
-        ButterKnife.bind(this);
-    }
-
-
-    @Override
-    public void setContentView(View view){
-        super.setContentView(view);
-        //Butter Knife初始化
-        ButterKnife.bind(this);
-    }
-
-
-    @Override
-    public void setContentView(View view,ViewGroup.LayoutParams params){
-        super.setContentView(view,params);
-        //Butter Knife初始化
-        ButterKnife.bind(this);
-    }
-
-
     public abstract int getContentViewResId();
 
     public abstract void init(Bundle savedInstanceState);
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mUnbinder.unbind();
-    }
 }
