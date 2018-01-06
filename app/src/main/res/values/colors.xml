@@ -16,7 +16,7 @@
     <!--表格表头与正文分割线／结尾分割线-->
     <color name="colorHeadLine">#6e6e6e</color>
     <!--背景色 比较深的-->
-    <color name="colorBgDark">#f8f8f8</color>
+    <color name="colorBgDark">#8f8f8f</color>
     <!--功能区域背景 非底色-->
     <color name="colorBg">#F2F4F8</color>
     <!--底色-->
