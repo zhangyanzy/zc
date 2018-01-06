@@ -1,4 +1,4 @@
-package cn.zhaocaiapp.zc_app_android.bean.response.user;
+package cn.zhaocaiapp.zc_app_android.bean.response.my;
 
 import cn.zhaocaiapp.zc_app_android.bean.BaseResp;
 
@@ -7,5 +7,5 @@ import cn.zhaocaiapp.zc_app_android.bean.BaseResp;
  * @filename UserResp.java
  * @data 2018-01-03 11:23
  */
-public class UserResp extends BaseResp {
+public class MyResp extends BaseResp {
 }

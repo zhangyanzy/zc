@@ -10,11 +10,21 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.message.Message;
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
+import cn.zhaocaiapp.zc_app_android.constant.URLUtil;
+import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 
 public class MainActivity extends BaseActivity {
 
     private Button button;
+    private HttpUtil httpUtil;
 
 
     @Override
@@ -28,13 +38,31 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        button = (Button)findViewById(R.id.testBtn);
+        button = (Button) findViewById(R.id.testBtn);
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-
-                Toast.makeText(MainActivity.this, "测试接口使用，误删",Toast.LENGTH_SHORT).show();
+                Map<String, String> mMap = new HashMap<String, String>();
+                mMap.put("account", "15044441111");
+                mMap.put("password", "123456");
+                EBLog.i("tag", mMap.toString());
+                EBLog.i("tag", URLUtil.USER_LOGIN);
+                EBLog.i("tag", String.format("user/%s", "10001"));
+                HttpUtil.post(URLUtil.USER_LOGIN, new HashMap()).subscribe(new BaseResponseObserver<Message>() {
+                    @Override
+                    public void success(Message result) {
+                        EBLog.i("tag", result.toString());
+                    }
+                });
+                /*HttpUtil.get("/message", new HashMap()).subscribe(new BaseResponseObserver<List<Message>>() {
+                    @Override
+                    public void success(List<Message> result) {
+                        EBLog.i("tag", result.get(0).getMsg());
+                        //System.out.print(result.getMsg());
+                    }
+                });*/
+                Toast.makeText(MainActivity.this, "测试接口使用，误删", Toast.LENGTH_SHORT).show();
 
             }
         });

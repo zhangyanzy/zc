@@ -1,4 +1,4 @@
-package cn.zhaocaiapp.zc_app_android.bean.response.order;
+package cn.zhaocaiapp.zc_app_android.bean.response.login;
 
 import cn.zhaocaiapp.zc_app_android.bean.BaseResp;
 
@@ -7,5 +7,5 @@ import cn.zhaocaiapp.zc_app_android.bean.BaseResp;
  * @filename OrderResp.java
  * @data 2018-01-03 11:42
  */
-public class OrderResp extends BaseResp {
+public class LoginResp extends BaseResp {
 }

@@ -1,4 +1,4 @@
-package cn.zhaocaiapp.zc_app_android.bean.request.activity;
+package cn.zhaocaiapp.zc_app_android.bean.request.home;
 
 import cn.zhaocaiapp.zc_app_android.bean.BaseReq;
 
@@ -7,5 +7,5 @@ import cn.zhaocaiapp.zc_app_android.bean.BaseReq;
  * @filename ActivityReq.java
  * @data 2018-01-03 11:41
  */
-public class ActivityReq extends BaseReq {
+public class HomeReq extends BaseReq {
 }

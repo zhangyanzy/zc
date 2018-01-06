@@ -1,4 +1,4 @@
-package cn.zhaocaiapp.zc_app_android.bean.request.user;
+package cn.zhaocaiapp.zc_app_android.bean.request.my;
 
 import cn.zhaocaiapp.zc_app_android.bean.BaseReq;
 
@@ -7,5 +7,5 @@ import cn.zhaocaiapp.zc_app_android.bean.BaseReq;
  * @filename UserReq.java
  * @data 2018-01-03 11:23
  */
-public class UserReq extends BaseReq {
+public class MyReq extends BaseReq {
 }

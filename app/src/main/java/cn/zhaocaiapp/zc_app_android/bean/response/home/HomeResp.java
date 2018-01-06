@@ -1,4 +1,4 @@
-package cn.zhaocaiapp.zc_app_android.bean.response.activity;
+package cn.zhaocaiapp.zc_app_android.bean.response.home;
 
 import cn.zhaocaiapp.zc_app_android.bean.BaseResp;
 
@@ -7,5 +7,5 @@ import cn.zhaocaiapp.zc_app_android.bean.BaseResp;
  * @filename ActivityResp.java
  * @data 2018-01-03 11:41
  */
-public class ActivityResp extends BaseResp{
+public class HomeResp extends BaseResp{
 }
