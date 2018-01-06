@@ -2,7 +2,12 @@ package cn.zhaocaiapp.zc_app_android.base;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -13,6 +18,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import cn.zhaocaiapp.zc_app_android.R;
 
 /**
@@ -23,66 +31,55 @@ import cn.zhaocaiapp.zc_app_android.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    public final String TAG = this.getClass().getSimpleName();
+    private Unbinder mUnbinder;
 
-    //返回按钮
-    private LinearLayout back;
-    //标题
-    protected TextView title;
-    //header右边字符
-    protected TextView right;
-
-    //loading
-    protected ProgressBar loading;
+    @BindView(R.id.toolbar)
+    protected Toolbar header;   //header
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(getContentViewResId());
+        mUnbinder = ButterKnife.bind(this);
 
-        //加载页面
-        setContentView(R.layout.activity_main);
+        //设置header转成actionBar
+        setSupportActionBar(header);
 
-        //注册事件总线
-        EventBus.getDefault().register(this);
-
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN
-                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getSupportActionBar().hide();
+        //初始化工程
+        init(savedInstanceState);
     }
+
+    @Override
+    public void setContentView(int layoutResId){
+        super.setContentView(layoutResId);
+        //Butter Knife初始化
+        ButterKnife.bind(this);
+    }
+
+
+    @Override
+    public void setContentView(View view){
+        super.setContentView(view);
+        //Butter Knife初始化
+        ButterKnife.bind(this);
+    }
+
+
+    @Override
+    public void setContentView(View view,ViewGroup.LayoutParams params){
+        super.setContentView(view,params);
+        //Butter Knife初始化
+        ButterKnife.bind(this);
+    }
+
+
+    public abstract int getContentViewResId();
+
+    public abstract void init(Bundle savedInstanceState);
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        //取消注册事件总线
-        EventBus.getDefault().unregister(this);
+        mUnbinder.unbind();
     }
-
-    /**
-     * 发送事件
-     *
-     * @param obj
-     */
-    protected void postEvent(Object obj){
-        EventBus.getDefault().post(obj);
-    }
-
-    /**
-     * 发送黏性事件
-     *
-     * @param obj
-     */
-    protected void postStickyEvent(Object obj){
-        EventBus.getDefault().postSticky(obj);
-    }
-
-    /**
-     * 处理事件
-     *
-     * @param obj
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    protected abstract void doEvent(Object obj);
 }
