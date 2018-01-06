@@ -37,10 +37,8 @@
         <meta-data android:value="5a4c6b93a40fa36a3900036f" android:name="UMENG_APPKEY"/>
         <meta-data android:value="yingyongbao" android:name="UMENG_CHANNEL"/>
 
-
-
     </application>
-
-
+    <!--网络权限-->
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

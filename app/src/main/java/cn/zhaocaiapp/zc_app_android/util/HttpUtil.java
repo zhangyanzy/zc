@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import cn.zhaocaiapp.zc_app_android.base.BaseHttpService;
+import cn.zhaocaiapp.zc_app_android.constant.URLUtil;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -41,7 +42,7 @@ public class HttpUtil {
                     .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(SERVER_URL)                                        //设置服务器地址
+                    .baseUrl(URLUtil.SERVER)                                        //设置服务器地址
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create(gson))     //添加gson支持
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())  //添加RxJava2支持
