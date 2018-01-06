@@ -28,6 +28,21 @@ android {
             signingConfig signingConfigs.zhaocai
         }
     }
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res/layout/login',
+                            'src/main/res/layout/my',
+                            'src/main/res/layout/home',
+                            'src/main/res/layout/member',
+                            'src/main/res/layout/order',
+                            'src/main/res/layout/common',
+                            'src/main/res/layout',
+                            'src/main/res'
+                    ]
+        }
+    }
 }
 
 dependencies {
