@@ -49,6 +49,19 @@ public class HttpUtil {
         http = retrofit.create(BaseHttpService.class);
     }
 
+    /**
+     * get 请求
+     *
+     * @param url
+     * @return
+     */
+    public static Observable get(String url) {
+
+        return http.get(url, USER_TOKEN)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 
     /**
      * get 请求
@@ -60,6 +73,20 @@ public class HttpUtil {
     public static Observable get(String url, Map params) {
 
         return http.get(url, USER_TOKEN, params)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * post 请求
+     *
+     * @param url
+     * @return
+     */
+    public static Observable post(String url) {
+
+        return http.post(url, USER_TOKEN)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -84,12 +111,40 @@ public class HttpUtil {
      * put 请求
      *
      * @param url
+     * @return
+     */
+    public static Observable put(String url) {
+
+        return http.put(url, USER_TOKEN)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * put 请求
+     *
+     * @param url
      * @param params
      * @return
      */
     public static Observable put(String url, Map params) {
 
         return http.put(url, USER_TOKEN, params)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * delete 请求
+     *
+     * @param url
+     * @return
+     */
+    public static Observable delete(String url) {
+
+        return http.delete(url, USER_TOKEN)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

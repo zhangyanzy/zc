@@ -17,6 +17,7 @@ import java.util.Map;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.message.Message;
+import cn.zhaocaiapp.zc_app_android.bean.response.login.LoginResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.URLUtil;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
@@ -49,10 +50,16 @@ public class MainActivity extends BaseActivity {
                 EBLog.i("tag", mMap.toString());
                 EBLog.i("tag", URLUtil.USER_LOGIN);
                 EBLog.i("tag", String.format("user/%s", "10001"));
-                HttpUtil.post(URLUtil.USER_LOGIN, new HashMap()).subscribe(new BaseResponseObserver<Message>() {
+                /*HttpUtil.post(URLUtil.USER_LOGIN, new HashMap()).subscribe(new BaseResponseObserver<LoginResp>() {
                     @Override
-                    public void success(Message result) {
-                        EBLog.i("tag", result.toString());
+                    public void success(LoginResp result) {
+                        EBLog.i("tag", result.getToken());
+                    }
+                });*/
+                HttpUtil.post(URLUtil.USER_LOGIN).subscribe(new BaseResponseObserver<LoginResp>() {
+                    @Override
+                    public void success(LoginResp result) {
+                        EBLog.i("tag", result.getToken());
                     }
                 });
                 /*HttpUtil.get("/message", new HashMap()).subscribe(new BaseResponseObserver<List<Message>>() {
