@@ -135,7 +135,7 @@
             android:textSize="12sp"
             android:text="@string/other_login_mode"/>
 
-        <View style="@style/horizontal_wrap_line"
+        <View style="@style/horizontal_C9_line"
             android:layout_marginStart="65dp"
             android:layout_marginEnd="65dp"
             android:layout_marginTop="6dp"/>

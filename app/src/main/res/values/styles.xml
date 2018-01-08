@@ -1,9 +1,9 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/dark_yellow</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
@@ -48,11 +48,27 @@
 
 
     <!--浅灰色线条-->
-    <style name="horizontal_wrap_line">
+    <style name="horizontal_C9_line">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">2px</item>
         <item name="android:background">#C9C9C9</item>
     </style>
+    <style name="horizontal_F0_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2px</item>
+        <item name="android:background">#F0F0F0</item>
+    </style>
+
+    <!--浅灰色divider-->
+    <style name="C9_8dp_divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">8dp</item>
+        <item name="android:background">#F0F0F0</item>
+    </style>
+
+
+
+
 
     <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
         <item name="tabBackground">@drawable/tab_background</item>
