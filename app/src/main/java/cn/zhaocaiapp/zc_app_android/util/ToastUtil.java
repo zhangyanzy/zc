@@ -53,7 +53,7 @@ public class ToastUtil {
      * @param context
      */
     public static void makeTextError(Context context) {
-        makeText(context, Constants.ERROR_MESSAGE);
+        makeText(context, Constants.CONFIG.ERROR_MESSAGE);
     }
 
     /**
@@ -62,7 +62,7 @@ public class ToastUtil {
      * @param context
      */
     public static void makeTextErrorLong(Context context) {
-        makeTextLong(context, Constants.ERROR_MESSAGE);
+        makeTextLong(context, Constants.CONFIG.ERROR_MESSAGE);
     }
 
     /**
