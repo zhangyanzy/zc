@@ -43,6 +43,10 @@ android {
                     ]
         }
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -63,7 +67,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 
-    compile'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
     implementation files('libs/SocialSDK_QQ_Simplify.jar')
 

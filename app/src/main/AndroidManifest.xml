@@ -2,17 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.zhaocaiapp.zc_app_android">
 
-    <!--友盟集成权限-->
+    <!-- 友盟集成权限 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-
+    <!-- 网络权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".ZcApplication"
@@ -33,12 +34,17 @@
             </intent-filter>
         </activity>
 
-        <!--注册友盟appkey和渠道id-->
-        <meta-data android:value="5a4c6b93a40fa36a3900036f" android:name="UMENG_APPKEY"/>
-        <meta-data android:value="yingyongbao" android:name="UMENG_CHANNEL"/>
+        <activity android:name="cn.zhaocaiapp.zc_app_android.views.home.ActivityListActivity"></activity>
+        <activity android:name="cn.zhaocaiapp.zc_app_android.views.home.HomeActivity"></activity>
+
+        <!-- 注册友盟appkey和渠道id -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5a4c6b93a40fa36a3900036f" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="yingyongbao" />
 
     </application>
-    <!--网络权限-->
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

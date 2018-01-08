@@ -1,8 +1,10 @@
 package cn.zhaocaiapp.zc_app_android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,21 +14,31 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.LoginResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.views.home.ActivityListActivity;
+import cn.zhaocaiapp.zc_app_android.views.home.HomeActivity;
 
 public class MainActivity extends BaseActivity {
 
     private Button button;
+    private FloatingActionButton button1;
     private HttpUtil httpUtil;
 
+    @BindView(R.id.toolbar)
+    protected Toolbar header;   //header
 
     @Override
     public void init(Bundle savedInstanceState) {
+
+        //设置header转成actionBar
+        setSupportActionBar(header);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +81,15 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(MainActivity.this, "测试接口使用，误删", Toast.LENGTH_SHORT).show();
 
             }
+        });
+
+
+        button1 = (FloatingActionButton) findViewById(R.id.goHome);
+        button1.setOnClickListener((view) -> {
+            Intent intent = new Intent("");
+            intent.setClass(MainActivity.this, HomeActivity.class);
+            startActivity(intent);
+            /*Toast.makeText(MainActivity.this, "点击这个跳转到哪里去呢", Toast.LENGTH_SHORT).show();*/
         });
     }
 

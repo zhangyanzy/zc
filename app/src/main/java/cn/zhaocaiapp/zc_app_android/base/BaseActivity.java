@@ -20,17 +20,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private Unbinder mUnbinder;
 
-    @BindView(R.id.toolbar)
-    protected Toolbar header;   //header
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentViewResId());
         mUnbinder = ButterKnife.bind(this);
-
-        //设置header转成actionBar
-        setSupportActionBar(header);
 
         //初始化工程
         init(savedInstanceState);
