@@ -45,4 +45,10 @@
     <style name="StartTheme" parent="AppTheme">
         <item name="android:windowBackground">@mipmap/ic_launcher</item>
     </style>
+
+    <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
+        <item name="tabBackground">@drawable/tab_background</item>
+        <item name="tabIndicatorColor">@color/colorBgDark</item>
+        <item name="tabIndicatorHeight">2dp</item>
+    </style>
 </resources>

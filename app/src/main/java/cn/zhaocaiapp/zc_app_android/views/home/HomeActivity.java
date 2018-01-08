@@ -26,7 +26,7 @@ public class HomeActivity extends BaseActivity{
     @BindView(R.id.vp_view) ViewPager mViewPager;
     private LayoutInflater mInflater;
     private List<String> mTitleList = new ArrayList<String>();//页卡标题集合
-    private View view1, view2, view3, view4, view5, view6, view7, view8;//页卡视图
+    private View view1, view2, view3;//页卡视图
     private List<View> mViewList = new ArrayList<>();//页卡视图集合
 
     @Override
@@ -41,38 +41,18 @@ public class HomeActivity extends BaseActivity{
         view1 = mInflater.inflate(R.layout.activity_list, null);
         view2 = mInflater.inflate(R.layout.activity_list, null);
         view3 = mInflater.inflate(R.layout.activity_list, null);
-        view4 = mInflater.inflate(R.layout.activity_list, null);
-        view5 = mInflater.inflate(R.layout.activity_list, null);
-        view6 = mInflater.inflate(R.layout.activity_list, null);
-        view7 = mInflater.inflate(R.layout.activity_list, null);
-        view8 = mInflater.inflate(R.layout.activity_list, null);
         //添加页卡视图
         mViewList.add(view1);
         mViewList.add(view2);
         mViewList.add(view3);
-        mViewList.add(view4);
-        mViewList.add(view5);
-        mViewList.add(view6);
-        mViewList.add(view7);
-        mViewList.add(view8);
         //添加页卡标题
-        mTitleList.add("头条");
-        mTitleList.add("热点");
-        mTitleList.add("本地");
-        mTitleList.add("财经");
-        mTitleList.add("科技");
-        mTitleList.add("教育");
-        mTitleList.add("体育");
-        mTitleList.add("笑话");
+        mTitleList.add("最新活动");
+        mTitleList.add("线上活动");
+        mTitleList.add("线下活动");
         //添加tab选项卡，默认第一个选中
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(0)), true);
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(1)));
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(2)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(3)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(4)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(5)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(6)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(7)));
 
         MyPagerAdapter mAdapter = new MyPagerAdapter(mViewList);
         //给ViewPager设置适配器
