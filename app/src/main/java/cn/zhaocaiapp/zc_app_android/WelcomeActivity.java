@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +19,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 
-public class WelcomeActivity extends BaseActivity {
+public class WelcomeActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
@@ -29,17 +31,7 @@ public class WelcomeActivity extends BaseActivity {
     private TextView[] dots;
     private int[] layouts;
     private Button btnSkip, btnNext;
-    //private PrefManager prefManager;
 
-    @Override
-    public int getContentViewResId() {
-        return 0;
-    }
-
-    @Override
-    public void init(Bundle savedInstanceState) {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +39,7 @@ public class WelcomeActivity extends BaseActivity {
 
         //在setContentView()前检查是否第一次运行
         SpUtils.contains(this, Constants.SPREF.IS_FIRST_TIME_LAUNCH);
-        if (!SpUtils.contains(this, Constants.SPREF.IS_FIRST_TIME_LAUNCH)) {
+        if (!(Boolean) SpUtils.get(this, Constants.SPREF.IS_FIRST_TIME_LAUNCH, true)) {
             launchHomeScreen();
             finish();
         }
@@ -102,7 +94,6 @@ public class WelcomeActivity extends BaseActivity {
         });
 
     }
-
 
 
     private void addBottomDots(int currentPage) {
