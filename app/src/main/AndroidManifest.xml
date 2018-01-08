@@ -23,18 +23,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity
-            android:name=".WelcomeActivity">
+        <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
+        <!-- 首页 -->
+        <activity android:name=".views.home.ActivityListActivity" />
+        <activity android:name=".views.home.ActivitySceneDetailActivity" />
+        <activity android:name=".views.home.HomeActivity" />
 
-        <activity android:name="cn.zhaocaiapp.zc_app_android.views.home.ActivityListActivity"></activity>
-        <activity android:name="cn.zhaocaiapp.zc_app_android.views.home.HomeActivity"></activity>
 
         <!-- 注册友盟appkey和渠道id -->
         <meta-data
@@ -43,7 +44,6 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="yingyongbao" />
-
     </application>
 
 </manifest>
