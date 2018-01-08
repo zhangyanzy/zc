@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 
 import cn.zhaocaiapp.zc_app_android.base.BaseHttpService;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
-import cn.zhaocaiapp.zc_app_android.constant.URLUtil;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -36,11 +35,11 @@ public class HttpUtil {
                 .create();
 
         OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(Constants.DEFAULT_TIMEOUT, TimeUnit.SECONDS)          //设置连接超时时间
+                .connectTimeout(Constants.CONFIG.DEFAULT_TIMEOUT, TimeUnit.SECONDS)          //设置连接超时时间
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(URLUtil.SERVER)                                        //设置服务器地址
+                .baseUrl(Constants.URL.SERVER)                                        //设置服务器地址
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))     //添加gson支持
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())  //添加RxJava2支持

@@ -3,7 +3,6 @@ package cn.zhaocaiapp.zc_app_android;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,15 +10,13 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
-import cn.zhaocaiapp.zc_app_android.bean.message.Message;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.LoginResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
-import cn.zhaocaiapp.zc_app_android.constant.URLUtil;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 
 public class MainActivity extends BaseActivity {
@@ -48,15 +45,15 @@ public class MainActivity extends BaseActivity {
                 mMap.put("account", "15044441111");
                 mMap.put("password", "123456");
                 EBLog.i("tag", mMap.toString());
-                EBLog.i("tag", URLUtil.USER_LOGIN);
-                EBLog.i("tag", String.format("user/11100/12", "10001","22"));
+                EBLog.i("tag", Constants.URL.USER_LOGIN);
+                EBLog.i("tag", String.format("user/11100/12", "10001", "22"));
                 /*HttpUtil.post(URLUtil.USER_LOGIN, new HashMap()).subscribe(new BaseResponseObserver<LoginResp>() {
                     @Override
                     public void success(LoginResp result) {
                         EBLog.i("tag", result.getToken());
                     }
                 });*/
-                HttpUtil.post(URLUtil.USER_LOGIN).subscribe(new BaseResponseObserver<LoginResp>() {
+                HttpUtil.post(Constants.URL.USER_LOGIN).subscribe(new BaseResponseObserver<LoginResp>() {
                     @Override
                     public void success(LoginResp result) {
                         EBLog.i("tag", result.getToken());
