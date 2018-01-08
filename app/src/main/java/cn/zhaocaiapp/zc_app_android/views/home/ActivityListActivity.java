@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
  */
 public class ActivityListActivity extends BaseActivity {
 
-    @BindView(R.id.active_list) ListView listView;
+    @BindView(R.id.active_list1) ListView listView;
     private List<String> activityList;
 
     {
@@ -37,6 +38,9 @@ public class ActivityListActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+
+        Toast.makeText(ActivityListActivity.this, "看看", Toast.LENGTH_SHORT).show();
+
         listView.setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {
@@ -66,5 +70,6 @@ public class ActivityListActivity extends BaseActivity {
                 return view;
             }
         });
+        setContentView(listView);
     }
 }
