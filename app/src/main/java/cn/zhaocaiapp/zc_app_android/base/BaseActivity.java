@@ -20,6 +20,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private Unbinder mUnbinder;
 
+    @Nullable
     @BindView(R.id.toolbar)
     protected Toolbar header;   //header
 

@@ -3,6 +3,7 @@ package cn.zhaocaiapp.zc_app_android;
 import android.app.Activity;
 import android.app.Application;
 
+import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -18,10 +19,10 @@ import cn.zhaocaiapp.zc_app_android.base.BaseConfig;
 
 public class ZcApplication extends Application {
 
-    { // 配置三方appkey
+    static { // 配置三方appkey
         PlatformConfig.setWeixin("", "");
         PlatformConfig.setQQZone("1106660590", "mh54ewnGH5QCRwPN");
-        PlatformConfig.setSinaWeibo("2998825649", "9251f8e40b6ab489d56dbfd18f545297", "http://sns.whalecloud.com");
+        PlatformConfig.setSinaWeibo("2998825649", "9251f8e40b6ab489d56dbfd18f545297", "https://api.weibo.com/oauth2/default.html");
     }
 
     //app 实例
@@ -49,6 +50,7 @@ public class ZcApplication extends Application {
 
         //初始化友盟sdk
         UMShareAPI.get(this);
+        Config.DEBUG = true;
     }
 
     /**

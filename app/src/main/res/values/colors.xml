@@ -31,4 +31,9 @@
     <color name="colorWarning">#f68306</color>
 
 
+    <color name="light_gray">#F3F4F5</color>
+    <color name="text_light_gray">#999999</color>
+    <color name="dark_yellow">#dc9935</color>
+    <color name="text_black">#333333</color>
+
 </resources>

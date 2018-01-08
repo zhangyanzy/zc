@@ -45,4 +45,12 @@
     <style name="StartTheme" parent="AppTheme">
         <item name="android:windowBackground">@mipmap/ic_launcher</item>
     </style>
+
+
+    <!--浅灰色线条-->
+    <style name="horizontal_wrap_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2px</item>
+        <item name="android:background">#C9C9C9</item>
+    </style>
 </resources>
