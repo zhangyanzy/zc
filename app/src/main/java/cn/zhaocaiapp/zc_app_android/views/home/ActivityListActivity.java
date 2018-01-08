@@ -60,7 +60,7 @@ public class ActivityListActivity extends BaseActivity {
                 LayoutInflater inflater = ActivityListActivity.this.getLayoutInflater();
                 view = inflater.inflate(R.layout.activity_activity_scene_detail,null);
 
-                TextView textView = view.findViewById(R.id.textView);
+                TextView textView = (TextView) view.findViewById(R.id.textView);
                 textView.setText(activityList.get(position));
 
                 return view;
