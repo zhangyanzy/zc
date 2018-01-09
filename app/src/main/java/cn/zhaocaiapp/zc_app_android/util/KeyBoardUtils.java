@@ -38,7 +38,7 @@ public class KeyBoardUtils {
     /**
      * 关闭软键盘
      *
-     * @param view 所要隐藏软键盘的布局中的view
+     * @param view 所要隐藏软键盘的window中的view
      * @param mContext  上下文
      */
     public static void closeKeybord(View view, Context mContext) {

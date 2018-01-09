@@ -16,6 +16,12 @@
     <string name="pass_not_empty">密码不能为空</string>
     <string name="isNot_phone">手机号格式不正确</string>
     <string name="isNot_pass">密码格式不正确</string>
+    <string name="input_identify_code">请输入验证码</string>
+    <string name="get_identify_code">验证码</string>
+    <string name="input_new_pass">请输入新密码</string>
+    <string name="reset_pass">重置密码</string>
+    <!--字符串中包含的第一个参数为整数d-->
+    <string name="delay_time">%1$d秒</string>
 
 
 </resources>

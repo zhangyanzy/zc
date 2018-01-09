@@ -108,8 +108,8 @@ public class HomeActivity extends BaseActivity{
                 LayoutInflater inflater = getLayoutInflater();
                 view = inflater.inflate(R.layout.activity_activity_scene_detail,null);
 
-                TextView textView = (TextView) view.findViewById(R.id.textView);
-                textView.setText(activityList.get(position));
+//                TextView textView = (TextView) view.findViewById(R.id.textView);
+//                textView.setText(activityList.get(position));
 
                 return view;
             }
@@ -141,8 +141,8 @@ public class HomeActivity extends BaseActivity{
                 LayoutInflater inflater = getLayoutInflater();
                 view = inflater.inflate(R.layout.activity_activity_scene_detail,null);
 
-                TextView textView = (TextView) view.findViewById(R.id.textView);
-                textView.setText(activityList.get(position));
+//                TextView textView = (TextView) view.findViewById(R.id.textView);
+//                textView.setText(activityList.get(position));
 
                 return view;
             }
@@ -174,8 +174,8 @@ public class HomeActivity extends BaseActivity{
                 LayoutInflater inflater = getLayoutInflater();
                 view = inflater.inflate(R.layout.activity_activity_scene_detail,null);
 
-                TextView textView = (TextView) view.findViewById(R.id.textView);
-                textView.setText(activityList.get(position));
+//                TextView textView = (TextView) view.findViewById(R.id.textView);
+//                textView.setText(activityList.get(position));
 
                 return view;
             }

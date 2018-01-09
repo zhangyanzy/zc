@@ -72,7 +72,8 @@ public class LoginActivity extends BaseActivity{
 
     @Override
     public void init(Bundle savedInstanceState) {
-         tv_forget_pass.getPaint();
+         GeneralUtils.addUnderLineToText(tv_forget_pass);
+         GeneralUtils.addUnderLineToText(tv_register);
     }
 
     @OnClick({R.id.tv_skip_login, R.id.tv_register, R.id.tv_forget_pass, R.id.tv_login,
@@ -89,7 +90,7 @@ public class LoginActivity extends BaseActivity{
 
                 break;
             case R.id.tv_forget_pass:
-
+                openActivity(ForgetPassActivity.class);
                 break;
             case R.id.tv_login:
                 //手机号和密码通过正则验证
@@ -107,27 +108,6 @@ public class LoginActivity extends BaseActivity{
                 getAuth(SHARE_MEDIA.SINA);
                 break;
         }
-    }
-
-    //验证手机号和密码是否符合规则
-    private boolean judgPhoneAndPass(String phone, String pass){
-        if (GeneralUtils.isNullOrZeroLenght(phone)){
-            ToastUtil.makeText(this, getString(R.string.phone_not_empty));
-            return false;
-        }
-        if (GeneralUtils.isNullOrZeroLenght(pass)){
-            ToastUtil.makeText(this, getString(R.string.pass_not_empty));
-            return false;
-        }
-        if (!GeneralUtils.isTel(phone)){
-            ToastUtil.makeText(this, getString(R.string.isNot_phone));
-            return false;
-        }
-        if (!GeneralUtils.IsPassword(pass)){
-            ToastUtil.makeText(this, getString(R.string.isNot_pass));
-            return false;
-        }
-        return true;
     }
 
     //发送登录请求

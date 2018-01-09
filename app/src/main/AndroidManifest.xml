@@ -37,6 +37,11 @@
 
         <activity android:name=".views.login.LoginActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".views.login.ForgetPassActivity"
+            android:screenOrientation="portrait"/>
+
+
+
 
         <!--注册友盟sdk需要的activity-->
         <!-- tencent -->

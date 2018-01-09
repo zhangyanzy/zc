@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_gray"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_top_title" />
+
+    <EditText
+        android:id="@+id/edit_phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/shape_white_edit_bg"
+        android:drawableLeft="@mipmap/old_pass"
+        android:drawablePadding="20dp"
+        android:gravity="center_vertical"
+        android:hint="@string/input_phone_number"
+        android:maxLines="1"
+        android:textColor="@color/text_black"
+        android:textColorHint="@color/text_light_gray"
+        android:textSize="15sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="10dp">
+
+        <EditText
+            android:id="@+id/edit_identify_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="80dp"
+            android:background="@drawable/shape_white_edit_bg"
+            android:drawableLeft="@mipmap/identify_code"
+            android:drawablePadding="20dp"
+            android:gravity="center_vertical"
+            android:hint="@string/input_identify_code"
+            android:maxLines="1"
+            android:textColor="@color/text_black"
+            android:textColorHint="@color/text_light_gray"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_get_idntify_code"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@+id/edit_identify_code"
+            android:background="@drawable/shape_orange_bg"
+            android:text="@string/get_identify_code"
+            android:textColor="@color/colorGround"
+            android:textSize="15sp"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/edit_new_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_white_edit_bg"
+        android:drawableLeft="@mipmap/pass"
+        android:drawablePadding="20dp"
+        android:gravity="center_vertical"
+        android:hint="@string/input_new_pass"
+        android:maxLines="1"
+        android:textColor="@color/text_black"
+        android:textColorHint="@color/text_light_gray"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_reset_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reset_pass"
+        android:textSize="18sp"
+        android:textColor="@color/text_light_gray"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/shape_white_round_button"
+        android:layout_marginTop="30dp"/>
+</LinearLayout>
