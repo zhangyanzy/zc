@@ -1,7 +1,9 @@
 package cn.zhaocaiapp.zc_app_android.views.home;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -23,10 +25,19 @@ import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
  * @filename HomeActivity.java
  * @data 2018-01-05 17:52
  */
-public class HomeActivity extends BaseActivity{
+public class HomeActivity extends Fragment {
 
-    @BindView(R.id.tabs) TabLayout mTabLayout;
-    @BindView(R.id.vp_view) ViewPager mViewPager;
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.home_main, container, false);
+        return view;
+    }
+
+    @BindView(R.id.tabs)
+    TabLayout mTabLayout;
+    @BindView(R.id.vp_view)
+    ViewPager mViewPager;
     private LayoutInflater mInflater;
     private List<String> mTitleList = new ArrayList<String>();//页卡标题集合
     private View view1, view2, view3;//页卡视图
@@ -43,7 +54,7 @@ public class HomeActivity extends BaseActivity{
         activityList.add("5");
     }
 
-    @Override
+    /*@Override
     public int getContentViewResId() {
         return R.layout.home_main;
     }
@@ -81,9 +92,9 @@ public class HomeActivity extends BaseActivity{
         mTabLayout.setupWithViewPager(mViewPager);
         //给Tabs设置适配器
         mTabLayout.setTabsFromPagerAdapter(mAdapter);
-    }
+    }*/
 
-    private void initView1(){
+    private void initView1() {
         ListView listView = (ListView) view1.findViewById(R.id.active_list1);
         listView.setAdapter(new BaseAdapter() {
             @Override
@@ -106,17 +117,17 @@ public class HomeActivity extends BaseActivity{
                 View view = null;
 
                 LayoutInflater inflater = getLayoutInflater();
-                view = inflater.inflate(R.layout.activity_activity_scene_detail,null);
+                view = inflater.inflate(R.layout.activity_activity_scene_detail, null);
 
-//                TextView textView = (TextView) view.findViewById(R.id.textView);
-//                textView.setText(activityList.get(position));
+                //TextView textView = (TextView) view.findViewById(R.id.textView);
+                //textView.setText(activityList.get(position));
 
                 return view;
             }
         });
     }
 
-    private void initView2(){
+    private void initView2() {
         ListView listView = (ListView) view2.findViewById(R.id.active_list1);
         listView.setAdapter(new BaseAdapter() {
             @Override
@@ -139,8 +150,10 @@ public class HomeActivity extends BaseActivity{
                 View view = null;
 
                 LayoutInflater inflater = getLayoutInflater();
-                view = inflater.inflate(R.layout.activity_activity_scene_detail,null);
+                view = inflater.inflate(R.layout.activity_activity_scene_detail, null);
 
+                //TextView textView = (TextView) view.findViewById(R.id.textView);
+                //textView.setText(activityList.get(position));
 //                TextView textView = (TextView) view.findViewById(R.id.textView);
 //                textView.setText(activityList.get(position));
 
@@ -149,7 +162,7 @@ public class HomeActivity extends BaseActivity{
         });
     }
 
-    private void initView3(){
+    private void initView3() {
         ListView listView = (ListView) view3.findViewById(R.id.active_list1);
         listView.setAdapter(new BaseAdapter() {
             @Override
@@ -172,8 +185,10 @@ public class HomeActivity extends BaseActivity{
                 View view = null;
 
                 LayoutInflater inflater = getLayoutInflater();
-                view = inflater.inflate(R.layout.activity_activity_scene_detail,null);
+                view = inflater.inflate(R.layout.activity_activity_scene_detail, null);
 
+                //TextView textView = (TextView) view.findViewById(R.id.textView);
+                //textView.setText(activityList.get(position));
 //                TextView textView = (TextView) view.findViewById(R.id.textView);
 //                textView.setText(activityList.get(position));
 

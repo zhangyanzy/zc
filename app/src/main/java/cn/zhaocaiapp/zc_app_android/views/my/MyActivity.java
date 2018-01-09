@@ -1,6 +1,11 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.R;
@@ -12,11 +17,19 @@ import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
  * @filename MyActivity.java
  * @data 2018-01-05 18:02
  */
-public class MyActivity extends BaseActivity{
+public class MyActivity extends Fragment {
 
-    @BindView(R.id.avatarImg) XCRoundImageView avatarImg;     //用户头像
-
+    @Nullable
     @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.my_main, container, false);
+        return view;
+    }
+
+    @BindView(R.id.avatarImg)
+    XCRoundImageView avatarImg;     //用户头像
+
+    /*@Override
     public int getContentViewResId() {
         return R.layout.my_main;
     }
@@ -24,5 +37,5 @@ public class MyActivity extends BaseActivity{
     @Override
     public void init(Bundle savedInstanceState) {
 
-    }
+    }*/
 }

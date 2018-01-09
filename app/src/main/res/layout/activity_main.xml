@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="cn.zhaocaiapp.zc_app_android.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <!--<android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -19,11 +19,18 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
 
-    </android.support.design.widget.AppBarLayout>
+    </android.support.design.widget.AppBarLayout>-->
 
-    <include layout="@layout/content_main" />
+    <!--<include layout="@layout/content_main" />-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/id_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    <android.support.design.widget.FloatingActionButton
+    </android.support.v4.view.ViewPager>
+
+    <!--<android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@android:drawable/ic_dialog_email" />-->
 
 
     <include layout="@layout/activity_main_tab" />

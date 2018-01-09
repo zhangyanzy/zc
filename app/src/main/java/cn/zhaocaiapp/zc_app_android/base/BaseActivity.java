@@ -28,9 +28,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     private Unbinder mUnbinder;
     private boolean isPassUsable;//密码是否可用
 
-    @Nullable
-    @BindView(R.id.toolbar)
-    protected Toolbar header;   //header
+    //@Nullable
+    //@BindView(R.id.toolbar)
+    //protected Toolbar header;   //header
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         mUnbinder = ButterKnife.bind(this);
 
         //设置header转成actionBar
-        setSupportActionBar(header);
+        //setSupportActionBar(header);
 
         //初始化工程
         init(savedInstanceState);
