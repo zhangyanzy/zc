@@ -7,6 +7,9 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,17 @@ public class HomeActivity extends BaseActivity{
     private View view1, view2, view3;//页卡视图
     private List<View> mViewList = new ArrayList<>();//页卡视图集合
 
+    private List<String> activityList;
+
+    {
+        activityList = new ArrayList<>();
+        activityList.add("1");
+        activityList.add("2");
+        activityList.add("3");
+        activityList.add("4");
+        activityList.add("5");
+    }
+
     @Override
     public int getContentViewResId() {
         return R.layout.home_main;
@@ -41,6 +55,11 @@ public class HomeActivity extends BaseActivity{
         view1 = mInflater.inflate(R.layout.activity_list, null);
         view2 = mInflater.inflate(R.layout.activity_list, null);
         view3 = mInflater.inflate(R.layout.activity_list, null);
+
+        initView1();
+        initView2();
+        initView3();
+
         //添加页卡视图
         mViewList.add(view1);
         mViewList.add(view2);
@@ -62,6 +81,105 @@ public class HomeActivity extends BaseActivity{
         mTabLayout.setupWithViewPager(mViewPager);
         //给Tabs设置适配器
         mTabLayout.setTabsFromPagerAdapter(mAdapter);
+    }
+
+    private void initView1(){
+        ListView listView = (ListView) view1.findViewById(R.id.active_list1);
+        listView.setAdapter(new BaseAdapter() {
+            @Override
+            public int getCount() {
+                return activityList.size();
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return null;
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return 0;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = null;
+
+                LayoutInflater inflater = getLayoutInflater();
+                view = inflater.inflate(R.layout.activity_activity_scene_detail,null);
+
+                TextView textView = (TextView) view.findViewById(R.id.textView);
+                textView.setText(activityList.get(position));
+
+                return view;
+            }
+        });
+    }
+
+    private void initView2(){
+        ListView listView = (ListView) view2.findViewById(R.id.active_list1);
+        listView.setAdapter(new BaseAdapter() {
+            @Override
+            public int getCount() {
+                return activityList.size();
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return null;
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return 0;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = null;
+
+                LayoutInflater inflater = getLayoutInflater();
+                view = inflater.inflate(R.layout.activity_activity_scene_detail,null);
+
+                TextView textView = (TextView) view.findViewById(R.id.textView);
+                textView.setText(activityList.get(position));
+
+                return view;
+            }
+        });
+    }
+
+    private void initView3(){
+        ListView listView = (ListView) view3.findViewById(R.id.active_list1);
+        listView.setAdapter(new BaseAdapter() {
+            @Override
+            public int getCount() {
+                return activityList.size();
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return null;
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return 0;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = null;
+
+                LayoutInflater inflater = getLayoutInflater();
+                view = inflater.inflate(R.layout.activity_activity_scene_detail,null);
+
+                TextView textView = (TextView) view.findViewById(R.id.textView);
+                textView.setText(activityList.get(position));
+
+                return view;
+            }
+        });
     }
 
     //ViewPager适配器

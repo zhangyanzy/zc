@@ -21,7 +21,6 @@ import cn.zhaocaiapp.zc_app_android.bean.response.login.LoginResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
-import cn.zhaocaiapp.zc_app_android.views.home.ActivityListActivity;
 import cn.zhaocaiapp.zc_app_android.views.home.HomeActivity;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 
