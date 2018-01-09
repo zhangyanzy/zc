@@ -1,6 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.util;
 
 import android.content.Context;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -37,13 +38,15 @@ public class KeyBoardUtils {
     /**
      * 关闭软键盘
      *
-     * @param mEditText 输入框
+     * @param view 所要隐藏软键盘的布局中的view
      * @param mContext  上下文
      */
-    public static void closeKeybord(EditText mEditText, Context mContext) {
+    public static void closeKeybord(View view, Context mContext) {
         InputMethodManager imm = (InputMethodManager) mContext
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);//从控件所在的窗口中隐藏
+        }
     }
 }

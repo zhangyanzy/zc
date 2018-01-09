@@ -13,6 +13,19 @@ public class SpUtils {
      */
     public static final String FILE_NAME = "share_data";
 
+    //保存的数据的key
+    public static final String IS_FIRST = "isFirstLogin";                //是否首次登陆
+    public static final String IS_LOGIN = "isLogin";                //登录状态
+    public static final String LOGIN_MODE = "loginMode";            //登录方式
+    public static final String USER_ID = "userId";                  //用户id
+    public static final String USER_PHONE = "userPhone";            //手机号
+    public static final String USER_PHOTO = "headPortrait";         //头像
+    public static final String USER_NAME = "userName";              //用户姓名
+    public static final String NICK_NAME = "nickName";              //用户昵称
+    public static final String GENDER = "gender";                   //性别
+    public static final String AGE = "age";                         //年龄
+    public static final String TOKEN = "token";
+
     /**
      * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法
      *

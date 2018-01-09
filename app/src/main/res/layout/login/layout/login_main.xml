@@ -85,27 +85,37 @@
         android:layout_marginStart="40dp"/>
 
     <TextView
-        android:id="@+id/tv_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/text_light_gray"
-        android:textSize="14sp"
-        android:text="@string/button_register"
-        android:layout_below="@+id/edit_pass_word"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="30dp"/>
-
-    <TextView
         android:id="@+id/tv_forget_pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/text_light_gray"
+        android:textColor="@color/dot_dark_screen3"
+        android:textSize="14sp"
+        android:text="@string/forget_pass_word"
+        android:layout_below="@+id/edit_pass_word"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="30dp"
+        android:autoLink="web"/>
+
+    <TextView
+        android:id="@+id/tv_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dot_dark_screen3"
         android:textSize="14sp"
         android:layout_marginRight="40dp"
-        android:text="@string/forget_pass_word"
+        android:text="@string/button_register"
         android:layout_below="@+id/edit_pass_word"
         android:layout_marginTop="30dp"
         android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/tv_register"
+        android:layout_alignTop="@+id/tv_register"
+        android:textColor="@color/text_black"
+        android:textSize="14sp"
+        android:text="还没有账号？去"/>
 
     <TextView
         android:id="@+id/tv_login"

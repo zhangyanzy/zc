@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Paint;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -379,7 +381,7 @@ public final class GeneralUtils {
      * @see [类、类#方法、类#成员]
      */
     public static boolean isTel(String tel) {
-        String str = "^[0-9]{11}$";
+        String str = "^((13[0-9])|(15[0-9])|(14[0-9])|(17[0-9])|(18[0-9]))\\d{8}$";
         Pattern p = Pattern.compile(str);
         Matcher m = p.matcher(tel);
         return m.matches();
@@ -520,6 +522,14 @@ public final class GeneralUtils {
         } catch (Exception e) {
         }
         return versionName;
+    }
+
+    /**
+     * 为文本添加下划线
+     * */
+    public static void addUnderLineToText(TextView textView){
+        textView.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+        textView.getPaint().setAntiAlias(true);//抗锯齿
     }
 
 }

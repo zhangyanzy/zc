@@ -15,12 +15,23 @@ import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.zhaocaiapp.zc_app_android.MainActivity;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.request.login.LoginReq;
+import cn.zhaocaiapp.zc_app_android.bean.response.login.LoginResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
+import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
 
@@ -61,7 +72,7 @@ public class LoginActivity extends BaseActivity{
 
     @Override
     public void init(Bundle savedInstanceState) {
-
+         tv_forget_pass.getPaint();
     }
 
     @OnClick({R.id.tv_skip_login, R.id.tv_register, R.id.tv_forget_pass, R.id.tv_login,
@@ -71,6 +82,7 @@ public class LoginActivity extends BaseActivity{
         String pass = edit_pass_word.getText().toString();
         switch (view.getId()) {
             case R.id.tv_skip_login:
+                openActivity(MainActivity.class);
                 finish();
                 break;
             case R.id.tv_register:
@@ -80,7 +92,10 @@ public class LoginActivity extends BaseActivity{
 
                 break;
             case R.id.tv_login:
-
+                //手机号和密码通过正则验证
+                if (judgPhoneAndPass(phone, pass)){
+                  doLogin(phone, pass);
+                }
                 break;
             case R.id.login_wechat:
                 getAuth(SHARE_MEDIA.WEIXIN);
@@ -92,6 +107,44 @@ public class LoginActivity extends BaseActivity{
                 getAuth(SHARE_MEDIA.SINA);
                 break;
         }
+    }
+
+    //验证手机号和密码是否符合规则
+    private boolean judgPhoneAndPass(String phone, String pass){
+        if (GeneralUtils.isNullOrZeroLenght(phone)){
+            ToastUtil.makeText(this, getString(R.string.phone_not_empty));
+            return false;
+        }
+        if (GeneralUtils.isNullOrZeroLenght(pass)){
+            ToastUtil.makeText(this, getString(R.string.pass_not_empty));
+            return false;
+        }
+        if (!GeneralUtils.isTel(phone)){
+            ToastUtil.makeText(this, getString(R.string.isNot_phone));
+            return false;
+        }
+        if (!GeneralUtils.IsPassword(pass)){
+            ToastUtil.makeText(this, getString(R.string.isNot_pass));
+            return false;
+        }
+        return true;
+    }
+
+    //发送登录请求
+    private void doLogin(String phone, String pass){
+        Map<String, String>params = new HashMap<>();
+        params.put("phone", phone);
+        params.put("pass", pass);
+        HttpUtil.post(Constants.URL.USER_LOGIN, params).subscribe(new BaseResponseObserver<LoginResp>() {
+
+            @Override
+            public void success(LoginResp result) {
+                EBLog.i(LoginActivity.this.getClass().getName(), result.getToken());
+                SpUtils.put(LoginActivity.this, SpUtils.TOKEN, result.getToken());
+                openActivity(MainActivity.class);
+                ToastUtil.makeText(LoginActivity.this, "登录成功");
+            }
+        });
     }
 
     private void getAuth(SHARE_MEDIA platform) {
@@ -133,10 +186,7 @@ public class LoginActivity extends BaseActivity{
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm != null) {
-            imm.hideSoftInputFromWindow(iv_log.getWindowToken(), 0);//从控件所在的窗口中隐藏
-        }
+        KeyBoardUtils.closeKeybord(iv_log, this);
         return super.onTouchEvent(event);
     }
 
