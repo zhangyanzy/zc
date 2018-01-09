@@ -76,12 +76,11 @@ public class ForgetPassActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_reset_pass:
-                if (GeneralUtils.isNullOrZeroLenght(phone))
-                    ToastUtil.makeText(ForgetPassActivity.this, getString(R.string.phone_not_empty));
-                else if (GeneralUtils.isNullOrZeroLenght(identift_code))
-                    ToastUtil.makeText(ForgetPassActivity.this, getString(R.string.input_identify_code));
-                else if (getIsPassUsable()) doResetPass(identift_code, pass);
-                else ToastUtil.makeText(ForgetPassActivity.this, getString(R.string.pass_length));
+                if (judgPhoneAndPass(phone, pass)){
+                    if (GeneralUtils.isNullOrZeroLenght(identift_code))
+                        ToastUtil.makeText(ForgetPassActivity.this, getString(R.string.input_identify_code));
+                    else doResetPass(identift_code, pass);
+                }
                 break;
         }
     }

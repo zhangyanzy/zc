@@ -39,6 +39,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".views.login.ForgetPassActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".views.login.RegisterActivity"
+            android:screenOrientation="portrait"/>
 
 
 
