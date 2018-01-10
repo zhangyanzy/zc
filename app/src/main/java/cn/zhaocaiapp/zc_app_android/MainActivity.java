@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.views.home.HomeFragment;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
@@ -63,11 +64,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.activity_main);
         initViews();//初始化控件
         initEvents();//初始化事件
-        initDatas();//初始化数据
+        //initDatas();//初始化数据
         setSelect(0);
     }
 
-    private void initDatas() {
+    /*private void initDatas() {
         mFragments = new ArrayList<>();
         //将三个Fragment加入集合中
         mFragments.add(new HomeFragment());
@@ -112,7 +113,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
             }
         });
-    }
+    }*/
 
     private void initEvents() {
         //设置四个Tab的点击事件
@@ -198,7 +199,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     * 设置某个Fragment
     * */
     private void setSelect(int i) {
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
 
         //重置图片状态
