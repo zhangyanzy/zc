@@ -23,10 +23,17 @@
             message:"Hello World",
             responseResult:null,
             browserType:null,
+            instance : axios.create({
+                baseURL: 'http://appapi.zhaocaiapp.local',
+                timeout: 1000,
+                headers: {'Access-Control-Allow-Origin': '*',
+                          "Access-Control-Allow-Methods": "POST,GET,OPTIONS,DELETE,PUT"
+                        }
+            })
         },
         methods:{
             testHttp:function () {
-                axios.get('http://appapi.zhaocaiapp.local/message?token=523710acbcb15683f157e1aed39294cd')
+                vue.instance.get('/message?token=523710acbcb15683f157e1aed39294cd')
                     .then(function (response) {
                         vue.responseResult = JSON.stringify(response);
                     })

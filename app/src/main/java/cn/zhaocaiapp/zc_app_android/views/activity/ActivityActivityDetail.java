@@ -27,7 +27,7 @@ public class ActivityActivityDetail extends BaseActivity {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);    //js支持
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);   //不使用缓存
-        settings.setAllowUniversalAccessFromFileURLs(true); //跨域
+        //settings.setAllowUniversalAccessFromFileURLs(true); //跨域
 
         //绑定js方法
         webView.addJavascriptInterface(new JavaScriptInterfaces(),"native");
