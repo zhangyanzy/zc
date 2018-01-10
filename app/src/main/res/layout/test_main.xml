@@ -6,18 +6,15 @@
     android:paddingTop="30dp">
 
     <Button
-        android:id="@+id/button1"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="测试"/>
-
-    <Button
         android:id="@+id/goH5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="h5页面测试" />
 
-
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:padding="10dp"
         android:text="测试1" />
