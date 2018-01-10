@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="mian.css">
+</head>
+<body>
+<div id="app">
+    <a @click="testHttp()">测试接口请求</a>
+    <p>接口返回值：{{responseResult}}</p>
+    <p>浏览器类型：{{browserType}}</p>
+    <p>ua值：{{ua}}</p>
+</div>
+<script src="vue.js"></script>
+<script src="axios.js"></script>
+<script>
+    var vue = new Vue({
+        el:"#app",
+        data:{
+            ua : navigator.userAgent,
+            message:"Hello World",
+            responseResult:null,
+            browserType:null,
+        },
+        methods:{
+            testHttp:function () {
+                axios.get('http://appapi.zhaocaiapp.local/message?token=523710acbcb15683f157e1aed39294cd')
+                    .then(function (response) {
+                        vue.responseResult = JSON.stringify(response);
+                    })
+                    .catch(function (error) {
+                        vue.responseResult = JSON.stringify(error);
+                        console.log(JSON.stringify(error));
+                    });
+            },
+            isAndroid:function () {
+                return this.ua.indexOf('Android') > 0;
+            },
+            isIOS:function () {
+                return /(iPhone|iPad|iPod)/i.test(this.ua);
+            },
+            isWeiXin:function () {
+                return this.ua.toLowerCase().match(/MicroMessenger/i) == 'micromessenger';
+            }
+        },
+        created : function () {
+            if(this.isWeiXin()){
+                this.browserType = "微信浏览器";
+            }else if(this.isAndroid()){
+                this.browserType = "安卓内嵌";
+            }else if(this.isIOS()){
+                this.browserType = "ios原生,或者safari浏览器";
+            }else{
+                this.browserType = this.ua;
+            }
+
+            if(this.isIOS()){
+                //iOS用于js交互必备代码：
+                function setupWebViewJavascriptBridge(callback) {
+                    if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+                    if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+                    window.WVJBCallbacks = [callback];
+                    var WVJBIframe = document.createElement('iframe');
+                    WVJBIframe.style.display = 'none';
+                    WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+                    document.documentElement.appendChild(WVJBIframe);
+                    setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+                }
+
+                //native调用js
+                setupWebViewJavascriptBridge(function(bridge) {
+                    bridge.registerHandler('testJSFunction', function(data, responseCallback) {
+                        alert('JS方法被调用:'+data);
+                        responseCallback('js执行过了');
+                    })
+                })
+            }
+        },
+    })
+
+    var test = function () {
+        if(isAndroid()){
+            window.native.test1("成功");
+        }else if(isIOS()){
+            try{
+
+                WebViewJavascriptBridge.callHandler('testOCFunction', "{\"content\" : \"测试内容\",\"title\" : \"title\",\"image\" : \"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1985166313,1281281739&fm=27&gp=0.jpg\",\"url\" : \"http://tch.nmgxxt.cn/index.html\"}", function(response) {
+                    alert('native被调用111321231:' + response);
+                    document.getElementById("returnValue").value = response;
+                });
+            }catch (e){
+                alert(e);
+            }
+
+        }
+    }
+</script>
+</body>
+</html>

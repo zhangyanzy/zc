@@ -32,7 +32,7 @@
         <!-- 首页 -->
         <activity android:name=".MainActivity"
             android:screenOrientation="portrait"/>
-
+        <activity android:name=".views.activity.ActivityActivityDetail" />
 
 
         <!--登录-->
