@@ -2,7 +2,7 @@
 <resources>
 
     <!--主题色-->
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#dc9935</color>
     <!--主题色 辅色-->
     <color name="colorPrimaryDark">#303F9F</color>
     <!--文字标题-->
@@ -29,6 +29,8 @@
     <color name="colorLink">#3B70E3</color>
     <!--警告-->
     <color name="colorWarning">#f68306</color>
+    <!--白色-->
+    <color name="colorWhite">#ffffff</color>
 
 
     <!-- Screens background color-->

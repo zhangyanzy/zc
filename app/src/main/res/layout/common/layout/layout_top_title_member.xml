@@ -7,18 +7,19 @@
 
     <ImageView
         android:id="@+id/iv_top_back"
-        android:layout_width="45dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/width_btn_img"
+        android:layout_height="@dimen/height_nav"
         android:layout_centerVertical="true"
-        android:padding="13dp"
+        android:padding="@dimen/padding_btn_img"
         android:scaleType="fitCenter"
-        android:src="@mipmap/back"/>
+        android:src="@mipmap/back" />
 
-    <TextView
+    <EditText
         android:id="@+id/tv_top_title"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_centerInParent="true"
+        android:background="@color/colorWhite"
         android:gravity="center"
         android:textColor="@color/text_black"
         android:textSize="16sp"
@@ -26,13 +27,13 @@
 
     <ImageView
         android:id="@+id/iv_top_menu"
-        android:layout_width="45dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/width_btn_img"
+        android:layout_height="@dimen/height_nav"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:padding="14dp"
+        android:padding="@dimen/padding_btn_img"
         android:scaleType="fitCenter"
-        android:src="@mipmap/message"/>
+        android:src="@mipmap/message" />
 
     <View
         android:id="@+id/top_line"
