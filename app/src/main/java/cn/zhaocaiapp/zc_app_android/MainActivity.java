@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
@@ -28,13 +27,6 @@ import cn.zhaocaiapp.zc_app_android.views.member.MemberFragment;
 import cn.zhaocaiapp.zc_app_android.views.my.MyFragment;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
-
-    //声明ViewPager
-    private ViewPager mViewPager;
-    //适配器
-    private FragmentPagerAdapter mAdapter;
-    //装载Fragment的集合
-    private List<Fragment> mFragments;
 
     //三个Tab对应的布局
     private LinearLayout mTabHome;
@@ -46,13 +38,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private ImageButton mImgMember;
     private ImageButton mImgMy;
 
-    private Button button;
-    private FloatingActionButton button1;
-    private HttpUtil httpUtil;
-
-    //@BindView(R.id.toolbar)
-    //protected Toolbar header;   //header
-
+    //三个Tab对应的Fragment
     private HomeFragment homeActivity;
     private MemberFragment memberActivity;
     private MyFragment myActivity;
@@ -64,59 +50,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.activity_main);
         initViews();//初始化控件
         initEvents();//初始化事件
-        //initDatas();//初始化数据
         setSelect(0);
     }
 
-    /*private void initDatas() {
-        mFragments = new ArrayList<>();
-        //将三个Fragment加入集合中
-        mFragments.add(new HomeFragment());
-        mFragments.add(new MemberFragment());
-        mFragments.add(new MyFragment());
-
-        //初始化适配器
-        mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {//从集合中获取对应位置的Fragment
-                return mFragments.get(position);
-            }
-
-            @Override
-            public int getCount() {//获取集合中Fragment的总数
-                return mFragments.size();
-            }
-
-        };
-        //不要忘记设置ViewPager的适配器
-        mViewPager.setAdapter(mAdapter);
-        //设置ViewPager的切换监听
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            //页面滚动事件
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            //页面选中事件
-            @Override
-            public void onPageSelected(int position) {
-                //设置position对应的集合中的Fragment
-                mViewPager.setCurrentItem(position);
-                resetImgs();
-                selectTab(position);
-            }
-
-            @Override
-            //页面滚动状态改变事件
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-    }*/
-
     private void initEvents() {
-        //设置四个Tab的点击事件
+        //设置三个Tab的点击事件
         mTabHome.setOnClickListener(this);
         mTabMember.setOnClickListener(this);
         mTabMy.setOnClickListener(this);
@@ -125,12 +63,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     //初始化控件
     private void initViews() {
-        //mViewPager = (ViewPager) findViewById(R.id.id_viewpager);
 
+        //三个Tab的对象
         mTabHome = (LinearLayout) findViewById(R.id.id_tab_home);
         mTabMember = (LinearLayout) findViewById(R.id.id_tab_member);
         mTabMy = (LinearLayout) findViewById(R.id.id_tab_my);
 
+        //三个Tab的按钮
         mImgHome = (ImageButton) findViewById(R.id.id_tab_home_img);
         mImgMember = (ImageButton) findViewById(R.id.id_tab_member_img);
         mImgMy = (ImageButton) findViewById(R.id.id_tab_my_img);
@@ -139,7 +78,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        //先将四个ImageButton置为灰色
+        //先将三个ImageButton置为灰色
         resetImgs();
 
         //根据点击的Tab切换不同的页面及设置对应的ImageButton为绿色
@@ -176,7 +115,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         //mViewPager.setCurrentItem(i);
     }
 
-    //将四个ImageButton设置为灰色
+    //将三个ImageButton设置为灰色
     private void resetImgs() {
         mImgHome.setImageResource(R.mipmap.tab_weixin_normal);
         mImgMember.setImageResource(R.mipmap.tab_find_frd_normal);
@@ -207,8 +146,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         hideFragment(fragmentTransaction);
         switch (i) {
             case 0:
-                //设置标题
-                //tvTitle.setText("微信");
                 if (homeActivity == null) {
                     //如果Fragment还没实例化，实例化，并在fragmentTransaction中添加
                     homeActivity = new HomeFragment();
@@ -224,7 +161,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                 break;
             case 1:
-                //tvTitle.setText("朋友");
                 if (memberActivity == null) {
                     memberActivity = new MemberFragment();
                     fragmentTransaction.add(R.id.id_content, memberActivity);
@@ -239,7 +175,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                 break;
             case 2:
-                //tvTitle.setText("通讯录");
                 if (myActivity == null) {
                     myActivity = new MyFragment();
                     fragmentTransaction.add(R.id.id_content, myActivity);
@@ -255,72 +190,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     }
 
-
-
-    /*@Override
-    public void init(Bundle savedInstanceState) {
-
-        //设置header转成actionBar
-        //setSupportActionBar(header);
-
-        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        *//*fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*//*
-
-        button = (Button) findViewById(R.id.testBtn);
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Map<String, String> mMap = new HashMap<String, String>();
-                mMap.put("account", "15044441111");
-                mMap.put("password", "123456");
-                EBLog.i("tag", mMap.toString());
-                EBLog.i("tag", Constants.URL.USER_LOGIN);
-                EBLog.i("tag", String.format("user/11100/12", "10001", "22"));
-                *//*HttpUtil.post(URLUtil.USER_LOGIN, new HashMap()).subscribe(new BaseResponseObserver<LoginResp>() {
-                    @Override
-                    public void success(LoginResp result) {
-                        EBLog.i("tag", result.getToken());
-                    }
-                });*//*
-                HttpUtil.post(Constants.URL.USER_LOGIN).subscribe(new BaseResponseObserver<LoginResp>() {
-                    @Override
-                    public void success(LoginResp result) {
-                        EBLog.i("tag", result.getToken());
-                    }
-                });
-                *//*HttpUtil.get("/message", new HashMap()).subscribe(new BaseResponseObserver<List<Message>>() {
-                    @Override
-                    public void success(List<Message> result) {
-                        EBLog.i("tag", result.get(0).getMsg());
-                        //System.out.print(result.getMsg());
-                    }
-                });*//*
-                Toast.makeText(MainActivity.this, "测试接口使用，误删", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-
-        *//*button1 = (FloatingActionButton) findViewById(R.id.goHome);
-        button1.setOnClickListener((view) -> {
-            Intent intent = new Intent("");
-            intent.setClass(MainActivity.this, HomeActivity.class);
-            startActivity(intent);
-            *//**//*Toast.makeText(MainActivity.this, "点击这个跳转到哪里去呢", Toast.LENGTH_SHORT).show();*//**//*
-        });*//*
-    }
-
-    @Override
-    public int getContentViewResId() {
-        return R.layout.activity_main;
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
