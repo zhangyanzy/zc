@@ -38,7 +38,7 @@ import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
  * @filename LoginActivity.java
  * @data 2018-01-05 17:52
  */
-public class LoginActivity extends BaseActivity{
+public class LoginActivity extends BaseActivity {
     @BindView(R.id.iv_app_logo)
     ImageView iv_log;
     @BindView(R.id.tv_skip_login)
@@ -69,8 +69,8 @@ public class LoginActivity extends BaseActivity{
 
     @Override
     public void init(Bundle savedInstanceState) {
-         GeneralUtils.addUnderLineToText(tv_forget_pass);
-         GeneralUtils.addUnderLineToText(tv_register);
+        GeneralUtils.addUnderLineToText(tv_forget_pass);
+        GeneralUtils.addUnderLineToText(tv_register);
     }
 
     @OnClick({R.id.tv_skip_login, R.id.tv_register, R.id.tv_forget_pass, R.id.tv_login,
@@ -91,8 +91,8 @@ public class LoginActivity extends BaseActivity{
                 break;
             case R.id.tv_login:
                 //手机号和密码通过正则验证
-                if (judgPhoneAndPass(phone, pass)){
-                  doLogin(phone, pass);
+                if (judgPhoneAndPass(phone, pass)) {
+                    doLogin(phone, pass);
                 }
                 break;
             case R.id.login_wechat:
@@ -108,26 +108,26 @@ public class LoginActivity extends BaseActivity{
     }
 
     //发送登录请求
-    private void doLogin(String phone, String pass){
-        Map<String, String>params = new HashMap<>();
+    private void doLogin(String phone, String pass) {
+        Map<String, String> params = new HashMap<>();
         params.put("type", "0");
         params.put("account", "18888888888");
         params.put("password", "123456");
-        params.put("uid", "");
+        //params.put("uid", "");
 
-        HttpUtil.post(Constants.URL.USER_LOGIN, params).subscribe(new BaseResponseObserver<String>() {
+        HttpUtil.post(Constants.URL.USER_LOGIN, params).subscribe(new BaseResponseObserver<LoginResp>() {
 
 
             @Override
-            public void success(String result) {
-                EBLog.i(LoginActivity.this.getClass().getName(), result);
+            public void success(LoginResp result) {
+                EBLog.i(LoginActivity.this.getClass().getName(), result.toString());
             }
 
         });
     }
 
     private void getAuth(SHARE_MEDIA platform) {
-        UMShareAPI.get(this).doOauthVerify(this, platform,  new UMAuthListener() {
+        UMShareAPI.get(this).doOauthVerify(this, platform, new UMAuthListener() {
             @Override
             public void onStart(SHARE_MEDIA share_media) {
 
@@ -169,7 +169,7 @@ public class LoginActivity extends BaseActivity{
         return super.onTouchEvent(event);
     }
 
-    private void openActivity(Class<?> mClass){
+    private void openActivity(Class<?> mClass) {
         Intent intent = new Intent(this, mClass);
         startActivity(intent);
     }

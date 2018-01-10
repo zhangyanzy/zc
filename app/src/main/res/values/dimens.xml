@@ -1,4 +1,7 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
 
+    <!--头部导航高度-->
+    <dimen name="height_nav">32dp</dimen>
+
 </resources>
