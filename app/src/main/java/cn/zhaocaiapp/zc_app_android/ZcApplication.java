@@ -19,7 +19,8 @@ import cn.zhaocaiapp.zc_app_android.base.BaseConfig;
 
 public class ZcApplication extends Application {
 
-    static { // 配置三方appkey
+    //配置三方appkey
+    {
         PlatformConfig.setWeixin("", "");
         PlatformConfig.setQQZone("1106660590", "mh54ewnGH5QCRwPN");
         PlatformConfig.setSinaWeibo("2998825649", "9251f8e40b6ab489d56dbfd18f545297", "https://api.weibo.com/oauth2/default.html");
