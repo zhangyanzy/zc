@@ -23,6 +23,7 @@
     <string name="delay_time">%1$d秒</string>
     <string name="input_edit_invite_code">请输入邀请码（选填）</string>
     <string name="agreement">我已阅读了《用户协议》</string>
+    <string name="exit">退出登录</string>
 
 
 </resources>

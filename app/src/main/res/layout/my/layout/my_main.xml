@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBgDark"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <!-- 个人信息 和 余额信息小卡片 -->
     <LinearLayout

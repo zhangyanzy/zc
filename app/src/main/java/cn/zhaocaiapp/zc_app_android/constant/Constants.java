@@ -44,8 +44,8 @@ public interface Constants {
         /**
          * 服务器地址
          */
-        //String SERVER = "http://appapi.zhaocaiapp.local/"; //必须以／结尾否则初始化会报错
-        String SERVER = "http://192.168.1.10:8082/"; //必须以／结尾否则初始化会报错
+        String SERVER = "http://appapi.zhaocaiapp.local/"; //必须以／结尾否则初始化会报错
+//        String SERVER = "http://192.168.1.10:8082/"; //必须以／结尾否则初始化会报错
 
         /**
          * 用户登陆

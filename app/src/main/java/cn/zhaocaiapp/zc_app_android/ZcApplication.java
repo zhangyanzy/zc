@@ -21,7 +21,7 @@ public class ZcApplication extends Application {
 
     //配置三方appkey
     {
-        PlatformConfig.setWeixin("", "");
+        PlatformConfig.setWeixin("18c4c38288be5935ce1a5b4455f125bd", "18c4c38288be5935ce1a5b4455f125bd");
         PlatformConfig.setQQZone("1106660590", "mh54ewnGH5QCRwPN");
         PlatformConfig.setSinaWeibo("2998825649", "9251f8e40b6ab489d56dbfd18f545297", "https://api.weibo.com/oauth2/default.html");
     }

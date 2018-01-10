@@ -19,12 +19,12 @@ import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
  * @data 2018-01-05 18:02
  */
 public class MyFragment extends BaseFragment {
-    @BindView(R.id.avatarImg)
-    CircleImageView avatarImg;     //用户头像
+    @BindView(R.id.iv_user_photo)
+    CircleImageView iv_user_photo;     //用户头像
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.my_main, container, false);
+        return inflater.inflate(R.layout.layout_my_fragment, container, false);
     }
 
     @Override
@@ -32,23 +32,13 @@ public class MyFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.avatarImg})
+    @OnClick({R.id.iv_user_photo})
     public void onClick(View view){
         switch (view.getId()){
-            case R.id.avatarImg:
-                openActivity(LoginActivity.class);
+            case R.id.iv_user_photo:
+
                 break;
         }
     }
 
-
-    /*@Override
-    public int getContentViewResId() {
-        return R.layout.my_main;
-    }
-
-    @Override
-    public void init(Bundle savedInstanceState) {
-
-    }*/
 }

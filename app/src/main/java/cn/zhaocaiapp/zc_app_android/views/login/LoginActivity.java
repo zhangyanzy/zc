@@ -110,17 +110,19 @@ public class LoginActivity extends BaseActivity{
     //发送登录请求
     private void doLogin(String phone, String pass){
         Map<String, String>params = new HashMap<>();
-        params.put("phone", phone);
-        params.put("pass", pass);
-        HttpUtil.post(Constants.URL.USER_LOGIN, params).subscribe(new BaseResponseObserver<LoginResp>() {
+        params.put("type", "0");
+        params.put("account", "18888888888");
+        params.put("password", "123456");
+        params.put("uid", "");
+
+        HttpUtil.post(Constants.URL.USER_LOGIN, params).subscribe(new BaseResponseObserver<String>() {
+
 
             @Override
-            public void success(LoginResp result) {
-                EBLog.i(LoginActivity.this.getClass().getName(), result.getToken());
-                SpUtils.put(LoginActivity.this, SpUtils.TOKEN, result.getToken());
-                openActivity(MainActivity.class);
-                ToastUtil.makeText(LoginActivity.this, "登录成功");
+            public void success(String result) {
+                EBLog.i(LoginActivity.this.getClass().getName(), result);
             }
+
         });
     }
 
