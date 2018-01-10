@@ -23,7 +23,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <cn.zhaocaiapp.zc_app_android.assembly.XCRoundImageView
+            <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
                 android:id="@+id/avatarImg"
                 android:layout_width="60dp"
                 android:layout_height="60dp"

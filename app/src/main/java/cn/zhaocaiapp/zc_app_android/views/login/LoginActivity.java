@@ -1,12 +1,10 @@
 package cn.zhaocaiapp.zc_app_android.views.login;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,7 +22,6 @@ import cn.zhaocaiapp.zc_app_android.MainActivity;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
-import cn.zhaocaiapp.zc_app_android.bean.request.login.LoginReq;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.LoginResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;

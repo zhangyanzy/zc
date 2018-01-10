@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -15,19 +18,57 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+import butterknife.ButterKnife;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.widget.LoadingDialog;
 
 public class BaseFragmentActivity extends FragmentActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN
-                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+    }
+
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        super.setContentView(layoutResID);
+        ButterKnife.bind(this);
+    }
+
+    /**
+     * 菜单、返回键响应
+     */
+    @Override
+    public void onBackPressed() {
+        exitBy2Click(); //调用双击退出函数
+    }
+
+    /**
+     * 双击退出函数
+     */
+    private static Boolean isExit = false;
+
+    private void exitBy2Click() {
+        Timer tExit = null;
+        if (isExit == false) {
+            isExit = true; // 准备退出
+            ToastUtil.makeText(this, "再按一次退出程序");
+            tExit = new Timer();
+            tExit.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isExit = false; // 取消退出
+                }
+            }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
+        } else {
+            finish();
+            System.exit(0);
+        }
     }
 
     /**
@@ -122,103 +163,11 @@ public class BaseFragmentActivity extends FragmentActivity {
     }
 
     /**
-     * 弹出Toast
-     */
-    public void showToast(String string) {
-        Toast.makeText(BaseFragmentActivity.this, string, Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * 获取EditView的文字
-     */
-    public String getStr(EditText editText) {
-        return editText.getText().toString().trim();
-    }
-
-    /**
-     * 获取TextView的文字
-     */
-    public String getStr(TextView textView) {
-        return textView.getText().toString();
-    }
-
-    /**
-     * 获取string的文字
-     */
-    public String getStr(int id) {
-        return getResources().getString(id);
-    }
-
-    /**
-     * 检查字符串是否是空对象或空字符串
-     */
-    public boolean isNull(String str) {
-        if (null == str || "".equals(str) || "null".equalsIgnoreCase(str)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * 检查EditView是否是空对象或空字符串
-     */
-    public boolean isNull(EditText str) {
-        if (null == str.getText().toString() || "".equals(str.getText().toString())
-                || "null".equalsIgnoreCase(str.getText().toString())) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * 检查TextView是否是空对象或空字符串
-     */
-    public boolean isNull(TextView str) {
-        if (null == str.getText().toString() || "".equals(str.getText().toString())
-                || "null".equalsIgnoreCase(str.getText().toString())) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
-    /**
      * 启动Activity
      */
     public void openActivity(Class<?> cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
-    }
-
-    /**
-     * 保存sp数据
-     *
-     * @param key
-     * @param object
-     */
-    public void putSp(String key, Object object) {
-        SpUtils.put(BaseFragmentActivity.this, key, object);
-    }
-
-    /**
-     * 清除Sp数据
-     */
-    public void clearSp() {
-        SpUtils.clear(BaseFragmentActivity.this);
-    }
-
-    /**
-     * 获取sp数据
-     *
-     * @param key
-     * @param object
-     * @return
-     */
-    public Object getSp(String key, Object object) {
-        return SpUtils.get(BaseFragmentActivity.this, key, object);
     }
 
 

@@ -1,280 +1,140 @@
 package cn.zhaocaiapp.zc_app_android;
 
-
-import android.support.v4.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.Window;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.widget.FrameLayout;
+import android.widget.RadioGroup;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import butterknife.BindView;
+import cn.zhaocaiapp.zc_app_android.base.BaseFragmentActivity;
 import cn.zhaocaiapp.zc_app_android.views.home.HomeFragment;
-import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.views.member.MemberFragment;
 import cn.zhaocaiapp.zc_app_android.views.my.MyFragment;
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener {
+/**
+ * Created by ASUS on 2017/10/30.
+ */
 
-    //三个Tab对应的布局
-    private LinearLayout mTabHome;
-    private LinearLayout mTabMember;
-    private LinearLayout mTabMy;
-    private LinearLayout mTabTest;
+public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnCheckedChangeListener{
+    @BindView(R.id.layout_container)
+    FrameLayout container;
+    @BindView(R.id.layout_group_button)
+    RadioGroup groupBotton;
 
-    //三个Tab对应的ImageButton
-    private ImageButton mImgHome;
-    private ImageButton mImgMember;
-    private ImageButton mImgMy;
-    private ImageButton mImgTest;
+    private final String[] tags = {"task", "partner", "personal", "Test"};
+    private int currentIndex = -1;
+    private Map<Integer, Fragment> fragmentMap = new HashMap<>();
 
-    //三个Tab对应的Fragment
-    private HomeFragment homeFragment;
-    private MemberFragment memberFragment;
-    private MyFragment myFragment;
-    private TestFragment testFragment;
+    public static void startActivity(Context context, Bundle bundle) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_main);
-        initViews();//初始化控件
-        initEvents();//初始化事件
-        setSelect(0);
+        setContentView(R.layout.layout_main_activity);
+
+        initView();
     }
 
-    private void initEvents() {
-        //设置三个Tab的点击事件
-        mTabHome.setOnClickListener(this);
-        mTabMember.setOnClickListener(this);
-        mTabMy.setOnClickListener(this);
-        mTabTest.setOnClickListener(this);
+    private void initView() {
+        groupBotton.setOnCheckedChangeListener(this);
 
+        int currentPosition = getIntent().getIntExtra("position", -1);
+        setCheckButton(currentPosition);
     }
 
-    //初始化控件
-    private void initViews() {
-
-        //三个Tab的对象
-        mTabHome = (LinearLayout) findViewById(R.id.id_tab_home);
-        mTabMember = (LinearLayout) findViewById(R.id.id_tab_member);
-        mTabMy = (LinearLayout) findViewById(R.id.id_tab_my);
-        mTabTest = (LinearLayout) findViewById(R.id.id_tab_test);
-
-        //三个Tab的按钮
-        mImgHome = (ImageButton) findViewById(R.id.id_tab_home_img);
-        mImgMember = (ImageButton) findViewById(R.id.id_tab_member_img);
-        mImgMy = (ImageButton) findViewById(R.id.id_tab_my_img);
-        mImgTest = (ImageButton) findViewById(R.id.id_tab_test_img);
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        //先将三个ImageButton置为灰色
-        resetImgs();
-
-        //根据点击的Tab切换不同的页面及设置对应的ImageButton为绿色
-        switch (v.getId()) {
-            case R.id.id_tab_home:
-                selectTab(0);
-                break;
-            case R.id.id_tab_member:
-                selectTab(1);
-                break;
-            case R.id.id_tab_my:
-                selectTab(2);
-                break;
-            case R.id.id_tab_test:
-                selectTab(3);
-                break;
-        }
-    }
-
-    private void selectTab(int i) {
-        //根据点击的Tab设置对应的ImageButton为绿色
-        switch (i) {
+    private void setCheckButton(int currentPosition) {
+        switch (currentPosition) {
+            case -1:
             case 0:
-                mImgHome.setImageResource(R.mipmap.tab_weixin_pressed);
-                setSelect(0);
+                groupBotton.check(R.id.group_button_task);
                 break;
             case 1:
-                mImgMember.setImageResource(R.mipmap.tab_find_frd_pressed);
-                setSelect(1);
+                groupBotton.check(R.id.group_button_partner);
                 break;
             case 2:
-                mImgMy.setImageResource(R.mipmap.tab_address_pressed);
-                setSelect(2);
+                groupBotton.check(R.id.group_button_personal);
                 break;
             case 3:
-                mImgTest.setImageResource(R.mipmap.tab_weixin_pressed);
-                setSelect(3);
+                groupBotton.check(R.id.group_button_test);
                 break;
         }
-    }
-
-    //将三个ImageButton设置为灰色
-    private void resetImgs() {
-        mImgHome.setImageResource(R.mipmap.tab_weixin_normal);
-        mImgMember.setImageResource(R.mipmap.tab_find_frd_normal);
-        mImgMy.setImageResource(R.mipmap.tab_address_normal);
-        mImgTest.setImageResource(R.mipmap.tab_weixin_normal);
-    }
-
-    private void hideFragment(FragmentTransaction fragmentTransaction) {
-        if (homeFragment != null) {
-            fragmentTransaction.hide(homeFragment);
-        }
-        if (memberFragment != null) {
-            fragmentTransaction.hide(memberFragment);
-        }
-        if (myFragment != null) {
-            fragmentTransaction.hide(myFragment);
-        }
-        if (testFragment != null) {
-            fragmentTransaction.hide(testFragment);
-        }
-    }
-
-    /*
-    * 设置某个Fragment
-    * */
-    private void setSelect(int i) {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-
-        //重置图片状态
-        resetImgs();
-        hideFragment(fragmentTransaction);
-        switch (i) {
-            case 0:
-                if (homeFragment == null) {
-                    //如果Fragment还没实例化，实例化，并在fragmentTransaction中添加
-                    homeFragment = new HomeFragment();
-                    fragmentTransaction.add(R.id.id_content, homeFragment);
-                } else {
-                    //如果已经实例化了，就显示
-                    fragmentTransaction.show(homeFragment);
-
-                }
-                fragmentTransaction.commit();
-                //改变底部图标的状态
-                //mWeiXin.setImageResource(R.drawable.tab_weixin_pressed);
-
-                break;
-            case 1:
-                if (memberFragment == null) {
-                    memberFragment = new MemberFragment();
-                    fragmentTransaction.add(R.id.id_content, memberFragment);
-
-                } else {
-                    fragmentTransaction.show(memberFragment);
-                }
-
-                fragmentTransaction.commit();
-                //mFriend.setImageResource(R.drawable.tab_find_frd_pressed);
-
-
-                break;
-            case 2:
-                if (myFragment == null) {
-                    myFragment = new MyFragment();
-                    fragmentTransaction.add(R.id.id_content, myFragment);
-
-                } else {
-                    fragmentTransaction.show(myFragment);
-
-                }
-                fragmentTransaction.commit();
-                //mAddress.setImageResource(R.drawable.tab_address_pressed);
-                break;
-            case 3:
-                if (testFragment == null) {
-                    testFragment = new TestFragment();
-                    fragmentTransaction.add(R.id.id_content, testFragment);
-
-                } else {
-                    fragmentTransaction.show(testFragment);
-
-                }
-                fragmentTransaction.commit();
-                //mAddress.setImageResource(R.drawable.tab_address_pressed);
-                break;
-        }
-
-    }
-
-   /* button = (Button) findViewById(R.id.testBtn);
-        button.setOnClickListener(new View.OnClickListener() {
-
-        @Override
-        public void onClick(View view) {
-            Map<String, String> mMap = new HashMap<String, String>();
-            mMap.put("account", "15044441111");
-            mMap.put("password", "123456");
-            EBLog.i("tag", mMap.toString());
-            EBLog.i("tag", Constants.URL.USER_LOGIN);
-            EBLog.i("tag", String.format("user/11100/12", "10001", "22"));
-                *//**//*HttpUtil.post(URLUtil.USER_LOGIN, new HashMap()).subscribe(new BaseResponseObserver<LoginResp>() {
-            @Override
-            public void success(LoginResp result) {
-                EBLog.i("tag", result.getToken());
-            }
-        });*//**//*
-        HttpUtil.post(Constants.URL.USER_LOGIN).subscribe(new BaseResponseObserver<LoginResp>() {
-            @Override
-            public void success(LoginResp result) {
-                EBLog.i("tag", result.getToken());
-            }
-        });
-                *//**//*HttpUtil.get("/message", new HashMap()).subscribe(new BaseResponseObserver<List<Message>>() {
-        @Override
-        public void success(List<Message> result) {
-            EBLog.i("tag", result.get(0).getMsg());
-            //System.out.print(result.getMsg());
-        }
-    });*//**//*
-            Toast.makeText(MainActivity.this, "测试接口使用，误删", Toast.LENGTH_SHORT).show();
-
-}
-        });
-
-
-                *//**//*button1 = (FloatingActionButton) findViewById(R.id.goHome);
-                button1.setOnClickListener((view) -> {
-                Intent intent = new Intent("");
-                intent.setClass(MainActivity.this, HomeActivity.class);
-        startActivity(intent);
-        *//**//**//**//*Toast.makeText(MainActivity.this, "点击这个跳转到哪里去呢", Toast.LENGTH_SHORT).show();*//**//**//**//*
-        });*/
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            return true;
+    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+        int index = 0;
+        switch (checkedId) {
+            case R.id.group_button_task:
+                index = 0;
+                break;
+            case R.id.group_button_partner:
+                index = 1;
+                break;
+            case R.id.group_button_personal:
+                index = 2;
+                break;
+            case R.id.group_button_test:
+                index = 3;
+                break;
         }
-
-        return super.onOptionsItemSelected(item);
+        selectFragment(index);
     }
+
+    //根据点击位置，设置当前显示的fragment
+    private void selectFragment(int index) {
+        if (index == currentIndex) {
+            return;
+        }
+        currentIndex = index;
+        String tag = tags[index];
+        FragmentManager manager = getSupportFragmentManager();
+        for (int i = 0; i < tags.length; i++) {
+            if (i != index && manager.findFragmentByTag(tags[i]) != null) {
+                //if the other fragment is visible, hide it.
+                manager.beginTransaction().hide(manager.findFragmentByTag(tags[i])).commit();
+            }
+        }
+        if (manager.findFragmentByTag(tag) != null) {
+            //if the fragment exists, show it.
+            manager.beginTransaction().show(manager.findFragmentByTag(tag)).commit();
+        } else {
+            //if the fragment does not exist, add it to fragment manager.
+            manager.beginTransaction().add(R.id.layout_container, getFragment(index), tag).commit();
+        }
+    }
+
+    private Fragment getFragment(int index) {
+        Fragment fragment = fragmentMap.get(index);
+        if (fragment == null) {
+            switch (index) {
+                case 0:  //精选活动
+                    fragment = new HomeFragment();
+                    break;
+                case 1:  //商家活动
+                    fragment = new MemberFragment();
+                    break;
+                case 2:  //我的
+                    fragment = new MyFragment();
+                    break;
+                case 3:  //测试入口
+                    fragment = new TestFragment();
+                    break;
+            }
+            fragmentMap.put(index, fragment);
+        }
+        return fragment;
+    }
+
 }

@@ -5,15 +5,12 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
@@ -21,29 +18,18 @@ import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
  * activity基础类，所有activity继承
- *
+ * <p>
  * Created by jinxunmediapty.ltd on 2018/1/3.
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
-
-    private Unbinder mUnbinder;
-    private boolean isPassUsable;//密码是否可用
-
     private TextView identify_code;
-
-//    @Nullable
-//    @BindView(R.id.toolbar)
-//    protected Toolbar header;   //header
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentViewResId());
-        mUnbinder = ButterKnife.bind(this);
-
-        //设置header转成actionBar
-        //setSupportActionBar(header);
+        ButterKnife.bind(this);
 
         //初始化工程
         init(savedInstanceState);
@@ -55,27 +41,27 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
     //验证手机号和密码是否符合规则
-    protected boolean judgPhoneAndPass(String phone, String pass){
-        if (GeneralUtils.isNullOrZeroLenght(phone)){
+    protected boolean judgPhoneAndPass(String phone, String pass) {
+        if (GeneralUtils.isNullOrZeroLenght(phone)) {
             ToastUtil.makeText(this, getString(R.string.phone_not_empty));
             return false;
         }
-        if (GeneralUtils.isNullOrZeroLenght(pass)){
+        if (GeneralUtils.isNullOrZeroLenght(pass)) {
             ToastUtil.makeText(this, getString(R.string.pass_not_empty));
             return false;
         }
-        if (!GeneralUtils.isTel(phone)){
+        if (!GeneralUtils.isTel(phone)) {
             ToastUtil.makeText(this, getString(R.string.isNot_phone));
             return false;
         }
-        if (!GeneralUtils.IsPassword(pass)){
+        if (!GeneralUtils.IsPassword(pass)) {
             ToastUtil.makeText(this, getString(R.string.pass_length));
             return false;
         }
         return true;
     }
 
-    protected void monitorEditChange(EditText editText){
+    protected void monitorEditChange(EditText editText) {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -91,23 +77,16 @@ public abstract class BaseActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if (!GeneralUtils.IsPassword(s.toString())) {
                     editText.setTextColor(Color.RED);
-                    isPassUsable = false;
-                }
-                else {
+                } else {
                     editText.setTextColor(getResources().getColor(R.color.text_black));
-                    isPassUsable = true;
                 }
             }
         });
     }
 
-    protected boolean getIsPassUsable(){
-        return isPassUsable;
-    }
-
     protected void waitTimer(TextView identify_code) {
         this.identify_code = identify_code;
-        identify_code.setBackgroundResource(R.drawable.shape_gray_bg);
+        identify_code.setBackgroundResource(R.drawable.button_shape_gray_bg);
         identify_code.setEnabled(false);
         timer.start();
     }
@@ -121,7 +100,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         @Override
         public void onFinish() {
-            identify_code.setBackgroundResource(R.drawable.shape_orange_bg);
+            identify_code.setBackgroundResource(R.drawable.button_shape_orange_bg);
             identify_code.setText(getString(R.string.get_identify_code));
             identify_code.setEnabled(true);
             cancel();

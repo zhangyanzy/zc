@@ -2,32 +2,45 @@ package cn.zhaocaiapp.zc_app_android.views.my;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
-import cn.zhaocaiapp.zc_app_android.assembly.XCRoundImageView;
-import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
+import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
+import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
 
 /**
  * @author 林子
  * @filename MyActivity.java
  * @data 2018-01-05 18:02
  */
-public class MyFragment extends Fragment {
+public class MyFragment extends BaseFragment {
+    @BindView(R.id.avatarImg)
+    CircleImageView avatarImg;     //用户头像
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.my_main, container, false);
-        return view;
+    public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.my_main, container, false);
     }
 
-    @BindView(R.id.avatarImg)
-    XCRoundImageView avatarImg;     //用户头像
+    @Override
+    public void init() {
+
+    }
+
+    @OnClick({R.id.avatarImg})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.avatarImg:
+                openActivity(LoginActivity.class);
+                break;
+        }
+    }
+
 
     /*@Override
     public int getContentViewResId() {

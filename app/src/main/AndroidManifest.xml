@@ -29,19 +29,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
         <!-- 首页 -->
-        <activity android:name=".views.home.ActivitySceneDetailActivity" />
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"/>
 
 
-        <activity android:name=".views.login.LoginActivity"
+
+        <!--登录-->
+        <activity
+            android:name=".views.login.LoginActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".views.login.ForgetPassActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".views.login.RegisterActivity"
-            android:screenOrientation="portrait"/>
-
-
+        <!--忘记密码-->
+        <activity
+            android:name=".views.login.ForgetPassActivity"
+            android:screenOrientation="portrait" />
+        <!--注册-->
+        <activity
+            android:name=".views.login.RegisterActivity"
+            android:screenOrientation="portrait" />
 
 
         <!--注册友盟sdk需要的activity-->
@@ -51,19 +56,19 @@
             android:launchMode="singleTask"
             android:noHistory="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="tencent1106660590"/>
+                <data android:scheme="tencent1106660590" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.umeng.qq.tencent.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- wechat callback-->
         <activity
@@ -71,21 +76,20 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!--sina-->
         <activity
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:launchMode="singleTask"
             android:exported="false"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
             android:launchMode="singleTask"
-            android:name="com.sina.weibo.sdk.share.WbShareTransActivity">
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+        <activity
+            android:name="com.sina.weibo.sdk.share.WbShareTransActivity"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -97,8 +101,12 @@
             android:theme="@style/Theme.UMDefault" />
 
         <!--注册友盟appkey和渠道id-->
-        <meta-data android:value="5a4c6b93a40fa36a3900036f" android:name="UMENG_APPKEY"/>
-        <meta-data android:value="yingyongbao" android:name="UMENG_CHANNEL"/>
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5a4c6b93a40fa36a3900036f" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="yingyongbao" />
 
     </application>
 

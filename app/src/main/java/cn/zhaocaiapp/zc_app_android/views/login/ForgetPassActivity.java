@@ -5,7 +5,6 @@ import android.os.CountDownTimer;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -102,7 +101,7 @@ public class ForgetPassActivity extends BaseActivity {
     }
 
     private void waitTimer() {
-        get_idntify_code.setBackgroundResource(R.drawable.shape_gray_bg);
+        get_idntify_code.setBackgroundResource(R.drawable.button_shape_gray_bg);
         get_idntify_code.setEnabled(false);
         timer.start();
     }
@@ -116,7 +115,7 @@ public class ForgetPassActivity extends BaseActivity {
 
         @Override
         public void onFinish() {
-            get_idntify_code.setBackgroundResource(R.drawable.shape_orange_bg);
+            get_idntify_code.setBackgroundResource(R.drawable.button_shape_orange_bg);
             get_idntify_code.setText(getString(R.string.get_identify_code));
             get_idntify_code.setEnabled(true);
             cancel();
