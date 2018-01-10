@@ -14,7 +14,7 @@ import cn.zhaocaiapp.zc_app_android.R;
  * @filename MemberActivity.java
  * @data 2018-01-05 17:59
  */
-public class MemberActivity extends Fragment {
+public class MemberFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

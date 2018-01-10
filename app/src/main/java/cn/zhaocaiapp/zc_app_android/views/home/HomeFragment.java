@@ -25,7 +25,7 @@ import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
  * @filename HomeActivity.java
  * @data 2018-01-05 17:52
  */
-public class HomeActivity extends Fragment {
+public class HomeFragment extends Fragment {
 
     @Nullable
     @Override

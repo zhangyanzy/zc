@@ -17,7 +17,7 @@ import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
  * @filename MyActivity.java
  * @data 2018-01-05 18:02
  */
-public class MyActivity extends Fragment {
+public class MyFragment extends Fragment {
 
     @Nullable
     @Override

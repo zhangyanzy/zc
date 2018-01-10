@@ -1,14 +1,15 @@
 package cn.zhaocaiapp.zc_app_android;
 
+
+import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,24 +17,14 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import butterknife.BindView;
-import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
-import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
-import cn.zhaocaiapp.zc_app_android.bean.response.login.LoginResp;
-import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
-import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
-import cn.zhaocaiapp.zc_app_android.views.home.HomeActivity;
+import cn.zhaocaiapp.zc_app_android.views.home.HomeFragment;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
-import cn.zhaocaiapp.zc_app_android.views.member.MemberActivity;
-import cn.zhaocaiapp.zc_app_android.views.my.MyActivity;
+import cn.zhaocaiapp.zc_app_android.views.member.MemberFragment;
+import cn.zhaocaiapp.zc_app_android.views.my.MyFragment;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
@@ -61,6 +52,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     //@BindView(R.id.toolbar)
     //protected Toolbar header;   //header
 
+    private HomeFragment homeActivity;
+    private MemberFragment memberActivity;
+    private MyFragment myActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,14 +64,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         initViews();//初始化控件
         initEvents();//初始化事件
         initDatas();//初始化数据
+        setSelect(0);
     }
 
     private void initDatas() {
         mFragments = new ArrayList<>();
         //将三个Fragment加入集合中
-        mFragments.add(new HomeActivity());
-        mFragments.add(new MemberActivity());
-        mFragments.add(new MyActivity());
+        mFragments.add(new HomeFragment());
+        mFragments.add(new MemberFragment());
+        mFragments.add(new MyFragment());
 
         //初始化适配器
         mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -128,7 +124,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     //初始化控件
     private void initViews() {
-        mViewPager = (ViewPager) findViewById(R.id.id_viewpager);
+        //mViewPager = (ViewPager) findViewById(R.id.id_viewpager);
 
         mTabHome = (LinearLayout) findViewById(R.id.id_tab_home);
         mTabMember = (LinearLayout) findViewById(R.id.id_tab_member);
@@ -164,16 +160,19 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         switch (i) {
             case 0:
                 mImgHome.setImageResource(R.mipmap.tab_weixin_pressed);
+                setSelect(0);
                 break;
             case 1:
                 mImgMember.setImageResource(R.mipmap.tab_find_frd_pressed);
+                setSelect(1);
                 break;
             case 2:
                 mImgMy.setImageResource(R.mipmap.tab_address_pressed);
+                setSelect(2);
                 break;
         }
         //设置当前点击的Tab所对应的页面
-        mViewPager.setCurrentItem(i);
+        //mViewPager.setCurrentItem(i);
     }
 
     //将四个ImageButton设置为灰色
@@ -182,6 +181,80 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mImgMember.setImageResource(R.mipmap.tab_find_frd_normal);
         mImgMy.setImageResource(R.mipmap.tab_address_normal);
     }
+
+    private void hideFragment(FragmentTransaction fragmentTransaction) {
+        if (homeActivity != null) {
+            fragmentTransaction.hide(homeActivity);
+        }
+        if (memberActivity != null) {
+            fragmentTransaction.hide(memberActivity);
+        }
+        if (myActivity != null) {
+            fragmentTransaction.hide(myActivity);
+        }
+    }
+
+    /*
+    * 设置某个Fragment
+    * */
+    private void setSelect(int i) {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+
+        //重置图片状态
+        resetImgs();
+        hideFragment(fragmentTransaction);
+        switch (i) {
+            case 0:
+                //设置标题
+                //tvTitle.setText("微信");
+                if (homeActivity == null) {
+                    //如果Fragment还没实例化，实例化，并在fragmentTransaction中添加
+                    homeActivity = new HomeFragment();
+                    fragmentTransaction.add(R.id.id_content, homeActivity);
+                } else {
+                    //如果已经实例化了，就显示
+                    fragmentTransaction.show(homeActivity);
+
+                }
+                fragmentTransaction.commit();
+                //改变底部图标的状态
+                //mWeiXin.setImageResource(R.drawable.tab_weixin_pressed);
+
+                break;
+            case 1:
+                //tvTitle.setText("朋友");
+                if (memberActivity == null) {
+                    memberActivity = new MemberFragment();
+                    fragmentTransaction.add(R.id.id_content, memberActivity);
+
+                } else {
+                    fragmentTransaction.show(memberActivity);
+                }
+
+                fragmentTransaction.commit();
+                //mFriend.setImageResource(R.drawable.tab_find_frd_pressed);
+
+
+                break;
+            case 2:
+                //tvTitle.setText("通讯录");
+                if (myActivity == null) {
+                    myActivity = new MyFragment();
+                    fragmentTransaction.add(R.id.id_content, myActivity);
+
+                } else {
+                    fragmentTransaction.show(myActivity);
+
+                }
+                fragmentTransaction.commit();
+                //mAddress.setImageResource(R.drawable.tab_address_pressed);
+                break;
+        }
+
+    }
+
+
 
     /*@Override
     public void init(Bundle savedInstanceState) {

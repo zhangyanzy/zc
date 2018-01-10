@@ -32,7 +32,7 @@
         <activity android:name=".MainActivity" />
         <!-- 首页 -->
         <activity android:name=".views.home.ActivitySceneDetailActivity" />
-        <activity android:name=".views.home.HomeActivity" />
+        <activity android:name=".views.home.HomeFragment" />
 
 
         <activity android:name=".views.login.LoginActivity"
