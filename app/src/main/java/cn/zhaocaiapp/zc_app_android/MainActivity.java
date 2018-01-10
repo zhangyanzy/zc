@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+
 import cn.zhaocaiapp.zc_app_android.views.home.HomeFragment;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.views.member.MemberFragment;
@@ -23,16 +24,19 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private LinearLayout mTabHome;
     private LinearLayout mTabMember;
     private LinearLayout mTabMy;
+    private LinearLayout mTabTest;
 
     //三个Tab对应的ImageButton
     private ImageButton mImgHome;
     private ImageButton mImgMember;
     private ImageButton mImgMy;
+    private ImageButton mImgTest;
 
     //三个Tab对应的Fragment
-    private HomeFragment homeActivity;
-    private MemberFragment memberActivity;
-    private MyFragment myActivity;
+    private HomeFragment homeFragment;
+    private MemberFragment memberFragment;
+    private MyFragment myFragment;
+    private TestFragment testFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mTabHome.setOnClickListener(this);
         mTabMember.setOnClickListener(this);
         mTabMy.setOnClickListener(this);
+        mTabTest.setOnClickListener(this);
 
     }
 
@@ -59,11 +64,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mTabHome = (LinearLayout) findViewById(R.id.id_tab_home);
         mTabMember = (LinearLayout) findViewById(R.id.id_tab_member);
         mTabMy = (LinearLayout) findViewById(R.id.id_tab_my);
+        mTabTest = (LinearLayout) findViewById(R.id.id_tab_test);
 
         //三个Tab的按钮
         mImgHome = (ImageButton) findViewById(R.id.id_tab_home_img);
         mImgMember = (ImageButton) findViewById(R.id.id_tab_member_img);
         mImgMy = (ImageButton) findViewById(R.id.id_tab_my_img);
+        mImgTest = (ImageButton) findViewById(R.id.id_tab_test_img);
 
     }
 
@@ -83,6 +90,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             case R.id.id_tab_my:
                 selectTab(2);
                 break;
+            case R.id.id_tab_test:
+                selectTab(3);
+                break;
         }
     }
 
@@ -101,6 +111,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 mImgMy.setImageResource(R.mipmap.tab_address_pressed);
                 setSelect(2);
                 break;
+            case 3:
+                mImgTest.setImageResource(R.mipmap.tab_weixin_pressed);
+                setSelect(3);
+                break;
         }
     }
 
@@ -109,17 +123,21 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mImgHome.setImageResource(R.mipmap.tab_weixin_normal);
         mImgMember.setImageResource(R.mipmap.tab_find_frd_normal);
         mImgMy.setImageResource(R.mipmap.tab_address_normal);
+        mImgTest.setImageResource(R.mipmap.tab_weixin_normal);
     }
 
     private void hideFragment(FragmentTransaction fragmentTransaction) {
-        if (homeActivity != null) {
-            fragmentTransaction.hide(homeActivity);
+        if (homeFragment != null) {
+            fragmentTransaction.hide(homeFragment);
         }
-        if (memberActivity != null) {
-            fragmentTransaction.hide(memberActivity);
+        if (memberFragment != null) {
+            fragmentTransaction.hide(memberFragment);
         }
-        if (myActivity != null) {
-            fragmentTransaction.hide(myActivity);
+        if (myFragment != null) {
+            fragmentTransaction.hide(myFragment);
+        }
+        if (testFragment != null) {
+            fragmentTransaction.hide(testFragment);
         }
     }
 
@@ -135,13 +153,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         hideFragment(fragmentTransaction);
         switch (i) {
             case 0:
-                if (homeActivity == null) {
+                if (homeFragment == null) {
                     //如果Fragment还没实例化，实例化，并在fragmentTransaction中添加
-                    homeActivity = new HomeFragment();
-                    fragmentTransaction.add(R.id.id_content, homeActivity);
+                    homeFragment = new HomeFragment();
+                    fragmentTransaction.add(R.id.id_content, homeFragment);
                 } else {
                     //如果已经实例化了，就显示
-                    fragmentTransaction.show(homeActivity);
+                    fragmentTransaction.show(homeFragment);
 
                 }
                 fragmentTransaction.commit();
@@ -150,12 +168,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                 break;
             case 1:
-                if (memberActivity == null) {
-                    memberActivity = new MemberFragment();
-                    fragmentTransaction.add(R.id.id_content, memberActivity);
+                if (memberFragment == null) {
+                    memberFragment = new MemberFragment();
+                    fragmentTransaction.add(R.id.id_content, memberFragment);
 
                 } else {
-                    fragmentTransaction.show(memberActivity);
+                    fragmentTransaction.show(memberFragment);
                 }
 
                 fragmentTransaction.commit();
@@ -164,12 +182,24 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                 break;
             case 2:
-                if (myActivity == null) {
-                    myActivity = new MyFragment();
-                    fragmentTransaction.add(R.id.id_content, myActivity);
+                if (myFragment == null) {
+                    myFragment = new MyFragment();
+                    fragmentTransaction.add(R.id.id_content, myFragment);
 
                 } else {
-                    fragmentTransaction.show(myActivity);
+                    fragmentTransaction.show(myFragment);
+
+                }
+                fragmentTransaction.commit();
+                //mAddress.setImageResource(R.drawable.tab_address_pressed);
+                break;
+            case 3:
+                if (testFragment == null) {
+                    testFragment = new TestFragment();
+                    fragmentTransaction.add(R.id.id_content, testFragment);
+
+                } else {
+                    fragmentTransaction.show(testFragment);
 
                 }
                 fragmentTransaction.commit();
