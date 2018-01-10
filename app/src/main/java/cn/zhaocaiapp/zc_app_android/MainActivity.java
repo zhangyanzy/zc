@@ -4,23 +4,14 @@ package cn.zhaocaiapp.zc_app_android;
 import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-
-import java.util.List;
-
-import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.views.home.HomeFragment;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.views.member.MemberFragment;
@@ -111,8 +102,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 setSelect(2);
                 break;
         }
-        //设置当前点击的Tab所对应的页面
-        //mViewPager.setCurrentItem(i);
     }
 
     //将三个ImageButton设置为灰色
@@ -189,6 +178,50 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }
 
     }
+
+   /* button = (Button) findViewById(R.id.testBtn);
+        button.setOnClickListener(new View.OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            Map<String, String> mMap = new HashMap<String, String>();
+            mMap.put("account", "15044441111");
+            mMap.put("password", "123456");
+            EBLog.i("tag", mMap.toString());
+            EBLog.i("tag", Constants.URL.USER_LOGIN);
+            EBLog.i("tag", String.format("user/11100/12", "10001", "22"));
+                *//**//*HttpUtil.post(URLUtil.USER_LOGIN, new HashMap()).subscribe(new BaseResponseObserver<LoginResp>() {
+            @Override
+            public void success(LoginResp result) {
+                EBLog.i("tag", result.getToken());
+            }
+        });*//**//*
+        HttpUtil.post(Constants.URL.USER_LOGIN).subscribe(new BaseResponseObserver<LoginResp>() {
+            @Override
+            public void success(LoginResp result) {
+                EBLog.i("tag", result.getToken());
+            }
+        });
+                *//**//*HttpUtil.get("/message", new HashMap()).subscribe(new BaseResponseObserver<List<Message>>() {
+        @Override
+        public void success(List<Message> result) {
+            EBLog.i("tag", result.get(0).getMsg());
+            //System.out.print(result.getMsg());
+        }
+    });*//**//*
+            Toast.makeText(MainActivity.this, "测试接口使用，误删", Toast.LENGTH_SHORT).show();
+
+}
+        });
+
+
+                *//**//*button1 = (FloatingActionButton) findViewById(R.id.goHome);
+                button1.setOnClickListener((view) -> {
+                Intent intent = new Intent("");
+                intent.setClass(MainActivity.this, HomeActivity.class);
+        startActivity(intent);
+        *//**//**//**//*Toast.makeText(MainActivity.this, "点击这个跳转到哪里去呢", Toast.LENGTH_SHORT).show();*//**//**//**//*
+        });*/
 
 
     @Override
