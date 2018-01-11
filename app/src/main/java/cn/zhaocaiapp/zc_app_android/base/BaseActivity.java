@@ -78,7 +78,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 if (!GeneralUtils.IsPassword(s.toString())) {
                     editText.setTextColor(Color.RED);
                 } else {
-                    editText.setTextColor(getResources().getColor(R.color.text_black));
+                    editText.setTextColor(getResources().getColor(R.color.colorFont6));
                 }
             }
         });

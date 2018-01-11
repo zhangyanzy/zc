@@ -49,7 +49,9 @@
         android:textColorHint="@color/colorFont9"
         android:hint="@string/input_cash"
         android:textSize="@dimen/font_size_14"
-        android:textColor="@color/colorFont6"/>
+        android:textColor="@color/colorFont6"
+        android:paddingRight="65dp"
+        android:singleLine="true" />
 
     <View style="@style/horizontal_C9_line"
         android:layout_below="@+id/edit_apply_cash"

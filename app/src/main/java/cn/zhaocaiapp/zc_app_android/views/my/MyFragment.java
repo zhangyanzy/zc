@@ -72,6 +72,8 @@ public class MyFragment extends BaseFragment {
     LinearLayout layout_email;
     @BindView(R.id.tv_setting)
     TextView tv_setting;
+    @BindView(R.id.tv_account_manager)
+    TextView tv_account_manager;
 
 
     @Override
@@ -84,7 +86,9 @@ public class MyFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.iv_user_photo, R.id.tv_exit})
+    @OnClick({R.id.iv_user_photo, R.id.tv_exit, R.id.tv_apply_cash, R.id.tv_user_identify, R.id.layout_all_task, R.id.layout_deliver_task,
+              R.id.layout_verify_task, R.id.layout_reward_task, R.id.layout_failed_task, R.id.layout_invite, R.id.tv_account_manager,
+              R.id.tv_follow, R.id.layout_contact, R.id.layout_email, R.id.tv_setting, R.id.tv_exit})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.iv_user_photo:
