@@ -2,6 +2,8 @@ package cn.zhaocaiapp.zc_app_android;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
@@ -12,6 +14,7 @@ import java.util.List;
 
 import cn.zhaocaiapp.zc_app_android.base.BaseAndroid;
 import cn.zhaocaiapp.zc_app_android.base.BaseConfig;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 
 /**
  * Created by jinxunmediapty.ltd on 2018/1/3.
@@ -35,6 +38,8 @@ public class ZcApplication extends Application {
     //当前activity名称
     public static String currentActivityName = "";
 
+    private static SharedPreferences sp;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -52,6 +57,9 @@ public class ZcApplication extends Application {
         //初始化友盟sdk
         UMShareAPI.get(this);
         Config.DEBUG = true;
+
+        //SharedPreferences存储全局设置
+        sp = getSharedPreferences(SpUtils.FILE_NAME, Context.MODE_PRIVATE);
     }
 
     /**
@@ -87,5 +95,10 @@ public class ZcApplication extends Application {
     public void onTerminate()
     {
         super.onTerminate();
+    }
+
+    //获取全局SharedPreferences对象
+    public static SharedPreferences getPreferences() {
+        return sp;
     }
 }

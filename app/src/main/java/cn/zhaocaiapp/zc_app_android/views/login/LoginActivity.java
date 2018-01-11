@@ -38,7 +38,7 @@ import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
  * @filename LoginActivity.java
  * @data 2018-01-05 17:52
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity{
     @BindView(R.id.iv_app_logo)
     ImageView iv_log;
     @BindView(R.id.tv_skip_login)
@@ -61,6 +61,7 @@ public class LoginActivity extends BaseActivity {
     CircleImageView login_sina;
 
     private String phone;
+    private LoginResp loginResp;
 
     @Override
     public int getContentViewResId() {
@@ -117,15 +118,21 @@ public class LoginActivity extends BaseActivity {
 
         HttpUtil.post(Constants.URL.USER_LOGIN, params).subscribe(new BaseResponseObserver<LoginResp>() {
 
-
             @Override
             public void success(LoginResp result) {
+                loginResp = result;
+                saveUserData();
                 EBLog.i(LoginActivity.this.getClass().getName(), result.toString());
             }
-
         });
     }
 
+    //保存用户数据
+    private void saveUserData(){
+        SpUtils.put(Constants.SPREF.TOKEN, "");
+    }
+
+    //获取三方授权
     private void getAuth(SHARE_MEDIA platform) {
         UMShareAPI.get(this).doOauthVerify(this, platform, new UMAuthListener() {
             @Override

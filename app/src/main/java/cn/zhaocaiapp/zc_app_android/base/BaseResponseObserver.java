@@ -32,7 +32,7 @@ public abstract class BaseResponseObserver<T> implements Observer<JsonObject> {
     }
 
     @Override
-    public void onNext(JsonObject result){
+    public void onNext(JsonObject result) {
 
         GsonBuilder builder = new GsonBuilder();
 
@@ -52,39 +52,45 @@ public abstract class BaseResponseObserver<T> implements Observer<JsonObject> {
         });
 
         Gson gson = builder.create();
-        Type type = new TypeToken<Response>(){}.getType();
+        Type type = new TypeToken<Response>() {}.getType();
 
-        Response<T> response = gson.fromJson(result,type);
+        Response<T> response = gson.fromJson(result, type);
 
-        if(response.getCode().equals(BusinessEnum.SUCCESS.getCode())){
+        if (response.getCode().equals(BusinessEnum.SUCCESS.getCode())) {
             JsonElement data = result.get("data");
 
             //获取范型类型
             ParameterizedType pt = (ParameterizedType) this.getClass().getGenericSuperclass();
             //判断data类型
-            if(data.isJsonArray()){
+            if (data.isJsonArray()) {
 
                 Type[] pts = (Type[]) pt.getActualTypeArguments();
-                T t = (T) gson.fromJson(data.getAsJsonArray(),pts[0]);
+                T t = (T) gson.fromJson(data.getAsJsonArray(), pts[0]);
                 this.success(t);
-            }else if(data.isJsonObject()){
+            } else if (data.isJsonObject()) {
 
                 Class<T> cls = (Class<T>) pt.getActualTypeArguments()[0];
-                T t = gson.fromJson(data.getAsJsonObject(),cls);
+                T t = gson.fromJson(data.getAsJsonObject(), cls);
                 this.success(t);
-            }else if(data.isJsonNull()){
+            } else if (data.isJsonNull()) {
                 //TODO
-            }else if(data.isJsonPrimitive()){
-                //TODO
+            } else if (data.isJsonPrimitive()) {
+                T t = (T) gson.fromJson(data.getAsJsonPrimitive(), type);
+                this.success(t);
             }
-        }else{
+        } else {
             error(response);
         }
-    };
+    }
+
+    ;
 
     public abstract void success(T result);
 
-    public void error(Response<T> response){};
+    public void error(Response<T> response) {
+    }
+
+    ;
 
     @Override
     public void onError(Throwable e) {
@@ -92,5 +98,6 @@ public abstract class BaseResponseObserver<T> implements Observer<JsonObject> {
     }
 
     @Override
-    public void onComplete() {}
+    public void onComplete() {
+    }
 }

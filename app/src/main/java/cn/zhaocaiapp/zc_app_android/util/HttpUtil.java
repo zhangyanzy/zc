@@ -1,5 +1,8 @@
 package cn.zhaocaiapp.zc_app_android.util;
 
+
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -7,6 +10,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import cn.zhaocaiapp.zc_app_android.base.BaseHttpService;
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -46,6 +50,8 @@ public class HttpUtil {
                 .build();
 
         http = retrofit.create(BaseHttpService.class);
+        USER_TOKEN = SpUtils.get(Constants.SPREF.TOKEN, "").toString();
+        EBLog.i("HTTP", USER_TOKEN);
     }
 
     /**

@@ -51,6 +51,10 @@ public interface Constants {
          * 用户登陆
          */
         String USER_LOGIN = "user/login";
+        /**
+         * 用户注销登录
+         * */
+        String USER_LOGIN_OUT = "user/logout";
     }
 
     interface SPREF {
@@ -58,6 +62,18 @@ public interface Constants {
          * 是否显示引导页
          */
         String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
+        //保存到sharedPreferenced的数据的key
+        String IS_FIRST = "isFirstLogin";           //是否首次登陆
+        String IS_LOGIN = "isLogin";                //登录状态
+        String LOGIN_MODE = "loginMode";            //登录方式
+        String USER_ID = "userId";                  //用户id
+        String USER_PHONE = "userPhone";            //手机号
+        String USER_PHOTO = "headPortrait";         //头像
+        String USER_NAME = "userName";              //用户姓名
+        String NICK_NAME = "nickName";              //用户昵称
+        String GENDER = "gender";                   //性别
+        String AGE = "age";                         //年龄
+        String TOKEN = "token";
     }
 
 }

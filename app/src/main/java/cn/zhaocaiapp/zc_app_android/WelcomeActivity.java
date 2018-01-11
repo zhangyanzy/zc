@@ -36,8 +36,8 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //在setContentView()前检查是否第一次运行
-        SpUtils.contains(this, Constants.SPREF.IS_FIRST_TIME_LAUNCH);
-        if (!(Boolean) SpUtils.get(this, Constants.SPREF.IS_FIRST_TIME_LAUNCH, true)) {
+        SpUtils.contains(Constants.SPREF.IS_FIRST_TIME_LAUNCH);
+        if (!(Boolean) SpUtils.get(Constants.SPREF.IS_FIRST_TIME_LAUNCH, true)) {
             launchHomeScreen();
             finish();
         }
@@ -119,7 +119,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void launchHomeScreen() {
-        SpUtils.put(this, Constants.SPREF.IS_FIRST_TIME_LAUNCH, false);
+        SpUtils.put(Constants.SPREF.IS_FIRST_TIME_LAUNCH, false);
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }

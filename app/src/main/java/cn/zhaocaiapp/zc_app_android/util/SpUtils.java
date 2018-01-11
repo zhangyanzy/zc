@@ -7,36 +7,27 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import cn.zhaocaiapp.zc_app_android.ZcApplication;
+
 public class SpUtils {
     /**
      * 保存在手机里面的文件名
      */
     public static final String FILE_NAME = "share_data";
 
-    //保存的数据的key
-    public static final String IS_FIRST = "isFirstLogin";                //是否首次登陆
-    public static final String IS_LOGIN = "isLogin";                //登录状态
-    public static final String LOGIN_MODE = "loginMode";            //登录方式
-    public static final String USER_ID = "userId";                  //用户id
-    public static final String USER_PHONE = "userPhone";            //手机号
-    public static final String USER_PHOTO = "headPortrait";         //头像
-    public static final String USER_NAME = "userName";              //用户姓名
-    public static final String NICK_NAME = "nickName";              //用户昵称
-    public static final String GENDER = "gender";                   //性别
-    public static final String AGE = "age";                         //年龄
-    public static final String TOKEN = "token";
 
     /**
      * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法
      *
-     * @param context
+     * @param
      * @param key
      * @param object
      */
-    public static void put(Context context, String key, Object object) {
+    public static void put(String key, Object object) {
 
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+//        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
+//                Context.MODE_PRIVATE);
+        SharedPreferences sp = ZcApplication.getPreferences();
         SharedPreferences.Editor editor = sp.edit();
 
         if (object instanceof String) {
@@ -59,14 +50,15 @@ public class SpUtils {
     /**
      * 得到保存数据的方法，我们根据默认值得到保存的数据的具体类型，然后调用相对于的方法获取值
      *
-     * @param context
+     * @param
      * @param key
      * @param defaultObject
      * @return
      */
-    public static Object get(Context context, String key, Object defaultObject) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+    public static Object get(String key, Object defaultObject) {
+//        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
+//                Context.MODE_PRIVATE);
+        SharedPreferences sp = ZcApplication.getPreferences();
 
         if (defaultObject instanceof String) {
             return sp.getString(key, (String) defaultObject);
@@ -86,12 +78,11 @@ public class SpUtils {
     /**
      * 移除某个key值已经对应的值
      *
-     * @param context
+     * @param
      * @param key
      */
-    public static void remove(Context context, String key) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+    public static void remove(String key) {
+        SharedPreferences sp = ZcApplication.getPreferences();
         SharedPreferences.Editor editor = sp.edit();
         editor.remove(key);
         SharedPreferencesCompat.apply(editor);
@@ -100,11 +91,10 @@ public class SpUtils {
     /**
      * 清除所有数据
      *
-     * @param context
+     * @param
      */
-    public static void clear(Context context) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+    public static void clear() {
+        SharedPreferences sp = ZcApplication.getPreferences();
         SharedPreferences.Editor editor = sp.edit();
         editor.clear();
         SharedPreferencesCompat.apply(editor);
@@ -113,25 +103,23 @@ public class SpUtils {
     /**
      * 查询某个key是否已经存在
      *
-     * @param context
+     * @param
      * @param key
      * @return
      */
-    public static boolean contains(Context context, String key) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+    public static boolean contains(String key) {
+        SharedPreferences sp = ZcApplication.getPreferences();
         return sp.contains(key);
     }
 
     /**
      * 返回所有的键值对
      *
-     * @param context
+     * @param
      * @return
      */
-    public static Map<String, ?> getAll(Context context) {
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-                Context.MODE_PRIVATE);
+    public static Map<String, ?> getAll() {
+        SharedPreferences sp = ZcApplication.getPreferences();
         return sp.getAll();
     }
 
