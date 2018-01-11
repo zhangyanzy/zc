@@ -32,12 +32,33 @@ public interface BaseHttpService {
      * get请求
      *
      * @param url
+     * @return
+     */
+    @Headers({"Content-Type: application/json", "Accept: application/json", "x-requested-with:XMLHttpRequest"})
+    @GET
+    Observable<JsonObject> get(@Url String url);
+
+    /**
+     * get请求
+     *
+     * @param url
      * @param token
      * @return
      */
     @Headers({"Content-Type: application/json", "Accept: application/json", "x-requested-with:XMLHttpRequest"})
     @GET
     Observable<JsonObject> get(@Url String url, @Query("token") String token);
+
+    /**
+     * get请求
+     *
+     * @param url
+     * @param params
+     * @return
+     */
+    @Headers({"Content-Type: application/json", "Accept: application/json", "x-requested-with:XMLHttpRequest"})
+    @GET
+    Observable<JsonObject> get(@Url String url, @QueryMap Map params);
 
     /**
      * get请求
@@ -55,12 +76,33 @@ public interface BaseHttpService {
      * post请求
      *
      * @param url
+     * @return
+     */
+    @Headers({"Content-Type: application/json", "Accept: application/json", "x-requested-with:XMLHttpRequest"})
+    @POST
+    Observable<JsonObject> post(@Url String url);
+
+    /**
+     * post请求
+     *
+     * @param url
      * @param token
      * @return
      */
     @Headers({"Content-Type: application/json", "Accept: application/json", "x-requested-with:XMLHttpRequest"})
     @POST
     Observable<JsonObject> post(@Url String url, @Query("token") String token);
+
+    /**
+     * post请求
+     *
+     * @param url
+     * @param params
+     * @return
+     */
+    @Headers({"Content-Type: application/json", "Accept: application/json", "x-requested-with:XMLHttpRequest"})
+    @POST
+    Observable<JsonObject> post(@Url String url, @Body Map params);
 
     /**
      * post请求
