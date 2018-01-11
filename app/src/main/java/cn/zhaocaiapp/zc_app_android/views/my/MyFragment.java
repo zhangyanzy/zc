@@ -5,7 +5,11 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,10 +32,47 @@ import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
  * @data 2018-01-05 18:02
  */
 public class MyFragment extends BaseFragment {
+    @BindView(R.id.iv_top_back)
+    ImageView iv_top_back;
+    @BindView(R.id.tv_top_title)
+    TextView tv_top_titlel;
+    @BindView(R.id.iv_top_menu)
+    ImageView iv_top_menu;
     @BindView(R.id.iv_user_photo)
     CircleImageView iv_user_photo;
     @BindView(R.id.tv_exit)
     TextView tv_exit;
+    @BindView(R.id.tv_user_name)
+    TextView tv_user_name;
+    @BindView(R.id.tv_user_identify)
+    TextView tv_user_identify;
+    @BindView(R.id.tv_user_blance)
+    TextView tv_user_blance;
+    @BindView(R.id.tv_user_income)
+    TextView tv_user_income;
+    @BindView(R.id.layout_all_task)
+    LinearLayout layout_all_task;
+    @BindView(R.id.layout_deliver_task)
+    LinearLayout layout_deliver_task;
+    @BindView(R.id.layout_verify_task)
+    LinearLayout layout_verify_task;
+    @BindView(R.id.layout_reward_task)
+    LinearLayout layout_reward_task;
+    @BindView(R.id.layout_failed_task)
+    LinearLayout layout_failed_task;
+    @BindView(R.id.layout_invite)
+    LinearLayout layout_invite;
+    @BindView(R.id.tv_apply_cash)
+    TextView tv_apply_cash;
+    @BindView(R.id.tv_follow)
+    TextView tv_follow;
+    @BindView(R.id.layout_contact)
+    LinearLayout layout_contact;
+    @BindView(R.id.layout_email)
+    LinearLayout layout_email;
+    @BindView(R.id.tv_setting)
+    TextView tv_setting;
+
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

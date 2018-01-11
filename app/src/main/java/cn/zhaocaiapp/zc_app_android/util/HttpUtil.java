@@ -50,8 +50,8 @@ public class HttpUtil {
                 .build();
 
         http = retrofit.create(BaseHttpService.class);
-        USER_TOKEN = SpUtils.get(Constants.SPREF.TOKEN, "").toString();
-        EBLog.i("HTTP", USER_TOKEN);
+        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        EBLog.v("HTTP", USER_TOKEN);
     }
 
 

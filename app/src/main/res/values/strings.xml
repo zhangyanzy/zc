@@ -2,7 +2,6 @@
     <string name="app_name">找财</string>
     <string name="action_settings">设置</string>
 
-
     <string name="skip_login">跳过登录</string>
     <string name="log_tip">一款做任务，赚钱的APP</string>
     <string name="input_phone_number">请输入手机号</string>
@@ -24,6 +23,9 @@
     <string name="input_edit_invite_code">请输入邀请码（选填）</string>
     <string name="agreement">我已阅读了《用户协议》</string>
     <string name="exit">退出登录</string>
+    <string name="balance">当前可提现金额</string>
+    <string name="input_cash">请输入提现金额</string>
+    <string name="withdraw_all">全部提现</string>
 
 
 </resources>

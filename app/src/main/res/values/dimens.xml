@@ -24,4 +24,8 @@
     <!--图片按钮padding-->
     <dimen name="padding_btn_img">10dp</dimen>
 
+    <!--内容距离屏幕边框-->
+    <dimen name="window_padding_15">15dp</dimen>
+    <dimen name="window_padding_30">30dp</dimen>
+
 </resources>

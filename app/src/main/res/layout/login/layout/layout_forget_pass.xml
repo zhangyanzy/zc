@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_gray"
     android:orientation="vertical">
 
     <include layout="@layout/layout_top_title" />
@@ -20,8 +19,8 @@
         android:gravity="center_vertical"
         android:hint="@string/input_phone_number"
         android:maxLines="1"
-        android:textColor="@color/text_black"
-        android:textColorHint="@color/text_light_gray"
+        android:textColor="@color/colorFont6"
+        android:textColorHint="@color/colorFont9"
         android:textSize="15sp" />
 
     <RelativeLayout
@@ -42,8 +41,8 @@
             android:gravity="center_vertical"
             android:hint="@string/input_identify_code"
             android:maxLines="1"
-            android:textColor="@color/text_black"
-            android:textColorHint="@color/text_light_gray"
+            android:textColor="@color/colorFont6"
+            android:textColorHint="@color/colorFont9"
             android:textSize="15sp" />
 
         <TextView
@@ -72,8 +71,8 @@
         android:gravity="center_vertical"
         android:hint="@string/input_new_pass"
         android:maxLines="1"
-        android:textColor="@color/text_black"
-        android:textColorHint="@color/text_light_gray"
+        android:textColor="@color/colorFont6"
+        android:textColorHint="@color/colorFont9"
         android:textSize="15sp" />
 
     <TextView
@@ -82,7 +81,7 @@
         android:layout_height="wrap_content"
         android:text="@string/reset_pass"
         android:textSize="18sp"
-        android:textColor="@color/text_light_gray"
+        android:textColor="@color/colorFont6"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/button_shape_white_round_button"
         android:layout_marginTop="30dp"/>

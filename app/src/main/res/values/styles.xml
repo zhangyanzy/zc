@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/dark_yellow</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
@@ -51,19 +51,19 @@
     <style name="horizontal_C9_line">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">2px</item>
-        <item name="android:background">#C9C9C9</item>
+        <item name="android:background">@color/colorLine</item>
     </style>
     <style name="horizontal_F0_line">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">2px</item>
-        <item name="android:background">#F0F0F0</item>
+        <item name="android:background">@color/colorLine</item>
     </style>
 
     <!--浅灰色divider-->
     <style name="C9_8dp_divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">8dp</item>
-        <item name="android:background">#F0F0F0</item>
+        <item name="android:background">@color/colorLine</item>
     </style>
 
 

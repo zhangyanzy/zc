@@ -35,22 +35,21 @@
                     android:id="@+id/tv_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/iv_user_photo"
                     android:layout_below="@id/iv_user_photo"
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/app_name"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/colorFont6"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tv_user_phone"
+                    android:id="@+id/tv_user_identify"
                     android:layout_width="60dp"
                     android:layout_height="20dp"
                     android:layout_below="@+id/tv_user_name"
                     android:layout_marginStart="8dp"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/colorFont6"
                     android:textSize="12sp"
                     android:text="未认证"
                     android:background="@drawable/button_shape_orange_round_bg"
@@ -65,7 +64,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_toEndOf="@+id/iv_user_photo"
                     android:text="0.00元"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/colorFont6"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
 
@@ -75,11 +74,11 @@
                     android:layout_alignLeft="@id/tv_user_blance"
                     android:layout_below="@+id/tv_user_blance"
                     android:text="账户余额"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/colorFont6"
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/tv_user_asset"
+                    android:id="@+id/tv_user_income"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/iv_user_photo"
@@ -87,17 +86,17 @@
                     android:layout_marginTop="15dp"
                     android:layout_toEndOf="@+id/tv_user_blance"
                     android:text="0.00元"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/colorFont6"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@id/tv_user_asset"
-                    android:layout_below="@id/tv_user_asset"
+                    android:layout_alignLeft="@id/tv_user_income"
+                    android:layout_below="@id/tv_user_income"
                     android:text="总收入"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/colorFont6"
                     android:textSize="12sp" />
 
                 <TextView
@@ -105,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignStart="@+id/tv_user_blance"
                     android:layout_alignParentBottom="true"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/colorFont6"
                     android:textSize="12sp"
                     android:text="未认证"
                     android:background="@drawable/button_shape_gray_round_bg"
@@ -116,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignStart="@+id/tv_user_blance"
                     android:layout_alignParentBottom="true"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/colorFont6"
                     android:textSize="12sp"
                     android:text="提现"
                     android:gravity="center_horizontal"
@@ -136,6 +135,7 @@
                 android:weightSum="5">
                 
                 <LinearLayout
+                    android:id="@+id/layout_all_task"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -151,7 +151,7 @@
                         android:id="@+id/tv_all_task"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/colorFont6"
                         android:textSize="14sp"
                         android:text="全部活动"
                         android:gravity="center"/>
@@ -159,6 +159,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_deliver_task"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -174,7 +175,7 @@
                         android:id="@+id/tv_deliver_task"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/colorFont6"
                         android:textSize="14sp"
                         android:text="待交付"
                         android:gravity="center" />
@@ -182,6 +183,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_verify_task"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -194,10 +196,10 @@
                         android:src="@mipmap/test_icon"/>
 
                     <TextView
-                        android:id="@+id/tv_task"
+                        android:id="@+id/tv_verify_task"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/colorFont6"
                         android:textSize="14sp"
                         android:text="待审核"
                         android:gravity="center" />
@@ -205,6 +207,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_reward_task"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -220,7 +223,7 @@
                         android:id="@+id/tv_reward_task"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/colorFont6"
                         android:textSize="14sp"
                         android:text="待领钱"
                         android:gravity="center" />
@@ -228,6 +231,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_failed_task"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -243,7 +247,7 @@
                         android:id="@+id/tv_failed_task"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/colorFont6"
                         android:textSize="14sp"
                         android:text="未通过"
                         android:gravity="center" />
@@ -254,13 +258,14 @@
             <View style="@style/C9_8dp_divider"/>
 
             <LinearLayout
-                android:id="@+id/layout_"
+                android:id="@+id/layout_invite"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="2dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="15dp">
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -268,18 +273,21 @@
                     android:drawableLeft="@mipmap/identity"
                     android:drawablePadding="10dp"
                     android:text="邀请好友"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/colorFont6"
                     android:textSize="14sp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="邀请好友立奖10元"
-                    android:textColor="@color/dark_yellow"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="14sp"
-                    android:layout_marginStart="10dp"/>
+                    android:layout_marginStart="10dp"
+                    android:drawableEnd="@mipmap/test_icon"/>
 
             </LinearLayout>
+
+            <View style="@style/horizontal_C9_line"/>
 
             <TextView
                 android:id="@+id/tv_apply_cash"
@@ -291,11 +299,13 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:text="管理提现账户"
-                android:textColor="@color/text_black"
+                android:textColor="@color/colorFont6"
                 android:textSize="14sp" />
 
+            <View style="@style/horizontal_C9_line"/>
+
             <TextView
-                android:id="@+id/tv_"
+                android:id="@+id/tv_follow"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="2dp"
@@ -304,8 +314,10 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:text="我的关注"
-                android:textColor="@color/text_black"
+                android:textColor="@color/colorFont6"
                 android:textSize="14sp" />
+
+            <View style="@style/horizontal_C9_line"/>
 
             <LinearLayout
                 android:id="@+id/layout_contact"
@@ -322,7 +334,7 @@
                     android:drawableLeft="@mipmap/group"
                     android:drawablePadding="10dp"
                     android:text="联系客服"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/colorFont6"
                     android:textSize="14sp" />
 
                 <TextView
@@ -330,14 +342,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:text="400-2342-555"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/colorFont6"
                     android:textSize="14sp"
                     android:layout_marginStart="150dp" />
             </LinearLayout>
 
+            <View style="@style/horizontal_C9_line"/>
 
             <LinearLayout
-                android:id="@+id/layout_invitation_code"
+                android:id="@+id/layout_email"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="2dp"
@@ -351,7 +364,7 @@
                     android:drawableLeft="@mipmap/group"
                     android:drawablePadding="10dp"
                     android:text="企业邮箱"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/colorFont6"
                     android:textSize="14sp" />
 
                 <TextView
@@ -360,10 +373,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:text="123fdf@zhaocaiapp.cn"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/colorFont6"
                     android:textSize="14sp"
                     android:layout_marginStart="100dp"/>
             </LinearLayout>
+
+            <View style="@style/horizontal_C9_line"/>
 
             <TextView
                 android:id="@+id/tv_setting"
@@ -375,7 +390,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:text="设置"
-                android:textColor="@color/text_black"
+                android:textColor="@color/colorFont6"
                 android:textSize="14sp" />
 
             <!--<TextView-->
@@ -443,7 +458,7 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:text="@string/exit"
-                android:textColor="@color/text_black"
+                android:textColor="@color/colorWhite"
                 android:textSize="16sp" />
         </LinearLayout>
     </cn.zhaocaiapp.zc_app_android.widget.ZoomInScrollView>

@@ -65,7 +65,7 @@ public class LoginActivity extends BaseActivity{
 
     @Override
     public int getContentViewResId() {
-        return R.layout.login_main;
+        return R.layout.layout_login_main;
     }
 
     @Override
