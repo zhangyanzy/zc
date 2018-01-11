@@ -97,6 +97,20 @@ public class MyFragment extends BaseFragment {
             case R.id.tv_exit:
                 doLoginOut();
                 break;
+
+            case R.id.tv_apply_cash: // 申请提现
+                openActivity(ApplyCashActivity.class);
+                break;
+            case R.id.layout_invite: // 邀请好友
+                openActivity(InviteActivity.class);
+                break;
+            case R.id.tv_follow:
+                openActivity(MyFollowAvtivity.class);
+                break;
+            case R.id.tv_setting:
+                openActivity(SettingActivity.class);
+                break;
+
         }
     }
 

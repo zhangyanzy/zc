@@ -14,27 +14,39 @@
             android:id="@+id/iv_balance_bg"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
             android:src="@mipmap/cash"
-            android:layout_centerHorizontal="true" />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_15"
-            android:text="0.00"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp" />
+            android:layout_marginTop="25dp"
+            android:text="100"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_18" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_balance"
+            android:layout_alignTop="@+id/tv_balance"
+            android:layout_toEndOf="@+id/tv_balance"
+            android:gravity="bottom"
+            android:text="元"
             android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_12"
-            android:text="@string/balance"
+            android:textSize="@dimen/font_size_12" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"/>
+            android:layout_marginTop="50dp"
+            android:text="@string/balance"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_12" />
 
     </RelativeLayout>
 
@@ -42,52 +54,53 @@
         android:id="@+id/edit_apply_cash"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_shape_white_edit_bg"
-        android:layout_marginTop="250dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:textColorHint="@color/colorFont9"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/edit_shape_no_border"
         android:hint="@string/input_cash"
-        android:textSize="@dimen/font_size_14"
-        android:textColor="@color/colorFont6"
         android:paddingRight="65dp"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:textColor="@color/colorFont6"
+        android:textColorHint="@color/colorFont9"
+        android:textSize="@dimen/font_size_14" />
 
-    <View style="@style/horizontal_C9_line"
-        android:layout_below="@+id/edit_apply_cash"
+    <View
+        style="@style/horizontal_C9_line"
+        android:layout_alignEnd="@+id/edit_apply_cash"
         android:layout_alignStart="@+id/edit_apply_cash"
-        android:layout_alignEnd="@+id/edit_apply_cash"/>
+        android:layout_below="@+id/edit_apply_cash" />
 
     <TextView
         android:id="@+id/tv_withdraw_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorFont6"
-        android:textSize="@dimen/font_size_14"
-        android:text="@string/withdraw_all"
-        android:layout_alignTop="@+id/edit_apply_cash"
         android:layout_alignBottom="@+id/edit_apply_cash"
+        android:layout_alignEnd="@+id/edit_apply_cash"
+        android:layout_alignTop="@+id/edit_apply_cash"
         android:gravity="center_vertical"
-        android:layout_alignEnd="@+id/edit_apply_cash" />
+        android:text="@string/withdraw_all"
+        android:textColor="@color/colorFont6"
+        android:textSize="@dimen/font_size_14" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorFont6"
-        android:textSize="@dimen/font_size_14"
-        android:text="提现金额20元起"
-        android:layout_below="@+id/edit_apply_cash"
         android:layout_alignStart="@+id/edit_apply_cash"
-        android:layout_marginTop="5dp"/>
+        android:layout_below="@+id/edit_apply_cash"
+        android:layout_marginTop="5dp"
+        android:text="提现金额20元起"
+        android:textColor="@color/colorFont6"
+        android:textSize="@dimen/font_size_14" />
 
     <TextView
         android:id="@+id/tv_submit"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        android:background="@drawable/button_shape_orange_round_bg"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/button_shape_orange_round_bg"
         android:gravity="center"
         android:text="提交"
         android:textColor="@color/colorWhite"

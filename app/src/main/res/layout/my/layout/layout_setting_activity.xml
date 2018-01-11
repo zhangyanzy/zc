@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_top_title"/>
+
+    <View style="@style/C9_8dp_divider"/>
+
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorFont6"
+        android:textSize="@dimen/font_size_14"
+        android:text="版本号"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="25dp"/>
+
+    <View style="@style/horizontal_C9_line"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+
+    <TextView
+        android:id="@+id/tv_clear_cache"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorFont6"
+        android:textSize="@dimen/font_size_14"
+        android:text="清除缓存"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="25dp"/>
+
+    <View style="@style/horizontal_C9_line"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+
+    <TextView
+        android:id="@+id/tv_about_us"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorFont6"
+        android:textSize="@dimen/font_size_14"
+        android:text="关于我们"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="25dp"/>
+
+    <View style="@style/horizontal_C9_line"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+
+
+</LinearLayout>

@@ -47,6 +47,18 @@
         <activity
             android:name=".views.login.RegisterActivity"
             android:screenOrientation="portrait" />
+        <!--申请提现-->
+        <activity android:name=".views.my.ApplyCashActivity"
+            android:screenOrientation="portrait"/>
+        <!--邀请好友-->
+        <activity android:name=".views.my.InviteActivity"
+            android:screenOrientation="portrait"/>
+        <!--我的关注-->
+        <activity android:name=".views.my.MyFollowAvtivity"
+            android:screenOrientation="portrait"/>
+        <!--设置-->
+        <activity android:name=".views.my.SettingActivity"
+            android:screenOrientation="portrait"/>
 
 
         <!--注册友盟sdk需要的activity-->

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_top_title"/>
+
+    <View style="@style/C9_8dp_divider"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_18"
+            android:text="邀请码"
+            android:layout_marginTop="14dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorFont6"
+                android:textSize="@dimen/font_size_14"
+                android:text="234FKR"
+                android:layout_marginTop="30dp"/>
+
+            <TextView
+                android:id="@+id/tv_copy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorFont6"
+                android:textSize="@dimen/font_size_14"
+                android:text="复制邀请码"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="30dp"/>
+
+        </LinearLayout>
+        
+        <ImageView
+            android:layout_width="260dp"
+            android:layout_height="170dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/edit_shape_border"/>
+
+    </LinearLayout>
+
+</LinearLayout>
