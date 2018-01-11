@@ -5,6 +5,15 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
@@ -27,6 +36,22 @@ public class ZcApplication extends Application {
         PlatformConfig.setWeixin("18c4c38288be5935ce1a5b4455f125bd", "18c4c38288be5935ce1a5b4455f125bd");
         PlatformConfig.setQQZone("1106660590", "mh54ewnGH5QCRwPN");
         PlatformConfig.setSinaWeibo("2998825649", "9251f8e40b6ab489d56dbfd18f545297", "https://api.weibo.com/oauth2/default.html");
+        //设置全局的Header构建器
+        SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater() {
+            @Override
+            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
+                layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);//全局设置主题颜色
+                return new ClassicsHeader(context).setSpinnerStyle(SpinnerStyle.Translate);//指定为经典Header，默认是 贝塞尔雷达Header
+            }
+        });
+        //设置全局的Footer构建器
+        SmartRefreshLayout.setDefaultRefreshFooterCreater(new DefaultRefreshFooterCreater() {
+            @Override
+            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
+                //指定为经典Footer，默认是 BallPulseFooter
+                return new ClassicsFooter(context).setSpinnerStyle(SpinnerStyle.Translate);
+            }
+        });
     }
 
     //app 实例
@@ -67,8 +92,7 @@ public class ZcApplication extends Application {
      *
      * @param activity
      */
-    public void addActivity(Activity activity)
-    {
+    public void addActivity(Activity activity) {
         activitys.add(activity);
     }
 
@@ -77,10 +101,8 @@ public class ZcApplication extends Application {
      *
      * @param activity
      */
-    public void deleteActivity(Activity activity)
-    {
-        if (activity != null)
-        {
+    public void deleteActivity(Activity activity) {
+        if (activity != null) {
             activitys.remove(activity);
             activity.finish();
             activity = null;
@@ -89,11 +111,9 @@ public class ZcApplication extends Application {
 
     /**
      * 退出程序 清理内存
-     *
      */
     @Override
-    public void onTerminate()
-    {
+    public void onTerminate() {
         super.onTerminate();
     }
 
