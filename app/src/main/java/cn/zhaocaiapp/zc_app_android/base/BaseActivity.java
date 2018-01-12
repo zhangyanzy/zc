@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.base;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -40,18 +41,23 @@ public abstract class BaseActivity extends AppCompatActivity {
     public abstract void init(Bundle savedInstanceState);
 
 
-    //验证手机号和密码是否符合规则
-    protected boolean judgPhoneAndPass(String phone, String pass) {
+    //验证手机号是否符合规则
+    protected boolean judgePhone(String phone) {
         if (GeneralUtils.isNullOrZeroLenght(phone)) {
             ToastUtil.makeText(this, getString(R.string.phone_not_empty));
             return false;
         }
-        if (GeneralUtils.isNullOrZeroLenght(pass)) {
-            ToastUtil.makeText(this, getString(R.string.pass_not_empty));
-            return false;
-        }
         if (!GeneralUtils.isTel(phone)) {
             ToastUtil.makeText(this, getString(R.string.isNot_phone));
+            return false;
+        }
+        return true;
+    }
+
+    //验证密码是否符合规则
+    protected boolean judgePass(String pass) {
+        if (GeneralUtils.isNullOrZeroLenght(pass)) {
+            ToastUtil.makeText(this, getString(R.string.pass_not_empty));
             return false;
         }
         if (!GeneralUtils.IsPassword(pass)) {
@@ -82,6 +88,17 @@ public abstract class BaseActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void openActivity(Class<?> mClass) {
+        Intent intent = new Intent(this, mClass);
+        startActivity(intent);
+    }
+
+    public void openActivity(Class<?> mClass, Bundle bundle) {
+        Intent intent = new Intent(this, mClass);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     protected void waitTimer(TextView identify_code) {

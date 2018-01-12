@@ -13,7 +13,7 @@
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"
         android:layout_marginTop="50dp"
-        android:background="@drawable/edit_shape_border"
+        android:background="@drawable/edit_shape_no_border"
         android:drawableLeft="@mipmap/old_pass"
         android:drawablePadding="20dp"
         android:gravity="center_vertical"
@@ -21,7 +21,11 @@
         android:maxLines="1"
         android:textColor="@color/colorFont6"
         android:textColorHint="@color/colorFont9"
-        android:textSize="15sp" />
+        android:textSize="@dimen/font_size_14" />
+
+    <View style="@style/horizontal_C9_line"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -34,8 +38,8 @@
             android:id="@+id/edit_identify_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="80dp"
-            android:background="@drawable/edit_shape_border"
+            android:paddingRight="80dp"
+            android:background="@drawable/edit_shape_no_border"
             android:drawableLeft="@mipmap/identify_code"
             android:drawablePadding="20dp"
             android:gravity="center_vertical"
@@ -43,19 +47,21 @@
             android:maxLines="1"
             android:textColor="@color/colorFont6"
             android:textColorHint="@color/colorFont9"
-            android:textSize="15sp" />
+            android:textSize="@dimen/font_size_14" />
 
         <TextView
             android:id="@+id/tv_get_idntify_code"
-            android:layout_width="80dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_alignBottom="@+id/edit_identify_code"
             android:background="@drawable/button_shape_orange_bg"
             android:text="@string/get_identify_code"
             android:textColor="@color/colorGround"
-            android:textSize="15sp"
-            android:gravity="center"/>
+            android:textSize="@dimen/font_size_14"
+            android:gravity="center" />
+
+        <View style="@style/horizontal_C9_line"
+           android:layout_below="@+id/edit_identify_code"/>
     </RelativeLayout>
 
     <EditText
@@ -65,7 +71,7 @@
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/edit_shape_border"
+        android:background="@drawable/edit_shape_no_border"
         android:drawableLeft="@mipmap/pass"
         android:drawablePadding="20dp"
         android:gravity="center_vertical"
@@ -73,16 +79,21 @@
         android:maxLines="1"
         android:textColor="@color/colorFont6"
         android:textColorHint="@color/colorFont9"
-        android:textSize="15sp" />
+        android:textSize="@dimen/font_size_14" />
+
+    <View style="@style/horizontal_C9_line"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"/>
 
     <TextView
         android:id="@+id/tv_reset_pass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/reset_pass"
-        android:textSize="18sp"
-        android:textColor="@color/colorFont6"
+        android:layout_width="225dp"
+        android:layout_height="40dp"
+        android:text="提交"
+        android:textSize="@dimen/font_size_18"
+        android:textColor="@color/colorWhite"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/button_shape_white_round_button"
-        android:layout_marginTop="30dp"/>
+        android:background="@drawable/button_shape_orange_round_bg"
+        android:layout_marginTop="30dp"
+        android:gravity="center"/>
 </LinearLayout>

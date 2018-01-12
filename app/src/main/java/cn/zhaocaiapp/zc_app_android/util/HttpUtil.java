@@ -28,7 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HttpUtil {
 
-    private static String USER_TOKEN = "523710acbcb15683f157e1aed39294cd";
+    private static String USER_TOKEN;
 
     private final static BaseHttpService http;
 
@@ -51,7 +51,7 @@ public class HttpUtil {
 
         http = retrofit.create(BaseHttpService.class);
         USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
-        EBLog.v("HTTP", USER_TOKEN);
+        EBLog.i("HTTP_TOKEN", USER_TOKEN);
     }
 
 
@@ -83,7 +83,7 @@ public class HttpUtil {
      * @return
      */
     public static Observable get(String url, Map params) {
-        if (GeneralUtils.isNotNullOrZeroLenght(USER_TOKEN)) {
+        if (GeneralUtils.isNullOrZeroLenght(USER_TOKEN)) {
             return http.get(url, params)
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
@@ -103,7 +103,7 @@ public class HttpUtil {
      * @return
      */
     public static Observable post(String url) {
-        if (GeneralUtils.isNotNullOrZeroLenght(USER_TOKEN)) {
+        if (GeneralUtils.isNullOrZeroLenght(USER_TOKEN)) {
             return http.post(url)
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
@@ -124,7 +124,7 @@ public class HttpUtil {
      * @return
      */
     public static Observable post(String url, Map params) {
-        if (GeneralUtils.isNotNullOrZeroLenght(USER_TOKEN)) {
+        if (GeneralUtils.isNullOrZeroLenght(USER_TOKEN)) {
             return http.post(url, params)
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())

@@ -8,11 +8,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
+import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
@@ -67,15 +73,13 @@ public class ForgetPassActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_get_idntify_code:
-                if (GeneralUtils.isNullOrZeroLenght(phone)) {
-                    ToastUtil.makeText(ForgetPassActivity.this, getString(R.string.phone_not_empty));
-                } else {
-                    waitTimer();
+                if (judgePhone(phone)) {
+                    waitTimer(get_idntify_code);
                     getIdentifyCode(phone);
                 }
                 break;
             case R.id.tv_reset_pass:
-                if (judgPhoneAndPass(phone, pass)){
+                if (judgePhone(phone) && judgePass(pass)){
                     if (GeneralUtils.isNullOrZeroLenght(identift_code))
                         ToastUtil.makeText(ForgetPassActivity.this, getString(R.string.input_identify_code));
                     else doResetPass(identift_code, pass);
@@ -92,6 +96,15 @@ public class ForgetPassActivity extends BaseActivity {
 
     //获取验证码
     private void getIdentifyCode(String phone) {
+        Map<String, String> params = new HashMap<>();
+        params.put("phone", phone);
+        HttpUtil.post(Constants.URL.GET_IDENTIFY_CODE, params).subscribe(new BaseResponseObserver<String>() {
+
+            @Override
+            public void success(String result) {
+                ToastUtil.makeText(ForgetPassActivity.this, "获取验证码成功");
+            }
+        });
 
     }
 
@@ -100,25 +113,4 @@ public class ForgetPassActivity extends BaseActivity {
 
     }
 
-    private void waitTimer() {
-        get_idntify_code.setBackgroundResource(R.drawable.button_shape_gray_bg);
-        get_idntify_code.setEnabled(false);
-        timer.start();
-    }
-
-    private CountDownTimer timer = new CountDownTimer(61000, 1000) {
-        @Override
-        public void onTick(long millisUntilFinished) {
-            long delayTime = millisUntilFinished / 1000;
-            get_idntify_code.setText(String.format(getString(R.string.delay_time), delayTime));
-        }
-
-        @Override
-        public void onFinish() {
-            get_idntify_code.setBackgroundResource(R.drawable.button_shape_orange_bg);
-            get_idntify_code.setText(getString(R.string.get_identify_code));
-            get_idntify_code.setEnabled(true);
-            cancel();
-        }
-    };
 }

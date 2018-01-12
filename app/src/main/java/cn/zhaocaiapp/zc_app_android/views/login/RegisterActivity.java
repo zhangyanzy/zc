@@ -9,11 +9,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
+import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
@@ -78,15 +84,13 @@ public class RegisterActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.send_identify_code:
-                if (GeneralUtils.isNullOrZeroLenght(phone)) {
-                    ToastUtil.makeText(RegisterActivity.this, getString(R.string.phone_not_empty));
-                } else {
+                if (judgePhone(phone)) {
                     waitTimer(send_identify_code);
                     requestIdentifyCode();
                 }
                 break;
             case R.id.tv_register:
-                if (judgPhoneAndPass(phone, pass)){
+                if (judgePhone(phone) && judgePass(pass)){
                     if (GeneralUtils.isNullOrZeroLenght(identift_code))
                         ToastUtil.makeText(RegisterActivity.this, getString(R.string.input_identify_code));
                     else doRegister();
@@ -95,10 +99,21 @@ public class RegisterActivity extends BaseActivity {
         }
     }
 
+    //获取验证码
     private void requestIdentifyCode() {
+        Map<String, String> params = new HashMap<>();
+        params.put("phone", "13764162650");
+        HttpUtil.post(Constants.URL.GET_IDENTIFY_CODE, params).subscribe(new BaseResponseObserver<String>() {
+
+            @Override
+            public void success(String result) {
+                ToastUtil.makeText(RegisterActivity.this, "获取验证码成功");
+            }
+        });
 
     }
 
+    //请求注册账号
     private void doRegister(){}
 
 

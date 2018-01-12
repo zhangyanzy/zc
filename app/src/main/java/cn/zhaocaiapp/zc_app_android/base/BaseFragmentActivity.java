@@ -170,5 +170,10 @@ public class BaseFragmentActivity extends FragmentActivity {
         startActivity(intent);
     }
 
+    public void openActivity(Class<?> cls, Bundle bundle) {
+        Intent intent = new Intent(this, cls);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
 
 }

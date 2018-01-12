@@ -83,14 +83,10 @@ public abstract class BaseResponseObserver<T> implements Observer<JsonObject> {
         }
     }
 
-    ;
-
     public abstract void success(T result);
 
     public void error(Response<T> response) {
     }
-
-    ;
 
     @Override
     public void onError(Throwable e) {

@@ -53,8 +53,12 @@ public interface Constants {
         String USER_LOGIN = "user/login";
         /**
          * 用户注销登录
-         * */
+         */
         String USER_LOGIN_OUT = "user/logout";
+        /**
+         * 获取验证码
+         * */
+        String GET_IDENTIFY_CODE = "register/obtaincode";
     }
 
     interface SPREF {
@@ -74,6 +78,10 @@ public interface Constants {
         String GENDER = "gender";                   //性别
         String AGE = "age";                         //年龄
         String TOKEN = "token";
+
+        int TYPE_WECHAT = 1;   //微信登录
+        int TYPE_QQ = 2;       //qq登陆
+        int TYPE_SINA = 3;     //新浪微博登录
     }
 
 }

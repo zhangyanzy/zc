@@ -115,9 +115,13 @@ public class MyFragment extends BaseFragment {
     }
 
     private void doLoginOut(){
-        HttpUtil.post(Constants.URL.USER_LOGIN_OUT).subscribe(new BaseResponseObserver<String>() {
+        Map<String, String>params = new HashMap<>();
+        params.put("token", (String) SpUtils.get(Constants.SPREF.TOKEN, ""));
+        HttpUtil.post(Constants.URL.USER_LOGIN_OUT, params).subscribe(new BaseResponseObserver<String>() {
             @Override
             public void success(String result) {
+                SpUtils.clear();
+                openActivity(LoginActivity.class);
                 EBLog.i(this.getClass().getName(), result);
             }
         });

@@ -7,14 +7,15 @@
 
     <TextView
         android:id="@+id/tv_skip_login"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
-        android:background="@drawable/button_shape_gray_round_bg"
+        android:background="@drawable/button_shape_gray_round"
         android:text="@string/skip_login"
-        android:textColor="@color/colorFont9"
-        android:textSize="12sp" />
+        android:textColor="@color/colorFont6"
+        android:textSize="@dimen/font_size_12"
+        android:gravity="center"/>
 
     <ImageView
         android:id="@+id/iv_app_logo"
@@ -23,7 +24,7 @@
         android:layout_below="@+id/tv_skip_login"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:src="@mipmap/launcher" />
+        android:src="@mipmap/ic_launcher_round" />
 
     <TextView
         android:id="@+id/login_logo_tip"
@@ -34,7 +35,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/log_tip"
         android:textColor="@color/colorPrimary"
-        android:textSize="14sp" />
+        android:textSize="@dimen/font_size_14" />
 
     <EditText
         android:id="@+id/edit_phone_number"
@@ -44,7 +45,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:layout_marginTop="30dp"
-        android:background="@drawable/edit_shape_border"
+        android:background="@drawable/edit_shape_no_border"
         android:drawableLeft="@mipmap/phone"
         android:drawablePadding="15dp"
         android:gravity="center_vertical"
@@ -53,7 +54,12 @@
         android:maxLines="1"
         android:textColor="@color/colorFont6"
         android:textColorHint="@color/colorFont9"
-        android:textSize="14sp" />
+        android:textSize="@dimen/font_size_14" />
+
+    <View style="@style/horizontal_C9_line"
+        android:layout_below="@+id/edit_phone_number"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"/>
 
     <EditText
         android:id="@+id/edit_pass_word"
@@ -63,7 +69,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/edit_shape_border"
+        android:background="@drawable/edit_shape_no_border"
         android:drawableLeft="@mipmap/pass"
         android:drawablePadding="15dp"
         android:gravity="center_vertical"
@@ -72,7 +78,12 @@
         android:maxLines="1"
         android:textColor="@color/colorFont6"
         android:textColorHint="@color/colorFont9"
-        android:textSize="14sp" />
+        android:textSize="@dimen/font_size_14" />
+
+    <View style="@style/horizontal_C9_line"
+        android:layout_below="@+id/edit_pass_word"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -83,7 +94,7 @@
         android:gravity="left"
         android:text="@string/pass_length"
         android:textColor="@color/colorRemind"
-        android:textSize="12sp" />
+        android:textSize="@dimen/font_size_12" />
 
     <TextView
         android:id="@+id/tv_forget_pass"
@@ -95,7 +106,7 @@
         android:autoLink="web"
         android:text="@string/forget_pass_word"
         android:textColor="@color/colorWarning"
-        android:textSize="14sp" />
+        android:textSize="@dimen/font_size_13" />
 
     <TextView
         android:id="@+id/tv_register"
@@ -107,7 +118,7 @@
         android:layout_marginTop="30dp"
         android:text="@string/button_register"
         android:textColor="@color/colorWarning"
-        android:textSize="14sp" />
+        android:textSize="@dimen/font_size_13" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -116,19 +127,20 @@
         android:layout_toStartOf="@+id/tv_register"
         android:text="还没有账号？去"
         android:textColor="@color/colorFont6"
-        android:textSize="14sp" />
+        android:textSize="@dimen/font_size_13" />
 
     <TextView
         android:id="@+id/tv_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="225dp"
+        android:layout_height="40dp"
         android:layout_below="@+id/tv_register"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:background="@drawable/button_shape_white_round_button"
+        android:background="@drawable/button_shape_orange_round_bg"
         android:text="@string/button_login"
-        android:textColor="@color/colorFont9"
-        android:textSize="18sp" />
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/font_size_18"
+        android:gravity="center"/>
 
     <LinearLayout
         android:id="@+id/layout_other_login"
@@ -143,8 +155,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/other_login_mode"
-            android:textColor="@color/colorFont9"
-            android:textSize="12sp" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/font_size_12" />
 
         <View
             style="@style/horizontal_C9_line"

@@ -38,7 +38,7 @@ import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
  * @filename LoginActivity.java
  * @data 2018-01-05 17:52
  */
-public class LoginActivity extends BaseActivity{
+public class LoginActivity extends BaseActivity {
     @BindView(R.id.iv_app_logo)
     ImageView iv_log;
     @BindView(R.id.tv_skip_login)
@@ -62,6 +62,8 @@ public class LoginActivity extends BaseActivity{
 
     private String phone;
     private LoginResp loginResp;
+    private int type = 0;
+    private String uid = "";
 
     @Override
     public int getContentViewResId() {
@@ -91,10 +93,9 @@ public class LoginActivity extends BaseActivity{
                 openActivity(ForgetPassActivity.class);
                 break;
             case R.id.tv_login:
-                //手机号和密码通过正则验证
-                if (judgPhoneAndPass(phone, pass)) {
+                //验证手机号和密码
+                if (judgePhone(phone) && judgePass(pass))
                     doLogin(phone, pass);
-                }
                 break;
             case R.id.login_wechat:
                 getAuth(SHARE_MEDIA.WEIXIN);
@@ -111,10 +112,10 @@ public class LoginActivity extends BaseActivity{
     //发送登录请求
     private void doLogin(String phone, String pass) {
         Map<String, String> params = new HashMap<>();
-        params.put("type", "0");
+        params.put("type", type + "");
         params.put("account", "18888888888");
         params.put("password", "123456");
-        //params.put("uid", "");
+        params.put("uid", uid);
 
         HttpUtil.post(Constants.URL.USER_LOGIN, params).subscribe(new BaseResponseObserver<LoginResp>() {
 
@@ -122,13 +123,16 @@ public class LoginActivity extends BaseActivity{
             public void success(LoginResp result) {
                 loginResp = result;
                 saveUserData();
+                openActivity(MainActivity.class);
+
                 EBLog.i(LoginActivity.this.getClass().getName(), result.toString());
             }
+
         });
     }
 
     //保存用户数据
-    private void saveUserData(){
+    private void saveUserData() {
         SpUtils.put(Constants.SPREF.TOKEN, "");
     }
 
@@ -142,8 +146,10 @@ public class LoginActivity extends BaseActivity{
 
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-                ToastUtil.makeText(LoginActivity.this, "授权成功");
+                uid = map.get("uid");
+                turnToBindPhone(share_media);
                 Log.i("UMENG", map.toString());
+                ToastUtil.makeText(LoginActivity.this, "授权成功");
             }
 
             @Override
@@ -156,6 +162,22 @@ public class LoginActivity extends BaseActivity{
 
             }
         });
+    }
+
+    //跳转绑定手机页面
+    private void turnToBindPhone(SHARE_MEDIA share_media) {
+        Bundle bundle = new Bundle();
+        if (share_media == SHARE_MEDIA.WEIXIN) {
+            type = 1;
+            bundle.putInt(Constants.SPREF.LOGIN_MODE, Constants.SPREF.TYPE_WECHAT);
+        } else if (share_media == SHARE_MEDIA.QQ) {
+            type = 2;
+            bundle.putInt(Constants.SPREF.LOGIN_MODE, Constants.SPREF.TYPE_QQ);
+        } else if (share_media == SHARE_MEDIA.SINA) {
+            type = 3;
+            bundle.putInt(Constants.SPREF.LOGIN_MODE, Constants.SPREF.TYPE_SINA);
+        }
+        openActivity(BindPhoneActivity.class, bundle);
     }
 
     @Override
@@ -174,11 +196,6 @@ public class LoginActivity extends BaseActivity{
     public boolean onTouchEvent(MotionEvent event) {
         KeyBoardUtils.closeKeybord(iv_log, this);
         return super.onTouchEvent(event);
-    }
-
-    private void openActivity(Class<?> mClass) {
-        Intent intent = new Intent(this, mClass);
-        startActivity(intent);
     }
 
     @Override
