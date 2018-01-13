@@ -57,8 +57,13 @@ public interface Constants {
         String USER_LOGIN_OUT = "user/logout";
         /**
          * 获取验证码
-         * */
+         */
         String GET_IDENTIFY_CODE = "register/obtaincode";
+        /**
+         * 商家列表
+         */
+        String GET_MEMBER_QUERY = "member/query";
+
     }
 
     interface SPREF {

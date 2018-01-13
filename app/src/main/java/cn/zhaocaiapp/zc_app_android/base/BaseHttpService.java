@@ -58,7 +58,7 @@ public interface BaseHttpService {
      */
     @Headers({"Content-Type: application/json", "Accept: application/json", "x-requested-with:XMLHttpRequest"})
     @GET
-    Observable<JsonObject> get(@Url String url, @QueryMap Map params);
+    Observable<JsonObject> get(@Url String url, @QueryMap Map<String,String> params);
 
     /**
      * get请求
@@ -70,7 +70,7 @@ public interface BaseHttpService {
      */
     @Headers({"Content-Type: application/json", "Accept: application/json", "x-requested-with:XMLHttpRequest"})
     @GET
-    Observable<JsonObject> get(@Url String url, @Query("token") String token, @QueryMap Map params);
+    Observable<JsonObject> get(@Url String url, @Query("token") String token, @QueryMap Map<String,String> params);
 
     /**
      * post请求
