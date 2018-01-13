@@ -27,6 +27,8 @@
     <string name="input_cash">请输入提现金额</string>
     <string name="withdraw_all">全部提现</string>
     <string name="auth_success">授权成功， 请绑定手机号</string>
+    <string name="search_member">搜索所有商家</string>
+
 
 
 </resources>

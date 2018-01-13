@@ -17,6 +17,8 @@
 
     <!--头部导航高度-->
     <dimen name="height_nav">50dp</dimen>
+    <!--头部搜索框高度-->
+    <dimen name="height_search">30dp</dimen>
 
     <!--图片按钮宽度-->
     <dimen name="width_btn_img">45dp</dimen>
