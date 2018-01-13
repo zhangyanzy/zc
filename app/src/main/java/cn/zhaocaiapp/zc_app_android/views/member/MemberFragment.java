@@ -3,6 +3,7 @@ package cn.zhaocaiapp.zc_app_android.views.member;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -46,7 +47,8 @@ public class MemberFragment extends BaseFragment {
     @BindView(R.id.member_recycler_view)
     RecyclerView member_recycler_view;
 
-    private List<MemberResp> memberRespList; //商家数据
+    private List<MemberResp> memberRespList = new ArrayList<>(); //商家数据
+    private MemberAdapter memberAdapter;
 
     @Nullable
     @Override
@@ -70,8 +72,8 @@ public class MemberFragment extends BaseFragment {
                 params.setGravity(Gravity.LEFT);
                 member_grid.addView(btn, params);
             }*/
-        initView();
         initData();
+        initView();
         refresh();
 
     }
@@ -96,6 +98,9 @@ public class MemberFragment extends BaseFragment {
 
     //初始化视图
     private void initView() {
+        memberAdapter = new MemberAdapter(getActivity(), memberRespList);
+        member_recycler_view.setAdapter(memberAdapter);
+        member_recycler_view.setLayoutManager(new GridLayoutManager(getActivity(), 5));
 
     }
 
@@ -107,7 +112,7 @@ public class MemberFragment extends BaseFragment {
         HttpUtil.get(Constants.URL.GET_MEMBER_QUERY, params).subscribe(new BaseResponseObserver<List<MemberResp>>() {
             @Override
             public void success(List<MemberResp> result) {
-                memberRespList = result;
+                memberAdapter.updata(result);
                 EBLog.i("tag", result.toString());
             }
 
