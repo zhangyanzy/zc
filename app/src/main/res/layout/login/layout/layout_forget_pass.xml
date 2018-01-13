@@ -93,7 +93,7 @@
         android:textSize="@dimen/font_size_18"
         android:textColor="@color/colorWhite"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/button_shape_orange_round_bg"
+        android:background="@drawable/button_shape_orange_round"
         android:layout_marginTop="30dp"
         android:gravity="center"/>
 </LinearLayout>

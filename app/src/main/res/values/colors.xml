@@ -4,7 +4,7 @@
     <!--主题色-->
     <color name="colorPrimary">#dc9935</color>
     <!--主题色 辅色-->
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#dac98622</color>
     <!--文字标题-->
     <color name="colorFont3">#3e3e3e</color>
     <!--文字正文-->

@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import org.w3c.dom.Text;
 
 import java.util.HashMap;
@@ -19,6 +21,7 @@ import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
@@ -92,7 +95,7 @@ public class MyFragment extends BaseFragment {
     public void onClick(View view){
         switch (view.getId()){
             case R.id.iv_user_photo:
-
+                openActivity(UserInfoActivity.class);
                 break;
             case R.id.tv_exit:
                 doLoginOut();
@@ -110,7 +113,6 @@ public class MyFragment extends BaseFragment {
             case R.id.tv_setting:
                 openActivity(SettingActivity.class);
                 break;
-
         }
     }
 
@@ -122,7 +124,12 @@ public class MyFragment extends BaseFragment {
             public void success(String result) {
                 SpUtils.clear();
                 openActivity(LoginActivity.class);
-                EBLog.i(this.getClass().getName(), result);
+                EBLog.i("HTTP", result);
+            }
+
+            @Override
+            public void error(Response<String> response) {
+
             }
         });
     }

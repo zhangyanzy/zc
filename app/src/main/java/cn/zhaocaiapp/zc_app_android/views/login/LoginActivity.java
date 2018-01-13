@@ -22,6 +22,7 @@ import cn.zhaocaiapp.zc_app_android.MainActivity;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.LoginResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
@@ -61,6 +62,7 @@ public class LoginActivity extends BaseActivity {
     CircleImageView login_sina;
 
     private String phone;
+    private String pass;
     private LoginResp loginResp;
     private int type = 0;
     private String uid = "";
@@ -80,7 +82,7 @@ public class LoginActivity extends BaseActivity {
             R.id.login_wechat, R.id.login_qq, R.id.login_sina})
     public void onClick(View view) {
         phone = edit_phone_number.getText().toString();
-        String pass = edit_pass_word.getText().toString();
+        pass = edit_pass_word.getText().toString();
         switch (view.getId()) {
             case R.id.tv_skip_login:
                 openActivity(MainActivity.class);
@@ -112,10 +114,13 @@ public class LoginActivity extends BaseActivity {
     //发送登录请求
     private void doLogin(String phone, String pass) {
         Map<String, String> params = new HashMap<>();
+        if (type == 0){
+            params.put("account", "18888888888");
+            params.put("password", "123456");
+        }else {
+            params.put("uid", uid);
+        }
         params.put("type", type + "");
-        params.put("account", "18888888888");
-        params.put("password", "123456");
-        params.put("uid", uid);
 
         HttpUtil.post(Constants.URL.USER_LOGIN, params).subscribe(new BaseResponseObserver<LoginResp>() {
 
@@ -125,9 +130,13 @@ public class LoginActivity extends BaseActivity {
                 saveUserData();
                 openActivity(MainActivity.class);
 
-                EBLog.i(LoginActivity.this.getClass().getName(), result.toString());
+                EBLog.i("HTTP", result.toString());
             }
 
+            @Override
+            public void error(Response<LoginResp> response) {
+                EBLog.i("HTTP", response.getCode().toString());
+            }
         });
     }
 
@@ -148,7 +157,8 @@ public class LoginActivity extends BaseActivity {
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                 uid = map.get("uid");
                 turnToBindPhone(share_media);
-                Log.i("UMENG", map.toString());
+                doLogin(phone, pass);
+                Log.i("UMENG", map.get("uid"));
                 ToastUtil.makeText(LoginActivity.this, "授权成功");
             }
 
@@ -177,7 +187,7 @@ public class LoginActivity extends BaseActivity {
             type = 3;
             bundle.putInt(Constants.SPREF.LOGIN_MODE, Constants.SPREF.TYPE_SINA);
         }
-        openActivity(BindPhoneActivity.class, bundle);
+//        openActivity(BindPhoneActivity.class, bundle);
     }
 
     @Override

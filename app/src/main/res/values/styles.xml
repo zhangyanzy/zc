@@ -67,10 +67,12 @@
     </style>
 
 
-    <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
-        <item name="tabBackground">@drawable/tab_background</item>
-        <item name="tabIndicatorColor">@color/colorBgDark</item>
-        <item name="tabIndicatorHeight">2dp</item>
+    <style name="MyTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/colorPrimary</item>
+        <item name="tabIndicatorHeight">2px</item>
+        <item name="tabSelectedTextColor">@color/colorPrimary</item>
+        <item name="tabTextColor">@color/colorFont6</item>
+        <item name="tabGravity">center</item>
     </style>
 
      <!--MainActivity底部button-->

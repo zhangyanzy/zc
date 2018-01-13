@@ -64,6 +64,10 @@ public interface Constants {
          */
         String GET_MEMBER_QUERY = "member/query";
 
+        /**
+         * 校验手机号是否存在
+         * */
+        String IS_PHONE_EXIST = "register/check/phone/exist";
     }
 
     interface SPREF {

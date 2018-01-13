@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -99,9 +100,10 @@ public class MemberFragment extends BaseFragment {
 
     //初始化视图
     private void initView() {
+        member_recycler_view.setLayoutManager(new GridLayoutManager(getActivity(),5));
+
         memberAdapter = new MemberAdapter(getActivity(), memberRespList);
         member_recycler_view.setAdapter(memberAdapter);
-        member_recycler_view.setLayoutManager(new GridLayoutManager(getActivity(), 5));
 
     }
 
@@ -115,6 +117,11 @@ public class MemberFragment extends BaseFragment {
             public void success(List<MemberResp> result) {
                 memberAdapter.updata(result);
                 EBLog.i("tag", result.toString());
+            }
+
+            @Override
+            public void error(Response<List<MemberResp>> response) {
+
             }
 
         });

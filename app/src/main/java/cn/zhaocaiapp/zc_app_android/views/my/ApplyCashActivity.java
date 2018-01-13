@@ -1,19 +1,13 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
@@ -42,7 +36,7 @@ public class ApplyCashActivity extends BaseActivity {
 
     @Override
     public int getContentViewResId() {
-        return R.layout.layout_apply_cash;
+        return R.layout.layout_applycash_activity;
     }
 
     @Override

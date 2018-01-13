@@ -62,6 +62,9 @@
         <!--绑定手机号-->
         <activity android:name=".views.login.BindPhoneActivity"
             android:screenOrientation="portrait"/>
+        <!--用户资料-->
+        <activity android:name=".views.my.UserInfoActivity"
+            android:screenOrientation="portrait"/>
 
 
         <!--注册友盟sdk需要的activity-->

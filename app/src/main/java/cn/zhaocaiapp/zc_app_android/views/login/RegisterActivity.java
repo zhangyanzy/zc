@@ -17,6 +17,7 @@ import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
@@ -108,6 +109,11 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void success(String result) {
                 ToastUtil.makeText(RegisterActivity.this, "获取验证码成功");
+            }
+
+            @Override
+            public void error(Response<String> response) {
+
             }
         });
 

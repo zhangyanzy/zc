@@ -30,7 +30,7 @@ public class MyFollowAvtivity extends BaseActivity {
 
     @Override
     public int getContentViewResId() {
-        return R.layout.layout_my_follow;
+        return R.layout.layout_follow_activity;
     }
 
     @Override
