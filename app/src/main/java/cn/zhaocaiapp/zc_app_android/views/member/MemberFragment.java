@@ -100,7 +100,9 @@ public class MemberFragment extends BaseFragment {
 
     //初始化视图
     private void initView() {
-        member_recycler_view.setLayoutManager(new GridLayoutManager(getActivity(),5));
+        member_recycler_view.setLayoutManager(new GridLayoutManager(getActivity(), 5));
+
+        member_recycler_view.addItemDecoration(new MemberDivider(getActivity(), 20, 20));
 
         memberAdapter = new MemberAdapter(getActivity(), memberRespList);
         member_recycler_view.setAdapter(memberAdapter);

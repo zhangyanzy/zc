@@ -7,13 +7,6 @@
 
     <include layout="@layout/layout_top_title_member" />
 
-    <!--<GridLayout
-        android:id="@+id/member_grid"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </GridLayout>-->
-
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/member_refresh_layout"
         android:layout_width="match_parent"

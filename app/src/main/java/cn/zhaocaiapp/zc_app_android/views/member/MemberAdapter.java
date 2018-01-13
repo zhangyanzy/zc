@@ -37,6 +37,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.member_main_item, parent, false);
+        view.getLayoutParams().height = 375/3;
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -46,7 +47,6 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         Glide.with(context)
                 .load(list.get(position).getLogo())
                 .into(holder.member_logo);
-        holder.member_text.setText(position + "");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,8 +79,6 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.member_logo)
         ImageView member_logo;
-        @BindView(R.id.member_text)
-        TextView member_text;
 
         View itemView;
 
