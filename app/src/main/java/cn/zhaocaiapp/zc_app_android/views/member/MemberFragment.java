@@ -72,7 +72,7 @@ public class MemberFragment extends BaseFragment {
                 params.setGravity(Gravity.LEFT);
                 member_grid.addView(btn, params);
             }*/
-        initData();
+        initData("");
         initView();
         refresh();
 
@@ -85,6 +85,7 @@ public class MemberFragment extends BaseFragment {
             public void onRefresh(RefreshLayout member_refresh_layout) {
                 Log.i("Log", "刷新了");
                 member_refresh_layout.finishRefresh(2000);
+                initData("");
             }
         });
         member_refresh_layout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -105,9 +106,9 @@ public class MemberFragment extends BaseFragment {
     }
 
     //初始化数据
-    private void initData() {
+    private void initData(String name) {
         Map<String, String> params = new HashMap<>();
-        params.put("name", "");
+        params.put("name", name);
 
         HttpUtil.get(Constants.URL.GET_MEMBER_QUERY, params).subscribe(new BaseResponseObserver<List<MemberResp>>() {
             @Override

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -45,6 +46,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         Glide.with(context)
                 .load(list.get(position).getLogo())
                 .into(holder.member_logo);
+        holder.member_text.setText(position + "");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +79,8 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.member_logo)
         ImageView member_logo;
+        @BindView(R.id.member_text)
+        TextView member_text;
 
         View itemView;
 

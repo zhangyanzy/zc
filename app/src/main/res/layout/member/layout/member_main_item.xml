@@ -9,6 +9,11 @@
         android:id="@+id/member_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_shape_gray_bg" />
+        android:background="@drawable/search_member_item" />
+
+    <TextView
+        android:id="@+id/member_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
