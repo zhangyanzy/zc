@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <cn.zhaocaiapp.zc_app_android.views.member.MemberLayout
+    <cn.zhaocaiapp.zc_app_android.widget.SquareView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true" />
-    </cn.zhaocaiapp.zc_app_android.views.member.MemberLayout>
+    </cn.zhaocaiapp.zc_app_android.widget.SquareView>
 
 
 </LinearLayout>

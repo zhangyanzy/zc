@@ -1,31 +1,28 @@
-package cn.zhaocaiapp.zc_app_android.views.member;
+package cn.zhaocaiapp.zc_app_android.widget;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.RelativeLayout;
 
 /**
+ * 布局高度同宽度一致，正方形布局
+ *
  * @author 林子
  * @filename MemberDivider.java
  * @data 2018-01-13 16:11
  */
-public class MemberLayout extends RelativeLayout {
+public class SquareView extends RelativeLayout {
 
-    public MemberLayout(Context context, AttributeSet attrs,
-                        int defStyle) {
+    public SquareView(Context context, AttributeSet attrs,
+                      int defStyle) {
         super(context, attrs, defStyle);
     }
 
-    public MemberLayout(Context context, AttributeSet attrs) {
+    public SquareView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public MemberLayout(Context context) {
+    public SquareView(Context context) {
         super(context);
     }
 
