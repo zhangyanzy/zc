@@ -9,12 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -34,9 +31,9 @@ public class UserInfoActivity extends BaseActivity {
     TextView tv_top_titlel;
     @BindView(R.id.iv_top_menu)
     ImageView iv_top_menu;
-    @BindView(R.id.tab_user_info)
+    @BindView(R.id.tab_title)
     TabLayout tab_user_info;
-    @BindView(R.id.pager_user_info)
+    @BindView(R.id.pager)
     ViewPager pager_user_info;
 
      private String[]tabTitles = new String[]{"个人资料", "实名信息", "相关信息", "个人标签", "修改密码"};
@@ -44,7 +41,7 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     public int getContentViewResId() {
-        return R.layout.layout_userinfo_activity;
+        return R.layout.layout_tab_fragment;
     }
 
     @Override
@@ -77,6 +74,8 @@ public class UserInfoActivity extends BaseActivity {
         public CharSequence getPageTitle(int position) {
             return tabTitles[position];
         }
+
+
     }
 
     private Fragment getFragment(int position){
@@ -114,4 +113,5 @@ public class UserInfoActivity extends BaseActivity {
         KeyBoardUtils.closeKeybord(tv_top_titlel, this);
         return super.onTouchEvent(event);
     }
+
 }

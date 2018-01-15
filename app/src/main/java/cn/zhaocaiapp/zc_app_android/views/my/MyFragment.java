@@ -89,28 +89,35 @@ public class MyFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void loadData() {
+
+    }
+
     @OnClick({R.id.iv_top_menu, R.id.iv_user_photo, R.id.tv_user_identify, R.id.tv_apply_cash, R.id.layout_all_task, R.id.layout_deliver_task,
               R.id.layout_verify_task, R.id.layout_reward_task, R.id.layout_failed_task, R.id.layout_invite, R.id.tv_account_manager,
               R.id.tv_follow, R.id.layout_contact, R.id.layout_email, R.id.tv_setting, R.id.tv_exit})
     public void onClick(View view){
         switch (view.getId()){
-            case R.id.iv_user_photo:
+            case R.id.iv_user_photo: //个人资料
                 openActivity(UserInfoActivity.class);
                 break;
             case R.id.tv_exit:
                 doLoginOut();
                 break;
-
             case R.id.tv_apply_cash: // 申请提现
                 openActivity(ApplyCashActivity.class);
                 break;
             case R.id.layout_invite: // 邀请好友
                 openActivity(InviteActivity.class);
                 break;
-            case R.id.tv_follow:
+            case R.id.tv_account_manager: // 管理提现账户
+                openActivity(ManageAccountActivity.class);
+                break;
+            case R.id.tv_follow: // 我的关注
                 openActivity(MyFollowAvtivity.class);
                 break;
-            case R.id.tv_setting:
+            case R.id.tv_setting: // 设置
                 openActivity(SettingActivity.class);
                 break;
         }

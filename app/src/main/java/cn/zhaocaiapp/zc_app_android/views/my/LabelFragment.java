@@ -23,4 +23,9 @@ public class LabelFragment extends BaseFragment {
     public void init() {
 
     }
+
+    @Override
+    public void loadData() {
+
+    }
 }

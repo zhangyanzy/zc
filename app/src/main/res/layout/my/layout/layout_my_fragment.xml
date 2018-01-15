@@ -135,7 +135,7 @@
                     <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:src="@mipmap/test_icon" />
+                        android:src="@mipmap/ic_launcher_round" />
 
                     <TextView
                         android:id="@+id/tv_all_task"
@@ -159,7 +159,7 @@
                     <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:src="@mipmap/test_icon" />
+                        android:src="@mipmap/ic_launcher_round" />
 
                     <TextView
                         android:id="@+id/tv_deliver_task"
@@ -183,7 +183,7 @@
                     <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:src="@mipmap/test_icon" />
+                        android:src="@mipmap/ic_launcher_round" />
 
                     <TextView
                         android:id="@+id/tv_verify_task"
@@ -207,7 +207,7 @@
                     <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:src="@mipmap/test_icon" />
+                        android:src="@mipmap/ic_launcher_round" />
 
                     <TextView
                         android:id="@+id/tv_reward_task"
@@ -231,7 +231,7 @@
                     <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:src="@mipmap/test_icon" />
+                        android:src="@mipmap/ic_launcher_round" />
 
                     <TextView
                         android:id="@+id/tv_failed_task"
@@ -270,7 +270,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:drawableEnd="@mipmap/test_icon"
+                    android:drawableEnd="@mipmap/turn_right"
                     android:text="邀请好友立奖10元"
                     android:textColor="@color/colorPrimary"
                     android:textSize="14sp" />

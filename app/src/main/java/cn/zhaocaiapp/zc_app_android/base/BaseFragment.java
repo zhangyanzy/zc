@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.base;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,23 +14,30 @@ import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.widget.LoadingDialog;
 
+
+/**
+ * fragment懒加载
+ * */
 public abstract class BaseFragment extends Fragment {
     private View rootView;
     private Unbinder unbinder;
 
-    private boolean injected = false;
+    protected boolean isInit = false;//视图是否已经初初始化
+    protected boolean isLoad = false;//是否已加载数据
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (rootView == null){
-            rootView = setContentView(inflater,container,savedInstanceState);
-            unbinder = ButterKnife.bind(this,rootView);
-
+        if (rootView == null) {
+            rootView = setContentView(inflater, container, savedInstanceState);
+            unbinder = ButterKnife.bind(this, rootView);
+            isInit = true;
             init();
+            isCanLoadData();
         }
 
         return rootView;
@@ -41,6 +49,41 @@ public abstract class BaseFragment extends Fragment {
     //初始化数据
     public abstract void init();
 
+    //加载数据
+    public abstract void loadData();
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        isCanLoadData();
+    }
+
+    //是否可以加载数据
+    private void isCanLoadData() {
+        if (!isInit) {
+            return;
+        }
+        if (getUserVisibleHint()) {
+            loadData();
+            isLoad = true;
+        } else if (isLoad) {
+            stopLoad();
+        }
+    }
+
+    /**
+     * 停止加载数据
+     * 当视图不可见并且加载过数据,调用此方法
+     */
+    public void stopLoad() {
+
+    }
+
+    //管理软键盘的显示
+    public void manageKeyBord(View view, Activity mActivity) {
+        if (KeyBoardUtils.isKeyBordVisiable(mActivity))
+            KeyBoardUtils.closeKeybord(view, mActivity);
+    }
 
     @Override
     public void onDestroyView() {

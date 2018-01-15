@@ -6,7 +6,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
@@ -16,6 +20,14 @@ import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
  */
 
 public class RevisePassFragment extends BaseFragment {
+    @BindView(R.id.edit_old_pass)
+    EditText edit_old_pass;
+    @BindView(R.id.edit_new_pass)
+    EditText edit_new_pass;
+    @BindView(R.id.edit_confirm_pass)
+    EditText edit_confirm_pass;
+    @BindView(R.id.tv_submit)
+    TextView tv_submit;
 
 
     private View rootView;
@@ -36,6 +48,11 @@ public class RevisePassFragment extends BaseFragment {
                 return false;
             }
         });
+    }
+
+    @Override
+    public void loadData() {
+
     }
 
 }

@@ -6,17 +6,10 @@
     <include layout="@layout/layout_top_title" />
 
     <RelativeLayout
+        android:id="@+id/layout_balance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp">
-
-        <ImageView
-            android:id="@+id/iv_balance_bg"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            android:src="@mipmap/cash"
-            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_balance"
@@ -26,7 +19,7 @@
             android:layout_marginTop="25dp"
             android:text="100"
             android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_18" />
+            android:textSize="@dimen/font_size_22" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -43,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="60dp"
             android:text="@string/balance"
             android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_12" />
@@ -54,9 +47,10 @@
         android:id="@+id/edit_apply_cash"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_balance"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/edit_shape_no_border"
         android:hint="@string/input_cash"
         android:paddingRight="65dp"
@@ -84,6 +78,7 @@
         android:textSize="@dimen/font_size_14" />
 
     <TextView
+        android:id="@+id/tv_withdraw_limit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/edit_apply_cash"
@@ -92,6 +87,64 @@
         android:text="提现金额20元起"
         android:textColor="@color/colorFont6"
         android:textSize="@dimen/font_size_14" />
+
+    <RadioGroup
+        android:id="@+id/withdraw_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_withdraw_limit"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/withdraw_wechat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableLeft="@mipmap/icon_wechat"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/checkbox_selector_agreement"
+            android:text="微信"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_14"
+            android:paddingBottom="8dp"/>
+
+        <View style="@style/horizontal_C9_line" />
+
+        <RadioButton
+            android:id="@+id/withdraw_ali"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:button="@null"
+            android:drawableLeft="@mipmap/icon_ali"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/checkbox_selector_agreement"
+            android:text="支付宝"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_14"
+            android:paddingBottom="8dp"/>
+
+        <View style="@style/horizontal_C9_line" />
+
+        <RadioButton
+            android:id="@+id/withdraw_bank_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:button="@null"
+            android:drawableLeft="@mipmap/bank_card"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/checkbox_selector_agreement"
+            android:text="银行卡"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_14"
+            android:paddingBottom="8dp"/>
+
+        <View style="@style/horizontal_C9_line" />
+    </RadioGroup>
 
     <TextView
         android:id="@+id/tv_submit"

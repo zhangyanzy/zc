@@ -97,7 +97,7 @@ public class LoginActivity extends BaseActivity {
             case R.id.tv_login:
                 //验证手机号和密码
                 if (judgePhone(phone) && judgePass(pass))
-                    doLogin(phone, pass);
+                    doLogin();
                 break;
             case R.id.login_wechat:
                 getAuth(SHARE_MEDIA.WEIXIN);
@@ -112,7 +112,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     //发送登录请求
-    private void doLogin(String phone, String pass) {
+    private void doLogin() {
         Map<String, String> params = new HashMap<>();
         if (type == 0){
             params.put("account", "18888888888");
@@ -157,7 +157,7 @@ public class LoginActivity extends BaseActivity {
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                 uid = map.get("uid");
                 turnToBindPhone(share_media);
-                doLogin(phone, pass);
+                doLogin();
                 Log.i("UMENG", map.get("uid"));
                 ToastUtil.makeText(LoginActivity.this, "授权成功");
             }

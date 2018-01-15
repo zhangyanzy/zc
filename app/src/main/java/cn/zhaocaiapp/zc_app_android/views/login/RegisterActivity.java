@@ -103,13 +103,15 @@ public class RegisterActivity extends BaseActivity {
     //获取验证码
     private void requestIdentifyCode() {
         Map<String, String> params = new HashMap<>();
-        params.put("phone", "13764162650");
+        params.put("phone", phone);
         HttpUtil.post(Constants.URL.GET_IDENTIFY_CODE, params).subscribe(new BaseResponseObserver<String>() {
 
             @Override
             public void success(String result) {
                 ToastUtil.makeText(RegisterActivity.this, "获取验证码成功");
             }
+
+
 
             @Override
             public void error(Response<String> response) {

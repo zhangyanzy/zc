@@ -18,7 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:padding="10dp"
-        android:text="测试1" />
+        android:text="登录入口" />
+
     <Button
         android:id="@+id/button2"
         android:layout_width="100dp"
@@ -26,26 +27,6 @@
         android:layout_gravity="center_horizontal"
         android:padding="10dp"
         android:text="定位页面" />
-
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srlEnablePreviewInEditMode="true">
-
-        <com.scwang.smartrefresh.layout.header.ClassicsHeader
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/data_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorFont9"
-            android:scrollbars="none">
-
-        </android.support.v7.widget.RecyclerView>
-
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 
 </LinearLayout>

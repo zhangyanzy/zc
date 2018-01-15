@@ -39,7 +39,7 @@ import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
  * @filename MemberActivity.java
  * @data 2018-01-05 17:59
  */
-public class MemberFragment extends BaseFragment {
+public class MemberFragment extends BaseFragment implements OnRefreshListener {
 
     //@BindView(R.id.member_grid)
     //GridLayout member_grid;
@@ -50,6 +50,7 @@ public class MemberFragment extends BaseFragment {
 
     private List<MemberResp> memberRespList = new ArrayList<>(); //商家数据
     private MemberAdapter memberAdapter;
+    private String name = "";
 
     @Nullable
     @Override
@@ -60,10 +61,40 @@ public class MemberFragment extends BaseFragment {
 
     @Override
     public void init() {
-        initData("");
-        initView();
-        refresh();
+        member_recycler_view.setLayoutManager(new GridLayoutManager(getActivity(), 5));
 
+        member_recycler_view.addItemDecoration(new MemberDivider(getActivity(), 10, 10));
+
+        memberAdapter = new MemberAdapter(getActivity(), memberRespList);
+        member_recycler_view.setAdapter(memberAdapter);
+        memberAdapter.setOnItemCliclkListener(listener);
+
+
+        member_refresh_layout.setOnRefreshListener(this);
+        member_refresh_layout.setEnableLoadmore(false);
+
+    }
+
+    @Override
+    public void loadData() {
+        Map<String, String> params = new HashMap<>();
+        params.put("name", name);
+
+        HttpUtil.get(Constants.URL.GET_MEMBER_QUERY, params).subscribe(new BaseResponseObserver<List<MemberResp>>() {
+            @Override
+            public void success(List<MemberResp> result) {
+                memberRespList = result;
+                memberAdapter.updata(memberRespList);
+                EBLog.i("tag", result.toString());
+                member_refresh_layout.finishRefresh();
+            }
+
+            @Override
+            public void error(Response<List<MemberResp>> response) {
+
+            }
+
+        });
     }
 
     //刷新操作
@@ -73,7 +104,7 @@ public class MemberFragment extends BaseFragment {
             public void onRefresh(RefreshLayout member_refresh_layout) {
                 Log.i("Log", "刷新了");
                 member_refresh_layout.finishRefresh(2000);
-                initData("");
+                loadData();
             }
         });
         member_refresh_layout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -83,18 +114,6 @@ public class MemberFragment extends BaseFragment {
                 member_refresh_layout.finishLoadmore(2000);
             }
         });
-    }
-
-    //初始化视图
-    private void initView() {
-        member_recycler_view.setLayoutManager(new GridLayoutManager(getActivity(), 5));
-
-        member_recycler_view.addItemDecoration(new MemberDivider(getActivity(), 10, 10));
-
-        memberAdapter = new MemberAdapter(getActivity(), memberRespList);
-        member_recycler_view.setAdapter(memberAdapter);
-        memberAdapter.setOnItemCliclkListener(listener);
-
     }
 
     private MemberAdapter.OnItemCliclkListener listener = new MemberAdapter.OnItemCliclkListener() {
@@ -107,26 +126,10 @@ public class MemberFragment extends BaseFragment {
         }
     };
 
-    //初始化数据
-    private void initData(String name) {
-        Map<String, String> params = new HashMap<>();
-        params.put("name", name);
 
-        HttpUtil.get(Constants.URL.GET_MEMBER_QUERY, params).subscribe(new BaseResponseObserver<List<MemberResp>>() {
-            @Override
-            public void success(List<MemberResp> result) {
-                memberRespList = result;
-                memberAdapter.updata(memberRespList);
-                EBLog.i("tag", result.toString());
-            }
-
-            @Override
-            public void error(Response<List<MemberResp>> response) {
-
-            }
-
-        });
+    @Override
+    public void onRefresh(RefreshLayout refreshlayout) {
+        Log.i("Log", "刷新了");
+        loadData();
     }
-
-
 }

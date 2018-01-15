@@ -146,6 +146,7 @@
         android:layout_marginLeft="80dp"/>
 
     <ImageView
+        android:id="@+id/iv_add_icture"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_weight="1"

@@ -59,6 +59,11 @@ public class TaskRelativeFragment extends BaseFragment {
         professionNames.add("其他");
     }
 
+    @Override
+    public void loadData() {
+
+    }
+
     @OnClick({R.id.tv_educational, R.id.tv_profession})
     public void onClick(View view){
         switch (view.getId()){
@@ -84,4 +89,5 @@ public class TaskRelativeFragment extends BaseFragment {
                 .build();
         optionsPickerView.setPicker(items);
     }
+
 }

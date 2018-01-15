@@ -6,9 +6,13 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
+import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
@@ -16,12 +20,19 @@ import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
  */
 
 public class UserInfoFragment extends BaseFragment {
+    @BindView(R.id.tv_change_photo)
+    TextView tv_change_photo;
+    @BindView(R.id.tv_revise_phone)
+    TextView tv_revise_phone;
+    @BindView(R.id.tv_submit)
+    TextView tv_submit;
+
     private View rootView;
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.layout_userinfo_fragment, container, false);
-         return rootView;
+        return rootView;
     }
 
     @Override
@@ -35,6 +46,27 @@ public class UserInfoFragment extends BaseFragment {
                 return false;
             }
         });
+    }
+
+    @Override
+    public void loadData() {
 
     }
+
+    @OnClick({R.id.tv_change_photo, R.id.tv_revise_phone, R.id.tv_submit})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_change_photo:
+                manageKeyBord(tv_submit, getActivity());
+                //弹出获取照片选择框
+                break;
+            case R.id.tv_revise_phone:
+
+                break;
+            case R.id.tv_submit:
+
+                break;
+        }
+    }
+
 }

@@ -57,6 +57,11 @@ public class TestFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void loadData() {
+
+    }
+
     @OnClick({R.id.button1, R.id.button2})
     public void onClick(View view) {
         switch (view.getId()) {

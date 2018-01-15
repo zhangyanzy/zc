@@ -76,14 +76,14 @@ public class ForgetPassActivity extends BaseActivity {
             case R.id.tv_get_idntify_code:
                 if (judgePhone(phone)) {
                     waitTimer(get_idntify_code);
-                    getIdentifyCode(phone);
+                    getIdentifyCode();
                 }
                 break;
             case R.id.tv_reset_pass:
                 if (judgePhone(phone) && judgePass(pass)){
                     if (GeneralUtils.isNullOrZeroLenght(identift_code))
                         ToastUtil.makeText(ForgetPassActivity.this, getString(R.string.input_identify_code));
-                    else doResetPass(identift_code, pass);
+                    else doResetPass();
                 }
                 break;
         }
@@ -96,7 +96,7 @@ public class ForgetPassActivity extends BaseActivity {
     }
 
     //获取验证码
-    private void getIdentifyCode(String phone) {
+    private void getIdentifyCode() {
         Map<String, String> params = new HashMap<>();
         params.put("phone", phone);
         HttpUtil.post(Constants.URL.GET_IDENTIFY_CODE, params).subscribe(new BaseResponseObserver<String>() {
@@ -115,7 +115,7 @@ public class ForgetPassActivity extends BaseActivity {
     }
 
     //请求重置密码
-    private void doResetPass(String identift_code, String pass) {
+    private void doResetPass() {
 
     }
 

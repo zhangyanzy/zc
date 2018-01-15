@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.OptionsPickerView;
@@ -22,6 +24,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
+import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
@@ -33,6 +36,10 @@ public class IdentifyFragment extends BaseFragment {
     TextView tv_user_gender;
     @BindView(R.id.tv_birth_day)
     TextView tv_birth_day;
+    @BindView(R.id.tv_submit)
+    TextView tv_submit;
+    @BindView(R.id.iv_add_icture)
+    ImageView iv_add_icture;
 
     private View rootView;
 
@@ -73,7 +80,8 @@ public class IdentifyFragment extends BaseFragment {
             public void onTimeSelect(Date date, View v) {
                 tv_birth_day.setText(getBirthTime(date));
             }
-        }) .setType(new boolean[]{true, true, true, false, false, false})
+        }).setTitleText("出生日期选择")
+                .setType(new boolean[]{true, true, true, false, false, false})
                 .setDate(selectedDate)
                 .setRangDate(startDate, endDate)
                 .setDecorView(null)
@@ -89,14 +97,24 @@ public class IdentifyFragment extends BaseFragment {
         });
     }
 
-    @OnClick({R.id.tv_user_gender, R.id.tv_birth_day})
+    @Override
+    public void loadData() {
+
+    }
+
+    @OnClick({R.id.tv_user_gender, R.id.tv_birth_day, R.id.iv_add_icture})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_user_gender:
+                manageKeyBord(tv_submit, getActivity());
                 optionsPickerView.show();
                 break;
             case R.id.tv_birth_day:
+                manageKeyBord(tv_submit, getActivity());
                 timePickerView.show();
+                break;
+            case R.id.iv_add_icture:
+
                 break;
         }
     }
@@ -105,6 +123,5 @@ public class IdentifyFragment extends BaseFragment {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(date);
     }
-
 
 }

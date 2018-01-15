@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_top_title"/>
+
+    <TextView
+        android:id="@+id/tv_wechat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:drawableLeft="@mipmap/icon_wechat"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/turn_right"
+        android:text="微信"
+        android:textColor="@color/colorFont6"
+        android:textSize="@dimen/font_size_14"
+        android:paddingBottom="8dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="@dimen/window_padding_15"
+        android:layout_marginRight="@dimen/window_padding_15"/>
+
+    <View style="@style/horizontal_C9_line" />
+
+    <TextView
+        android:id="@+id/tv_ali"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:button="@null"
+        android:drawableLeft="@mipmap/icon_ali"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/turn_right"
+        android:text="支付宝"
+        android:textColor="@color/colorFont6"
+        android:textSize="@dimen/font_size_14"
+        android:paddingBottom="8dp"
+        android:layout_marginLeft="@dimen/window_padding_15"
+        android:layout_marginRight="@dimen/window_padding_15"/>
+
+    <View style="@style/horizontal_C9_line" />
+
+    <TextView
+        android:id="@+id/tv_bank_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:button="@null"
+        android:drawableLeft="@mipmap/bank_card"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/turn_right"
+        android:text="银行卡"
+        android:textColor="@color/colorFont6"
+        android:textSize="@dimen/font_size_14"
+        android:paddingBottom="8dp"
+        android:layout_marginLeft="@dimen/window_padding_15"
+        android:layout_marginRight="@dimen/window_padding_15"/>
+
+    <View style="@style/horizontal_C9_line" />
+
+</LinearLayout>

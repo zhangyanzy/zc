@@ -24,6 +24,7 @@ import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
+
     private TextView identify_code;
 
     @Override
