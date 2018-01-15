@@ -18,6 +18,16 @@ public class LocationActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        initView();
+        initData();
+    }
+
+    private void initView() {
+
+    }
+
+    private void initData() {
+
 
     }
 }

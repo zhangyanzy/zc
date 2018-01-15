@@ -66,11 +66,15 @@ public interface Constants {
 
         /**
          * 校验手机号是否存在
-         * */
+         */
         String IS_PHONE_EXIST = "register/check/phone/exist";
     }
 
     interface SPREF {
+        /**
+         * 保存在手机里面的文件名
+         */
+        String FILE_NAME = "share_data";
         /**
          * 是否显示引导页
          */

@@ -23,7 +23,7 @@ import java.util.List;
 
 import cn.zhaocaiapp.zc_app_android.base.BaseAndroid;
 import cn.zhaocaiapp.zc_app_android.base.BaseConfig;
-import cn.zhaocaiapp.zc_app_android.util.SpUtils;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
 
 /**
  * Created by jinxunmediapty.ltd on 2018/1/3.
@@ -84,7 +84,7 @@ public class ZcApplication extends Application {
         Config.DEBUG = true;
 
         //SharedPreferences存储全局设置
-        sp = getSharedPreferences(SpUtils.FILE_NAME, Context.MODE_PRIVATE);
+        sp = getSharedPreferences(Constants.SPREF.FILE_NAME, Context.MODE_PRIVATE);
     }
 
     /**

@@ -10,10 +10,6 @@ import java.util.Map;
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
 
 public class SpUtils {
-    /**
-     * 保存在手机里面的文件名
-     */
-    public static final String FILE_NAME = "share_data";
 
 
     /**
