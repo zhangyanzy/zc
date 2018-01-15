@@ -63,12 +63,12 @@ public class HttpUtil {
      */
     public static Observable get(String url) {
         if (GeneralUtils.isNotNullOrZeroLenght(USER_TOKEN)) {
-            return http.get(url, USER_TOKEN)
+            return http.get(url)
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());
         } else {
-            return http.get(url)
+            return http.get(url, USER_TOKEN)
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());

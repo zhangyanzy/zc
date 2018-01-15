@@ -11,10 +11,17 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.AMapLocationQualityReport;
 
+import java.util.List;
+
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.Response;
+import cn.zhaocaiapp.zc_app_android.bean.response.home.LocationResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 
 /**
  * @author 林子
@@ -58,8 +65,22 @@ public class LocationActivity extends BaseActivity {
         home_location_recycler.setLayoutManager(linearLayoutManager);
     }
 
+    /**
+     * 初始化数据
+     */
     private void initData() {
+        HttpUtil.get(Constants.URL.GET_AREA).subscribe(new BaseResponseObserver<List<LocationResp>>() {
+            @Override
+            public void success(List<LocationResp> result) {
+                EBLog.i("tag", result.toString());
+            }
 
+            @Override
+            public void error(Response<List<LocationResp>> response) {
+
+            }
+
+        });
 
     }
 

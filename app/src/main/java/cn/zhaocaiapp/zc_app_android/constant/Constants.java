@@ -67,7 +67,7 @@ public interface Constants {
         /**
          * 获取城市列表
          */
-        String GET_CITY = "";
+        String GET_AREA = "area";
 
         /**
          * 商家列表
