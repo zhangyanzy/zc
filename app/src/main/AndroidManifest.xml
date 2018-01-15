@@ -85,16 +85,17 @@
             android:name=".views.login.BindPhoneActivity"
             android:screenOrientation="portrait" />
         <!--用户资料-->
-        <activity android:name=".views.my.UserInfoActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".views.my.UserInfoActivity"
+            android:screenOrientation="portrait" />
         <!--收支明细-->
-        <activity android:name=".views.my.IncomeActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".views.my.IncomeActivity"
+            android:screenOrientation="portrait" />
         <!--管理提现账户-->
-        <activity android:name=".views.my.ManageAccountActivity"
-            android:screenOrientation="portrait"/>
-
-
+        <activity
+            android:name=".views.my.ManageAccountActivity"
+            android:screenOrientation="portrait" />
 
 
         <!--商家详情-->
