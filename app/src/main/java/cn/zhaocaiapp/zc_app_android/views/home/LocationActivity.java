@@ -2,6 +2,7 @@ package cn.zhaocaiapp.zc_app_android.views.home;
 
 import android.os.Bundle;
 
+import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 
 /**
@@ -12,7 +13,7 @@ import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 public class LocationActivity extends BaseActivity {
     @Override
     public int getContentViewResId() {
-        return 0;
+        return R.layout.home_location;
     }
 
     @Override

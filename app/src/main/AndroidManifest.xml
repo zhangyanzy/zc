@@ -46,6 +46,10 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".views.activity.ActivityActivityDetail" />
+        <!--定位-->
+        <activity
+            android:name=".views.home.LocationActivity"
+            android:screenOrientation="portrait" />
 
 
         <!--登录-->

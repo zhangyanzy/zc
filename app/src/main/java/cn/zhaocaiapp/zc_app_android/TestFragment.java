@@ -14,6 +14,7 @@ import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.activity.ActivityActivityDetail;
+import cn.zhaocaiapp.zc_app_android.views.home.LocationActivity;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 
 /**
@@ -24,6 +25,8 @@ import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 public class TestFragment extends BaseFragment {
     @BindView(R.id.button1)
     Button button1;
+    @BindView(R.id.button2)
+    Button button2;
 
     Button goH5;
 
@@ -42,8 +45,8 @@ public class TestFragment extends BaseFragment {
         goH5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.makeText(getContext(),"跑到这里了");
-                Intent intent =new Intent(getActivity(),ActivityActivityDetail.class);
+                ToastUtil.makeText(getContext(), "跑到这里了");
+                Intent intent = new Intent(getActivity(), ActivityActivityDetail.class);
                 startActivity(intent);
             }
         });
@@ -54,11 +57,14 @@ public class TestFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.button1})
-    public void onClick(View view){
-        switch (view.getId()){
+    @OnClick({R.id.button1, R.id.button2})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.button1:
                 openActivity(LoginActivity.class);
+                break;
+            case R.id.button2:
+                openActivity(LocationActivity.class);
                 break;
         }
     }
