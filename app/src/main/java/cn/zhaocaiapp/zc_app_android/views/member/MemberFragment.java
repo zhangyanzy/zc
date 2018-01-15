@@ -60,19 +60,6 @@ public class MemberFragment extends BaseFragment {
 
     @Override
     public void init() {
-        /*int count = 1;
-        for (int i = 0; i < 6; i++)
-            for (int j = 0; j < 5; j++) {
-                Button btn = new Button(getContext());
-                btn.setWidth(40);
-                btn.setText(String.valueOf(count));
-                count++;
-                GridLayout.Spec rowSpec = GridLayout.spec(i);     //设置它的行和列
-                GridLayout.Spec columnSpec = GridLayout.spec(j);
-                GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, columnSpec);
-                params.setGravity(Gravity.LEFT);
-                member_grid.addView(btn, params);
-            }*/
         initData("");
         initView();
         refresh();
@@ -102,12 +89,20 @@ public class MemberFragment extends BaseFragment {
     private void initView() {
         member_recycler_view.setLayoutManager(new GridLayoutManager(getActivity(), 5));
 
-        member_recycler_view.addItemDecoration(new MemberDivider(getActivity(), 20, 20));
+        member_recycler_view.addItemDecoration(new MemberDivider(getActivity(), 10, 10));
 
         memberAdapter = new MemberAdapter(getActivity(), memberRespList);
         member_recycler_view.setAdapter(memberAdapter);
+        memberAdapter.setOnItemCliclkListener(listener);
 
     }
+
+    private MemberAdapter.OnItemCliclkListener listener = new MemberAdapter.OnItemCliclkListener() {
+        @Override
+        public void onItemCliclk(int position) {
+            EBLog.i("tag", "您点击了第" + position + "条");
+        }
+    };
 
     //初始化数据
     private void initData(String name) {

@@ -30,12 +30,14 @@ public class MemberDivider extends RecyclerView.ItemDecoration {
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        GridLayoutManager layoutManager = (GridLayoutManager) parent.getLayoutManager();
+        /*GridLayoutManager layoutManager = (GridLayoutManager) parent.getLayoutManager();
         //判断总的数量是否可以整除
-        int totalCount = layoutManager.getItemCount();
-        int surplusCount = totalCount % layoutManager.getSpanCount();
-        int childPosition = parent.getChildAdapterPosition(view);
-        if (layoutManager.getOrientation() == GridLayoutManager.VERTICAL) {//竖直方向的
+        int totalCount = layoutManager.getItemCount(); //元素总数
+        int surplusCount = totalCount % layoutManager.getSpanCount(); //元素总数取余
+        int childPosition = parent.getChildAdapterPosition(view);//当前元素的位置
+        //竖直方向的
+        if (layoutManager.getOrientation() == GridLayoutManager.VERTICAL) {
+
             if (surplusCount == 0 && childPosition > totalCount - layoutManager.getSpanCount() - 1) {
                 //后面几项需要bottom
                 outRect.bottom = topBottom;
@@ -47,7 +49,9 @@ public class MemberDivider extends RecyclerView.ItemDecoration {
             }
             outRect.top = topBottom;
             outRect.left = leftRight;
-        } else {
+        }
+        //水平方向的
+        else {
             if (surplusCount == 0 && childPosition > totalCount - layoutManager.getSpanCount() - 1) {
                 //后面几项需要右边
                 outRect.right = leftRight;
@@ -59,6 +63,7 @@ public class MemberDivider extends RecyclerView.ItemDecoration {
             }
             outRect.top = topBottom;
             outRect.left = leftRight;
-        }
+        }*/
+        outRect.set(leftRight, leftRight, leftRight, leftRight);//设置itemView中内容相对边框左，上，右，下距离
     }
 }

@@ -5,9 +5,16 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/member_logo"
+    <cn.zhaocaiapp.zc_app_android.views.member.MemberLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/member_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true" />
+    </cn.zhaocaiapp.zc_app_android.views.member.MemberLayout>
+
 
 </LinearLayout>
