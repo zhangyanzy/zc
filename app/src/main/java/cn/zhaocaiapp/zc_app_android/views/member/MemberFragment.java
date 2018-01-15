@@ -4,13 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
@@ -68,6 +66,7 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
         member_refresh_layout.setOnRefreshListener(this);
         member_refresh_layout.setEnableLoadmore(false);
 
+        //loadData();
     }
 
     @Override
@@ -92,25 +91,6 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
         });
     }
 
-    //刷新操作
-    private void refresh() {
-        member_refresh_layout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout member_refresh_layout) {
-                Log.i("Log", "刷新了");
-                member_refresh_layout.finishRefresh(2000);
-                loadData();
-            }
-        });
-        member_refresh_layout.setOnLoadmoreListener(new OnLoadmoreListener() {
-            @Override
-            public void onLoadmore(RefreshLayout member_refresh_layout) {
-                Log.i("Log", "加载了");
-                member_refresh_layout.finishLoadmore(2000);
-            }
-        });
-    }
-
     private MemberAdapter.OnItemCliclkListener listener = new MemberAdapter.OnItemCliclkListener() {
         @Override
         public void onItemCliclk(int position) {
@@ -121,10 +101,13 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
         }
     };
 
-
+    /**
+     * 刷新操作
+     *
+     * @param refreshlayout
+     */
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-        Log.i("Log", "刷新了");
         loadData();
     }
 }
