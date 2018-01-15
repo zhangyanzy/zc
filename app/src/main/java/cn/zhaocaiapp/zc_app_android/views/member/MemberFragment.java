@@ -100,6 +100,9 @@ public class MemberFragment extends BaseFragment {
     private MemberAdapter.OnItemCliclkListener listener = new MemberAdapter.OnItemCliclkListener() {
         @Override
         public void onItemCliclk(int position) {
+            Bundle bd = new Bundle();
+            bd.putLong("memberId", memberRespList.get(position).getId());
+            openActivity(MemberDetailActivity.class, bd);
             EBLog.i("tag", "您点击了第" + position + "条");
         }
     };
@@ -112,7 +115,8 @@ public class MemberFragment extends BaseFragment {
         HttpUtil.get(Constants.URL.GET_MEMBER_QUERY, params).subscribe(new BaseResponseObserver<List<MemberResp>>() {
             @Override
             public void success(List<MemberResp> result) {
-                memberAdapter.updata(result);
+                memberRespList = result;
+                memberAdapter.updata(memberRespList);
                 EBLog.i("tag", result.toString());
             }
 

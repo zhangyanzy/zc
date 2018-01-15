@@ -30,8 +30,9 @@
             </intent-filter>
         </activity>
         <!-- 首页 -->
-        <activity android:name=".MainActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".views.activity.ActivityActivityDetail" />
 
 
@@ -48,23 +49,34 @@
             android:name=".views.login.RegisterActivity"
             android:screenOrientation="portrait" />
         <!--申请提现-->
-        <activity android:name=".views.my.ApplyCashActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".views.my.ApplyCashActivity"
+            android:screenOrientation="portrait" />
         <!--邀请好友-->
-        <activity android:name=".views.my.InviteActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".views.my.InviteActivity"
+            android:screenOrientation="portrait" />
         <!--我的关注-->
-        <activity android:name=".views.my.MyFollowAvtivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".views.my.MyFollowAvtivity"
+            android:screenOrientation="portrait" />
         <!--设置-->
-        <activity android:name=".views.my.SettingActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".views.my.SettingActivity"
+            android:screenOrientation="portrait" />
         <!--绑定手机号-->
-        <activity android:name=".views.login.BindPhoneActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".views.login.BindPhoneActivity"
+            android:screenOrientation="portrait" />
         <!--用户资料-->
-        <activity android:name=".views.my.UserInfoActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".views.my.UserInfoActivity"
+            android:screenOrientation="portrait" />
+
+        <!--商家详情-->
+        <activity
+            android:name=".views.member.MemberDetailActivity"
+            android:screenOrientation="portrait" />
 
 
         <!--注册友盟sdk需要的activity-->
