@@ -104,4 +104,10 @@ public interface Constants {
         int TYPE_SINA = 3;     //新浪微博登录
     }
 
+    interface ASSETS {
+        /**
+         * 地区基础数据
+         */
+        String AREA = "android-assets/area.json";
+    }
 }

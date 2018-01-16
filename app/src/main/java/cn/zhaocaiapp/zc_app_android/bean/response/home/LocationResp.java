@@ -2,6 +2,7 @@ package cn.zhaocaiapp.zc_app_android.bean.response.home;
 
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author 林子
@@ -54,6 +55,8 @@ public class LocationResp {
      */
     private String mergerName;
 
+    private List<LocationResp> areaList;
+
     /**
      * 经度
      */
@@ -93,6 +96,7 @@ public class LocationResp {
      * 删除标记 0未删除 1已删除
      */
     private Integer isDelete;
+
 
     public Long getId() {
         return id;
@@ -230,6 +234,14 @@ public class LocationResp {
         this.isDelete = isDelete;
     }
 
+    public List<LocationResp> getAreaList() {
+        return areaList;
+    }
+
+    public void setAreaList(List<LocationResp> areaList) {
+        this.areaList = areaList;
+    }
+
     @Override
     public String toString() {
         return "LocationResp{" +
@@ -242,6 +254,7 @@ public class LocationResp {
                 ", phoneCode='" + phoneCode + '\'' +
                 ", postCode='" + postCode + '\'' +
                 ", mergerName='" + mergerName + '\'' +
+                ", areaList=" + areaList +
                 ", lng=" + lng +
                 ", lat=" + lat +
                 ", pinyin='" + pinyin + '\'' +

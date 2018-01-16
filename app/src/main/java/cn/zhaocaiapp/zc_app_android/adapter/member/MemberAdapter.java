@@ -36,8 +36,6 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.member_main_item, parent, false);
-        //view.getLayoutParams().height = 375/3;
-        //view.getLayoutParams().height = view.getLayoutParams().width;
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -59,7 +57,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list != null ? list.size() : 0;
     }
 
 

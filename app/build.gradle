@@ -48,6 +48,11 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+    allprojects {
+        repositories {
+            maven { url 'https://jitpack.io' }
+        }
+    }
 }
 
 dependencies {
@@ -78,5 +83,6 @@ dependencies {
 
     compile 'com.amap.api:location:latest.integration' //高德地图定位
     compile 'com.amap.api:navi-3dmap:latest.integration' //高德地图导航
+    compile 'com.github.mcxtzhang:SuspensionIndexBar:V1.0.0' //地址定位列表
 
 }
