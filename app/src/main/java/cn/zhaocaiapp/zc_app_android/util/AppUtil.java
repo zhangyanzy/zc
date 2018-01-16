@@ -1,15 +1,23 @@
 package cn.zhaocaiapp.zc_app_android.util;
 
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.util.Log;
+
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
 
 /**
  * App 相关信息
- *
+ * <p>
  * Created by jinxunmediapty.ltd on 2018/1/3.
  */
 
@@ -49,4 +57,26 @@ public class AppUtil {
 
         return versionName;
     }
+
+    /**
+     * 返回当前系统是否开始定位服务
+     */
+    public static Boolean isLocation(Context context) {
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    /**
+     * 判断当前网络是否wifi
+     */
+    public static Boolean isWifi(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetInfo != null && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+            return true;
+        }
+        return false;
+    }
+
 }
