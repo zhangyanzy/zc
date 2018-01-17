@@ -1,6 +1,8 @@
 package cn.zhaocaiapp.zc_app_android.bean.response.home;
 
 
+import com.mcxtzhang.indexlib.IndexBar.bean.BaseIndexPinyinBean;
+
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +11,7 @@ import java.util.List;
  * @filename LocationResp.java
  * @data 2018-01-03 11:41
  */
-public class LocationResp {
+public class LocationResp extends BaseIndexPinyinBean {
     /**
      * 主键
      */
@@ -96,6 +98,8 @@ public class LocationResp {
      * 删除标记 0未删除 1已删除
      */
     private Integer isDelete;
+
+    private boolean isTop;//是否是最上面的 不需要被转化成拼音的
 
 
     public Long getId() {
@@ -242,6 +246,14 @@ public class LocationResp {
         this.areaList = areaList;
     }
 
+    public boolean isTop() {
+        return isTop;
+    }
+
+    public void setTop(boolean top) {
+        isTop = top;
+    }
+
     @Override
     public String toString() {
         return "LocationResp{" +
@@ -264,5 +276,21 @@ public class LocationResp {
                 ", updateTime=" + updateTime +
                 ", isDelete=" + isDelete +
                 '}';
+    }
+
+    @Override
+    public String getTarget() {
+        return areaName;
+    }
+
+    @Override
+    public boolean isNeedToPinyin() {
+        return !isTop;
+    }
+
+
+    @Override
+    public boolean isShowSuspension() {
+        return !isTop;
     }
 }

@@ -23,16 +23,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.mcxtzhang.indexlib.IndexBar.widget.IndexBar;
-import com.mcxtzhang.indexlib.suspension.ISuspensionInterface;
 import com.mcxtzhang.indexlib.suspension.SuspensionDecoration;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -74,7 +70,6 @@ public class LocationActivity extends BaseActivity {
 
     private List<LocationResp> locationRespsAllList = new ArrayList<>(); //所有地址集合
     private List<LocationResp> locationRespsList = new ArrayList<>(); //所有城市集合
-    private List<CityBean> mDatas = new ArrayList<>();
 
     private Gson gson1;
     private GsonBuilder builder1;
@@ -106,10 +101,10 @@ public class LocationActivity extends BaseActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         home_location_recycler.setLayoutManager(linearLayoutManager);
 
-        locationAdapter = new LocationAdapter(this, mDatas);
+        locationAdapter = new LocationAdapter(this, locationRespsList);
         home_location_recycler.setAdapter(locationAdapter);
 
-        home_location_recycler.addItemDecoration(mDecoration = new SuspensionDecoration(this, mDatas));
+        home_location_recycler.addItemDecoration(mDecoration = new SuspensionDecoration(this, locationRespsList));
         //如果add两个，那么按照先后顺序，依次渲染。
         home_location_recycler.addItemDecoration(new LocationDecoration(this, LocationDecoration.VERTICAL_LIST));
 
@@ -129,18 +124,14 @@ public class LocationActivity extends BaseActivity {
         for (LocationResp list : locationRespsAllList) {
             for (LocationResp item : list.getAreaList()) {
                 locationRespsList.add(item);
-                CityBean cityBean = new CityBean();
-                cityBean.setCity(item.getAreaName());//设置城市名称
-                mDatas.add(cityBean);
             }
         }
         EBLog.i("tag", locationRespsList.toString());
-        EBLog.i("tag", mDatas.toString());
-        locationAdapter.updata(mDatas);
+        locationAdapter.updata(locationRespsList);
 
-        indexBar.setmSourceDatas(mDatas)//设置数据
+        indexBar.setmSourceDatas(locationRespsList)//设置数据
                 .invalidate();
-        mDecoration.setmDatas(mDatas);
+        mDecoration.setmDatas(locationRespsList);
         EBLog.i("tag", "列表定位完成");
 
     }

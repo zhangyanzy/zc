@@ -26,21 +26,21 @@ import cn.zhaocaiapp.zc_app_android.views.home.CityBean;
  */
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
     protected Context context;
-    protected List<CityBean> list;
+    protected List<LocationResp> list;
     protected LayoutInflater mInflater;
     private MemberAdapter.OnItemCliclkListener listene;
 
-    public LocationAdapter(Context context, List<CityBean> list) {
+    public LocationAdapter(Context context, List<LocationResp> list) {
         this.context = context;
         this.list = list;
         mInflater = LayoutInflater.from(context);
     }
 
-    public List<CityBean> getDatas() {
+    public List<LocationResp> getDatas() {
         return list;
     }
 
-    public void updata(List<CityBean> list) {
+    public void updata(List<LocationResp> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -52,7 +52,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final LocationAdapter.ViewHolder holder, final int position) {
-        holder.home_location_item.setText(list.get(position).getCity());
+        holder.home_location_item.setText(list.get(position).getAreaName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
