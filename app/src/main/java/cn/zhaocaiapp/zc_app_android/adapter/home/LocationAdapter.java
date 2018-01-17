@@ -5,9 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -16,7 +14,6 @@ import butterknife.ButterKnife;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.adapter.member.MemberAdapter;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.LocationResp;
-import cn.zhaocaiapp.zc_app_android.views.home.CityBean;
 
 
 /**
