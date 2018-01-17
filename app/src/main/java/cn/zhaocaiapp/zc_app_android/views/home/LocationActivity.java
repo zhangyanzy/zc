@@ -41,6 +41,7 @@ import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.LocationResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.AreaUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 
 /**
@@ -116,7 +117,7 @@ public class LocationActivity extends BaseActivity {
      */
     private void initData() {
 
-        locationRespsAllList = initArea();
+        locationRespsAllList = AreaUtil.initArea(this);
         EBLog.i("tag", locationRespsAllList.toString());
         for (LocationResp list : locationRespsAllList) {
             for (LocationResp item : list.getAreaList()) {
@@ -131,58 +132,6 @@ public class LocationActivity extends BaseActivity {
         mDecoration.setmDatas(locationRespsList);
         EBLog.i("tag", "列表定位完成");
 
-    }
-
-
-    /**
-     * 初始化地址数据 全部三级数据
-     */
-    private List<LocationResp> initArea() {
-        List<LocationResp> locationRespList = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
-        BufferedReader br = null;
-        try {
-            br = new BufferedReader(new InputStreamReader(getAssets().open(Constants.ASSETS.AREA), "UTF-8"));
-
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) try {
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        String tmp = sb.toString();
-        if (!GeneralUtils.isNullOrZeroLenght(tmp)) {
-            GsonBuilder builder = new GsonBuilder();
-
-            // 解决gson时间格式化报错的问题
-            builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
-                public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    try {
-                        return format.parse(json.getAsString());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    return null;
-                }
-            });
-
-            Gson gson = builder.create();
-            Response<List<LocationResp>> result = gson.fromJson(tmp, new TypeToken<Response<List<LocationResp>>>() {
-            }.getType());
-            locationRespList = result.getData();
-        }
-        return locationRespList;
     }
 
 
