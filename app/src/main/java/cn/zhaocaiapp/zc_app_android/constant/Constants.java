@@ -48,6 +48,11 @@ public interface Constants {
 //        String SERVER = "http://192.168.1.10:8082/"; //必须以／结尾否则初始化会报错
 
         /**
+         * 注册
+         * */
+        String REGISTER = "register/signup";
+
+        /**
          * 用户登陆
          */
         String USER_LOGIN = "user/login";
@@ -63,6 +68,10 @@ public interface Constants {
          * 校验手机号是否存在
          */
         String IS_PHONE_EXIST = "register/check/phone/exist";
+        /**
+         * 校验验证码
+         * */
+        String VERIFY_CODE = "register/check/code";
 
         /**
          * 获取城市列表
@@ -99,9 +108,13 @@ public interface Constants {
         String AGE = "age";                         //年龄
         String TOKEN = "token";
 
+        int TYPE_PHONE = 0;    //手机登录
         int TYPE_WECHAT = 1;   //微信登录
         int TYPE_QQ = 2;       //qq登陆
         int TYPE_SINA = 3;     //新浪微博登录
+
+        int TYPE_ALI = 4;      //支付宝账户
+        int TYPE_BANK = 5;     //银行卡账户
     }
 
     interface ASSETS {

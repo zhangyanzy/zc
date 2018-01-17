@@ -14,14 +14,19 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.zhaocaiapp.zc_app_android.MainActivity;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
+import cn.zhaocaiapp.zc_app_android.bean.response.login.ObtainCodeResp;
+import cn.zhaocaiapp.zc_app_android.bean.response.login.SignupResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
@@ -52,8 +57,11 @@ public class RegisterActivity extends BaseActivity {
 
     private String phone;
     private String pass;
-    private String identift_code;
-    private boolean isPassUsable;
+    private String identifyCcode;
+    private String inviteCode = "";
+    private int type = 0;
+    private static final String TAG = "注册";
+
 
     @Override
     public int getContentViewResId() {
@@ -70,16 +78,13 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        KeyBoardUtils.closeKeybord(tv_register,this);
+        KeyBoardUtils.closeKeybord(tv_register, this);
         return super.onTouchEvent(event);
     }
 
     @OnClick({R.id.iv_top_back, R.id.tv_register, R.id.send_identify_code})
     public void onClick(View view) {
         phone = edit_phone_number.getText().toString();
-        pass = edit_pass_word.getText().toString();
-        identift_code = edit_identify_code.getText().toString();
-
         switch (view.getId()) {
             case R.id.iv_top_back:
                 finish();
@@ -91,8 +96,11 @@ public class RegisterActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_register:
-                if (judgePhone(phone) && judgePass(pass)){
-                    if (GeneralUtils.isNullOrZeroLenght(identift_code))
+                pass = edit_pass_word.getText().toString();
+                identifyCcode = edit_identify_code.getText().toString();
+                inviteCode = edit_invite_code.getText().toString();
+                if (judgePhone(phone) && judgePass(pass)) {
+                    if (GeneralUtils.isNullOrZeroLenght(identifyCcode))
                         ToastUtil.makeText(RegisterActivity.this, getString(R.string.input_identify_code));
                     else doRegister();
                 }
@@ -104,25 +112,58 @@ public class RegisterActivity extends BaseActivity {
     private void requestIdentifyCode() {
         Map<String, String> params = new HashMap<>();
         params.put("phone", phone);
-        HttpUtil.post(Constants.URL.GET_IDENTIFY_CODE, params).subscribe(new BaseResponseObserver<String>() {
+        HttpUtil.post(Constants.URL.GET_IDENTIFY_CODE, params).subscribe(new BaseResponseObserver<ObtainCodeResp>() {
 
             @Override
-            public void success(String result) {
-                ToastUtil.makeText(RegisterActivity.this, "获取验证码成功");
+            public void success(ObtainCodeResp result) {
+                EBLog.i(TAG, result.toString());
+                ToastUtil.makeText(RegisterActivity.this, result.getDesc());
             }
 
-
-
             @Override
-            public void error(Response<String> response) {
-
+            public void error(Response<ObtainCodeResp> response) {
+                ToastUtil.makeText(RegisterActivity.this, response.getDesc());
+                EBLog.i(TAG, response.getCode() + "");
             }
         });
 
     }
 
     //请求注册账号
-    private void doRegister(){}
+    private void doRegister() {
+        Map<String, String> params = new HashMap<>();
+        params.put("type", type + "");
+        params.put("phone", phone);
+        params.put("password", pass);
+        params.put("code", identifyCcode);
+        params.put("inviteCode", inviteCode);
 
+        HttpUtil.post(Constants.URL.REGISTER, params).subscribe(new BaseResponseObserver<SignupResp>() {
+            @Override
+            public void success(SignupResp result) {
+                EBLog.i(TAG, result.toString());
+                ToastUtil.makeText(RegisterActivity.this, result.getDesc());
+
+                saveUserData(result);
+                openActivity(MainActivity.class);
+                RegisterActivity.this.finish();
+            }
+
+            @Override
+            public void error(Response response) {
+                ToastUtil.makeText(RegisterActivity.this, response.getDesc());
+                EBLog.i(TAG, response.getCode() + "");
+            }
+        });
+    }
+
+    //保存用户数据
+    private void saveUserData(SignupResp result) {
+        SpUtils.put(Constants.SPREF.TOKEN, result.getToken());
+        SpUtils.put(Constants.SPREF.IS_LOGIN, (Boolean) true);
+        SpUtils.put(Constants.SPREF.USER_PHOTO, result.getAvatar());
+        SpUtils.put(Constants.SPREF.NICK_NAME, result.getNickname());
+        SpUtils.put(Constants.SPREF.USER_PHONE, result.getPhone());
+    }
 
 }

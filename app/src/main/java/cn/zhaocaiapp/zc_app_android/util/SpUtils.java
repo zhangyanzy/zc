@@ -26,6 +26,7 @@ public class SpUtils {
         SharedPreferences sp = ZcApplication.getPreferences();
         SharedPreferences.Editor editor = sp.edit();
 
+        if (object == null) return;
         if (object instanceof String) {
             editor.putString(key, (String) object);
         } else if (object instanceof Integer) {
@@ -123,7 +124,6 @@ public class SpUtils {
      * 创建一个解决SharedPreferencesCompat.apply方法的一个兼容类
      *
      * @author zhy
-     *
      */
     private static class SharedPreferencesCompat {
         private static final Method sApplyMethod = findApplyMethod();
@@ -133,7 +133,7 @@ public class SpUtils {
          *
          * @return
          */
-        @SuppressWarnings({ "unchecked", "rawtypes" })
+        @SuppressWarnings({"unchecked", "rawtypes"})
         private static Method findApplyMethod() {
             try {
                 Class clz = SharedPreferences.Editor.class;

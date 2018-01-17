@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
+import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -120,7 +121,10 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void launchHomeScreen() {
         SpUtils.put(Constants.SPREF.IS_FIRST_TIME_LAUNCH, false);
-        startActivity(new Intent(this, MainActivity.class));
+        if ((boolean) SpUtils.get((Constants.SPREF.IS_LOGIN), false))
+            startActivity(new Intent(this, MainActivity.class));
+        else startActivity(new Intent(this, LoginActivity.class));
+
         finish();
     }
 

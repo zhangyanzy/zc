@@ -39,12 +39,6 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
     private int currentIndex = -1;
     private Map<Integer, Fragment> fragmentMap = new HashMap<>();
 
-    public static void startActivity(Context context, Bundle bundle) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtras(bundle);
-        context.startActivity(intent);
-    }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

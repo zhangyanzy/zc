@@ -13,7 +13,7 @@ public class LoginResp {
 
     private String avatar;
 
-    private String description;
+    private String desc;
 
     private String nickname;
 
@@ -40,11 +40,11 @@ public class LoginResp {
     }
 
     public String getDescription() {
-        return description;
+        return desc;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.desc = description;
     }
 
     public String getNickname() {
@@ -84,7 +84,7 @@ public class LoginResp {
         return "LoginResp{" +
                 "token='" + token + '\'' +
                 ", avatar='" + avatar + '\'' +
-                ", description='" + description + '\'' +
+                ", description='" + desc + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", phone='" + phone + '\'' +
                 ", result='" + result + '\'' +

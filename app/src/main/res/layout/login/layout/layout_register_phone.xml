@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_top_title"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorFont6"
+        android:textSize="@dimen/font_size_14"
+        android:text="请设置您的登录密码："
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"/>
+
+    <EditText
+        android:id="@+id/input_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_shape_no_border"
+        android:hint="@string/input_pass_word"
+        android:textColorHint="@color/colorFont9"
+        android:textSize="@dimen/font_size_14"
+        android:textColor="@color/colorFont6"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp"
+        android:layout_marginTop="50dp"/>
+
+    <View style="@style/horizontal_C9_line"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp"/>
+
+    <EditText
+        android:id="@+id/input_invite_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_shape_no_border"
+        android:hint="@string/input_edit_invite_code"
+        android:textColorHint="@color/colorFont9"
+        android:textSize="@dimen/font_size_14"
+        android:textColor="@color/colorFont6"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp"
+        android:layout_marginTop="15dp"/>
+
+    <View style="@style/horizontal_C9_line"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp"/>
+
+    <TextView
+        android:id="@+id/tv_submit"
+        android:layout_width="225dp"
+        android:layout_height="40dp"
+        android:text="提交"
+        android:textSize="@dimen/font_size_18"
+        android:textColor="@color/colorWhite"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/button_shape_orange_round"
+        android:layout_marginTop="80dp"
+        android:gravity="center"/>
+</LinearLayout>

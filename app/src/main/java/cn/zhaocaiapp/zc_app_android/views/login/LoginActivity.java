@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.MainActivity;
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
@@ -67,6 +68,11 @@ public class LoginActivity extends BaseActivity {
     private int type = 0;
     private String uid = "";
 
+    private UMShareAPI umShareAPI;
+    private SHARE_MEDIA platform;
+
+    private static final String TAG = "登录";
+
     @Override
     public int getContentViewResId() {
         return R.layout.layout_login_main;
@@ -76,6 +82,8 @@ public class LoginActivity extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         GeneralUtils.addUnderLineToText(tv_forget_pass);
         GeneralUtils.addUnderLineToText(tv_register);
+
+        umShareAPI = ZcApplication.getUMShareAPI();
     }
 
     @OnClick({R.id.tv_skip_login, R.id.tv_register, R.id.tv_forget_pass, R.id.tv_login,
@@ -95,18 +103,23 @@ public class LoginActivity extends BaseActivity {
                 openActivity(ForgetPassActivity.class);
                 break;
             case R.id.tv_login:
-                //验证手机号和密码
                 if (judgePhone(phone) && judgePass(pass))
                     doLogin();
                 break;
             case R.id.login_wechat:
-                getAuth(SHARE_MEDIA.WEIXIN);
+                type = 1;
+                platform = SHARE_MEDIA.WEIXIN;
+                getAuth();
                 break;
             case R.id.login_qq:
-                getAuth(SHARE_MEDIA.QQ);
+                type = 2;
+                platform = SHARE_MEDIA.QQ;
+                getAuth();
                 break;
             case R.id.login_sina:
-                getAuth(SHARE_MEDIA.SINA);
+                type = 3;
+                platform = SHARE_MEDIA.SINA;
+                getAuth();
                 break;
         }
     }
@@ -114,10 +127,10 @@ public class LoginActivity extends BaseActivity {
     //发送登录请求
     private void doLogin() {
         Map<String, String> params = new HashMap<>();
-        if (type == 0){
-            params.put("account", "18888888888");
-            params.put("password", "123456");
-        }else {
+        if (type == 0) {
+            params.put("account", phone);
+            params.put("password", pass);
+        } else {
             params.put("uid", uid);
         }
         params.put("type", type + "");
@@ -126,28 +139,40 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void success(LoginResp result) {
+                EBLog.i(TAG, result.toString());
+                ToastUtil.makeText(LoginActivity.this, result.getDescription());
+
                 loginResp = result;
                 saveUserData();
-                openActivity(MainActivity.class);
-
-                EBLog.i("HTTP", result.toString());
+                Bundle bundle = new Bundle();
+                bundle.putInt("position", 0);
+                openActivity(MainActivity.class, bundle);
+                LoginActivity.this.finish();
             }
 
             @Override
             public void error(Response<LoginResp> response) {
-                EBLog.i("HTTP", response.getCode().toString());
+                ToastUtil.makeText(LoginActivity.this, response.getDesc());
+                EBLog.i(TAG, response.getCode() + "");
+                if (type != 0 && response.getCode() == 5000) {
+                    turnToBindPhone(platform);
+                }
             }
         });
     }
 
     //保存用户数据
     private void saveUserData() {
-        SpUtils.put(Constants.SPREF.TOKEN, "");
+        SpUtils.put(Constants.SPREF.TOKEN, loginResp.getToken());
+        SpUtils.put(Constants.SPREF.IS_LOGIN, true);
+        SpUtils.put(Constants.SPREF.USER_PHOTO, loginResp.getAvatar());
+        SpUtils.put(Constants.SPREF.NICK_NAME, loginResp.getNickname());
+        SpUtils.put(Constants.SPREF.USER_PHONE, loginResp.getPhone());
     }
 
     //获取三方授权
-    private void getAuth(SHARE_MEDIA platform) {
-        UMShareAPI.get(this).doOauthVerify(this, platform, new UMAuthListener() {
+    private void getAuth() {
+        umShareAPI.getPlatformInfo(this, platform, new UMAuthListener() {
             @Override
             public void onStart(SHARE_MEDIA share_media) {
 
@@ -155,16 +180,16 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-                uid = map.get("uid");
-                turnToBindPhone(share_media);
-                doLogin();
-                Log.i("UMENG", map.get("uid"));
+                Log.i("UMENG", map.toString());
                 ToastUtil.makeText(LoginActivity.this, "授权成功");
+
+                uid = map.get("uid");
+                doLogin();
             }
 
             @Override
             public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
-                ToastUtil.makeText(LoginActivity.this, "授权失败" + "---错误码---" + i);
+
             }
 
             @Override
@@ -177,17 +202,15 @@ public class LoginActivity extends BaseActivity {
     //跳转绑定手机页面
     private void turnToBindPhone(SHARE_MEDIA share_media) {
         Bundle bundle = new Bundle();
-        if (share_media == SHARE_MEDIA.WEIXIN) {
-            type = 1;
+        if (share_media == SHARE_MEDIA.WEIXIN)
             bundle.putInt(Constants.SPREF.LOGIN_MODE, Constants.SPREF.TYPE_WECHAT);
-        } else if (share_media == SHARE_MEDIA.QQ) {
-            type = 2;
+        else if (share_media == SHARE_MEDIA.QQ)
             bundle.putInt(Constants.SPREF.LOGIN_MODE, Constants.SPREF.TYPE_QQ);
-        } else if (share_media == SHARE_MEDIA.SINA) {
-            type = 3;
+        else if (share_media == SHARE_MEDIA.SINA)
             bundle.putInt(Constants.SPREF.LOGIN_MODE, Constants.SPREF.TYPE_SINA);
-        }
-//        openActivity(BindPhoneActivity.class, bundle);
+
+        bundle.putString("uid", uid);
+        openActivity(CheckPhoneActivity.class, bundle);
     }
 
     @Override

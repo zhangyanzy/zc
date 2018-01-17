@@ -64,6 +64,7 @@ public class ZcApplication extends Application {
     public static String currentActivityName = "";
 
     private static SharedPreferences sp;
+    private static UMShareAPI umShareAPI;
 
     @Override
     public void onCreate() {
@@ -80,7 +81,7 @@ public class ZcApplication extends Application {
                 .setHttpResult("response"));//网络请求返回的result字段名称，默认为result
 
         //初始化友盟sdk
-        UMShareAPI.get(this);
+        umShareAPI = UMShareAPI.get(this);
         Config.DEBUG = true;
 
         //SharedPreferences存储全局设置
@@ -120,5 +121,10 @@ public class ZcApplication extends Application {
     //获取全局SharedPreferences对象
     public static SharedPreferences getPreferences() {
         return sp;
+    }
+
+    //获取UMShareAPI初始化对象
+    public static UMShareAPI getUMShareAPI(){
+        return umShareAPI;
     }
 }

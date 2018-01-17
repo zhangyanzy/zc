@@ -81,9 +81,13 @@
         <activity
             android:name=".views.my.SettingActivity"
             android:screenOrientation="portrait" />
+        <!--验证手机号-->
+        <activity
+            android:name=".views.login.CheckPhoneActivity"
+            android:screenOrientation="portrait" />
         <!--绑定手机号-->
         <activity
-            android:name=".views.login.BindPhoneActivity"
+            android:name=".views.login.RegistPhoneActivity"
             android:screenOrientation="portrait" />
         <!--用户资料-->
         <activity
@@ -94,9 +98,11 @@
             android:name=".views.my.IncomeActivity"
             android:screenOrientation="portrait" />
         <!--管理提现账户-->
-        <activity
-            android:name=".views.my.ManageAccountActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".views.my.ManageAccountActivity"
+            android:screenOrientation="portrait"/>
+        <!--微信账户-->
+        <activity android:name=".views.my.AccountActivity"
+            android:screenOrientation="portrait"/>
 
 
         <!--商家详情-->
