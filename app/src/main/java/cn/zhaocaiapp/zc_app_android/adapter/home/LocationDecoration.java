@@ -1,4 +1,4 @@
-package cn.zhaocaiapp.zc_app_android.views.home;/*
+package cn.zhaocaiapp.zc_app_android.adapter.home;/*
  * Copyright (C) 2014 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

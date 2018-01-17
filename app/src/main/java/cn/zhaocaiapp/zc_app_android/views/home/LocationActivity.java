@@ -2,13 +2,9 @@ package cn.zhaocaiapp.zc_app_android.views.home;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -39,6 +35,7 @@ import java.util.List;
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.adapter.home.LocationAdapter;
+import cn.zhaocaiapp.zc_app_android.adapter.home.LocationDecoration;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.LocationResp;

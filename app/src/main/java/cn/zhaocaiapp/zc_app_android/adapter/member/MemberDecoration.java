@@ -1,4 +1,4 @@
-package cn.zhaocaiapp.zc_app_android.views.member;
+package cn.zhaocaiapp.zc_app_android.adapter.member;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,12 +11,12 @@ import android.view.View;
  * @filename MemberDivider.java
  * @data 2018-01-13 16:11
  */
-public class MemberDivider extends RecyclerView.ItemDecoration {
+public class MemberDecoration extends RecyclerView.ItemDecoration {
     private int leftRight;
     private int topBottom;
     private Context context;
 
-    public MemberDivider(Context context, int leftRight, int topBottom) {
+    public MemberDecoration(Context context, int leftRight, int topBottom) {
         this.leftRight = leftRight;
         this.topBottom = topBottom;
         this.context = context;

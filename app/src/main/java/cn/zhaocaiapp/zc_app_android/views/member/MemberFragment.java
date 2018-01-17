@@ -19,6 +19,7 @@ import java.util.Map;
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.adapter.member.MemberAdapter;
+import cn.zhaocaiapp.zc_app_android.adapter.member.MemberDecoration;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
@@ -56,7 +57,7 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
     public void init() {
         member_recycler_view.setLayoutManager(new GridLayoutManager(getActivity(), 5));
 
-        member_recycler_view.addItemDecoration(new MemberDivider(getActivity(), 10, 10));
+        member_recycler_view.addItemDecoration(new MemberDecoration(getActivity(), 10, 10));
 
         memberAdapter = new MemberAdapter(getActivity(), memberRespList);
         member_recycler_view.setAdapter(memberAdapter);
