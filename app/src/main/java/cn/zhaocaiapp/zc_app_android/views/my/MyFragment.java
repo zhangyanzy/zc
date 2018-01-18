@@ -9,10 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
-import org.w3c.dom.Text;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,10 +18,13 @@ import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
+import cn.zhaocaiapp.zc_app_android.bean.response.login.LoginOutResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.TrembleBasesOsDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
 
@@ -79,6 +78,9 @@ public class MyFragment extends BaseFragment {
     TextView tv_exit;
 
 
+    private static String TAG = "个人中心";
+    private TrembleBasesOsDialog trembleBasesOsDialog;
+
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.layout_my_fragment, container, false);
@@ -86,6 +88,8 @@ public class MyFragment extends BaseFragment {
 
     @Override
     public void init() {
+        trembleBasesOsDialog = new TrembleBasesOsDialog(getActivity());
+        trembleBasesOsDialog.setOnDialogClickListener(trembleListener);
 
     }
 
@@ -95,15 +99,15 @@ public class MyFragment extends BaseFragment {
     }
 
     @OnClick({R.id.iv_top_menu, R.id.iv_user_photo, R.id.tv_user_identify, R.id.tv_apply_cash, R.id.layout_all_task, R.id.layout_deliver_task,
-              R.id.layout_verify_task, R.id.layout_reward_task, R.id.layout_failed_task, R.id.layout_invite, R.id.tv_account_manager,
-              R.id.tv_follow, R.id.layout_contact, R.id.layout_email, R.id.tv_setting, R.id.tv_exit})
-    public void onClick(View view){
-        switch (view.getId()){
+            R.id.layout_verify_task, R.id.layout_reward_task, R.id.layout_failed_task, R.id.layout_invite, R.id.tv_account_manager,
+            R.id.tv_follow, R.id.layout_contact, R.id.layout_email, R.id.tv_setting, R.id.tv_exit})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.iv_user_photo: //个人资料
                 openActivity(UserInfoActivity.class);
                 break;
-            case R.id.tv_exit:
-                doLoginOut();
+            case R.id.tv_exit: // 退出登录
+                trembleBasesOsDialog.show();
                 break;
             case R.id.tv_apply_cash: // 申请提现
                 openActivity(ApplyCashActivity.class);
@@ -123,22 +127,32 @@ public class MyFragment extends BaseFragment {
         }
     }
 
-    private void doLoginOut(){
-        Map<String, String>params = new HashMap<>();
+    private void doLoginOut() {
+        Map<String, String> params = new HashMap<>();
         params.put("token", (String) SpUtils.get(Constants.SPREF.TOKEN, ""));
-        HttpUtil.post(Constants.URL.USER_LOGIN_OUT, params).subscribe(new BaseResponseObserver<String>() {
+        HttpUtil.post(Constants.URL.USER_LOGIN_OUT, params).subscribe(new BaseResponseObserver<LoginOutResp>() {
             @Override
-            public void success(String result) {
+            public void success(LoginOutResp result) {
+                EBLog.i(TAG, result.toString());
                 SpUtils.clear();
                 openActivity(LoginActivity.class);
-                EBLog.i("HTTP", result);
+
             }
 
             @Override
-            public void error(Response<String> response) {
-
+            public void error(Response<LoginOutResp> response) {
+                ToastUtil.makeText(getActivity(), response.getDesc());
+                EBLog.i(TAG, response.getCode() + "");
             }
         });
     }
 
+    private TrembleBasesOsDialog.OnDialogClickListener trembleListener = new TrembleBasesOsDialog.OnDialogClickListener() {
+        @Override
+        public void onDialogClick(int resId) {
+            if (resId == R.id.tv_exit)
+                doLoginOut();
+            trembleBasesOsDialog.dismiss();
+        }
+    };
 }

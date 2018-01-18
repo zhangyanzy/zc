@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jph.takephoto.app.TakePhotoFragment;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
@@ -22,7 +24,7 @@ import cn.zhaocaiapp.zc_app_android.widget.LoadingDialog;
 /**
  * fragment懒加载
  * */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends TakePhotoFragment {
     private View rootView;
     private Unbinder unbinder;
 

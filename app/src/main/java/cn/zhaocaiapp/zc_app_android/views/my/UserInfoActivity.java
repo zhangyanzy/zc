@@ -75,7 +75,6 @@ public class UserInfoActivity extends BaseActivity {
             return tabTitles[position];
         }
 
-
     }
 
     private Fragment getFragment(int position){

@@ -155,7 +155,7 @@ public class LoginActivity extends BaseActivity {
                 ToastUtil.makeText(LoginActivity.this, response.getDesc());
                 EBLog.i(TAG, response.getCode() + "");
                 if (type != 0 && response.getCode() == 5000) {
-                    turnToBindPhone(platform);
+                    turnToCheckPhone(platform);
                 }
             }
         });
@@ -200,7 +200,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     //跳转绑定手机页面
-    private void turnToBindPhone(SHARE_MEDIA share_media) {
+    private void turnToCheckPhone(SHARE_MEDIA share_media) {
         Bundle bundle = new Bundle();
         if (share_media == SHARE_MEDIA.WEIXIN)
             bundle.putInt(Constants.SPREF.LOGIN_MODE, Constants.SPREF.TYPE_WECHAT);
