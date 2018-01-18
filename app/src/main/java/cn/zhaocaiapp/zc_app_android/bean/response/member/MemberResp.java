@@ -12,7 +12,7 @@ public class MemberResp {
     /**
      * 主键
      */
-    private Long id;
+    private Long kid;
 
     /**
      * 商家id
@@ -109,12 +109,12 @@ public class MemberResp {
      */
     private Integer isDelete;
 
-    public Long getId() {
-        return id;
+    public Long getKid() {
+        return kid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setKid(Long kid) {
+        this.kid = kid;
     }
 
     public String getName() {
@@ -272,7 +272,7 @@ public class MemberResp {
     @Override
     public String toString() {
         return "MemberResp{" +
-                "id=" + id +
+                "kid=" + kid +
                 ", memberId=" + memberId +
                 ", name='" + name + '\'' +
                 ", memberStatus=" + memberStatus +
