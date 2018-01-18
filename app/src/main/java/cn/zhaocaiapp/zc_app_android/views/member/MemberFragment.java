@@ -96,7 +96,7 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
         @Override
         public void onItemCliclk(int position) {
             Bundle bd = new Bundle();
-            bd.putLong("memberId", memberRespList.get(position).getId());
+            bd.putLong("memberId", memberRespList.get(position).getKid());
             openActivity(MemberDetailActivity.class, bd);
             EBLog.i("tag", "您点击了第" + position + "条");
         }
