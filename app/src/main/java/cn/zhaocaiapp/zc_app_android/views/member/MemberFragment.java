@@ -35,8 +35,6 @@ import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
  */
 public class MemberFragment extends BaseFragment implements OnRefreshListener {
 
-    //@BindView(R.id.member_grid)
-    //GridLayout member_grid;
     @BindView(R.id.member_refresh_layout)
     RefreshLayout member_refresh_layout;
     @BindView(R.id.member_recycler_view)
@@ -67,7 +65,7 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
         member_refresh_layout.setOnRefreshListener(this);
         member_refresh_layout.setEnableLoadmore(false);
 
-        //loadData();
+        loadData();
     }
 
     @Override
