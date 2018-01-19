@@ -17,6 +17,9 @@ import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
+import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
+import cn.zhaocaiapp.zc_app_android.bean.response.login.ObtainCodeResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
@@ -48,8 +51,9 @@ public class ForgetPassActivity extends BaseActivity {
 
     private String phone;
     private String pass;
-    private String identift_code;
-    private boolean isPassUsable;
+    private String identiftCode;
+
+    private static final String TAG = "忘记密码";
 
     @Override
     public int getContentViewResId() {
@@ -67,8 +71,6 @@ public class ForgetPassActivity extends BaseActivity {
     @OnClick({R.id.iv_top_back, R.id.tv_get_idntify_code, R.id.tv_reset_pass})
     public void onClick(View view) {
         phone = edit_phone_number.getText().toString();
-        pass = edit_new_pass.getText().toString();
-        identift_code = edit_identify_code.getText().toString();
         switch (view.getId()) {
             case R.id.iv_top_back:
                 finish();
@@ -76,12 +78,14 @@ public class ForgetPassActivity extends BaseActivity {
             case R.id.tv_get_idntify_code:
                 if (judgePhone(phone)) {
                     waitTimer(get_idntify_code);
-                    getIdentifyCode();
+                    requestIdentifyCode();
                 }
                 break;
             case R.id.tv_reset_pass:
-                if (judgePhone(phone) && judgePass(pass)){
-                    if (GeneralUtils.isNullOrZeroLenght(identift_code))
+                identiftCode = edit_identify_code.getText().toString();
+                pass = edit_new_pass.getText().toString();
+                if (judgePhone(phone) && judgePass(pass)) {
+                    if (GeneralUtils.isNullOrZeroLenght(identiftCode))
                         ToastUtil.makeText(ForgetPassActivity.this, getString(R.string.input_identify_code));
                     else doResetPass();
                 }
@@ -96,19 +100,21 @@ public class ForgetPassActivity extends BaseActivity {
     }
 
     //获取验证码
-    private void getIdentifyCode() {
+    private void requestIdentifyCode() {
         Map<String, String> params = new HashMap<>();
         params.put("phone", phone);
-        HttpUtil.post(Constants.URL.GET_IDENTIFY_CODE, params).subscribe(new BaseResponseObserver<String>() {
+        HttpUtil.post(Constants.URL.GET_IDENTIFY_CODE, params).subscribe(new BaseResponseObserver<ObtainCodeResp>() {
 
             @Override
-            public void success(String result) {
-                ToastUtil.makeText(ForgetPassActivity.this, "获取验证码成功");
+            public void success(ObtainCodeResp result) {
+                EBLog.i(TAG, result.toString());
+                ToastUtil.makeText(ForgetPassActivity.this, result.getDesc());
             }
 
             @Override
-            public void error(Response<String> response) {
-
+            public void error(Response<ObtainCodeResp> response) {
+                ToastUtil.makeText(ForgetPassActivity.this, response.getDesc());
+                EBLog.i(TAG, response.getCode() + "");
             }
         });
 
@@ -116,9 +122,27 @@ public class ForgetPassActivity extends BaseActivity {
 
     //请求重置密码
     private void doResetPass() {
+        Map<String, String> params = new HashMap<>();
+        params.put("phone", phone);
+        params.put("password", pass);
+        params.put("code", identiftCode);
+        HttpUtil.post(Constants.URL.UPDATE_PASS, params).subscribe(new BaseResponseObserver<CommonResp>() {
+            @Override
+            public void success(CommonResp result) {
+                EBLog.i(TAG, result.getDesc());
+                if (result.isResult()) {
+                    openActivity(LoginActivity.class);
+                    finish();
+                } else
+                    ToastUtil.makeText(ForgetPassActivity.this, result.getDesc());
+            }
 
-
-
+            @Override
+            public void error(Response response) {
+                ToastUtil.makeText(ForgetPassActivity.this, response.getDesc());
+                EBLog.i(TAG, response.getCode() + "");
+            }
+        });
 
     }
 

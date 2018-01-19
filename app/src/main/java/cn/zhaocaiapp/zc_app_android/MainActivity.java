@@ -1,16 +1,11 @@
 package cn.zhaocaiapp.zc_app_android;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.PermissionChecker;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 
@@ -35,14 +30,26 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
     @BindView(R.id.layout_group_button)
     RadioGroup groupBotton;
 
+    private int currentPosition;
     private final String[] tags = {"task", "partner", "personal", "Test"};
     private int currentIndex = -1;
     private Map<Integer, Fragment> fragmentMap = new HashMap<>();
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        currentPosition = getIntent().getIntExtra("position", -1);
+
+        initView();
+        //判断定位服务
+//        isLocation();
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main_activity);
+        currentPosition = getIntent().getIntExtra("position", -1);
 
         initView();
         //判断定位服务
@@ -51,12 +58,10 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
 
     private void initView() {
         groupBotton.setOnCheckedChangeListener(this);
-
-        int currentPosition = getIntent().getIntExtra("position", -1);
-        setCheckButton(currentPosition);
+        setCheckButton();
     }
 
-    private void setCheckButton(int currentPosition) {
+    private void setCheckButton() {
         switch (currentPosition) {
             case -1:
             case 0:

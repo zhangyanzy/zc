@@ -21,8 +21,6 @@ public class SpUtils {
      */
     public static void put(String key, Object object) {
 
-//        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-//                Context.MODE_PRIVATE);
         SharedPreferences sp = ZcApplication.getPreferences();
         SharedPreferences.Editor editor = sp.edit();
 
@@ -53,8 +51,7 @@ public class SpUtils {
      * @return
      */
     public static Object get(String key, Object defaultObject) {
-//        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
-//                Context.MODE_PRIVATE);
+
         SharedPreferences sp = ZcApplication.getPreferences();
 
         if (defaultObject instanceof String) {

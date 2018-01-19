@@ -6,26 +6,24 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.zhaocaiapp.zc_app_android.MainActivity;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
-import cn.zhaocaiapp.zc_app_android.bean.response.login.CheckPhoneResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.ObtainCodeResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.VerifyCodeResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
-import cn.zhaocaiapp.zc_app_android.util.AppUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
@@ -54,6 +52,8 @@ public class CheckPhoneActivity extends BaseActivity {
     private String uid;
     private String phone;
     private String identify_code;
+    private Bundle bundle;
+
     private static final String TAG = "校验手机号";
 
     @Override
@@ -63,8 +63,10 @@ public class CheckPhoneActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        type = getIntent().getIntExtra(Constants.SPREF.LOGIN_MODE, -1);
-        uid = getIntent().getStringExtra("uid");
+        bundle = getIntent().getExtras();
+        type = bundle.getInt(Constants.SPREF.LOGIN_MODE, -1);
+        uid = bundle.getString("uid", "");
+
         showLoginMode(type);
     }
 
@@ -122,13 +124,13 @@ public class CheckPhoneActivity extends BaseActivity {
         HttpUtil.post(Constants.URL.GET_IDENTIFY_CODE, params).subscribe(new BaseResponseObserver<ObtainCodeResp>() {
 
             @Override
-            public void success(Response<ObtainCodeResp> result) {
+            public void success(ObtainCodeResp result) {
                 EBLog.i(TAG, result.toString());
                 ToastUtil.makeText(CheckPhoneActivity.this, result.getDesc());
             }
 
             @Override
-            public void error(Response<ObtainCodeResp> response) {
+            public void error(Response response) {
                 ToastUtil.makeText(CheckPhoneActivity.this, response.getDesc());
                 EBLog.i(TAG, response.getCode() + "");
             }
@@ -138,6 +140,7 @@ public class CheckPhoneActivity extends BaseActivity {
 
     //校验手机号是否存在
     private void verifyPhone() {
+
         Map<String, String> params = new HashMap<>();
         params.put("type", type + "");
         params.put("phone", phone);
@@ -145,24 +148,36 @@ public class CheckPhoneActivity extends BaseActivity {
         params.put("uid", uid);
         HttpUtil.post(Constants.URL.VERIFY_CODE, params).subscribe(new BaseResponseObserver<VerifyCodeResp>() {
             @Override
-            public void success(Response<VerifyCodeResp> result) {
+            public void success(VerifyCodeResp result) {
                 EBLog.i(TAG, result.getDesc());
 
-                Bundle bundle = new Bundle();
-                bundle.putInt(Constants.SPREF.LOGIN_MODE, type);
-                bundle.putString(Constants.SPREF.USER_PHONE, phone);
-                bundle.putString("uid", uid);
+                bundle.putString("phone", phone);
                 openActivity(RegistPhoneActivity.class, bundle);
-
             }
 
             @Override
             public void error(Response<VerifyCodeResp> response) {
                 ToastUtil.makeText(CheckPhoneActivity.this, response.getDesc());
                 EBLog.i(TAG, response.getCode() + "");
-            }
+                if (response.getCode() == 5555){
+                    VerifyCodeResp verifyCodeResp = response.getData();
+                    saveUserData(verifyCodeResp);
 
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("position", 0);
+                    openActivity(MainActivity.class, bundle);
+                }
+            }
         });
+    }
+
+    //保存用户数据
+    private void saveUserData(VerifyCodeResp verifyCodeResp) {
+        SpUtils.put(Constants.SPREF.TOKEN, verifyCodeResp.getToken());
+        SpUtils.put(Constants.SPREF.IS_LOGIN, true);
+        SpUtils.put(Constants.SPREF.USER_ID, verifyCodeResp.getKid());
+        SpUtils.put(Constants.SPREF.NICK_NAME, verifyCodeResp.getNickname());
+        SpUtils.put(Constants.SPREF.USER_PHONE, verifyCodeResp.getPhone());
     }
 
 }

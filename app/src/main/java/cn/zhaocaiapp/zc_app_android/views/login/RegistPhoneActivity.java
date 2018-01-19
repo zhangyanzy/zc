@@ -1,6 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.views.login;
 
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,8 +20,8 @@ import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.SignupResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
-import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
@@ -47,6 +48,8 @@ public class RegistPhoneActivity extends BaseActivity {
     private int type;
     private String phone;
     private String uid;
+    private String avatar;
+    private int sex;
 
     private static final String TAG = "绑定手机号";
 
@@ -57,15 +60,17 @@ public class RegistPhoneActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        phone = getIntent().getStringExtra("phone");
         type = getIntent().getIntExtra(Constants.SPREF.LOGIN_MODE, -1);
-        phone = getIntent().getStringExtra(Constants.SPREF.USER_PHONE);
         uid = getIntent().getStringExtra("uid");
+        avatar = getIntent().getStringExtra("avatar");
+        sex = getIntent().getIntExtra("gender", 0);
 
     }
 
     @OnClick({R.id.iv_top_back, R.id.tv_submit})
-    public void onClick(View view){
-        switch (view.getId()){
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.iv_top_back:
                 finish();
                 break;
@@ -86,6 +91,8 @@ public class RegistPhoneActivity extends BaseActivity {
         params.put("password", pass);
         params.put("inviteCode", inviteCode);
         params.put("uid", uid);
+        params.put("avatar", avatar);
+        params.put("sex", sex + "");
 
         HttpUtil.post(Constants.URL.REGISTER, params).subscribe(new BaseResponseObserver<SignupResp>() {
             @Override
@@ -94,8 +101,9 @@ public class RegistPhoneActivity extends BaseActivity {
                 ToastUtil.makeText(RegistPhoneActivity.this, result.getDesc());
 
                 saveUserData(result);
-                openActivity(MainActivity.class);
-                RegistPhoneActivity.this.finish();
+                Bundle bundle = new Bundle();
+                bundle.putInt("position", 0);
+                openActivity(MainActivity.class, bundle);
             }
 
             @Override
@@ -113,6 +121,12 @@ public class RegistPhoneActivity extends BaseActivity {
         SpUtils.put(Constants.SPREF.USER_PHOTO, result.getAvatar());
         SpUtils.put(Constants.SPREF.NICK_NAME, result.getNickname());
         SpUtils.put(Constants.SPREF.USER_PHONE, result.getPhone());
+        SpUtils.put(Constants.SPREF.USER_ID, result.getId());
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        KeyBoardUtils.closeKeybord(tv_submit, this);
+        return super.onTouchEvent(event);
+    }
 }

@@ -70,6 +70,9 @@ public class LoginActivity extends BaseActivity {
 
     private UMShareAPI umShareAPI;
     private SHARE_MEDIA platform;
+    private String avatar;
+    private int sex;
+
 
     private static final String TAG = "登录";
 
@@ -109,17 +112,17 @@ public class LoginActivity extends BaseActivity {
             case R.id.login_wechat:
                 type = 1;
                 platform = SHARE_MEDIA.WEIXIN;
-                getAuth();
+                doOauth();
                 break;
             case R.id.login_qq:
                 type = 2;
                 platform = SHARE_MEDIA.QQ;
-                getAuth();
+                doOauth();
                 break;
             case R.id.login_sina:
                 type = 3;
                 platform = SHARE_MEDIA.SINA;
-                getAuth();
+                doOauth();
                 break;
         }
     }
@@ -138,20 +141,19 @@ public class LoginActivity extends BaseActivity {
         HttpUtil.post(Constants.URL.USER_LOGIN, params).subscribe(new BaseResponseObserver<LoginResp>() {
 
             @Override
-            public void success(Response<LoginResp> result) {
-                EBLog.i(TAG, result.toString());
-                ToastUtil.makeText(LoginActivity.this, result.getData().getDescription());
+            public void success(LoginResp result) {
+//                EBLog.i(TAG, result.getData().toString());
+                ToastUtil.makeText(LoginActivity.this, result.getDescription());
 
-                loginResp = result.getData();
+                loginResp = result;
                 saveUserData();
                 Bundle bundle = new Bundle();
                 bundle.putInt("position", 0);
                 openActivity(MainActivity.class, bundle);
-                LoginActivity.this.finish();
             }
 
             @Override
-            public void error(Response<LoginResp> response) {
+            public void error(Response response) {
                 ToastUtil.makeText(LoginActivity.this, response.getDesc());
                 EBLog.i(TAG, response.getCode() + "");
                 if (type != 0 && response.getCode() == 5000) {
@@ -168,10 +170,11 @@ public class LoginActivity extends BaseActivity {
         SpUtils.put(Constants.SPREF.USER_PHOTO, loginResp.getAvatar());
         SpUtils.put(Constants.SPREF.NICK_NAME, loginResp.getNickname());
         SpUtils.put(Constants.SPREF.USER_PHONE, loginResp.getPhone());
+        SpUtils.put(Constants.SPREF.USER_ID, loginResp.getKid());
     }
 
     //获取三方授权
-    private void getAuth() {
+    private void doOauth() {
         umShareAPI.getPlatformInfo(this, platform, new UMAuthListener() {
             @Override
             public void onStart(SHARE_MEDIA share_media) {
@@ -183,7 +186,7 @@ public class LoginActivity extends BaseActivity {
                 Log.i("UMENG", map.toString());
                 ToastUtil.makeText(LoginActivity.this, "授权成功");
 
-                uid = map.get("uid");
+                getAuthInfo(map);
                 doLogin();
             }
 
@@ -199,18 +202,32 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
+    private void getAuthInfo(Map<String, String> map) {
+        if (map.get("gender").equals("男") || map.get("gender").equals("1"))
+            sex = 0;
+        else sex = 1;
+        uid = map.get("uid");
+        avatar = map.get("iconurl");
+
+    }
+
     //跳转绑定手机页面
     private void turnToCheckPhone(SHARE_MEDIA share_media) {
         Bundle bundle = new Bundle();
-        if (share_media == SHARE_MEDIA.WEIXIN)
-            bundle.putInt(Constants.SPREF.LOGIN_MODE, Constants.SPREF.TYPE_WECHAT);
-        else if (share_media == SHARE_MEDIA.QQ)
-            bundle.putInt(Constants.SPREF.LOGIN_MODE, Constants.SPREF.TYPE_QQ);
-        else if (share_media == SHARE_MEDIA.SINA)
-            bundle.putInt(Constants.SPREF.LOGIN_MODE, Constants.SPREF.TYPE_SINA);
 
+        if (share_media == SHARE_MEDIA.WEIXIN) {
+            bundle.putInt(Constants.SPREF.LOGIN_MODE, Constants.SPREF.TYPE_WECHAT);
+        } else if (share_media == SHARE_MEDIA.QQ) {
+            bundle.putInt(Constants.SPREF.LOGIN_MODE, Constants.SPREF.TYPE_QQ);
+        } else if (share_media == SHARE_MEDIA.SINA) {
+            bundle.putInt(Constants.SPREF.LOGIN_MODE, Constants.SPREF.TYPE_SINA);
+        }
+
+        bundle.putInt("gender", sex);
         bundle.putString("uid", uid);
+        bundle.putString("avatar", avatar);
         openActivity(CheckPhoneActivity.class, bundle);
+
     }
 
     @Override
@@ -231,11 +248,11 @@ public class LoginActivity extends BaseActivity {
         return super.onTouchEvent(event);
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         UMShareAPI.get(this).release();
     }
-
 
 }

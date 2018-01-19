@@ -28,30 +28,19 @@
         android:textSize="@dimen/font_size_16"
         android:visibility="visible" />
 
-    <ImageView
-        android:id="@+id/iv_top_menu"
-        android:layout_width="@dimen/width_btn_img"
+    <TextView
+        android:id="@+id/tv_top_menu"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/height_nav"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:paddingBottom="12dp"
+        android:layout_marginLeft="@dimen/window_padding_15"
+        android:layout_toEndOf="@+id/tv_top_title"
+        android:gravity="center_vertical|right"
+        android:maxLines="1"
         android:paddingRight="@dimen/window_padding_15"
-        android:paddingTop="12dp"
-        android:src="@mipmap/message" />
-
-    <TextView
-        android:id="@+id/tv_msg"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/button_shape_red_round"
-        android:gravity="center"
-        android:text="3"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/font_size_8"
-        android:visibility="gone" />
+        android:textColor="@color/colorFont6"
+        android:textSize="@dimen/font_size_14" />
 
 </RelativeLayout>
 

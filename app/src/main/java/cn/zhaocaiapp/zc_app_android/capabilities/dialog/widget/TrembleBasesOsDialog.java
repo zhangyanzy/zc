@@ -30,7 +30,7 @@ public class TrembleBasesOsDialog extends BasesOsDialog<TrembleBasesOsDialog> {
         showAnim(new Swing());
 
         // dismissAnim(this, new ZoomOutExit());
-        View inflate = View.inflate(context, R.layout.dialog_custom_base, null);
+        View inflate = View.inflate(context, R.layout.layout_dialog_exit, null);
         tv_cancel = ViewFindUtils.find(inflate, R.id.tv_cancel);
         tv_exit = ViewFindUtils.find(inflate, R.id.tv_exit);
         inflate.setBackgroundDrawable(

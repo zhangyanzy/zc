@@ -7,21 +7,49 @@ package cn.zhaocaiapp.zc_app_android.bean.response.login;
  */
 public class LoginResp {
     /**
-     * token
+     * "avatar":  头像
+     * "kid": Long  ID
+     * "desc": 接口功能说明
+     * "nickname":  会员昵称
+     * "phone": 手机号
+     * "result":  返回数据状态 success :成功
+     * "token": token
+     * "type":  登录类型
+     * "uid": 第三方登录唯一标识
      */
     private String token;
-
     private String avatar;
-
     private String desc;
-
     private String nickname;
-
     private String phone;
-
     private String result;
-
     private String type;
+    private long kid;
+    private String uid;
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public long getKid() {
+        return kid;
+    }
+
+    public void setKid(long kid) {
+        this.kid = kid;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public String getToken() {
         return token;
@@ -84,11 +112,13 @@ public class LoginResp {
         return "LoginResp{" +
                 "token='" + token + '\'' +
                 ", avatar='" + avatar + '\'' +
-                ", description='" + desc + '\'' +
+                ", desc='" + desc + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", phone='" + phone + '\'' +
                 ", result='" + result + '\'' +
                 ", type='" + type + '\'' +
+                ", kid=" + kid +
+                ", uid='" + uid + '\'' +
                 '}';
     }
 }

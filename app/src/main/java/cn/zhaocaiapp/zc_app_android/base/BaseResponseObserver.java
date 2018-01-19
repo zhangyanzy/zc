@@ -52,8 +52,7 @@ public abstract class BaseResponseObserver<T> implements Observer<JsonObject> {
         });
 
         Gson gson = builder.create();
-        Type type = new TypeToken<Response>() {
-        }.getType();
+        Type type = new TypeToken<Response>() {}.getType();
 
         Response<T> response = gson.fromJson(result, type);
 
@@ -67,24 +66,24 @@ public abstract class BaseResponseObserver<T> implements Observer<JsonObject> {
 
                 Type[] pts = (Type[]) pt.getActualTypeArguments();
                 T t = (T) gson.fromJson(data.getAsJsonArray(), pts[0]);
-                this.success(response);
+                this.success(t);
             } else if (data.isJsonObject()) {
 
                 Class<T> cls = (Class<T>) pt.getActualTypeArguments()[0];
                 T t = gson.fromJson(data.getAsJsonObject(), cls);
-                this.success(response);
+                this.success(t);
             } else if (data.isJsonNull()) {
                 //TODO
             } else if (data.isJsonPrimitive()) {
                 T t = (T) gson.fromJson(data.getAsJsonPrimitive(), type);
-                this.success(response);
+                this.success(t);
             }
         } else {
             error(response);
         }
     }
 
-    public abstract void success(Response<T> result);
+    public abstract void success(T t);
 
     public abstract void error(Response<T> response);
 

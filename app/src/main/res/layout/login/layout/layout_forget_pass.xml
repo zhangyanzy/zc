@@ -21,7 +21,8 @@
         android:maxLines="1"
         android:textColor="@color/colorFont6"
         android:textColorHint="@color/colorFont9"
-        android:textSize="@dimen/font_size_14" />
+        android:textSize="@dimen/font_size_14"
+        android:inputType="phone"/>
 
     <View style="@style/horizontal_C9_line"
         android:layout_marginLeft="35dp"
@@ -47,7 +48,8 @@
             android:maxLines="1"
             android:textColor="@color/colorFont6"
             android:textColorHint="@color/colorFont9"
-            android:textSize="@dimen/font_size_14" />
+            android:textSize="@dimen/font_size_14"
+            android:inputType="number"/>
 
         <TextView
             android:id="@+id/tv_get_idntify_code"
@@ -79,7 +81,8 @@
         android:maxLines="1"
         android:textColor="@color/colorFont6"
         android:textColorHint="@color/colorFont9"
-        android:textSize="@dimen/font_size_14" />
+        android:textSize="@dimen/font_size_14"
+        android:inputType="textPassword"/>
 
     <View style="@style/horizontal_C9_line"
         android:layout_marginLeft="35dp"

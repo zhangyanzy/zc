@@ -77,6 +77,10 @@ public interface Constants {
          * 校验验证码
          */
         String VERIFY_CODE = "register/check/code";
+        /**
+         * 重置密码
+         * */
+        String UPDATE_PASS = "user/updatepassword";
 
         /**
          * 获取城市列表

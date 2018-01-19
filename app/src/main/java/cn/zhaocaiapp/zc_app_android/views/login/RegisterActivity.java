@@ -115,7 +115,7 @@ public class RegisterActivity extends BaseActivity {
         HttpUtil.post(Constants.URL.GET_IDENTIFY_CODE, params).subscribe(new BaseResponseObserver<ObtainCodeResp>() {
 
             @Override
-            public void success(Response<ObtainCodeResp> result) {
+            public void success(ObtainCodeResp result) {
                 EBLog.i(TAG, result.toString());
                 ToastUtil.makeText(RegisterActivity.this, result.getDesc());
             }
@@ -140,13 +140,14 @@ public class RegisterActivity extends BaseActivity {
 
         HttpUtil.post(Constants.URL.REGISTER, params).subscribe(new BaseResponseObserver<SignupResp>() {
             @Override
-            public void success(Response<SignupResp> result) {
+            public void success(SignupResp result) {
                 EBLog.i(TAG, result.toString());
                 ToastUtil.makeText(RegisterActivity.this, result.getDesc());
 
-                saveUserData(result.getData());
-                openActivity(MainActivity.class);
-                RegisterActivity.this.finish();
+                saveUserData(result);
+                Bundle bundle = new Bundle();
+                bundle.putInt("position", 0);
+                openActivity(MainActivity.class, bundle);
             }
 
             @Override

@@ -73,18 +73,18 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
 
         HttpUtil.get(Constants.URL.GET_ACTIVITY_LIST_MEMBER, params).subscribe(new BaseResponseObserver<List<ActivityResp>>() {
             @Override
-            public void success(Response<List<ActivityResp>> result) {
+            public void success(List<ActivityResp> result) {
                 if (pageNumber == 1) {
-                    activityRespList = result.getData();
+                    activityRespList = result;
                     //恢复没有更多数据的原始状态
                     member_detail_refresh.resetNoMoreData();
                 } else {
-                    activityRespList.addAll(result.getData());
+                    activityRespList.addAll(result);
                 }
-                if (pageNumber * Constants.CONFIG.PAGE_SIZE >= result.getTotal()) {
-                    //完成加载并标记没有更多数据
-                    member_detail_refresh.finishLoadmoreWithNoMoreData();
-                }
+//                if (pageNumber * Constants.CONFIG.PAGE_SIZE >= result.getTotal()) {
+//                    //完成加载并标记没有更多数据
+//                    member_detail_refresh.finishLoadmoreWithNoMoreData();
+//                }
 
                 memberDetailAdapter.updata(activityRespList);
                 EBLog.i("tag", result.toString());

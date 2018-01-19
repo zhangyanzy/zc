@@ -27,7 +27,7 @@ public class PictureLoadUtil {
          Glide.with(context)
                  .load(url)
                  .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                 .placeholder(R.mipmap.bg_no_data)
+                 .placeholder(R.mipmap.user_girl)
                  .into(view);
      }
 

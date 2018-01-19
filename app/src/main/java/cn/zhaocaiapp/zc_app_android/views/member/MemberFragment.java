@@ -74,8 +74,8 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
 
         HttpUtil.get(Constants.URL.GET_MEMBER_QUERY, params).subscribe(new BaseResponseObserver<List<MemberResp>>() {
             @Override
-            public void success(Response<List<MemberResp>> result) {
-                memberRespList = result.getData();
+            public void success(List<MemberResp> result) {
+                memberRespList = result;
                 memberAdapter.updata(memberRespList);
                 EBLog.i("tag", result.toString());
                 member_refresh_layout.finishRefresh();

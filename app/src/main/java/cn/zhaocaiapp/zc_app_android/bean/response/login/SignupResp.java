@@ -8,14 +8,14 @@ public class SignupResp {
     /**
      *"avatar": String    头像
      "desc":  String    接口描述
-     "id":     Integer   主键
+     "kid":     Integer   主键
      "nickname": String  昵称
      "phone": String    手机
      "token": String    token
      * */
     private String avatar;
     private String desc;
-    private long id;
+    private long kid;
     private String nickname;
     private String phone;
     private String token;
@@ -37,11 +37,11 @@ public class SignupResp {
     }
 
     public long getId() {
-        return id;
+        return kid;
     }
 
     public void setId(long id) {
-        this.id = id;
+        this.kid = id;
     }
 
     public String getNickname() {
@@ -73,7 +73,7 @@ public class SignupResp {
         return "SignupResp{" +
                 "avatar='" + avatar + '\'' +
                 ", desc='" + desc + '\'' +
-                ", id=" + id +
+                ", kid=" + kid +
                 ", nickname='" + nickname + '\'' +
                 ", phone='" + phone + '\'' +
                 ", token='" + token + '\'' +

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -18,11 +19,13 @@ import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
-import cn.zhaocaiapp.zc_app_android.bean.response.login.LoginOutResp;
+import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.TrembleBasesOsDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
@@ -55,13 +58,13 @@ public class MyFragment extends BaseFragment {
     @BindView(R.id.layout_all_task)
     LinearLayout layout_all_task;
     @BindView(R.id.layout_deliver_task)
-    LinearLayout layout_deliver_task;
+    RelativeLayout layout_deliver_task;
     @BindView(R.id.layout_verify_task)
-    LinearLayout layout_verify_task;
+    RelativeLayout layout_verify_task;
     @BindView(R.id.layout_reward_task)
-    LinearLayout layout_reward_task;
+    RelativeLayout layout_reward_task;
     @BindView(R.id.layout_failed_task)
-    LinearLayout layout_failed_task;
+    RelativeLayout layout_failed_task;
     @BindView(R.id.layout_invite)
     LinearLayout layout_invite;
     @BindView(R.id.tv_account_manager)
@@ -88,6 +91,13 @@ public class MyFragment extends BaseFragment {
 
     @Override
     public void init() {
+        String imgUrl = (String) SpUtils.get(Constants.SPREF.USER_PHOTO, "");
+        String nickName = (String) SpUtils.get(Constants.SPREF.NICK_NAME, "");
+        if (!GeneralUtils.isNullOrZeroLenght(imgUrl))
+            PictureLoadUtil.loadPicture(getActivity(), imgUrl, iv_user_photo);
+        if (!GeneralUtils.isNullOrZeroLenght(nickName))
+            tv_user_name.setText(nickName);
+
         trembleBasesOsDialog = new TrembleBasesOsDialog(getActivity());
         trembleBasesOsDialog.setOnDialogClickListener(trembleListener);
 
@@ -130,9 +140,9 @@ public class MyFragment extends BaseFragment {
     private void doLoginOut() {
         Map<String, String> params = new HashMap<>();
         params.put("token", (String) SpUtils.get(Constants.SPREF.TOKEN, ""));
-        HttpUtil.post(Constants.URL.USER_LOGIN_OUT, params).subscribe(new BaseResponseObserver<LoginOutResp>() {
+        HttpUtil.post(Constants.URL.USER_LOGIN_OUT, params).subscribe(new BaseResponseObserver<CommonResp>() {
             @Override
-            public void success(Response<LoginOutResp> result) {
+            public void success(CommonResp result) {
                 EBLog.i(TAG, result.toString());
                 SpUtils.clear();
                 openActivity(LoginActivity.class);
@@ -140,7 +150,7 @@ public class MyFragment extends BaseFragment {
             }
 
             @Override
-            public void error(Response<LoginOutResp> response) {
+            public void error(Response<CommonResp> response) {
                 ToastUtil.makeText(getActivity(), response.getDesc());
                 EBLog.i(TAG, response.getCode() + "");
             }

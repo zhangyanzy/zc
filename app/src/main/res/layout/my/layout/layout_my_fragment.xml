@@ -26,22 +26,22 @@
 
                 <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
                     android:id="@+id/iv_user_photo"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:scaleType="fitXY"
                     android:src="@mipmap/user_girl" />
 
                 <TextView
                     android:id="@+id/tv_user_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/iv_user_photo"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="6dp"
                     android:text="@string/app_name"
                     android:textColor="@color/colorFont6"
                     android:textSize="12sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:gravity="center"/>
 
                 <TextView
                     android:id="@+id/tv_user_identify"
@@ -49,6 +49,7 @@
                     android:layout_height="20dp"
                     android:layout_below="@+id/tv_user_name"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="2dp"
                     android:background="@drawable/button_shape_orange_round"
                     android:gravity="center"
                     android:text="未认证"
@@ -148,42 +149,58 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/layout_deliver_task"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
                     android:orientation="vertical">
 
                     <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
+                        android:id="@+id/iv_deliver_task"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:src="@mipmap/ic_launcher_round" />
+                        android:src="@mipmap/ic_launcher_round"
+                        android:layout_centerHorizontal="true"/>
 
                     <TextView
                         android:id="@+id/tv_deliver_task"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:text="待交付"
                         android:textColor="@color/colorFont6"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:layout_below="@+id/iv_deliver_task"
+                        android:layout_centerHorizontal="true"/>
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_deliver_msg"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/button_shape_red_round"
+                        android:layout_marginRight="12dp"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/font_size_8"
+                        android:text="3"
+                        android:gravity="center"
+                        android:visibility="gone"/>
 
-                <LinearLayout
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/layout_verify_task"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
                     android:orientation="vertical">
 
                     <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
+                        android:id="@+id/iv_verify_task"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:src="@mipmap/ic_launcher_round" />
+                        android:src="@mipmap/ic_launcher_round"
+                        android:layout_centerHorizontal="true"/>
 
                     <TextView
                         android:id="@+id/tv_verify_task"
@@ -192,11 +209,26 @@
                         android:gravity="center"
                         android:text="待审核"
                         android:textColor="@color/colorFont6"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:layout_below="@+id/iv_verify_task"
+                        android:layout_centerHorizontal="true"/>
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_verify_msg"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/button_shape_red_round"
+                        android:layout_marginRight="12dp"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/font_size_8"
+                        android:text="3"
+                        android:gravity="center"
+                        android:visibility="gone"/>
 
-                <LinearLayout
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/layout_reward_task"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -205,9 +237,11 @@
                     android:orientation="vertical">
 
                     <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
+                        android:id="@+id/iv_reward_task"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:src="@mipmap/ic_launcher_round" />
+                        android:src="@mipmap/ic_launcher_round"
+                        android:layout_centerHorizontal="true"/>
 
                     <TextView
                         android:id="@+id/tv_reward_task"
@@ -216,11 +250,26 @@
                         android:gravity="center"
                         android:text="待领钱"
                         android:textColor="@color/colorFont6"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:layout_below="@+id/iv_reward_task"
+                        android:layout_centerHorizontal="true"/>
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_reward_msg"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/button_shape_red_round"
+                        android:layout_marginRight="12dp"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/font_size_8"
+                        android:text="3"
+                        android:gravity="center"
+                        android:visibility="gone"/>
 
-                <LinearLayout
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/layout_failed_task"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -229,9 +278,11 @@
                     android:orientation="vertical">
 
                     <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
+                        android:id="@+id/iv_failed_task"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:src="@mipmap/ic_launcher_round" />
+                        android:src="@mipmap/ic_launcher_round"
+                        android:layout_centerHorizontal="true"/>
 
                     <TextView
                         android:id="@+id/tv_failed_task"
@@ -240,9 +291,24 @@
                         android:gravity="center"
                         android:text="未通过"
                         android:textColor="@color/colorFont6"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:layout_below="@+id/iv_failed_task"
+                        android:layout_centerHorizontal="true"/>
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_failed_msg"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/button_shape_red_round"
+                        android:layout_marginRight="12dp"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/font_size_8"
+                        android:text="3"
+                        android:gravity="center"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
             </LinearLayout>
 
             <View style="@style/C9_8dp_divider" />
