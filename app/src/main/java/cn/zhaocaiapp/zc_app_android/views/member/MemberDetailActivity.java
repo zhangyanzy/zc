@@ -37,6 +37,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
 
     private long memberId;//商家
     private int pageNumber = 1;//分页
+    private int total = 0;//总数
     private List<ActivityResp> activityRespList = new ArrayList<>();//活动列表
 
     private MemberDetailAdapter memberDetailAdapter;
@@ -60,7 +61,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
 
         member_detail_refresh.setOnRefreshListener(this);
         member_detail_refresh.setOnLoadmoreListener(this);
-
+        initData();
     }
 
     private void initData() {
@@ -70,17 +71,28 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
         params.put("currentResult", String.valueOf((pageNumber - 1) * Constants.CONFIG.PAGE_SIZE));
         EBLog.i("tag", params.toString());
 
-        HttpUtil.get(Constants.URL.GET_ACTIVITY_LIST_MEMBER, params).subscribe(new BaseResponseObserver<List<ActivityResp>>() {
+        HttpUtil.get(Constants.URL.GET_ACTIVITY_LIST_MEMBER, params).subscribe(new BaseResponseObserver<Response<List<ActivityResp>>>() {
             @Override
-            public void success(List<ActivityResp> result) {
-                activityRespList = result;
+            public void success(Response<List<ActivityResp>> result) {
+                if (pageNumber == 1) {
+                    activityRespList = result.getData();
+                    //恢复没有更多数据的原始状态
+                    member_detail_refresh.resetNoMoreData();
+                } else {
+                    activityRespList.addAll(result.getData());
+                }
+                if (pageNumber * Constants.CONFIG.PAGE_SIZE >= result.getTotal()) {
+                    //完成加载并标记没有更多数据
+                    member_detail_refresh.finishLoadmoreWithNoMoreData();
+                }
+
                 memberDetailAdapter.updata(activityRespList);
                 EBLog.i("tag", result.toString());
                 member_detail_refresh.finishRefresh();
             }
 
             @Override
-            public void error(Response<List<ActivityResp>> response) {
+            public void error(Response<Response<List<ActivityResp>>> response) {
 
             }
 
