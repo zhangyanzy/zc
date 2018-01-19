@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/activity_item_member_logo"
         android:layout_width="@dimen/member_logo"
         android:layout_height="@dimen/member_logo"
         android:layout_weight="0"

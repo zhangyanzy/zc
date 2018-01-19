@@ -65,7 +65,6 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
         member_refresh_layout.setOnRefreshListener(this);
         member_refresh_layout.setEnableLoadmore(false);
 
-        loadData();
     }
 
     @Override

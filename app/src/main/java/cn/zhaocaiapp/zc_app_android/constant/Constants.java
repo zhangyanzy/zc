@@ -38,6 +38,11 @@ public interface Constants {
          * 请求超时时间
          */
         int DEFAULT_TIMEOUT = 5;
+
+        /**
+         * 分页pageSize
+         */
+        int PAGE_SIZE = 10;
     }
 
     interface URL {
