@@ -28,7 +28,9 @@
     <string name="withdraw_all">全部提现</string>
     <string name="auth_success">授权成功， 请绑定手机号</string>
     <string name="search_member">搜索所有商家</string>
-
+    <string name="activity_type_0">线下活动</string>
+    <string name="activity_type_1">视频活动</string>
+    <string name="activity_type_2">问卷活动</string>
 
 
 </resources>

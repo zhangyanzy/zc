@@ -49,7 +49,7 @@ public interface Constants {
 
         /**
          * 注册
-         * */
+         */
         String REGISTER = "register/signup";
 
         /**
@@ -70,7 +70,7 @@ public interface Constants {
         String IS_PHONE_EXIST = "register/check/phone/exist";
         /**
          * 校验验证码
-         * */
+         */
         String VERIFY_CODE = "register/check/code";
 
         /**
@@ -82,6 +82,11 @@ public interface Constants {
          * 商家列表
          */
         String GET_MEMBER_QUERY = "member/query";
+
+        /**
+         * 商家活动列表
+         */
+        String GET_ACTIVITY_LIST_MEMBER = "activity/list/member";
 
 
     }
