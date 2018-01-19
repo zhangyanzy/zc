@@ -71,7 +71,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
         params.put("currentResult", String.valueOf((pageNumber - 1) * Constants.CONFIG.PAGE_SIZE));
         EBLog.i("tag", params.toString());
 
-        HttpUtil.get(Constants.URL.GET_ACTIVITY_LIST_MEMBER, params).subscribe(new BaseResponseObserver<Response<List<ActivityResp>>>() {
+        HttpUtil.get(Constants.URL.GET_ACTIVITY_LIST_MEMBER, params).subscribe(new BaseResponseObserver<List<ActivityResp>>() {
             @Override
             public void success(Response<List<ActivityResp>> result) {
                 if (pageNumber == 1) {
@@ -92,7 +92,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
             }
 
             @Override
-            public void error(Response<Response<List<ActivityResp>>> response) {
+            public void error(Response<List<ActivityResp>> response) {
 
             }
 

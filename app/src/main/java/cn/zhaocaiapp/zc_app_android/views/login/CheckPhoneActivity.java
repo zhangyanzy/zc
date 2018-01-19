@@ -122,7 +122,7 @@ public class CheckPhoneActivity extends BaseActivity {
         HttpUtil.post(Constants.URL.GET_IDENTIFY_CODE, params).subscribe(new BaseResponseObserver<ObtainCodeResp>() {
 
             @Override
-            public void success(ObtainCodeResp result) {
+            public void success(Response<ObtainCodeResp> result) {
                 EBLog.i(TAG, result.toString());
                 ToastUtil.makeText(CheckPhoneActivity.this, result.getDesc());
             }
@@ -145,7 +145,7 @@ public class CheckPhoneActivity extends BaseActivity {
         params.put("uid", uid);
         HttpUtil.post(Constants.URL.VERIFY_CODE, params).subscribe(new BaseResponseObserver<VerifyCodeResp>() {
             @Override
-            public void success(VerifyCodeResp result) {
+            public void success(Response<VerifyCodeResp> result) {
                 EBLog.i(TAG, result.getDesc());
 
                 Bundle bundle = new Bundle();

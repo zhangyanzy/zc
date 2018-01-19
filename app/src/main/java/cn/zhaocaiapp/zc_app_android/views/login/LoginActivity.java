@@ -138,11 +138,11 @@ public class LoginActivity extends BaseActivity {
         HttpUtil.post(Constants.URL.USER_LOGIN, params).subscribe(new BaseResponseObserver<LoginResp>() {
 
             @Override
-            public void success(LoginResp result) {
+            public void success(Response<LoginResp> result) {
                 EBLog.i(TAG, result.toString());
-                ToastUtil.makeText(LoginActivity.this, result.getDescription());
+                ToastUtil.makeText(LoginActivity.this, result.getData().getDescription());
 
-                loginResp = result;
+                loginResp = result.getData();
                 saveUserData();
                 Bundle bundle = new Bundle();
                 bundle.putInt("position", 0);
