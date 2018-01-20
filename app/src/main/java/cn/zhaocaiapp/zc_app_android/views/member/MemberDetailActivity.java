@@ -81,10 +81,10 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
                 } else {
                     activityRespList.addAll(result);
                 }
-//                if (pageNumber * Constants.CONFIG.PAGE_SIZE >= result.getTotal()) {
-//                    //完成加载并标记没有更多数据
-//                    member_detail_refresh.finishLoadmoreWithNoMoreData();
-//                }
+                if (result.size() < Constants.CONFIG.PAGE_SIZE) {
+                    //完成加载并标记没有更多数据
+                    member_detail_refresh.finishLoadmoreWithNoMoreData();
+                }
 
                 activityAdapter.updata(activityRespList);
                 EBLog.i("tag", result.toString());

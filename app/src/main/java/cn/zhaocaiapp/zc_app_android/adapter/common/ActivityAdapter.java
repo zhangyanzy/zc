@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.joooonho.SelectableRoundedImageView;
 
 import java.util.List;
 
@@ -42,9 +44,19 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        int k = position;
+        //商家图片
         Glide.with(context)
-                .load(list.get(position).getMemberImg())
+                .load(list.get(k).getMemberImg())
                 .into(holder.activity_item_member_logo);
+        //商家名称
+        holder.activity_item_member_name.setText(list.get(k).getMemberName());
+        //活动区域
+        holder.activity_item_member_area.setText(list.get(k).getCityName());
+        //活动图片
+        Glide.with(context)
+                .load(list.get(k).getActivityImage1())
+                .into(holder.activity_item_img_i);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,8 +87,19 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        //商家图片
         @BindView(R.id.activity_item_member_logo)
         ImageView activity_item_member_logo;
+        //商家名称
+        @BindView(R.id.activity_item_member_name)
+        TextView activity_item_member_name;
+        //活动区域
+        @BindView(R.id.activity_item_member_area)
+        TextView activity_item_member_area;
+        //活动图片
+        @BindView(R.id.activity_item_img_i)
+        SelectableRoundedImageView activity_item_img_i;
+
 
         View itemView;
 
