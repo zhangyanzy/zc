@@ -31,6 +31,7 @@
     <string name="activity_type_0">线下活动</string>
     <string name="activity_type_1">视频活动</string>
     <string name="activity_type_2">问卷活动</string>
+    <string name="activity_region">活动区域：</string>
 
 
 </resources>

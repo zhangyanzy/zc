@@ -30,7 +30,9 @@
     <dimen name="window_padding_15">15dp</dimen>
     <dimen name="window_padding_30">30dp</dimen>
 
-    <!--商家头像宽高-->
+    <!--商家、参与人头像宽高-->
     <dimen name="member_logo">30dp</dimen>
+    <dimen name="member_logo_frame">3dp</dimen>
+
 
 </resources>

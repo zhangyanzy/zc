@@ -1,4 +1,4 @@
-package cn.zhaocaiapp.zc_app_android.adapter.member;
+package cn.zhaocaiapp.zc_app_android.adapter.common;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +15,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
-import cn.zhaocaiapp.zc_app_android.bean.response.member.MemberResp;
 
 
 /**
@@ -23,13 +22,13 @@ import cn.zhaocaiapp.zc_app_android.bean.response.member.MemberResp;
  * @filename MemberActivity.java
  * @data 2018-01-05 17:59
  */
-public class MemberDetailAdapter extends RecyclerView.Adapter<MemberDetailAdapter.ViewHolder> {
+public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHolder> {
 
     private List<ActivityResp> list;
     private Context context;
     private OnItemCliclkListener listene;
 
-    public MemberDetailAdapter(Context context, List<ActivityResp> list) {
+    public ActivityAdapter(Context context, List<ActivityResp> list) {
         this.list = list;
         this.context = context;
     }

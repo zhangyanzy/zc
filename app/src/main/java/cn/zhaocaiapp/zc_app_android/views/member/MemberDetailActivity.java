@@ -15,7 +15,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.R;
-import cn.zhaocaiapp.zc_app_android.adapter.member.MemberDetailAdapter;
+import cn.zhaocaiapp.zc_app_android.adapter.common.ActivityAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
@@ -40,7 +40,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
     private int total = 0;//总数
     private List<ActivityResp> activityRespList = new ArrayList<>();//活动列表
 
-    private MemberDetailAdapter memberDetailAdapter;
+    private ActivityAdapter activityAdapter;
 
 
     @Override
@@ -56,8 +56,8 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
 
         member_detail_recycler.setLayoutManager(new LinearLayoutManager(this));
 
-        memberDetailAdapter = new MemberDetailAdapter(this, activityRespList);
-        member_detail_recycler.setAdapter(memberDetailAdapter);
+        activityAdapter = new ActivityAdapter(this, activityRespList);
+        member_detail_recycler.setAdapter(activityAdapter);
 
         member_detail_refresh.setOnRefreshListener(this);
         member_detail_refresh.setOnLoadmoreListener(this);
@@ -86,7 +86,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
 //                    member_detail_refresh.finishLoadmoreWithNoMoreData();
 //                }
 
-                memberDetailAdapter.updata(activityRespList);
+                activityAdapter.updata(activityRespList);
                 EBLog.i("tag", result.toString());
                 member_detail_refresh.finishRefresh();
             }
