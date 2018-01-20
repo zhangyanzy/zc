@@ -58,7 +58,7 @@ public interface BaseHttpService {
      */
     @Headers({"Content-Type: application/json", "Accept: application/json", "x-requested-with:XMLHttpRequest"})
     @GET
-    Observable<JsonObject> get(@Url String url, @QueryMap Map<String,String> params);
+    Observable<JsonObject> get(@Url String url, @QueryMap Map<String, String> params);
 
     /**
      * get请求
@@ -70,7 +70,7 @@ public interface BaseHttpService {
      */
     @Headers({"Content-Type: application/json", "Accept: application/json", "x-requested-with:XMLHttpRequest"})
     @GET
-    Observable<JsonObject> get(@Url String url, @Query("token") String token, @QueryMap Map<String,String> params);
+    Observable<JsonObject> get(@Url String url, @Query("token") String token, @QueryMap Map<String, String> params);
 
     /**
      * post请求
@@ -138,7 +138,7 @@ public interface BaseHttpService {
      */
     @Headers({"Content-Type: application/json", "Accept: application/json", "x-requested-with:XMLHttpRequest"})
     @PUT
-    Observable<JsonObject> put(@Url String url, @Query("token") String token, @FieldMap Map params);
+    Observable<JsonObject> put(@Url String url, @Query("token") String token, @Body Map params);
 
     /**
      * delete请求
@@ -161,6 +161,6 @@ public interface BaseHttpService {
      */
     @Headers({"Content-Type: application/json", "Accept: application/json", "x-requested-with:XMLHttpRequest"})
     @DELETE
-    Observable<JsonObject> delete(@Url String url, @Query("token") String token, @FieldMap Map params);
+    Observable<JsonObject> delete(@Url String url, @Query("token") String token, @Body Map params);
 
 }
