@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.joooonho.SelectableRoundedImageView;
 
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         Glide.with(context)
                 .load(list.get(position).getLogo())
+                .asBitmap()
                 .into(holder.member_logo);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +78,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.member_logo)
-        ImageView member_logo;
+        SelectableRoundedImageView member_logo;
 
         View itemView;
 

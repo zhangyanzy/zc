@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:attr="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -9,11 +10,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <com.joooonho.SelectableRoundedImageView
             android:id="@+id/member_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            app:sriv_left_bottom_corner_radius="5dp"
+            app:sriv_left_top_corner_radius="5dp"
+            app:sriv_right_bottom_corner_radius="5dp"
+            app:sriv_right_top_corner_radius="5dp" />
     </cn.zhaocaiapp.zc_app_android.widget.SquareView>
 
 
