@@ -25,7 +25,7 @@
            android:id="@+id/edit_old_pass"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:background="@drawable/edit_shape_no_border"
+           android:background="@null"
            android:textColor="@color/colorFont6"
            android:textSize="@dimen/font_size_14"
            android:paddingLeft="10dp"/>
@@ -53,7 +53,7 @@
             android:id="@+id/edit_new_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_shape_no_border"
+            android:background="@null"
             android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_14"
             android:paddingLeft="10dp"/>
@@ -81,7 +81,7 @@
             android:id="@+id/edit_confirm_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_shape_no_border"
+            android:background="@null"
             android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_14"
             android:paddingLeft="10dp" />

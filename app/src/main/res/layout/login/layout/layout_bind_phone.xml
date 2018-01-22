@@ -4,90 +4,130 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_top_title"/>
+    <include layout="@layout/layout_top_title" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="105dp"
-        android:layout_marginLeft="33dp">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="146dp"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_login_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorFont6"
+            android:textColor="@color/colorFont3"
             android:textSize="@dimen/font_size_14" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_14"
             android:text="@string/auth_success"
-            />
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_14" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/input_phone"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/edit_shape_no_border"
-        android:hint="@string/input_phone_number"
-        android:textColorHint="@color/colorFont9"
-        android:textSize="@dimen/font_size_14"
-        android:textColor="@color/colorFont6"
-        android:layout_marginLeft="33dp"
-        android:layout_marginRight="33dp"
-        android:layout_marginTop="70dp"/>
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/window_padding_32"
+        android:paddingStart="@dimen/window_padding_32">
 
-    <View style="@style/horizontal_C9_line"
-        android:layout_marginLeft="33dp"
-        android:layout_marginRight="33dp"/>
+        <TextView
+            android:id="@+id/tv_account"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:gravity="center"
+            android:text="账号"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_15" />
+
+        <EditText
+            android:id="@+id/input_phone"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginLeft="@dimen/edit_margin"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="@string/input_phone_number"
+            android:textColor="@color/colorFont6"
+            android:textColorHint="@color/colorFont9"
+            android:textSize="@dimen/font_size_14" />
+    </LinearLayout>
+
+    <View
+        style="@style/horizontal_C9_line"
+        android:layout_marginLeft="@dimen/window_padding_32"
+        android:layout_marginRight="@dimen/window_padding_32"
+        android:layout_marginTop="@dimen/edit_line_top" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="33dp"
-        android:paddingRight="33dp"
-        android:layout_marginTop="18dp">
+        android:layout_marginTop="26dp"
+        android:paddingEnd="@dimen/window_padding_32"
+        android:paddingStart="@dimen/window_padding_32">
+
+        <TextView
+            android:id="@+id/tv_code"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="验证码"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_15" />
 
         <EditText
             android:id="@+id/edit_identify_code"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edit_shape_no_border"
+            android:layout_height="25dp"
+            android:layout_alignTop="@+id/tv_code"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/edit_margin"
+            android:layout_marginRight="@dimen/edit_margin"
+            android:layout_toEndOf="@+id/tv_code"
+            android:layout_toStartOf="@+id/tv_get_identify_code"
+            android:background="@null"
+            android:gravity="center_vertical"
             android:hint="@string/input_identify_code"
+            android:textColor="@color/colorFont6"
             android:textColorHint="@color/colorFont9"
-            android:textSize="@dimen/font_size_14"
-            android:textColor="@color/colorFont6" />
+            android:textSize="@dimen/font_size_14" />
 
         <TextView
             android:id="@+id/tv_get_identify_code"
-            android:layout_width="100dp"
+            android:layout_width="96dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_shape_orange_bg"
             android:layout_alignParentRight="true"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/font_size_14"
+            android:background="@drawable/button_shape_orange_bg"
+            android:gravity="center"
+            android:layout_centerVertical="true"
             android:text="获取验证码"
-            android:gravity="center"/>
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/font_size_14" />
 
-        <View style="@style/horizontal_C9_line"
-            android:layout_below="@+id/edit_identify_code"/>
+        <View
+            style="@style/horizontal_C9_line"
+            android:layout_below="@+id/edit_identify_code"
+            android:layout_marginTop="@dimen/edit_line_top"
+            android:layout_toStartOf="@+id/tv_get_identify_code"/>
     </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_submit"
-        android:layout_width="225dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="提交"
-        android:textSize="@dimen/font_size_18"
-        android:textColor="@color/colorWhite"
-        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
         android:background="@drawable/button_shape_orange_round"
-        android:layout_marginTop="80dp"
-        android:gravity="center"/>
+        android:layout_marginStart="@dimen/window_padding_32"
+        android:layout_marginEnd="@dimen/window_padding_32"
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/font_size_18" />
 
 </LinearLayout>

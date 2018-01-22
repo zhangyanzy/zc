@@ -36,5 +36,9 @@
     <dimen name="member_logo">30dp</dimen>
     <dimen name="member_logo_frame">3dp</dimen>
 
+    <!--输入框距外边框margin-->
+    <dimen name="edit_margin">15dp</dimen>
+    <!--输入框距底部横线-->
+    <dimen name="edit_line_top">8dp</dimen>
 
 </resources>

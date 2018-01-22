@@ -2,13 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="25dp"
+    android:paddingBottom="30dp"
     android:paddingTop="30dp">
 
     <TextView
         android:id="@+id/tv_skip_login"
-        android:layout_width="49dp"
-        android:layout_height="22dp"
+        android:layout_width="50dp"
+        android:layout_height="24dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="12dp"
         android:background="@drawable/button_shape_gray_round"
@@ -44,9 +44,9 @@
         android:layout_height="25dp"
         android:layout_below="@+id/iv_app_logo"
         android:layout_toEndOf="@+id/tv_account"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="@dimen/edit_margin"
         android:layout_marginRight="@dimen/window_padding_32"
-        android:layout_marginTop="40dp"
+        android:layout_alignTop="@+id/tv_account"
         android:background="@null"
         android:gravity="center_vertical"
         android:hint="@string/input_phone_number"
@@ -57,8 +57,9 @@
         android:textSize="@dimen/font_size_14" />
 
     <View style="@style/horizontal_C9_line"
+        android:id="@+id/line_phone"
         android:layout_below="@+id/edit_phone_number"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/edit_line_top"
         android:layout_marginLeft="@dimen/window_padding_32"
         android:layout_marginRight="@dimen/window_padding_32"/>
 
@@ -66,7 +67,8 @@
         android:id="@+id/tv_pass"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/line_phone"
+        android:layout_marginTop="26dp"
         android:layout_marginLeft="@dimen/window_padding_32"
         android:textColor="@color/colorFont3"
         android:textSize="@dimen/font_size_15"
@@ -78,6 +80,8 @@
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:layout_alignStart="@+id/edit_phone_number"
+        android:layout_toStartOf="@+id/tv_forget_pass"
+        android:layout_marginRight="@dimen/edit_margin"
         android:layout_alignTop="@+id/tv_pass"
         android:background="@null"
         android:gravity="center_vertical"
@@ -103,7 +107,7 @@
     <View style="@style/horizontal_C9_line"
         android:id="@+id/line"
         android:layout_below="@+id/edit_pass_word"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/edit_line_top"
         android:layout_marginLeft="@dimen/window_padding_32"
         android:layout_marginRight="@dimen/window_padding_32"/>
 
