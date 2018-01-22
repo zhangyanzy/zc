@@ -7,55 +7,72 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/activity_item_text_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxLines="2"
-            android:text="#凯迪拉克今日免费领取，赶快参与日免费领取，尽快参与日免费领取，赶快参与日免费领取，尽快参与日免费领取，" />
+            android:maxLines="2" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <ImageView
-                android:layout_width="@dimen/member_logo"
-                android:layout_height="@dimen/member_logo"
-                android:src="@mipmap/ic_launcher" />
+            <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
+                android:id="@+id/activity_item_text_user0"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:visibility="invisible" />
 
-            <ImageView
-                android:layout_width="@dimen/member_logo"
-                android:layout_height="@dimen/member_logo"
-                android:src="@mipmap/ic_launcher" />
+            <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
+                android:id="@+id/activity_item_text_user1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:visibility="invisible" />
 
-            <ImageView
-                android:layout_width="@dimen/member_logo"
-                android:layout_height="@dimen/member_logo"
-                android:src="@mipmap/ic_launcher" />
+            <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
+                android:id="@+id/activity_item_text_user2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:visibility="invisible" />
         </LinearLayout>
 
         <ImageView
-            android:layout_width="@dimen/member_logo"
-            android:layout_height="@dimen/member_logo"
-            android:src="@mipmap/ic_launcher" />
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/area" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text="1.7K" />
 
         <ImageView
-            android:layout_width="@dimen/member_logo"
-            android:layout_height="@dimen/member_logo"
-            android:src="@mipmap/ic_launcher" />
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="6dp"
+            android:src="@mipmap/collection_off" />
+
+        <ImageView
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="3dp"
+            android:src="@mipmap/share_list" />
     </LinearLayout>
 
     <View
@@ -64,7 +81,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,103 +92,118 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp">
 
                 <ImageView
-                    android:layout_width="@dimen/member_logo"
-                    android:layout_height="@dimen/member_logo"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="0"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/icon_logo" />
 
                 <TextView
+                    android:id="@+id/activity_item_text_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
                     android:text="6850000.00" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="元" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="0"
-                    android:text="剩余额度" />
+                    android:text="@string/activity_surplus_amount" />
             </LinearLayout>
 
             <ProgressBar
+                android:id="@+id/activity_item_text_amount_progress"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="3dp"
+                android:progressDrawable="@drawable/progress_activity_list" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp">
 
                 <ImageView
-                    android:layout_width="@dimen/member_logo"
-                    android:layout_height="@dimen/member_logo"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="0"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/user" />
 
                 <TextView
+                    android:id="@+id/activity_item_text_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
                     android:text="50000" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="人" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="0"
-                    android:text="已领取人数" />
+                    android:text="@string/activity_received_number" />
             </LinearLayout>
 
             <ProgressBar
+                android:id="@+id/activity_item_text_number_progress"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="3dp"
+                android:progressDrawable="@drawable/progress_activity_list" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0">
-
-            <ImageView
-                android:layout_width="@dimen/member_logo"
-                android:layout_height="@dimen/member_logo"
-                android:src="@mipmap/ic_launcher" />
+            android:layout_width="125dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="right"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="100.00" />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/icon_logo" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="奖励 元/人" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100.00" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="奖励 元/人" />
+
+                </LinearLayout>
 
             </LinearLayout>
-
         </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

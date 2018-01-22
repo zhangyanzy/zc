@@ -2,21 +2,28 @@ package cn.zhaocaiapp.zc_app_android.adapter.common;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.joooonho.SelectableRoundedImageView;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
+import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 
 
 /**
@@ -58,29 +65,48 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 .load(list.get(k).getActivityImage1())
                 .into(holder.activity_item_img_i);
         //活动状态
-        switch (list.get(k).getOnline()) {
-            case 0:
-                holder.activity_item_img_state.setText(R.string.activity_state_0);
-                break;
-            case 1:
-                holder.activity_item_img_state.setText(R.string.activity_state_1);
-                break;
-            case 2:
-                holder.activity_item_img_state.setText(R.string.activity_state_2);
-                break;
+        holder.activity_item_img_state.setText(getOnlineString(list.get(k).getOnline()));
+        //活动类型
+        holder.activity_item_img_type.setText(getActivityFormString(list.get(k).getActivityForm()));
+        //活动名称
+        SpannableStringBuilder spannableString = new SpannableStringBuilder("#" + getActivityFormString(list.get(k).getActivityForm()) + "#" + list.get(k).getName());
+        spannableString.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.activity_item_text_title.setText(spannableString);
+        //视频活动播放
+        if (list.get(k).getActivityForm() == 1) {
+            holder.activity_item_img_vide.setVisibility(View.VISIBLE);
         }
-        //活动状态
-        switch (list.get(k).getActivityForm()) {
-            case 0:
-                holder.activity_item_img_type.setText(R.string.activity_type_0);
-                break;
-            case 1:
-                holder.activity_item_img_type.setText(R.string.activity_type_1);
-                break;
-            case 2:
-                holder.activity_item_img_type.setText(R.string.activity_type_2);
-                break;
+        //参与人头像
+        if (GeneralUtils.isNotNull(list.get(k).getUserList()) && list.get(k).getUserList().size() > 0) {
+            if (list.get(k).getUserList().size() >= 1) {
+                holder.activity_item_text_user0.setVisibility(View.VISIBLE);
+                Glide.with(context)
+                        .load(list.get(k).getUserList().get(0).getAvatar())
+                        .into(holder.activity_item_text_user0);
+            }
+            if (list.get(k).getUserList().size() >= 2) {
+                holder.activity_item_text_user1.setVisibility(View.VISIBLE);
+                Glide.with(context)
+                        .load(list.get(k).getUserList().get(1).getAvatar())
+                        .into(holder.activity_item_text_user0);
+            }
+            if (list.get(k).getUserList().size() == 3) {
+                holder.activity_item_text_user2.setVisibility(View.VISIBLE);
+                Glide.with(context)
+                        .load(list.get(k).getUserList().get(2).getAvatar())
+                        .into(holder.activity_item_text_user0);
+            }
         }
+        //剩余额度
+        DecimalFormat df2 = new DecimalFormat("#.00"); // #.00 表示两位小数 #.0000四位小数
+        String str2 = df2.format(list.get(k).getLeftAmount());
+        holder.activity_item_text_amount.setText(str2);
+        //已领取人数
+        //holder.activity_item_text_number.setText(list.get(k).getActualUser());
+        //剩余额度进度条
+        holder.activity_item_text_amount_progress.setProgress(50);
+        //已领取人数进度条
+        holder.activity_item_text_number_progress.setProgress(50);
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +137,54 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         this.listene = listener;
     }
 
+    /**
+     * 返回活动状态
+     *
+     * @param t
+     * @return
+     */
+    private String getOnlineString(Integer t) {
+        String online;
+        switch (t) {
+            case 0:
+                online = context.getString(R.string.activity_state_0);
+                break;
+            case 1:
+                online = context.getString(R.string.activity_state_1);
+                break;
+            case 2:
+                online = context.getString(R.string.activity_state_2);
+                break;
+            default:
+                online = context.getString(R.string.activity_state_0);
+        }
+        return online;
+    }
+
+    /**
+     * 返回活动类型
+     *
+     * @param t
+     * @return
+     */
+    private String getActivityFormString(Integer t) {
+        String type;
+        switch (t) {
+            case 0:
+                type = context.getString(R.string.activity_type_0);
+                break;
+            case 1:
+                type = context.getString(R.string.activity_type_1);
+                break;
+            case 2:
+                type = context.getString(R.string.activity_type_2);
+                break;
+            default:
+                type = context.getString(R.string.activity_type_0);
+        }
+        return type;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         //商家图片
         @BindView(R.id.activity_item_member_logo)
@@ -130,6 +204,34 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         //活动类型
         @BindView(R.id.activity_item_img_type)
         TextView activity_item_img_type;
+        //活动名称
+        @BindView(R.id.activity_item_text_title)
+        TextView activity_item_text_title;
+        //视频活动播放
+        @BindView(R.id.activity_item_img_vide)
+        ImageView activity_item_img_vide;
+        //参与人0
+        @BindView(R.id.activity_item_text_user0)
+        ImageView activity_item_text_user0;
+        //参与人1
+        @BindView(R.id.activity_item_text_user1)
+        ImageView activity_item_text_user1;
+        //参与人2
+        @BindView(R.id.activity_item_text_user2)
+        ImageView activity_item_text_user2;
+        //剩余额度
+        @BindView(R.id.activity_item_text_amount)
+        TextView activity_item_text_amount;
+        //已领取人数
+        @BindView(R.id.activity_item_text_number)
+        TextView activity_item_text_number;
+        //剩余额度进度条
+        @BindView(R.id.activity_item_text_amount_progress)
+        ProgressBar activity_item_text_amount_progress;
+        //已领取人数进度条
+        @BindView(R.id.activity_item_text_number_progress)
+        ProgressBar activity_item_text_number_progress;
+
 
         View itemView;
 
