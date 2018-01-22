@@ -22,6 +22,7 @@ import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
+import cn.zhaocaiapp.zc_app_android.bean.response.my.MyResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.TrembleBasesOsDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
@@ -85,6 +86,7 @@ public class MyFragment extends BaseFragment {
 
     private static String TAG = "个人中心";
     private TrembleBasesOsDialog trembleBasesOsDialog;
+    private MyResp myResp;
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -112,7 +114,21 @@ public class MyFragment extends BaseFragment {
 
     @Override
     public void loadData() {
+        HttpUtil.get(Constants.URL.GET_BRIEF_USER_INFO).subscribe(new BaseResponseObserver<MyResp>() {
 
+            @Override
+            public void success(MyResp result) {
+                EBLog.i(TAG, myResp.toString());
+                myResp = result;
+
+            }
+
+            @Override
+            public void error(Response<MyResp> response) {
+                EBLog.e(TAG, response.getCode()+"");
+                ToastUtil.makeText(getActivity(), response.getDesc());
+            }
+        });
     }
 
     @OnClick({R.id.iv_top_menu, R.id.iv_user_photo, R.id.tv_user_identify, R.id.tv_apply_cash, R.id.layout_all_task, R.id.layout_deliver_task,

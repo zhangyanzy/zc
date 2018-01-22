@@ -101,7 +101,7 @@
                     android:layout_height="15dp"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0"
-                    android:src="@mipmap/icon_logo" />
+                    android:src="@mipmap/logo_money" />
 
                 <TextView
                     android:id="@+id/activity_item_text_amount"
@@ -181,7 +181,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@mipmap/icon_logo" />
+                    android:src="@mipmap/logo_money" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

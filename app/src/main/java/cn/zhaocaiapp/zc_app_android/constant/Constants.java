@@ -81,6 +81,10 @@ public interface Constants {
          * 重置密码
          * */
         String UPDATE_PASS = "user/updatepassword";
+        /**
+         * 获取用户中心首页信息
+         * */
+        String GET_BRIEF_USER_INFO = "userinfo/user";
 
         /**
          * 获取城市列表

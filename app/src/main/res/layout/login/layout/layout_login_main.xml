@@ -24,7 +24,7 @@
         android:layout_below="@+id/tv_skip_login"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:src="@mipmap/logo" />
+        android:src="@mipmap/logo_title" />
 
     <TextView
         android:id="@+id/tv_account"
