@@ -15,59 +15,82 @@
         android:layout_marginTop="30dp"
         android:src="@mipmap/ic_launcher_round" />
 
-    <EditText
-        android:id="@+id/edit_phone_number"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
         android:layout_marginTop="40dp"
-        android:background="@null"
-        android:drawableLeft="@mipmap/icon_logo"
-        android:drawablePadding="20dp"
-        android:gravity="center_vertical"
-        android:hint="@string/input_phone_number"
-        android:inputType="phone"
-        android:maxLines="1"
-        android:textColor="@color/colorFont6"
-        android:textColorHint="@color/colorFont9"
-        android:textSize="@dimen/font_size_14" />
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/window_padding_32"
+        android:paddingStart="@dimen/window_padding_32">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="账号"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_15" />
+
+        <EditText
+            android:id="@+id/edit_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/edit_margin"
+            android:background="@null"
+            android:hint="@string/input_phone_number"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:textColor="@color/colorFont6"
+            android:textColorHint="@color/colorFont9"
+            android:textSize="@dimen/font_size_14" />
+    </LinearLayout>
 
     <View
         style="@style/horizontal_C9_line"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp" />
-
+        android:layout_marginLeft="@dimen/window_padding_32"
+        android:layout_marginRight="@dimen/window_padding_32"
+        android:layout_marginTop="@dimen/edit_line_top" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
-        android:layout_marginTop="5dp">
+        android:layout_marginLeft="@dimen/window_padding_32"
+        android:layout_marginRight="@dimen/window_padding_32"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:id="@+id/tv_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:text="验证码"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_15" />
 
         <EditText
             android:id="@+id/edit_identify_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/edit_margin"
+            android:layout_marginStart="@dimen/edit_margin"
+            android:layout_toEndOf="@+id/tv_code"
+            android:layout_toStartOf="@+id/send_identify_code"
             android:background="@null"
-            android:drawableLeft="@mipmap/icon_logo"
-            android:drawablePadding="20dp"
-            android:gravity="center_vertical"
             android:hint="@string/input_identify_code"
             android:inputType="number"
             android:maxLines="1"
-            android:paddingRight="80dp"
             android:textColor="@color/colorFont6"
             android:textColorHint="@color/colorFont9"
             android:textSize="@dimen/font_size_14" />
 
         <TextView
             android:id="@+id/send_identify_code"
-            android:layout_width="100dp"
+            android:layout_width="96dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:background="@drawable/button_shape_orange_bg"
             android:gravity="center"
             android:text="@string/get_identify_code"
@@ -76,60 +99,91 @@
 
         <View
             style="@style/horizontal_C9_line"
-            android:layout_below="@+id/edit_identify_code" />
+            android:layout_alignBottom="@+id/send_identify_code"
+            android:layout_toStartOf="@+id/send_identify_code" />
     </RelativeLayout>
-
-    <EditText
-        android:id="@+id/edit_pass_word"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
-        android:layout_marginTop="5dp"
-        android:background="@null"
-        android:drawableLeft="@mipmap/icon_logo"
-        android:drawablePadding="20dp"
-        android:gravity="center_vertical"
-        android:hint="@string/input_pass_word"
-        android:inputType="textPassword"
-        android:maxLines="1"
-        android:textColor="@color/colorFont6"
-        android:textColorHint="@color/colorFont9"
-        android:textSize="@dimen/font_size_14" />
-
-    <View
-        style="@style/horizontal_C9_line"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp" />
-
-    <EditText
-        android:id="@+id/edit_invite_code"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
-        android:layout_marginTop="5dp"
-        android:background="@null"
-        android:drawableLeft="@mipmap/icon_logo"
-        android:drawablePadding="20dp"
-        android:gravity="center_vertical"
-        android:hint="@string/input_edit_invite_code"
-        android:maxLines="1"
-        android:textColor="@color/colorFont6"
-        android:textColorHint="@color/colorFont9"
-        android:textSize="@dimen/font_size_14"
-        android:inputType="textPassword"/>
-
-    <View
-        style="@style/horizontal_C9_line"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="35dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/window_padding_32"
+        android:paddingStart="@dimen/window_padding_32">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="密码"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_15" />
+
+        <EditText
+            android:id="@+id/edit_pass_word"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/edit_margin"
+            android:background="@null"
+            android:hint="@string/input_pass_word"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:textColor="@color/colorFont6"
+            android:textColorHint="@color/colorFont9"
+            android:textSize="@dimen/font_size_14" />
+
+    </LinearLayout>
+
+    <View
+        style="@style/horizontal_C9_line"
+        android:layout_marginLeft="@dimen/window_padding_32"
+        android:layout_marginRight="@dimen/window_padding_32"
+        android:layout_marginTop="@dimen/edit_line_top" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/window_padding_32"
+        android:paddingStart="@dimen/window_padding_32">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="邀请码"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_15" />
+
+        <EditText
+            android:id="@+id/edit_invite_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/edit_margin"
+            android:hint="@string/input_edit_invite_code"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:textColor="@color/colorFont6"
+            android:textColorHint="@color/colorFont9"
+            android:textSize="@dimen/font_size_14" />
+
+    </LinearLayout>
+
+    <View
+        style="@style/horizontal_C9_line"
+        android:layout_marginLeft="@dimen/window_padding_32"
+        android:layout_marginRight="@dimen/window_padding_32"
+        android:layout_marginTop="@dimen/edit_line_top"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/window_padding_32"
+        android:layout_marginRight="@dimen/window_padding_32"
         android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
@@ -138,12 +192,13 @@
             android:layout_height="18dp"
             android:background="@drawable/checkbox_selector_agreement"
             android:button="@null"
-            android:checked="false" />
+            android:checked="false"
+            android:layout_gravity="center_vertical"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="@dimen/edit_margin"
             android:gravity="center_vertical"
             android:text="@string/agreement"
             android:textColor="@color/colorFont9"
@@ -152,9 +207,10 @@
 
     <TextView
         android:id="@+id/tv_register"
-        android:layout_width="225dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="@dimen/window_padding_32"
+        android:layout_marginEnd="@dimen/window_padding_32"
         android:layout_marginTop="30dp"
         android:background="@drawable/button_shape_orange_round"
         android:gravity="center"

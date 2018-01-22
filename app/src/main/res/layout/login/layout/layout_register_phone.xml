@@ -4,61 +4,98 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_top_title"/>
+    <include layout="@layout/layout_top_title" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorFont6"
-        android:textSize="@dimen/font_size_14"
+        android:layout_marginLeft="@dimen/window_padding_32"
+        android:layout_marginRight="@dimen/window_padding_32"
+        android:layout_marginTop="100dp"
         android:text="请设置您的登录密码："
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"/>
+        android:textColor="@color/colorFont3"
+        android:textSize="@dimen/font_size_14" />
 
-    <EditText
-        android:id="@+id/input_pass"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@null"
-        android:hint="@string/input_pass_word"
-        android:textColorHint="@color/colorFont9"
-        android:textSize="@dimen/font_size_14"
-        android:textColor="@color/colorFont6"
-        android:layout_marginLeft="33dp"
-        android:layout_marginRight="33dp"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="60dp"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/window_padding_32"
+        android:paddingStart="@dimen/window_padding_32">
 
-    <View style="@style/horizontal_C9_line"
-        android:layout_marginLeft="33dp"
-        android:layout_marginRight="33dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="密码"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_15" />
 
-    <EditText
-        android:id="@+id/input_invite_code"
+        <EditText
+            android:id="@+id/input_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/edit_margin"
+            android:background="@null"
+            android:hint="@string/input_pass_word"
+            android:textColor="@color/colorFont6"
+            android:textColorHint="@color/colorFont9"
+            android:textSize="@dimen/font_size_14" />
+
+    </LinearLayout>
+
+    <View
+        style="@style/horizontal_C9_line"
+        android:layout_marginLeft="@dimen/window_padding_32"
+        android:layout_marginRight="@dimen/window_padding_32"
+        android:layout_marginTop="@dimen/edit_line_top" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@null"
-        android:hint="@string/input_edit_invite_code"
-        android:textColorHint="@color/colorFont9"
-        android:textSize="@dimen/font_size_14"
-        android:textColor="@color/colorFont6"
-        android:layout_marginLeft="33dp"
-        android:layout_marginRight="33dp"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/window_padding_32"
+        android:paddingStart="@dimen/window_padding_32">
 
-    <View style="@style/horizontal_C9_line"
-        android:layout_marginLeft="33dp"
-        android:layout_marginRight="33dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="邀请码"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_15" />
+
+        <EditText
+            android:id="@+id/input_invite_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/edit_margin"
+            android:background="@null"
+            android:hint="@string/input_edit_invite_code"
+            android:textColor="@color/colorFont6"
+            android:textColorHint="@color/colorFont9"
+            android:textSize="@dimen/font_size_14" />
+
+    </LinearLayout>
+
+    <View
+        style="@style/horizontal_C9_line"
+        android:layout_marginLeft="@dimen/window_padding_32"
+        android:layout_marginRight="@dimen/window_padding_32"
+        android:layout_marginTop="@dimen/edit_line_top"/>
 
     <TextView
         android:id="@+id/tv_submit"
-        android:layout_width="225dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="提交"
-        android:textSize="@dimen/font_size_18"
-        android:textColor="@color/colorWhite"
-        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="@dimen/window_padding_32"
+        android:layout_marginEnd="@dimen/window_padding_32"
+        android:layout_marginTop="60dp"
         android:background="@drawable/button_shape_orange_round"
-        android:layout_marginTop="80dp"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/font_size_18" />
 </LinearLayout>

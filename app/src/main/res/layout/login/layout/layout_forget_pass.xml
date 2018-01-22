@@ -6,97 +6,141 @@
 
     <include layout="@layout/layout_top_title" />
 
-    <EditText
-        android:id="@+id/edit_phone_number"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
-        android:layout_marginTop="50dp"
-        android:background="@null"
-        android:drawableLeft="@mipmap/icon_logo"
-        android:drawablePadding="20dp"
-        android:gravity="center_vertical"
-        android:hint="@string/input_phone_number"
-        android:maxLines="1"
-        android:textColor="@color/colorFont6"
-        android:textColorHint="@color/colorFont9"
-        android:textSize="@dimen/font_size_14"
-        android:inputType="phone"/>
+        android:layout_marginTop="100dp"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/window_padding_32"
+        android:paddingStart="@dimen/window_padding_32">
 
-    <View style="@style/horizontal_C9_line"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="账号"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_15" />
+
+        <EditText
+            android:id="@+id/edit_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/edit_margin"
+            android:background="@null"
+            android:hint="@string/input_phone_number"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:textColor="@color/colorFont6"
+            android:textColorHint="@color/colorFont9"
+            android:textSize="@dimen/font_size_14" />
+    </LinearLayout>
+
+    <View
+        style="@style/horizontal_C9_line"
+        android:layout_marginLeft="@dimen/window_padding_32"
+        android:layout_marginRight="@dimen/window_padding_32"
+        android:layout_marginTop="@dimen/edit_line_top" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginLeft="@dimen/window_padding_32"
+        android:layout_marginRight="@dimen/window_padding_32"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:id="@+id/tv_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="验证码"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_15" />
 
         <EditText
             android:id="@+id/edit_identify_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingRight="80dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/edit_margin"
+            android:layout_marginRight="@dimen/edit_margin"
+            android:layout_toEndOf="@+id/tv_code"
+            android:layout_toStartOf="@+id/tv_get_idntify_code"
             android:background="@null"
-            android:drawableLeft="@mipmap/icon_logo"
-            android:drawablePadding="20dp"
-            android:gravity="center_vertical"
             android:hint="@string/input_identify_code"
+            android:inputType="number"
             android:maxLines="1"
             android:textColor="@color/colorFont6"
             android:textColorHint="@color/colorFont9"
-            android:textSize="@dimen/font_size_14"
-            android:inputType="number"/>
+            android:textSize="@dimen/font_size_14" />
 
         <TextView
             android:id="@+id/tv_get_idntify_code"
-            android:layout_width="100dp"
+            android:layout_width="96dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@drawable/button_shape_orange_bg"
+            android:gravity="center"
             android:text="@string/get_identify_code"
             android:textColor="@color/colorGround"
-            android:textSize="@dimen/font_size_14"
-            android:gravity="center" />
+            android:textSize="@dimen/font_size_14" />
 
-        <View style="@style/horizontal_C9_line"
-           android:layout_below="@+id/edit_identify_code"/>
+        <View
+            style="@style/horizontal_C9_line"
+            android:layout_toStartOf="@+id/tv_get_idntify_code"
+            android:layout_alignBottom="@+id/tv_get_idntify_code"/>
     </RelativeLayout>
 
-    <EditText
-        android:id="@+id/edit_new_pass"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
-        android:layout_marginTop="10dp"
-        android:background="@null"
-        android:drawableLeft="@mipmap/icon_logo"
-        android:drawablePadding="20dp"
-        android:gravity="center_vertical"
-        android:hint="@string/input_new_pass"
-        android:maxLines="1"
-        android:textColor="@color/colorFont6"
-        android:textColorHint="@color/colorFont9"
-        android:textSize="@dimen/font_size_14"
-        android:inputType="textPassword"/>
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/window_padding_32"
+        android:layout_marginRight="@dimen/window_padding_32"
+        android:layout_marginTop="30dp">
 
-    <View style="@style/horizontal_C9_line"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_size_14"
+            android:textColor="@color/colorFont3"
+            android:text="新密码"
+            android:layout_gravity="center_vertical"/>
+
+        <EditText
+            android:id="@+id/edit_new_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/edit_margin"
+            android:layout_marginRight="@dimen/edit_margin"
+            android:background="@null"
+            android:layout_gravity="center_vertical"
+            android:hint="@string/input_new_pass"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:textColor="@color/colorFont6"
+            android:textColorHint="@color/colorFont9"
+            android:textSize="@dimen/font_size_14" />
+    </LinearLayout>
+
+    <View
+        style="@style/horizontal_C9_line"
+        android:layout_marginLeft="@dimen/window_padding_32"
+        android:layout_marginRight="@dimen/window_padding_32"
+        android:layout_marginTop="@dimen/edit_line_top"/>
 
     <TextView
         android:id="@+id/tv_reset_pass"
-        android:layout_width="225dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="提交"
-        android:textSize="@dimen/font_size_18"
-        android:textColor="@color/colorWhite"
-        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="@dimen/window_padding_32"
+        android:layout_marginEnd="@dimen/window_padding_32"
+        android:layout_marginTop="60dp"
         android:background="@drawable/button_shape_orange_round"
-        android:layout_marginTop="30dp"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/font_size_18" />
 </LinearLayout>
