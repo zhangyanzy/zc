@@ -21,6 +21,11 @@ public class ActivityResp {
     private Integer activityType;
 
     /**
+     * 子活动
+     */
+    private List<SeriesActivityResp> seriesActivity;
+
+    /**
      * 提交用户
      */
     private List<FinishUserResp> userList;
@@ -30,6 +35,9 @@ public class ActivityResp {
      */
     private Integer finishCount;
 
+    /**
+     * 进行状态
+     */
     private Integer online;
 
     private Integer currentResult;
@@ -57,6 +65,8 @@ public class ActivityResp {
      * 活动名称
      */
     private String name;
+
+    private String activityCode;
 
     /**
      * 开始时间
@@ -201,6 +211,11 @@ public class ActivityResp {
     private Long questionId;
 
     /**
+     * 问卷状态 0待回答 1已完成 2已取消
+     */
+    private Integer questionStatus;
+
+    /**
      * 问卷类型
      */
     private Integer questionType;
@@ -223,7 +238,7 @@ public class ActivityResp {
     /**
      * 协同设定人数
      */
-    private Integer coordinationCount;
+    private Integer coopCount;
 
     /**
      * 内容审核状态 0待提交 1待审核 2已通过 3未通过
@@ -286,69 +301,6 @@ public class ActivityResp {
         this.activityType = activityType;
     }
 
-    public List<FinishUserResp> getUserList() {
-        return userList;
-    }
-
-    public void setUserList(List<FinishUserResp> userList) {
-        this.userList = userList;
-    }
-
-    public Integer getFinishCount() {
-        return finishCount;
-    }
-
-    public void setFinishCount(Integer finishCount) {
-        this.finishCount = finishCount;
-    }
-
-    public Integer getOnline() {
-        return online;
-    }
-
-    public void setOnline(Integer online) {
-        this.online = online;
-    }
-
-    public Integer getCurrentResult() {
-        return currentResult;
-    }
-
-    public void setCurrentResult(Integer currentResult) {
-        this.currentResult = currentResult;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public Boolean getJoin() {
-        return join;
-    }
-
-    public void setJoin(Boolean join) {
-        this.join = join;
-    }
-
-    public Boolean getFollow() {
-        return follow;
-    }
-
-    public void setFollow(Boolean follow) {
-        this.follow = follow;
-    }
-
-    public String getSortType() {
-        return sortType;
-    }
-
-    public void setSortType(String sortType) {
-        this.sortType = sortType;
-    }
 
     public Integer getActivityForm() {
         return activityForm;
@@ -452,14 +404,6 @@ public class ActivityResp {
 
     public void setMemberName(String memberName) {
         this.memberName = memberName;
-    }
-
-    public String getMemberImg() {
-        return memberImg;
-    }
-
-    public void setMemberImg(String memberImg) {
-        this.memberImg = memberImg;
     }
 
     public String getJoinCondition() {
@@ -614,6 +558,14 @@ public class ActivityResp {
         this.questionRewardAmount = questionRewardAmount;
     }
 
+    public Integer getQuestionStatus() {
+        return questionStatus;
+    }
+
+    public void setQuestionStatus(Integer questionStatus) {
+        this.questionStatus = questionStatus;
+    }
+
     public String getActivityVedio() {
         return activityVedio;
     }
@@ -630,12 +582,12 @@ public class ActivityResp {
         this.activityOuterVedio = activityOuterVedio;
     }
 
-    public Integer getCoordinationCount() {
-        return coordinationCount;
+    public Integer getCoopCount() {
+        return coopCount;
     }
 
-    public void setCoordinationCount(Integer coordinationCount) {
-        this.coordinationCount = coordinationCount;
+    public void setCoopCount(Integer coopCount) {
+        this.coopCount = coopCount;
     }
 
     public Integer getContentAuditStatus() {
@@ -710,11 +662,100 @@ public class ActivityResp {
         this.isDelete = isDelete;
     }
 
+    public String getSortType() {
+        return sortType;
+    }
+
+    public void setSortType(String sortType) {
+        this.sortType = sortType;
+    }
+
+    public Boolean getJoin() {
+        return join;
+    }
+
+    public void setJoin(Boolean join) {
+        this.join = join;
+    }
+
+    public Integer getCurrentResult() {
+        return currentResult;
+    }
+
+    public void setCurrentResult(Integer currentResult) {
+        this.currentResult = currentResult;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public String getMemberImg() {
+        return memberImg;
+    }
+
+    public void setMemberImg(String memberImg) {
+        this.memberImg = memberImg;
+    }
+
+    public Boolean getFollow() {
+        return follow;
+    }
+
+    public void setFollow(Boolean follow) {
+        this.follow = follow;
+    }
+
+    public Integer getFinishCount() {
+        return finishCount;
+    }
+
+    public void setFinishCount(Integer finishCount) {
+        this.finishCount = finishCount;
+    }
+
+    public Integer getOnline() {
+        return online;
+    }
+
+    public void setOnline(Integer online) {
+        this.online = online;
+    }
+
+    public String getActivityCode() {
+        return activityCode;
+    }
+
+    public void setActivityCode(String activityCode) {
+        this.activityCode = activityCode;
+    }
+
+    public List<SeriesActivityResp> getSeriesActivity() {
+        return seriesActivity;
+    }
+
+    public void setSeriesActivity(List<SeriesActivityResp> seriesActivity) {
+        this.seriesActivity = seriesActivity;
+    }
+
+    public List<FinishUserResp> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<FinishUserResp> userList) {
+        this.userList = userList;
+    }
+
     @Override
     public String toString() {
         return "ActivityResp{" +
                 "kid=" + kid +
                 ", activityType=" + activityType +
+                ", seriesActivity=" + seriesActivity +
                 ", userList=" + userList +
                 ", finishCount=" + finishCount +
                 ", online=" + online +
@@ -725,6 +766,7 @@ public class ActivityResp {
                 ", sortType='" + sortType + '\'' +
                 ", activityForm=" + activityForm +
                 ", name='" + name + '\'' +
+                ", activityCode='" + activityCode + '\'' +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", requireTime=" + requireTime +
@@ -754,11 +796,12 @@ public class ActivityResp {
                 ", latitude=" + latitude +
                 ", referImage1='" + referImage1 + '\'' +
                 ", questionId=" + questionId +
+                ", questionStatus=" + questionStatus +
                 ", questionType=" + questionType +
                 ", questionRewardAmount=" + questionRewardAmount +
                 ", activityVedio='" + activityVedio + '\'' +
                 ", activityOuterVedio='" + activityOuterVedio + '\'' +
-                ", coordinationCount=" + coordinationCount +
+                ", coopCount=" + coopCount +
                 ", contentAuditStatus=" + contentAuditStatus +
                 ", contentAuditMemo='" + contentAuditMemo + '\'' +
                 ", financeAuditStatus=" + financeAuditStatus +

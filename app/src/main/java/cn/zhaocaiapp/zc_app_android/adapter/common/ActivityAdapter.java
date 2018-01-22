@@ -57,6 +57,31 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         Glide.with(context)
                 .load(list.get(k).getActivityImage1())
                 .into(holder.activity_item_img_i);
+        //活动状态
+        switch (list.get(k).getOnline()) {
+            case 0:
+                holder.activity_item_img_state.setText(R.string.activity_state_0);
+                break;
+            case 1:
+                holder.activity_item_img_state.setText(R.string.activity_state_1);
+                break;
+            case 2:
+                holder.activity_item_img_state.setText(R.string.activity_state_2);
+                break;
+        }
+        //活动状态
+        switch (list.get(k).getActivityForm()) {
+            case 0:
+                holder.activity_item_img_type.setText(R.string.activity_type_0);
+                break;
+            case 1:
+                holder.activity_item_img_type.setText(R.string.activity_type_1);
+                break;
+            case 2:
+                holder.activity_item_img_type.setText(R.string.activity_type_2);
+                break;
+        }
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +124,12 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         //活动图片
         @BindView(R.id.activity_item_img_i)
         SelectableRoundedImageView activity_item_img_i;
-
+        //活动状态
+        @BindView(R.id.activity_item_img_state)
+        TextView activity_item_img_state;
+        //活动类型
+        @BindView(R.id.activity_item_img_type)
+        TextView activity_item_img_type;
 
         View itemView;
 

@@ -14,7 +14,7 @@
         app:sriv_right_top_corner_radius="5dp" />
 
     <TextView
-        android:id="@+id/activity_item_img"
+        android:id="@+id/activity_item_img_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -23,9 +23,8 @@
         android:layout_marginTop="5dp"
         android:alpha="0.6"
         android:background="@drawable/text_shape_black_round"
-        android:text="正在进行中..."
         android:textColor="@color/colorWhite"
-        android:textSize="12sp"/>
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/activity_item_img_type"
@@ -38,7 +37,8 @@
         android:layout_marginTop="40dp"
         android:alpha="0.6"
         android:background="@drawable/text_shape_black_round"
-        android:text="视频活动" />
+        android:text="视频活动"
+        android:textSize="12sp" />
 
     <RadioButton
         android:layout_width="wrap_content"

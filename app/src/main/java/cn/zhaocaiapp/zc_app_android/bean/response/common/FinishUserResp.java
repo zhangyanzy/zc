@@ -17,6 +17,10 @@ public class FinishUserResp {
     private String avatar;
 
 
+    private Long userActivityId;
+
+    private Integer coopRoleType;
+
     /**
      * 会员昵称
      */
@@ -44,5 +48,21 @@ public class FinishUserResp {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public Long getUserActivityId() {
+        return userActivityId;
+    }
+
+    public void setUserActivityId(Long userActivityId) {
+        this.userActivityId = userActivityId;
+    }
+
+    public Integer getCoopRoleType() {
+        return coopRoleType;
+    }
+
+    public void setCoopRoleType(Integer coopRoleType) {
+        this.coopRoleType = coopRoleType;
     }
 }
