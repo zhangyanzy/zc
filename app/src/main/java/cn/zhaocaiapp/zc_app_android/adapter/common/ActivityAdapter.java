@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
+import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
 
 
 /**
@@ -53,17 +54,13 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         int k = position;
         //商家图片
-        Glide.with(context)
-                .load(list.get(k).getMemberImg())
-                .into(holder.activity_item_member_logo);
+        PictureLoadUtil.loadPicture(context, list.get(k).getMemberImg(), holder.activity_item_member_logo);
         //商家名称
         holder.activity_item_member_name.setText(list.get(k).getMemberName());
         //活动区域
         holder.activity_item_member_area.setText(list.get(k).getCityName());
         //活动图片
-        Glide.with(context)
-                .load(list.get(k).getActivityImage1())
-                .into(holder.activity_item_img_i);
+        PictureLoadUtil.loadPicture(context, list.get(k).getActivityImage1(), holder.activity_item_img_i);
         //活动状态
         holder.activity_item_img_state.setText(getOnlineString(list.get(k).getOnline()));
         //活动类型
@@ -80,21 +77,15 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         if (GeneralUtils.isNotNull(list.get(k).getUserList()) && list.get(k).getUserList().size() > 0) {
             if (list.get(k).getUserList().size() >= 1) {
                 holder.activity_item_text_user0.setVisibility(View.VISIBLE);
-                Glide.with(context)
-                        .load(list.get(k).getUserList().get(0).getAvatar())
-                        .into(holder.activity_item_text_user0);
+                PictureLoadUtil.loadPicture(context, list.get(k).getUserList().get(0).getAvatar(), holder.activity_item_text_user0);
             }
             if (list.get(k).getUserList().size() >= 2) {
                 holder.activity_item_text_user1.setVisibility(View.VISIBLE);
-                Glide.with(context)
-                        .load(list.get(k).getUserList().get(1).getAvatar())
-                        .into(holder.activity_item_text_user0);
+                PictureLoadUtil.loadPicture(context, list.get(k).getUserList().get(1).getAvatar(), holder.activity_item_text_user1);
             }
             if (list.get(k).getUserList().size() == 3) {
                 holder.activity_item_text_user2.setVisibility(View.VISIBLE);
-                Glide.with(context)
-                        .load(list.get(k).getUserList().get(2).getAvatar())
-                        .into(holder.activity_item_text_user0);
+                PictureLoadUtil.loadPicture(context, list.get(k).getUserList().get(2).getAvatar(), holder.activity_item_text_user2);
             }
         }
         //剩余额度
