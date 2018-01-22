@@ -89,13 +89,14 @@ dependencies {
 
     implementation 'com.nineoldandroids:library:2.4.0'
     //照片获取及裁剪
-    compile('com.jph.takephoto:takephoto_library:4.0.3'){
+    compile('com.jph.takephoto:takephoto_library:4.0.3') {
         exclude group: 'com.github.bumptech.glide'
-
     }
     compile 'com.github.bumptech.glide:glide:3.8.0'
 
     //图片圆角
     compile 'com.joooonho:selectableroundedimageview:1.0.1'
 
+    //动态申请权限
+    implementation 'pub.devrel:easypermissions:1.1.2'
 }

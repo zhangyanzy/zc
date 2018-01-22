@@ -142,7 +142,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void success(LoginResp result) {
-//                EBLog.i(TAG, result.getData().toString());
+                EBLog.i(TAG, result.toString());
                 ToastUtil.makeText(LoginActivity.this, result.getDescription());
 
                 loginResp = result;
@@ -247,7 +247,6 @@ public class LoginActivity extends BaseActivity {
         KeyBoardUtils.closeKeybord(iv_log, this);
         return super.onTouchEvent(event);
     }
-
 
     @Override
     protected void onDestroy() {

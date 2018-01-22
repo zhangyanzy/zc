@@ -4,8 +4,7 @@
     android:id="@+id/activity_base_web_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="luo.library.base.base.BaseWebViewActivity">
+    android:orientation="vertical">
 
     <include layout="@layout/titleview_layout" />
 

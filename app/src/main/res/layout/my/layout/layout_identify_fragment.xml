@@ -150,8 +150,8 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_weight="1"
-        android:layout_margin="@dimen/window_padding_30"
-        android:src="@mipmap/add_picture"
+        android:layout_margin="@dimen/window_padding_32"
+        android:src="@mipmap/add"
         android:scaleType="fitXY"/>
 
     <TextView
@@ -163,7 +163,7 @@
         android:textColor="@color/colorWhite"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/button_shape_orange_round"
-        android:layout_marginBottom="@dimen/window_padding_30"
+        android:layout_marginBottom="@dimen/window_padding_32"
         android:gravity="center"/>
 
 </LinearLayout>

@@ -42,7 +42,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
 
         initView();
         //判断定位服务
-//        isLocation();
+        isLocation();
     }
 
     @Override

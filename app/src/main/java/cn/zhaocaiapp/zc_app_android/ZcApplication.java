@@ -54,15 +54,6 @@ public class ZcApplication extends Application {
         });
     }
 
-    //app 实例
-    public static ZcApplication application;
-
-    //本地activity栈
-    public static List<Activity> activitys = new ArrayList<Activity>();
-
-    //当前activity名称
-    public static String currentActivityName = "";
-
     private static SharedPreferences sp;
     private static UMShareAPI umShareAPI;
 
@@ -86,28 +77,6 @@ public class ZcApplication extends Application {
 
         //SharedPreferences存储全局设置
         sp = getSharedPreferences(Constants.SPREF.FILE_NAME, Context.MODE_PRIVATE);
-    }
-
-    /**
-     * 添加
-     *
-     * @param activity
-     */
-    public void addActivity(Activity activity) {
-        activitys.add(activity);
-    }
-
-    /**
-     * 删除
-     *
-     * @param activity
-     */
-    public void deleteActivity(Activity activity) {
-        if (activity != null) {
-            activitys.remove(activity);
-            activity.finish();
-            activity = null;
-        }
     }
 
     /**

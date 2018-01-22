@@ -1,5 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -93,7 +95,12 @@ public class MyFragment extends BaseFragment {
     public void init() {
         String imgUrl = (String) SpUtils.get(Constants.SPREF.USER_PHOTO, "");
         String nickName = (String) SpUtils.get(Constants.SPREF.NICK_NAME, "");
-        if (!GeneralUtils.isNullOrZeroLenght(imgUrl))
+        int gender = (int) SpUtils.get(Constants.SPREF.GENDER, 0);
+        if (GeneralUtils.isNullOrZeroLenght(imgUrl)) {
+            if (gender == 0)
+                iv_user_photo.setImageResource(R.mipmap.user_boy);
+            else iv_user_photo.setImageResource(R.mipmap.user_girl);
+        } else
             PictureLoadUtil.loadPicture(getActivity(), imgUrl, iv_user_photo);
         if (!GeneralUtils.isNullOrZeroLenght(nickName))
             tv_user_name.setText(nickName);
@@ -130,6 +137,11 @@ public class MyFragment extends BaseFragment {
                 break;
             case R.id.tv_follow: // 我的关注
                 openActivity(MyFollowAvtivity.class);
+                break;
+            case R.id.layout_contact:
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:400-2324-555"));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getActivity().startActivity(intent);
                 break;
             case R.id.tv_setting: // 设置
                 openActivity(SettingActivity.class);

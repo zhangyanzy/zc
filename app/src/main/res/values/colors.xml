@@ -18,6 +18,10 @@
     <!--黑色-->
     <color name="colorBlack">#000000</color>
 
+    <!--切图包含颜色-->
+
+     
+
     <!--待删除-->
     <!--主题色 辅色-->
     <color name="colorPrimaryDark">#dac98622</color>

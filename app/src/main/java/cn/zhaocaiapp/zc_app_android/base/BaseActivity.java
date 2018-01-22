@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -11,10 +12,13 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.List;
+
 import butterknife.ButterKnife;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import pub.devrel.easypermissions.EasyPermissions;
 
 
 /**
@@ -23,7 +27,7 @@ import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
  * Created by jinxunmediapty.ltd on 2018/1/3.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
 
     private TextView identify_code;
 
@@ -124,5 +128,21 @@ public abstract class BaseActivity extends AppCompatActivity {
             cancel();
         }
     };
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // EasyPermissions handles the request result.
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+    }
 
 }

@@ -1,10 +1,13 @@
 package cn.zhaocaiapp.zc_app_android;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -18,30 +21,47 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.PermissionUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
+import pub.devrel.easypermissions.EasyPermissions;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+    @BindView(R.id.layoutDots)
+    LinearLayout dotsLayout;
+    @BindView(R.id.btn_next)
+    Button btnNext;
+    @BindView(R.id.btn_skip)
+    Button btnSkip;
 
-    private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
-    private LinearLayout dotsLayout;
     private TextView[] dots;
     private int[] layouts;
-    private Button btnSkip, btnNext;
+    private String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //在setContentView()前检查是否第一次运行
-        SpUtils.contains(Constants.SPREF.IS_FIRST_TIME_LAUNCH);
-        if (!(Boolean) SpUtils.get(Constants.SPREF.IS_FIRST_TIME_LAUNCH, true)) {
-            launchHomeScreen();
-            finish();
-        }
+        //动态申请权限
+        PermissionUtil.checkPermission(this, perms, null);
+
+        SharedPreferences sp = getSharedPreferences("first_start", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        boolean isFirstStart = sp.getBoolean("is_first_start", true);
+        // 不是第一次启动
+        if (!isFirstStart) launchHomeScreen();
+        else editor.putBoolean("is_first_start", false).apply();
 
         //让状态栏透明
         if (Build.VERSION.SDK_INT >= 21) {
@@ -49,12 +69,12 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_welcome);
+        ButterKnife.bind(this);
 
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
-        btnNext = (Button) findViewById(R.id.btn_next);
-        btnSkip = (Button) findViewById(R.id.btn_skip);
+        init();
+    }
 
+    private void init() {
         //添加欢迎页面
         layouts = new int[]{
                 R.layout.activity_welcome_slide1,
@@ -91,9 +111,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
-
 
     private void addBottomDots(int currentPage) {
         dots = new TextView[layouts.length];
@@ -197,5 +215,22 @@ public class WelcomeActivity extends AppCompatActivity {
             View view = (View) object;
             container.removeView(view);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // EasyPermissions handles the request result.
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+
     }
 }

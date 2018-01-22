@@ -3,6 +3,7 @@ package cn.zhaocaiapp.zc_app_android.base;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,17 +15,20 @@ import android.widget.Toast;
 
 import com.jph.takephoto.app.TakePhotoFragment;
 
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.widget.LoadingDialog;
+import pub.devrel.easypermissions.EasyPermissions;
 
 
 /**
  * fragment懒加载
- * */
-public abstract class BaseFragment extends TakePhotoFragment {
+ */
+public abstract class BaseFragment extends TakePhotoFragment implements EasyPermissions.PermissionCallbacks{
     private View rootView;
     private Unbinder unbinder;
 
@@ -34,13 +38,11 @@ public abstract class BaseFragment extends TakePhotoFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (rootView == null) {
-            rootView = setContentView(inflater, container, savedInstanceState);
-            unbinder = ButterKnife.bind(this, rootView);
-            isInit = true;
-            init();
-            isCanLoadData();
-        }
+        rootView = setContentView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        isInit = true;
+        init();
+        isCanLoadData();
 
         return rootView;
     }
@@ -90,10 +92,7 @@ public abstract class BaseFragment extends TakePhotoFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (null != rootView) {
-            ((ViewGroup) rootView.getParent()).removeView(rootView);
-            unbinder.unbind();
-        }
+        unbinder.unbind();
     }
 
     /**
@@ -139,6 +138,23 @@ public abstract class BaseFragment extends TakePhotoFragment {
         Intent intent = new Intent(getActivity(), cls);
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // EasyPermissions handles the request result.
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
     }
 
 }

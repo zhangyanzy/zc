@@ -2,15 +2,12 @@
     <string name="app_name">找财</string>
     <string name="action_settings">设置</string>
 
-    <string name="skip_login">跳过登录</string>
     <string name="log_tip">一款做任务，赚钱的APP</string>
     <string name="input_phone_number">请输入手机号</string>
     <string name="input_pass_word">请输入密码</string>
     <string name="pass_length">密码必须为6-20位数字或字母</string>
-    <string name="button_register">注册</string>
-    <string name="forget_pass_word">忘记密码？</string>
-    <string name="button_login">登录</string>
-    <string name="other_login_mode">其他登陆方式</string>
+    <string name="forget_pass_word">忘记密码</string>
+    <string name="other_login_mode">使用社交账号登录</string>
     <string name="phone_not_empty">手机号不能为空</string>
     <string name="pass_not_empty">密码不能为空</string>
     <string name="isNot_phone">手机号格式不正确</string>

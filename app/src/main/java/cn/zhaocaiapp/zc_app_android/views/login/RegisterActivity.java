@@ -70,7 +70,7 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        tv_top_title.setText(getString(R.string.button_register));
+        tv_top_title.setText("注册");
         iv_top_menu.setVisibility(View.GONE);
 
         monitorEditChange(edit_pass_word);
@@ -162,8 +162,6 @@ public class RegisterActivity extends BaseActivity {
     private void saveUserData(SignupResp result) {
         SpUtils.put(Constants.SPREF.TOKEN, result.getToken());
         SpUtils.put(Constants.SPREF.IS_LOGIN, (Boolean) true);
-        SpUtils.put(Constants.SPREF.USER_PHOTO, result.getAvatar());
-        SpUtils.put(Constants.SPREF.NICK_NAME, result.getNickname());
         SpUtils.put(Constants.SPREF.USER_PHONE, result.getPhone());
     }
 
