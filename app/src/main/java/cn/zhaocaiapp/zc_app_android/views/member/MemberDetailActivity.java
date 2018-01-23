@@ -37,7 +37,6 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
 
     private long memberId;//商家
     private int pageNumber = 1;//分页
-    private int total = 0;//总数
     private List<ActivityResp> activityRespList = new ArrayList<>();//活动列表
 
     private ActivityAdapter activityAdapter;

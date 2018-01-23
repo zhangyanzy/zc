@@ -79,17 +79,22 @@ public interface Constants {
         String VERIFY_CODE = "register/check/code";
         /**
          * 重置密码
-         * */
+         */
         String UPDATE_PASS = "user/updatepassword";
         /**
          * 获取用户中心首页信息
-         * */
+         */
         String GET_BRIEF_USER_INFO = "userinfo/user";
 
         /**
          * 获取城市列表
          */
         String GET_AREA = "area";
+
+        /**
+         * 活动首页活动列表
+         */
+        String GET_ACTIVITY_LIST = "activity/list";
 
         /**
          * 商家列表
