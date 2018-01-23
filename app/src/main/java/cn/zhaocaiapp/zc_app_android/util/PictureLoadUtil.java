@@ -27,7 +27,7 @@ public class PictureLoadUtil {
          Glide.with(context)
                  .load(url)
                  .dontAnimate()//防止设置placeholder导致第一次不显示网络图片,只显示默认图片的问题
-                 .placeholder(R.mipmap.user_boy)
+                 //.placeholder(R.mipmap.user_boy)
                  .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                  .into(view);
      }
