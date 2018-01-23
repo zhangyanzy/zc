@@ -53,7 +53,7 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.home_line, container, false);
+        return inflater.inflate(R.layout.home_tab_line, container, false);
     }
 
     @Override

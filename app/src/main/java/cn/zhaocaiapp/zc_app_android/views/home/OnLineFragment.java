@@ -53,7 +53,7 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.home_on_line, container, false);
+        return inflater.inflate(R.layout.home_tab_on_line, container, false);
     }
 
     @Override

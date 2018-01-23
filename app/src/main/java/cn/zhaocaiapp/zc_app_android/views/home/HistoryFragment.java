@@ -52,7 +52,7 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.home_history, container, false);
+        return inflater.inflate(R.layout.home_tab_history, container, false);
     }
 
     @Override

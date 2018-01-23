@@ -6,18 +6,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -50,7 +45,7 @@ public class HomeFragment extends BaseFragment {
         home_view.setAdapter(new HomeFragmentPagerAdapter(this.getActivity().getSupportFragmentManager()));
         home_tabs.setupWithViewPager(home_view);
         for (int i = 0; i < tabTitles.length; i++) {
-            home_tabs.getTabAt(i).setCustomView(R.layout.activity_tab);
+            home_tabs.getTabAt(i).setCustomView(R.layout.home_tab);
             TextView textView = (TextView) home_tabs.getTabAt(i).getCustomView().findViewById(R.id.activity_tab_text);
             textView.setText(tabTitles[i]);
             if (i == 0) {
