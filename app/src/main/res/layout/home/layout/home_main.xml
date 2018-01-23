@@ -11,12 +11,18 @@
         android:id="@+id/home_tabs"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/colorBgDark"
+        android:background="@color/colorWhite"
+        app:tabBackground="@color/colorWhite"
         app:tabGravity="fill"
         app:tabIndicatorColor="#ffffff"
+        app:tabIndicatorHeight="0dp"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/colorWarning"
-        app:tabTextColor="#666666">
+        app:tabPaddingBottom="20dp"
+        app:tabPaddingEnd="10dp"
+        app:tabPaddingStart="20dp"
+        app:tabPaddingTop="10dp"
+        app:tabSelectedTextColor="@color/colorWhite"
+        app:tabTextColor="@color/colorPrimary">
 
     </android.support.design.widget.TabLayout>
 
