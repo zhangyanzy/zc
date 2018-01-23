@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,13 +49,47 @@ public class HomeFragment extends BaseFragment {
         home_view.setOffscreenPageLimit(tabTitles.length);
         home_view.setAdapter(new HomeFragmentPagerAdapter(this.getActivity().getSupportFragmentManager()));
         home_tabs.setupWithViewPager(home_view);
+        for (int i = 0; i < tabTitles.length; i++) {
+            home_tabs.getTabAt(i).setCustomView(R.layout.activity_tab);
+            TextView textView = (TextView) home_tabs.getTabAt(i).getCustomView().findViewById(R.id.activity_tab_text);
+            textView.setText(tabTitles[i]);
+            if (i == 0) {
+                textView.setTextColor(getActivity().getResources().getColor(R.color.colorWhite));
+                textView.setBackground(getActivity().getResources().getDrawable(R.drawable.home_tab_on));
+            }
+        }
+        home_tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            //选中了tab的逻辑
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                TextView textView = (TextView) tab.getCustomView().findViewById(R.id.activity_tab_text);
+                textView.setTextColor(getActivity().getResources().getColor(R.color.colorWhite));
+                textView.setBackground(getActivity().getResources().getDrawable(R.drawable.home_tab_on));
+            }
+
+            //未选中tab的逻辑
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                TextView textView = (TextView) tab.getCustomView().findViewById(R.id.activity_tab_text);
+                textView.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
+                textView.setBackground(getActivity().getResources().getDrawable(R.drawable.home_tab_off));
+            }
+
+            //再次选中tab的逻辑
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         home_view.setCurrentItem(0);
     }
+
 
     @Override
     public void loadData() {
 
     }
+
 
     /**
      * tabs控制器

@@ -12,17 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@color/colorWhite"
-        app:tabBackground="@color/colorWhite"
         app:tabGravity="fill"
-        app:tabIndicatorColor="#ffffff"
         app:tabIndicatorHeight="0dp"
-        app:tabMode="fixed"
-        app:tabPaddingBottom="20dp"
-        app:tabPaddingEnd="10dp"
-        app:tabPaddingStart="20dp"
-        app:tabPaddingTop="10dp"
-        app:tabSelectedTextColor="@color/colorWhite"
-        app:tabTextColor="@color/colorPrimary">
+        app:tabMode="fixed">
 
     </android.support.design.widget.TabLayout>
 
