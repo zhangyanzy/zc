@@ -10,12 +10,14 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 
@@ -29,6 +31,8 @@ public class HomeFragment extends BaseFragment {
     TabLayout home_tabs;
     @BindView(R.id.home_view)
     ViewPager home_view;
+    @BindView(R.id.home_title_search)
+    ImageView home_title_search;
 
     private String[] tabTitles = new String[]{"最新活动", "线上活动", "线下活动", "历史活动"};
     private Map<Integer, Fragment> fragments = new HashMap<>();
@@ -137,6 +141,17 @@ public class HomeFragment extends BaseFragment {
             fragments.put(position, fragment);
         }
         return fragment;
+    }
+
+    @OnClick({
+            R.id.home_title_search,
+    })
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.home_title_search:
+                openActivity(SearchActivity.class);
+                break;
+        }
     }
 
 }

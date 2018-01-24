@@ -37,6 +37,8 @@
     <string name="activity_sort_time">发布时间</string>
     <string name="activity_sort_money">奖励金额</string>
     <string name="activity_sort_area">距离最近</string>
+    <string name="search_cancel">取消</string>
+    <string name="search_activity">搜索活动</string>
 
 
 </resources>
