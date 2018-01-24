@@ -28,6 +28,7 @@ import cn.zhaocaiapp.zc_app_android.bean.response.my.LabelResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
  * Created by Administrator on 2018/1/12.
@@ -61,30 +62,33 @@ public class LabelFragment extends BaseFragment {
 
             @Override
             public void success(List<LabelResp> labelResps) {
+                EBLog.i(TAG, labelResps.toString());
                 labels = labelResps;
             }
 
             @Override
             public void error(Response<List<LabelResp>> response) {
-
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(getActivity(), response.getDesc());
             }
         });
 
         final LayoutInflater mInflater = LayoutInflater.from(getActivity());
-        label_list.setAdapter(new TagAdapter<LabelResp>(labels) {
+        if (labels != null)
+            label_list.setAdapter(new TagAdapter<LabelResp>(labels) {
 
-            @Override
-            public View getView(FlowLayout parent, int position, LabelResp labelResp) {
-                View view = mInflater.inflate(R.layout.my_label_item, label_list, false);
-                ViewHolder holder = new ViewHolder(view);
-                holder.tv_label_name.setText(labelResp.getName());
-                holder.tv_labek_number.setText(labelResp.getTimes() + "");
-                setLabelGrade(labelResp.getTimes() / 10, holder);
+                @Override
+                public View getView(FlowLayout parent, int position, LabelResp labelResp) {
+                    View view = mInflater.inflate(R.layout.my_label_item, label_list, false);
+                    ViewHolder holder = new ViewHolder(view);
+                    holder.tv_label_name.setText(labelResp.getName());
+                    holder.tv_labek_number.setText(labelResp.getTimes() + "");
+                    setLabelGrade(labelResp.getTimes() / 10, holder);
 
-                EBLog.i(TAG, labelResp.toString());
-                return view;
-            }
-        });
+                    EBLog.i(TAG, labelResp.toString());
+                    return view;
+                }
+            });
     }
 
     private void setLabelGrade(int grade, ViewHolder holder) {

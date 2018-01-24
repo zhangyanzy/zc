@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.bean.MessageEvent;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.UserDetailResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
+import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
@@ -47,6 +49,10 @@ public class IdentifyFragment extends BaseFragment {
     TextView tv_submit;
     @BindView(R.id.iv_add_icture)
     ImageView iv_add_icture;
+    @BindView(R.id.edit_user_name)
+    EditText edit_user_name;
+    @BindView(R.id.edit_id_number)
+    EditText edit_id_number;
 
     private View rootView;
 
@@ -75,9 +81,26 @@ public class IdentifyFragment extends BaseFragment {
 
     @Override
     public void init() {
+        setGenderPicker();
+        setDatePicker();
+    }
+
+    private void showUserInfo() {
+        if (GeneralUtils.isNotNullOrZeroLenght(realInfoBean.getName()))
+            edit_user_name.setText(realInfoBean.getName());
+        if (GeneralUtils.isNotNullOrZeroLenght(realInfoBean.getIdCard()))
+            edit_id_number.setText(realInfoBean.getIdCard());
+
+        int sex = realInfoBean.getSex();
+        if (sex == 0) tv_user_gender.setText("男");
+        else tv_user_gender.setText("女");
+
+    }
+
+    //性别选择器初始化设置
+    private void setGenderPicker() {
         genders.add("女");
         genders.add("男");
-
         optionsPickerView = new OptionsPickerView.Builder(getActivity(), new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
@@ -87,7 +110,10 @@ public class IdentifyFragment extends BaseFragment {
                 .setSelectOptions(0)
                 .build();
         optionsPickerView.setPicker(genders);
+    }
 
+    //日期选择起初始化设置、
+    private void setDatePicker() {
         Calendar selectedDate = Calendar.getInstance();
         startDate = Calendar.getInstance();
         endDate = Calendar.getInstance();
@@ -104,15 +130,6 @@ public class IdentifyFragment extends BaseFragment {
                 .setRangDate(startDate, endDate)
                 .setDecorView(null)
                 .build();
-
-
-        rootView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                getActivity().onTouchEvent(event);
-                return true;
-            }
-        });
     }
 
     @Override
@@ -123,8 +140,12 @@ public class IdentifyFragment extends BaseFragment {
     //接收EventBus发送的消息，并处理
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(MessageEvent<UserDetailResp.RealInfoBean> event) {
-        realInfoBean = event.getMessage();
-        EBLog.i(TAG, realInfoBean.toString());
+        if (event.getMessage() instanceof UserDetailResp.RealInfoBean) {
+            realInfoBean = event.getMessage();
+            showUserInfo();
+            EBLog.i(TAG, realInfoBean.toString());
+        }
+
     }
 
     @OnClick({R.id.tv_user_gender, R.id.tv_birth_day, R.id.iv_add_icture})

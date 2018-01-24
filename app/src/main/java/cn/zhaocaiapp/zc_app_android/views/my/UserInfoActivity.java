@@ -49,12 +49,12 @@ public class UserInfoActivity extends BaseActivity {
 
     private static final String TAG = "用户详细信息";
 
-     private String[]tabTitles = new String[]{"个人资料", "实名信息", "相关信息", "个人标签", "修改密码"};
-     private Map<Integer, Fragment> fragments = new HashMap<>();
+    private String[] tabTitles = new String[]{"个人资料", "实名信息", "相关信息", "个人标签", "修改密码"};
+    private Map<Integer, Fragment> fragments = new HashMap<>();
 
-     private UserDetailResp.ActivityInfoBean activityInfoBean;
-     private UserDetailResp.BaseInfoBean baseInfoBean;
-     private UserDetailResp.RealInfoBean realInfoBean;
+    private UserDetailResp.ActivityInfoBean activityInfoBean;
+    private UserDetailResp.BaseInfoBean baseInfoBean;
+    private UserDetailResp.RealInfoBean realInfoBean;
 
     @Override
     public int getContentViewResId() {
@@ -63,24 +63,26 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        initData();
         iv_top_menu.setVisibility(View.GONE);
 
         pager_user_info.setOffscreenPageLimit(tabTitles.length);
         pager_user_info.setAdapter(new UserinfoFragmentPagerAdapter(getSupportFragmentManager()));
         tab_user_info.setupWithViewPager(pager_user_info);
         pager_user_info.setCurrentItem(0);
+
+        initData();
     }
 
-    private void initData(){
+    private void initData() {
         HttpUtil.get(Constants.URL.GET_USER_INFO_DETAIL).subscribe(new BaseResponseObserver<UserDetailResp>() {
 
             @Override
             public void success(UserDetailResp userDetailResp) {
-                 activityInfoBean = userDetailResp.getActivtiyInfo();
-                 baseInfoBean = userDetailResp.getBaseInfo();
-                 realInfoBean = userDetailResp.getRealInfo();
+                activityInfoBean = userDetailResp.getActivtiyInfo();
+                baseInfoBean = userDetailResp.getBaseInfo();
+                realInfoBean = userDetailResp.getRealInfo();
 
+                //将用户数据发送给对应的fragment
                 EventBus.getDefault().post(new MessageEvent<UserDetailResp.BaseInfoBean>(baseInfoBean));
                 EventBus.getDefault().post(new MessageEvent<UserDetailResp.RealInfoBean>(realInfoBean));
                 EventBus.getDefault().post(new MessageEvent<UserDetailResp.ActivityInfoBean>(activityInfoBean));
@@ -88,7 +90,7 @@ public class UserInfoActivity extends BaseActivity {
 
             @Override
             public void error(Response<UserDetailResp> response) {
-                EBLog.e(TAG, response.getCode()+"");
+                EBLog.e(TAG, response.getCode() + "");
                 ToastUtil.makeText(UserInfoActivity.this, response.getDesc());
             }
         });
@@ -116,10 +118,10 @@ public class UserInfoActivity extends BaseActivity {
 
     }
 
-    private Fragment getFragment(int position){
+    private Fragment getFragment(int position) {
         Fragment fragment = fragments.get(position);
-        if (fragment == null){
-            switch (position){
+        if (fragment == null) {
+            switch (position) {
                 case 0: // 个人资料
                     fragment = new UserInfoFragment();
                     break;
@@ -142,7 +144,7 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     @OnClick({R.id.iv_top_back})
-    public void onClick(View view){
+    public void onClick(View view) {
         finish();
     }
 

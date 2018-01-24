@@ -41,13 +41,6 @@ public class RevisePassFragment extends BaseFragment {
     @Override
     public void init() {
 
-        rootView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                getActivity().onTouchEvent(event);
-                return false;
-            }
-        });
     }
 
     @Override

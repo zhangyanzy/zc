@@ -47,7 +47,7 @@
             android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_14"
             android:paddingLeft="15dp"
-            android:text="道格拉斯.古尔其"/>
+            android:text=""/>
     </LinearLayout>
 
     <View style="@style/horizontal_C9_line"
@@ -77,7 +77,7 @@
             android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_14"
             android:paddingLeft="15dp"
-            android:text="1234567890"
+            android:text=""
             android:layout_marginRight="12dp"/>
 
         <TextView
@@ -116,7 +116,7 @@
             android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_14"
             android:paddingLeft="15dp"
-            android:text="上海市陆家嘴"/>
+            android:text=""/>
     </LinearLayout>
 
     <View style="@style/horizontal_C9_line"
@@ -145,7 +145,7 @@
             android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_14"
             android:paddingLeft="15dp"
-            android:text="上海市陆家嘴"/>
+            android:text=""/>
     </LinearLayout>
 
     <View style="@style/horizontal_C9_line"

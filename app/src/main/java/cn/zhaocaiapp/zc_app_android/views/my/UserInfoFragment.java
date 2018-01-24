@@ -30,6 +30,7 @@ import cn.zhaocaiapp.zc_app_android.bean.response.my.UserDetailResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.capabilities.takephoto.PhotoHelper;
 import cn.zhaocaiapp.zc_app_android.util.AreaUtil;
+import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.PhotoPickerUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
 
@@ -50,6 +51,10 @@ public class UserInfoFragment extends BaseFragment {
     TextView edit_user_address;
     @BindView(R.id.edit_company_address)
     TextView edit_company_address;
+    @BindView(R.id.edit_user_nickname)
+    EditText edit_user_nickname;
+    @BindView(R.id.edit_user_phone)
+    EditText edit_user_phone;
 
     private View rootView;
     private PhotoHelper photoHelper;
@@ -78,11 +83,26 @@ public class UserInfoFragment extends BaseFragment {
 
     @Override
     public void init() {
-        photoHelper = PhotoHelper.of(rootView);
-
+        //初始化城市列表
         citys = new ArrayList<>();
         towns = new ArrayList<>();
         getAreasList();
+        setCityPicker();
+
+        //初始化照片选择器设置
+        photoHelper = PhotoHelper.of(rootView);
+
+    }
+
+    //显示用户信息
+    private void showUserInfo() {
+        if (GeneralUtils.isNotNullOrZeroLenght(baseInfoBean.getNickname()))
+            edit_user_nickname.setText(baseInfoBean.getNickname());
+        edit_user_phone.setText(baseInfoBean.getPhone());
+    }
+
+    //城市选择器初始化和设置
+    private void setCityPicker() {
         optionsPickerView = new OptionsPickerView.Builder(getActivity(), new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
@@ -91,14 +111,6 @@ public class UserInfoFragment extends BaseFragment {
         }).setTitleText("城市选择")
                 .build();
         optionsPickerView.setPicker(provinces, citys, towns);
-
-        rootView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                getActivity().onTouchEvent(event);
-                return true;
-            }
-        });
     }
 
     @Override
@@ -109,10 +121,14 @@ public class UserInfoFragment extends BaseFragment {
     //接收EventBus发送的消息，并处理
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(MessageEvent<UserDetailResp.BaseInfoBean> event) {
-         baseInfoBean = event.getMessage();
-        EBLog.i(TAG, baseInfoBean.toString());
+        if (event.getMessage() instanceof UserDetailResp.BaseInfoBean) {
+            baseInfoBean = event.getMessage();
+            showUserInfo();
+            EBLog.i(TAG, baseInfoBean.toString());
+        }
     }
 
+    //获取省、市、区列表
     private void getAreasList() {
         provinces = AreaUtil.initArea(getActivity());
         for (int i = 0; i < provinces.size(); i++) {

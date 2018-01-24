@@ -85,13 +85,15 @@ public class TaskRelativeFragment extends BaseFragment {
     //接收EventBus发送的消息，并处理
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(MessageEvent<UserDetailResp.ActivityInfoBean> event) {
-        activityInfoBean = event.getMessage();
-        EBLog.i(TAG, activityInfoBean.toString());
+        if (event.getMessage() instanceof UserDetailResp.ActivityInfoBean) {
+            activityInfoBean = event.getMessage();
+            EBLog.i(TAG, activityInfoBean.toString());
+        }
     }
 
     @OnClick({R.id.tv_educational, R.id.tv_profession})
-    public void onClick(View view){
-        switch (view.getId()){
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.tv_educational:
                 setItemContent("学历选择", educationalNames, tv_educational);
                 optionsPickerView.show();
@@ -103,7 +105,7 @@ public class TaskRelativeFragment extends BaseFragment {
         }
     }
 
-    private void setItemContent(String title, List<String>items, TextView view){
+    private void setItemContent(String title, List<String> items, TextView view) {
         optionsPickerView = new OptionsPickerView.Builder(getActivity(), new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {

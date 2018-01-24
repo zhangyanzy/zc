@@ -46,6 +46,8 @@ public class MyFragment extends BaseFragment {
     TextView tv_top_title;
     @BindView(R.id.iv_top_menu)
     ImageView iv_top_menu;
+    @BindView(R.id.tv_msg)
+    TextView tv_msg;
     @BindView(R.id.iv_user_photo)
     CircleImageView iv_user_photo;
     @BindView(R.id.tv_user_name)
@@ -70,23 +72,38 @@ public class MyFragment extends BaseFragment {
     RelativeLayout layout_failed_task;
     @BindView(R.id.layout_invite)
     LinearLayout layout_invite;
+    @BindView(R.id.tv_invite)
+    TextView tv_invite;
     @BindView(R.id.tv_account_manager)
     TextView tv_account_manager;
     @BindView(R.id.tv_follow)
     TextView tv_follow;
     @BindView(R.id.layout_contact)
     RelativeLayout layout_contact;
+    @BindView(R.id.tv_contact_phone)
+    TextView tv_contact_phone;
     @BindView(R.id.layout_email)
     RelativeLayout layout_email;
+    @BindView(R.id.tv_email)
+    TextView tv_email;
     @BindView(R.id.tv_setting)
     TextView tv_setting;
     @BindView(R.id.tv_exit)
     TextView tv_exit;
+    @BindView(R.id.tv_deliver_msg)
+    TextView tv_deliver_msg;
+    @BindView(R.id.tv_verify_msg)
+    TextView tv_verify_msg;
+    @BindView(R.id.tv_reward_msg)
+    TextView tv_reward_msg;
+    @BindView(R.id.tv_failed_msg)
+    TextView tv_failed_msg;
 
 
     private static String TAG = "个人中心";
     private TrembleBasesOsDialog trembleBasesOsDialog;
-    private MyResp myResp;
+
+    private MyResp userInfo;
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -97,18 +114,6 @@ public class MyFragment extends BaseFragment {
     public void init() {
         iv_top_back.setVisibility(View.GONE);
         tv_top_title.setText("个人中心");
-
-        String imgUrl = (String) SpUtils.get(Constants.SPREF.USER_PHOTO, "");
-        String nickName = (String) SpUtils.get(Constants.SPREF.NICK_NAME, "");
-        int gender = (int) SpUtils.get(Constants.SPREF.GENDER, 0);
-        if (GeneralUtils.isNullOrZeroLenght(imgUrl)) {
-            if (gender == 0)
-                iv_user_photo.setImageResource(R.mipmap.user_boy);
-            else iv_user_photo.setImageResource(R.mipmap.user_girl);
-        } else
-            PictureLoadUtil.loadPicture(getActivity(), imgUrl, iv_user_photo);
-        if (!GeneralUtils.isNullOrZeroLenght(nickName))
-            tv_user_name.setText(nickName);
 
         trembleBasesOsDialog = new TrembleBasesOsDialog(getActivity());
         trembleBasesOsDialog.setOnDialogClickListener(trembleListener);
@@ -121,17 +126,36 @@ public class MyFragment extends BaseFragment {
 
             @Override
             public void success(MyResp result) {
-                EBLog.i(TAG, myResp.toString());
-                myResp = result;
-
+                EBLog.i(TAG, result.toString());
+                userInfo = result;
+                showUserInfo();
             }
 
             @Override
             public void error(Response<MyResp> response) {
-                EBLog.e(TAG, response.getCode()+"");
+                EBLog.e(TAG, response.getCode() + "");
                 ToastUtil.makeText(getActivity(), response.getDesc());
             }
         });
+    }
+
+    private void showUserInfo() {
+        tv_msg.setText(userInfo.getMessage() + "");
+        tv_user_name.setText(userInfo.getNickname());
+        tv_user_identify.setText(userInfo.getRealInfoAudit());
+        tv_user_blance.setText(userInfo.getAccountBalanceAmount() + "");
+        tv_user_income.setText(userInfo.getGrossIncomeAmount() + "");
+        tv_deliver_msg.setText(userInfo.getSubmit() + "");
+        tv_verify_msg.setText(userInfo.getAudit() + "");
+        tv_reward_msg.setText(userInfo.getPay() + "");
+        tv_failed_msg.setText(userInfo.getUnPass() + "");
+        tv_invite.setText(userInfo.getInviteMessage());
+        tv_contact_phone.setText(userInfo.getCustomerPhone());
+        tv_email.setText(userInfo.getEmail());
+
+        if (GeneralUtils.isNotNullOrZeroLenght(userInfo.getAvatar()))
+            PictureLoadUtil.loadPicture(getActivity(), userInfo.getAvatar(), iv_user_photo);
+
     }
 
     @OnClick({R.id.iv_top_menu, R.id.iv_user_photo, R.id.tv_user_identify, R.id.tv_apply_cash, R.id.layout_all_task, R.id.layout_deliver_task,
@@ -158,7 +182,7 @@ public class MyFragment extends BaseFragment {
                 openActivity(MyFollowAvtivity.class);
                 break;
             case R.id.layout_contact:
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:400-2324-555"));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + userInfo.getCustomerPhone()));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getActivity().startActivity(intent);
                 break;

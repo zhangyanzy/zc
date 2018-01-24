@@ -113,6 +113,11 @@
         <activity
             android:name=".views.my.AccountActivity"
             android:screenOrientation="portrait" />
+        <!--关于我们-->
+        <activity
+            android:name=".views.my.AboutUsActivity"
+            android:screenOrientation="portrait" />
+
 
 
         <!--商家详情-->
