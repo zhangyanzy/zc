@@ -10,6 +10,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.adapter.my.MyFollowAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 
 /**

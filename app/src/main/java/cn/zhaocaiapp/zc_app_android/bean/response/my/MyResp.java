@@ -11,21 +11,21 @@ import java.math.BigDecimal;
 public class MyResp {
     /**
      * "accountBalanceAmount": BigDecimal   账户剩余金额
-     "audit":                    Intger     待审核信息条数
-     "avatar":                   String     图像
-     "customerPhone":           String    客服电话
-     "email":                     String    邮箱
-     "grossIncomeAmount":   BigDecimal   总收入
-     "inviteCode":            String      邀请码
-     "inviteMessage":         String     邀请奖励信息
-     "message":              Integer    信息条数
-     "nickname":              String     昵称
-     "pay":                   String     待领钱
-     "realInfoAudit":           String     实名认证状态
-     "realInfoAuditStatus":     Integer    实名认证状态码
-     "submit":                Integer    待交付
-     "unPass":               Intger     未通过
-     * */
+     * "audit":                    Intger     待审核信息条数
+     * "avatar":                   String     图像
+     * "customerPhone":           String    客服电话
+     * "email":                     String    邮箱
+     * "grossIncomeAmount":   BigDecimal   总收入
+     * "inviteCode":            String      邀请码
+     * "inviteMessage":         String     邀请奖励信息
+     * "message":              Integer    信息条数
+     * "nickname":              String     昵称
+     * "pay":                   String     待领钱
+     * "realInfoAudit":           String     实名认证状态
+     * "realInfoAuditStatus":     Integer    实名认证状态码
+     * "submit":                Integer    待交付
+     * "unPass":               Intger     未通过
+     */
     private BigDecimal accountBalanceAmount;
     private int audit;
     private String avatar;

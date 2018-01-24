@@ -18,6 +18,8 @@
     <!--黑色-->
     <color name="colorBlack">#000000</color>
 
+    <color name="colorLabel">#FBC873</color>
+
     <!--切图包含颜色-->
 
      

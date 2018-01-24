@@ -1,6 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.bean.response.home;
 
 
+import com.bigkoo.pickerview.model.IPickerViewData;
 import com.mcxtzhang.indexlib.IndexBar.bean.BaseIndexPinyinBean;
 
 import java.util.Date;
@@ -11,7 +12,7 @@ import java.util.List;
  * @filename LocationResp.java
  * @data 2018-01-03 11:41
  */
-public class LocationResp extends BaseIndexPinyinBean {
+public class LocationResp extends BaseIndexPinyinBean implements IPickerViewData {
     /**
      * 主键
      */
@@ -292,5 +293,10 @@ public class LocationResp extends BaseIndexPinyinBean {
     @Override
     public boolean isShowSuspension() {
         return !isTop;
+    }
+
+    @Override
+    public String getPickerViewText() {
+        return areaName;
     }
 }

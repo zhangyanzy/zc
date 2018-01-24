@@ -41,17 +41,17 @@
 
     <TextView
         android:id="@+id/tv_msg"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/button_shape_red_round"
         android:gravity="center"
         android:text="3"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/font_size_8"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
 </RelativeLayout>
 

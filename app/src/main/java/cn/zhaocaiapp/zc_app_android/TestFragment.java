@@ -7,14 +7,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
+import cn.zhaocaiapp.zc_app_android.bean.response.my.LabelResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.activity.ActivityActivityDetail;
 import cn.zhaocaiapp.zc_app_android.views.home.LocationActivity;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
+import cn.zhaocaiapp.zc_app_android.views.my.LabelFragment;
 
 /**
  * @author 林子
@@ -28,6 +39,7 @@ public class TestFragment extends BaseFragment {
     Button button2;
 
     Button goH5;
+
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

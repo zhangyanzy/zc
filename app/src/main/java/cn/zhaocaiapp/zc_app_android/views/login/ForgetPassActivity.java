@@ -130,11 +130,10 @@ public class ForgetPassActivity extends BaseActivity {
             @Override
             public void success(CommonResp result) {
                 EBLog.i(TAG, result.getDesc());
-                if (result.isResult()) {
-                    openActivity(LoginActivity.class);
-                    finish();
-                } else
-                    ToastUtil.makeText(ForgetPassActivity.this, result.getDesc());
+                ToastUtil.makeText(ForgetPassActivity.this, result.getDesc());
+
+                openActivity(LoginActivity.class);
+                finish();
             }
 
             @Override

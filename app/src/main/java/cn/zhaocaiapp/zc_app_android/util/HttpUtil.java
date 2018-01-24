@@ -64,17 +64,17 @@ public class HttpUtil {
      * @return
      */
     public static Observable get(String url) {
-        if (GeneralUtils.isNotNullOrZeroLenght(USER_TOKEN)) {
-            return http.get(url)
-                    .subscribeOn(Schedulers.io())
-                    .unsubscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
-        } else {
+//        if (GeneralUtils.isNotNullOrZeroLenght(USER_TOKEN)) {
+//            return http.get(url)
+//                    .subscribeOn(Schedulers.io())
+//                    .unsubscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread());
+//        } else {
             return http.get(url, USER_TOKEN)
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());
-        }
+//        }
     }
 
     /**
@@ -85,17 +85,17 @@ public class HttpUtil {
      * @return
      */
     public static Observable get(String url, Map params) {
-        if (GeneralUtils.isNullOrZeroLenght(USER_TOKEN)) {
-            return http.get(url, params)
-                    .subscribeOn(Schedulers.io())
-                    .unsubscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
-        } else {
+//        if (GeneralUtils.isNullOrZeroLenght(USER_TOKEN)) {
+//            return http.get(url, params)
+//                    .subscribeOn(Schedulers.io())
+//                    .unsubscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread());
+//        } else {
             return http.get(url, USER_TOKEN, params)
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());
-        }
+//        }
     }
 
     /**
@@ -105,17 +105,17 @@ public class HttpUtil {
      * @return
      */
     public static Observable post(String url) {
-        if (GeneralUtils.isNullOrZeroLenght(USER_TOKEN)) {
-            return http.post(url)
-                    .subscribeOn(Schedulers.io())
-                    .unsubscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
-        } else {
+//        if (GeneralUtils.isNullOrZeroLenght(USER_TOKEN)) {
+//            return http.post(url)
+//                    .subscribeOn(Schedulers.io())
+//                    .unsubscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread());
+//        } else {
             return http.post(url, USER_TOKEN)
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());
-        }
+//        }
     }
 
     /**
@@ -126,17 +126,17 @@ public class HttpUtil {
      * @return
      */
     public static Observable post(String url, Map params) {
-        if (GeneralUtils.isNullOrZeroLenght(USER_TOKEN)) {
-            return http.post(url, params)
-                    .subscribeOn(Schedulers.io())
-                    .unsubscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
-        } else {
+//        if (GeneralUtils.isNullOrZeroLenght(USER_TOKEN)) {
+//            return http.post(url, params)
+//                    .subscribeOn(Schedulers.io())
+//                    .unsubscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread());
+//        } else {
             return http.post(url, USER_TOKEN, params)
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());
-        }
+//        }
 
     }
 

@@ -99,4 +99,5 @@ dependencies {
 
     //动态申请权限
     implementation 'pub.devrel:easypermissions:1.1.2'
+    compile 'com.hyman:flowlayout-lib:1.1.2'
 }

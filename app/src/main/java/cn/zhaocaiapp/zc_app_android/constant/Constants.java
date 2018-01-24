@@ -85,6 +85,14 @@ public interface Constants {
          * 获取用户中心首页信息
          */
         String GET_BRIEF_USER_INFO = "userinfo/user";
+        /**
+         * 获取用户详细信息
+         * */
+         String GET_USER_INFO_DETAIL = "userinfo/userdetail";
+         /**
+          * 获取个人标签
+          * */
+          String GET_USER_LABEL = "userinfo/tag";
 
         /**
          * 获取城市列表

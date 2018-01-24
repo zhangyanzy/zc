@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    android:paddingStart="15dp">
+
+    <LinearLayout
+        android:id="@+id/layout_label"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:background="@drawable/button_shape_orange_alpha1">
+
+        <TextView
+            android:id="@+id/tv_label_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="阅读"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_14" />
+
+        <TextView
+            android:id="@+id/tv_labek_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(30)"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_14" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/delete_label"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignEnd="@+id/layout_label"
+        android:src="@mipmap/delete_label"
+        android:visibility="visible"/>
+
+</RelativeLayout>

@@ -10,6 +10,10 @@ import android.widget.TextView;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +21,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
+import cn.zhaocaiapp.zc_app_android.bean.MessageEvent;
+import cn.zhaocaiapp.zc_app_android.bean.response.my.UserDetailResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
@@ -34,6 +41,17 @@ public class TaskRelativeFragment extends BaseFragment {
     private List<String> educationalNames;
     private List<String> professionNames;
     private OptionsPickerView optionsPickerView;
+
+    private UserDetailResp.ActivityInfoBean activityInfoBean;
+
+    private static final String TAG = "活动相关信息";
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //注册EventBus消息订阅者
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,6 +82,13 @@ public class TaskRelativeFragment extends BaseFragment {
 
     }
 
+    //接收EventBus发送的消息，并处理
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(MessageEvent<UserDetailResp.ActivityInfoBean> event) {
+        activityInfoBean = event.getMessage();
+        EBLog.i(TAG, activityInfoBean.toString());
+    }
+
     @OnClick({R.id.tv_educational, R.id.tv_profession})
     public void onClick(View view){
         switch (view.getId()){
@@ -88,6 +113,12 @@ public class TaskRelativeFragment extends BaseFragment {
                 .setSelectOptions(0)
                 .build();
         optionsPickerView.setPicker(items);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
 }

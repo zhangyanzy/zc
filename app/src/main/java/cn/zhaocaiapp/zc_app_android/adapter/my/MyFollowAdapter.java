@@ -1,4 +1,4 @@
-package cn.zhaocaiapp.zc_app_android.views.my;
+package cn.zhaocaiapp.zc_app_android.adapter.my;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,7 +46,7 @@ public class MyFollowAdapter extends RecyclerView.Adapter<MyFollowAdapter.ViewHo
         return 20;
     }
 
-    interface OnItemCliclkListener{
+    public interface OnItemCliclkListener{
         void onItemCliclk(int position);
     }
 

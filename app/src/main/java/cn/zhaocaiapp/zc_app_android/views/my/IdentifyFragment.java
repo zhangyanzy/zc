@@ -14,6 +14,10 @@ import android.widget.TextView;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,6 +28,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
+import cn.zhaocaiapp.zc_app_android.bean.MessageEvent;
+import cn.zhaocaiapp.zc_app_android.bean.response.my.UserDetailResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
@@ -48,6 +55,17 @@ public class IdentifyFragment extends BaseFragment {
     private List<String> genders = new ArrayList<>();
     private Calendar startDate;
     private Calendar endDate;
+
+    private UserDetailResp.RealInfoBean realInfoBean;
+
+    private static final String TAG = "用户实名信息";
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //注册EventBus消息订阅者
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -92,7 +110,7 @@ public class IdentifyFragment extends BaseFragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 getActivity().onTouchEvent(event);
-                return false;
+                return true;
             }
         });
     }
@@ -100,6 +118,13 @@ public class IdentifyFragment extends BaseFragment {
     @Override
     public void loadData() {
 
+    }
+
+    //接收EventBus发送的消息，并处理
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(MessageEvent<UserDetailResp.RealInfoBean> event) {
+        realInfoBean = event.getMessage();
+        EBLog.i(TAG, realInfoBean.toString());
     }
 
     @OnClick({R.id.tv_user_gender, R.id.tv_birth_day, R.id.iv_add_icture})
@@ -122,6 +147,12 @@ public class IdentifyFragment extends BaseFragment {
     private String getBirthTime(Date date) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(date);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
 }

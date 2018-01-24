@@ -93,6 +93,7 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        stopLoad();
     }
 
     /**

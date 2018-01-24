@@ -43,7 +43,7 @@ public class IncomeFragment extends BaseFragment {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_income_item, parent, false);
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.my_income_item, parent, false);
             return new ViewHolder(view);
         }
 

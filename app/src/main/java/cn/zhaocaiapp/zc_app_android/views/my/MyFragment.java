@@ -43,7 +43,7 @@ public class MyFragment extends BaseFragment {
     @BindView(R.id.iv_top_back)
     ImageView iv_top_back;
     @BindView(R.id.tv_top_title)
-    TextView tv_top_titlel;
+    TextView tv_top_title;
     @BindView(R.id.iv_top_menu)
     ImageView iv_top_menu;
     @BindView(R.id.iv_user_photo)
@@ -75,9 +75,9 @@ public class MyFragment extends BaseFragment {
     @BindView(R.id.tv_follow)
     TextView tv_follow;
     @BindView(R.id.layout_contact)
-    LinearLayout layout_contact;
+    RelativeLayout layout_contact;
     @BindView(R.id.layout_email)
-    LinearLayout layout_email;
+    RelativeLayout layout_email;
     @BindView(R.id.tv_setting)
     TextView tv_setting;
     @BindView(R.id.tv_exit)
@@ -95,6 +95,9 @@ public class MyFragment extends BaseFragment {
 
     @Override
     public void init() {
+        iv_top_back.setVisibility(View.GONE);
+        tv_top_title.setText("个人中心");
+
         String imgUrl = (String) SpUtils.get(Constants.SPREF.USER_PHOTO, "");
         String nickName = (String) SpUtils.get(Constants.SPREF.NICK_NAME, "");
         int gender = (int) SpUtils.get(Constants.SPREF.GENDER, 0);
