@@ -57,6 +57,8 @@
     <string name="search_money_6">终止金额</string>
     <string name="search_area_0">城市</string>
     <string name="search_area_1">区域</string>
+    <string name="user_income">总收入</string>
+    <string name="user_balance">账户余额</string>
 
 
 </resources>

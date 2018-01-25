@@ -2,7 +2,7 @@
 <resources>
 
     <!--主题色-->
-    <color name="colorPrimary">#dc9935</color>
+    <color name="colorPrimary">#FBC873</color>
     <!--文字标题-->
     <color name="colorFont3">#333333</color>
     <!--文字正文-->
@@ -10,9 +10,9 @@
     <!--文字提示-->
     <color name="colorFont9">#999999</color>
     <!--线-->
-    <color name="colorLine">#d8d8d8</color>
+    <color name="colorLine">#D8D8D8</color>
     <!--控件布局背景色-->
-    <color name="colorHeadLine">#f1f1f1</color>
+    <color name="colorHeadLine">#F1F1F1</color>
     <!--白色-->
     <color name="colorWhite">#ffffff</color>
     <!--黑色-->

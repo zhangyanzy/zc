@@ -10,13 +10,13 @@
         <shape android:shape="rectangle">
             <gradient
                 android:angle="270"
-                android:endColor="@color/colorWhite"
-                android:startColor="@color/colorLine" />
+                android:endColor="#B0FFFFFF"
+                android:startColor="#B0d8d8d8" />
             <corners
-                android:bottomLeftRadius="6dip"
-                android:bottomRightRadius="6dip"
-                android:topLeftRadius="6dip"
-                android:topRightRadius="6dip" />
+                android:bottomLeftRadius="10dip"
+                android:bottomRightRadius="10dip"
+                android:topLeftRadius="10dip"
+                android:topRightRadius="10dip" />
         </shape>
     </item>
     <!-- 背景部分 -->
@@ -29,13 +29,13 @@
         <shape android:shape="rectangle">
             <gradient
                 android:angle="270"
-                android:endColor="@color/colorWhite"
-                android:startColor="@color/colorWhite" />
+                android:endColor="#B0FFFFFF"
+                android:startColor="#B0FFFFFF"/>
             <corners
-                android:bottomLeftRadius="6dip"
-                android:bottomRightRadius="6dip"
-                android:topLeftRadius="6dip"
-                android:topRightRadius="6dip" />
+                android:bottomLeftRadius="10dip"
+                android:bottomRightRadius="10dip"
+                android:topLeftRadius="10dip"
+                android:topRightRadius="10dip" />
         </shape>
     </item>
 </layer-list>
