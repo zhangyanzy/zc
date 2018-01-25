@@ -132,7 +132,7 @@
             android:background="@drawable/search_class_off"
             android:gravity="center"
             android:text="@string/activity_class_0"
-            android:textColor="@color/colorFont3"
+            android:textColor="@color/colorFont6"
             android:textSize="16sp" />
 
         <TextView
@@ -144,7 +144,7 @@
             android:background="@drawable/search_class_off"
             android:gravity="center"
             android:text="@string/activity_class_1"
-            android:textColor="@color/colorFont3"
+            android:textColor="@color/colorFont6"
             android:textSize="16sp" />
 
         <TextView
@@ -155,7 +155,7 @@
             android:background="@drawable/search_class_off"
             android:gravity="center"
             android:text="@string/activity_class_2"
-            android:textColor="@color/colorFont3"
+            android:textColor="@color/colorFont6"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -185,7 +185,7 @@
             android:background="@drawable/search_class_off"
             android:gravity="center"
             android:text="@string/activity_type_1"
-            android:textColor="@color/colorFont3"
+            android:textColor="@color/colorFont6"
             android:textSize="16sp" />
 
         <TextView
@@ -197,7 +197,7 @@
             android:background="@drawable/search_class_off"
             android:gravity="center"
             android:text="@string/activity_type_2"
-            android:textColor="@color/colorFont3"
+            android:textColor="@color/colorFont6"
             android:textSize="16sp" />
 
         <TextView
@@ -208,7 +208,7 @@
             android:background="@drawable/search_class_off"
             android:gravity="center"
             android:text="@string/activity_type_0"
-            android:textColor="@color/colorFont3"
+            android:textColor="@color/colorFont6"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -237,7 +237,7 @@
             android:background="@drawable/search_class_off"
             android:gravity="center"
             android:text="@string/search_money_0"
-            android:textColor="@color/colorFont3"
+            android:textColor="@color/colorFont6"
             android:textSize="14sp" />
 
         <TextView
@@ -248,7 +248,7 @@
             android:background="@drawable/search_class_off"
             android:gravity="center"
             android:text="@string/search_money_1"
-            android:textColor="@color/colorFont3"
+            android:textColor="@color/colorFont6"
             android:textSize="14sp" />
 
         <TextView
@@ -259,7 +259,7 @@
             android:background="@drawable/search_class_off"
             android:gravity="center"
             android:text="@string/search_money_2"
-            android:textColor="@color/colorFont3"
+            android:textColor="@color/colorFont6"
             android:textSize="14sp" />
 
         <TextView
@@ -270,7 +270,7 @@
             android:background="@drawable/search_class_off"
             android:gravity="center"
             android:text="@string/search_money_3"
-            android:textColor="@color/colorFont3"
+            android:textColor="@color/colorFont6"
             android:textSize="14sp" />
 
         <TextView
@@ -281,7 +281,7 @@
             android:background="@drawable/search_class_off"
             android:gravity="center"
             android:text="@string/search_money_4"
-            android:textColor="@color/colorFont3"
+            android:textColor="@color/colorFont6"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -339,39 +339,57 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="7.5dp"
             android:layout_weight="1"
-            android:background="@drawable/search_class_off"
-            android:gravity="center"
-            android:text="@string/activity_type_1"
-            android:textColor="@color/colorFont3"
-            android:textSize="16sp" />
+            android:background="@drawable/search_class_off">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/search_class_off"
-            android:gravity="center"
-            android:text="@string/activity_type_2"
-            android:textColor="@color/colorFont3"
-            android:textSize="16sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="0"
+                android:text="@string/search_area_0"
+                android:textColor="@color/colorFont9"
+                android:textSize="16sp" />
 
-        <TextView
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="上海市"
+                android:textColor="@color/colorFont6"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="7.5dp"
             android:layout_weight="1"
-            android:background="@drawable/search_class_off"
-            android:gravity="center"
-            android:text="@string/activity_type_0"
-            android:textColor="@color/colorFont3"
-            android:textSize="16sp" />
+            android:background="@drawable/search_class_off">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="0"
+                android:text="@string/search_area_0"
+                android:textColor="@color/colorFont9"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="浦东新区"
+                android:textColor="@color/colorFont6"
+                android:textSize="16sp" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

@@ -55,6 +55,8 @@
     <string name="search_money_4">20元以上</string>
     <string name="search_money_5">起始金额</string>
     <string name="search_money_6">终止金额</string>
+    <string name="search_area_0">城市</string>
+    <string name="search_area_1">区域</string>
 
 
 </resources>
