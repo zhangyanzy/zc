@@ -21,31 +21,57 @@ import cn.zhaocaiapp.zc_app_android.capabilities.dialog.utils.StatusBarUtils;
 
 
 public abstract class BasesOsDialog<T extends BasesOsDialog<T>> extends Dialog {
-    /** TAG(日志) */
+    /**
+     * TAG(日志)
+     */
     protected String TAG;
-    /** context(上下文) */
+    /**
+     * context(上下文)
+     */
     protected Context context;
-    /** (DisplayMetrics)设备密度 */
+    /**
+     * (DisplayMetrics)设备密度
+     */
     protected DisplayMetrics dm;
-    /** enable dismiss outside dialog(设置点击对话框以外区域,是否dismiss) */
+    /**
+     * enable dismiss outside dialog(设置点击对话框以外区域,是否dismiss)
+     */
     protected boolean cancel;
-    /** dialog width scale(宽度比例) */
-    protected float widthScale = 1;
-    /** dialog height scale(高度比例) */
+    /**
+     * dialog width scale(宽度比例)
+     */
+    protected float widthScale = 0.75f;
+    /**
+     * dialog height scale(高度比例)
+     */
     protected float heightScale;
-    /** showAnim(对话框显示动画) */
+    /**
+     * showAnim(对话框显示动画)
+     */
     private BaseAnimatorSet showAnim;
-    /** dismissAnim(对话框消失动画) */
+    /**
+     * dismissAnim(对话框消失动画)
+     */
     private BaseAnimatorSet dismissAnim;
-    /** top container(最上层容器) */
+    /**
+     * top container(最上层容器)
+     */
     protected LinearLayout ll_top;
-    /** container to control dialog height(用于控制对话框高度) */
+    /**
+     * container to control dialog height(用于控制对话框高度)
+     */
     protected LinearLayout ll_control_height;
-    /** is showAnim running(显示动画是否正在执行) */
+    /**
+     * is showAnim running(显示动画是否正在执行)
+     */
     private boolean isShowAnim;
-    /** is DismissAnim running(消失动画是否正在执行) */
+    /**
+     * is DismissAnim running(消失动画是否正在执行)
+     */
     private boolean isDismissAnim;
-    /** max height(最大高度) */
+    /**
+     * max height(最大高度)
+     */
     protected float maxHeight;
 
     /**
@@ -233,19 +259,25 @@ public abstract class BasesOsDialog<T extends BasesOsDialog<T>> extends Dialog {
         }
     }
 
-    /** dismiss without anim(无动画dismiss) */
+    /**
+     * dismiss without anim(无动画dismiss)
+     */
     public void superDismiss() {
         super.dismiss();
     }
 
-    /** dialog anim by styles(动画弹出对话框,style动画资源) */
+    /**
+     * dialog anim by styles(动画弹出对话框,style动画资源)
+     */
     public void show(int animStyle) {
         Window window = getWindow();
         window.setWindowAnimations(animStyle);
         show();
     }
 
-    /** set window dim or not(设置背景是否昏暗) */
+    /**
+     * set window dim or not(设置背景是否昏暗)
+     */
     public T dimEnabled(boolean isDimEnabled) {
         if (isDimEnabled) {
             getWindow().addFlags(LayoutParams.FLAG_DIM_BEHIND);
@@ -255,25 +287,33 @@ public abstract class BasesOsDialog<T extends BasesOsDialog<T>> extends Dialog {
         return (T) this;
     }
 
-    /** set dialog width scale:0-1(设置对话框宽度,占屏幕宽的比例0-1) */
+    /**
+     * set dialog width scale:0-1(设置对话框宽度,占屏幕宽的比例0-1)
+     */
     public T widthScale(float widthScale) {
         this.widthScale = widthScale;
         return (T) this;
     }
 
-    /** set dialog height scale:0-1(设置对话框高度,占屏幕宽的比例0-1) */
+    /**
+     * set dialog height scale:0-1(设置对话框高度,占屏幕宽的比例0-1)
+     */
     public T heightScale(float heightScale) {
         this.heightScale = heightScale;
         return (T) this;
     }
 
-    /** set show anim(设置显示的动画) */
+    /**
+     * set show anim(设置显示的动画)
+     */
     public T showAnim(BaseAnimatorSet showAnim) {
         this.showAnim = showAnim;
         return (T) this;
     }
 
-    /** set dismiss anim(设置隐藏的动画) */
+    /**
+     * set dismiss anim(设置隐藏的动画)
+     */
     public T dismissAnim(BaseAnimatorSet dismissAnim) {
         this.dismissAnim = dismissAnim;
         return (T) this;
@@ -295,7 +335,9 @@ public abstract class BasesOsDialog<T extends BasesOsDialog<T>> extends Dialog {
         super.onBackPressed();
     }
 
-    /** dp to px */
+    /**
+     * dp to px
+     */
     protected int dp2px(float dp) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dp * scale + 0.5f);

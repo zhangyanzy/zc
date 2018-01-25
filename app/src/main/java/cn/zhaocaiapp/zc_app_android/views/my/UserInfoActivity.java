@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,8 +50,8 @@ public class UserInfoActivity extends BaseActivity {
 
     private static final String TAG = "用户详细信息";
 
-    private String[] tabTitles = new String[]{"个人资料", "实名信息", "相关信息", "个人标签", "修改密码"};
-    private Map<Integer, Fragment> fragments = new HashMap<>();
+    private String[] tabTitles = {"个人资料", "实名信息", "相关信息", "个人标签", "修改密码"};
+    private List<Fragment> fragments = new ArrayList<>();
 
     private UserDetailResp.ActivityInfoBean activityInfoBean;
     private UserDetailResp.BaseInfoBean baseInfoBean;
@@ -65,10 +66,17 @@ public class UserInfoActivity extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         iv_top_menu.setVisibility(View.GONE);
 
+        fragments.add(new UserInfoFragment());
+        fragments.add(new IdentifyFragment());
+        fragments.add(new TaskRelativeFragment());
+        fragments.add(new LabelFragment());
+        fragments.add(new RevisePassFragment());
+
         pager_user_info.setOffscreenPageLimit(tabTitles.length);
         pager_user_info.setAdapter(new UserinfoFragmentPagerAdapter(getSupportFragmentManager()));
         tab_user_info.setupWithViewPager(pager_user_info);
         pager_user_info.setCurrentItem(0);
+        pager_user_info.addOnPageChangeListener(pageChangeListener);
 
         initData();
     }
@@ -103,7 +111,7 @@ public class UserInfoActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return getFragment(position);
+            return fragments.get(position);
         }
 
         @Override
@@ -118,30 +126,24 @@ public class UserInfoActivity extends BaseActivity {
 
     }
 
-    private Fragment getFragment(int position) {
-        Fragment fragment = fragments.get(position);
-        if (fragment == null) {
-            switch (position) {
-                case 0: // 个人资料
-                    fragment = new UserInfoFragment();
-                    break;
-                case 1: // 实名信息
-                    fragment = new IdentifyFragment();
-                    break;
-                case 2: // 活动相关信息
-                    fragment = new TaskRelativeFragment();
-                    break;
-                case 3: // 标签信息
-                    fragment = new LabelFragment();
-                    break;
-                case 4: // 修改密码
-                    fragment = new RevisePassFragment();
-                    break;
-            }
-            fragments.put(position, fragment);
+    private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
         }
-        return fragment;
-    }
+
+        @Override
+        public void onPageSelected(int position) {
+            //处理view pager切换时，软键盘隐藏
+            if (KeyBoardUtils.isKeyBordVisiable(UserInfoActivity.this))
+                KeyBoardUtils.closeKeybord(tv_top_titlel, UserInfoActivity.this);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
 
     @OnClick({R.id.iv_top_back})
     public void onClick(View view) {
@@ -150,7 +152,8 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        KeyBoardUtils.closeKeybord(tv_top_titlel, this);
+        if (KeyBoardUtils.isKeyBordVisiable(this))
+            KeyBoardUtils.closeKeybord(tv_top_titlel, this);
         return super.onTouchEvent(event);
     }
 

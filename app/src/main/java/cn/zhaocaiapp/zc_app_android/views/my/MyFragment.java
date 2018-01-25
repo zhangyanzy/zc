@@ -182,12 +182,15 @@ public class MyFragment extends BaseFragment {
                 openActivity(MyFollowAvtivity.class);
                 break;
             case R.id.layout_contact:
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + userInfo.getCustomerPhone()));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:021-68788170" ));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getActivity().startActivity(intent);
                 break;
             case R.id.tv_setting: // 设置
                 openActivity(SettingActivity.class);
+                break;
+            case R.id.iv_top_menu:
+                openActivity(MessageActivity.class);
                 break;
         }
     }
@@ -201,7 +204,6 @@ public class MyFragment extends BaseFragment {
                 EBLog.i(TAG, result.toString());
                 SpUtils.clear();
                 openActivity(LoginActivity.class);
-
             }
 
             @Override

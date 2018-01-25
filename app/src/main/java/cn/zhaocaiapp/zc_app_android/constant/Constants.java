@@ -93,6 +93,18 @@ public interface Constants {
          * 获取个人标签
          */
         String GET_USER_LABEL = "userinfo/tag";
+        /**
+         * 个人中心更换手机号
+         */
+        String UPDATE_PHONE = "userinfo/updatephone";
+        /**
+         * 个人中心消息列表
+         * */
+        String MESSAGE_LIST = "userinfo/usermessage/%s";
+        /**
+         * 修改密码
+         * */
+        String REVISE_PASS = "userinfo/updatepassword";
 
         /**
          * 获取城市列表

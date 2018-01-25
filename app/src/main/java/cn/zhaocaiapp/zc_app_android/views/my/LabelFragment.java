@@ -64,6 +64,7 @@ public class LabelFragment extends BaseFragment {
             public void success(List<LabelResp> labelResps) {
                 EBLog.i(TAG, labelResps.toString());
                 labels = labelResps;
+                initLabel();
             }
 
             @Override
@@ -72,7 +73,10 @@ public class LabelFragment extends BaseFragment {
                 ToastUtil.makeText(getActivity(), response.getDesc());
             }
         });
+    }
 
+    //显示标签数据
+    private void initLabel(){
         final LayoutInflater mInflater = LayoutInflater.from(getActivity());
         if (labels != null)
             label_list.setAdapter(new TagAdapter<LabelResp>(labels) {

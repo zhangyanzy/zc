@@ -26,7 +26,7 @@ public class TrembleBasesOsDialog extends BasesOsDialog<TrembleBasesOsDialog> {
 
     @Override
     public View onCreateView() {
-        widthScale(0.85f);
+        widthScale(0.8f);
         showAnim(new Swing());
 
         // dismissAnim(this, new ZoomOutExit());

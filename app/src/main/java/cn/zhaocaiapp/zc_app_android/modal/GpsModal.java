@@ -8,4 +8,5 @@ package cn.zhaocaiapp.zc_app_android.modal;
  * @data 2018-01-17 16:38
  */
 public class GpsModal {
+
 }

@@ -47,8 +47,8 @@ public class TaskRelativeFragment extends BaseFragment {
     private static final String TAG = "活动相关信息";
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onStart() {
+        super.onStart();
         //注册EventBus消息订阅者
         EventBus.getDefault().register(this);
     }
@@ -115,12 +115,6 @@ public class TaskRelativeFragment extends BaseFragment {
                 .setSelectOptions(0)
                 .build();
         optionsPickerView.setPicker(items);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
 }

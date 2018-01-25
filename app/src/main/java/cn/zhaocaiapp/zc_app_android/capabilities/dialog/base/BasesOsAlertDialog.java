@@ -57,9 +57,9 @@ public abstract class BasesOsAlertDialog<T extends BasesOsAlertDialog<T>> extend
     protected int rightBtnTextColor;
     protected int middleBtnTextColor;
     /** btn textsize(按钮字体大小) */
-    protected float leftBtnTextSize_SP = 15f;
-    protected float rightBtnTextSize_SP = 15f;
-    protected float middleBtnTextSize_SP = 15f;
+    protected float leftBtnTextSize_SP = 16f;
+    protected float rightBtnTextSize_SP = 16f;
+    protected float middleBtnTextSize_SP = 16f;
     /** btn press color(按钮点击颜色) */
     protected int btnPressColor = Color.parseColor("#E3E3E3");// #85D3EF,#ffcccccc,#E3E3E3
     /** left btn click listener(左按钮接口) */
@@ -70,7 +70,7 @@ public abstract class BasesOsAlertDialog<T extends BasesOsAlertDialog<T>> extend
     protected OnBtnClickL onBtnMiddleClickL;
 
     /** corner radius,dp(圆角程度,单位dp) */
-    protected float cornerRadius_DP = 3;
+    protected float cornerRadius_DP = 8;
     /** background color(背景颜色) */
     protected int bgColor = Color.parseColor("#ffffff");
 
@@ -83,7 +83,7 @@ public abstract class BasesOsAlertDialog<T extends BasesOsAlertDialog<T>> extend
      */
     public BasesOsAlertDialog(Context context) {
         super(context);
-        widthScale(0.88f);
+        widthScale(0.75f);
 
         ll_container = new LinearLayout(context);
         ll_container.setOrientation(LinearLayout.VERTICAL);

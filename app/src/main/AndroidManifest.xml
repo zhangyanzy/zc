@@ -117,6 +117,14 @@
         <activity
             android:name=".views.my.AboutUsActivity"
             android:screenOrientation="portrait" />
+        <!--更换手机号-->
+        <activity
+            android:name=".views.my.ChangePhoneActivity"
+            android:screenOrientation="portrait" />
+        <!--消息列表-->
+        <activity
+            android:name=".views.my.MessageActivity"
+            android:screenOrientation="portrait" />
 
 
 

@@ -17,8 +17,8 @@
     <color name="colorWhite">#ffffff</color>
     <!--黑色-->
     <color name="colorBlack">#000000</color>
-
-    <color name="colorLabel">#FBC873</color>
+    <!--弹窗提示内容颜色-->
+    <color name="colorDialogContent">#3B70E3</color>
 
     <!--切图包含颜色-->
 

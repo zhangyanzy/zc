@@ -67,8 +67,8 @@ public class IdentifyFragment extends BaseFragment {
     private static final String TAG = "用户实名信息";
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onStart() {
+        super.onStart();
         //注册EventBus消息订阅者
         EventBus.getDefault().register(this);
     }
@@ -168,12 +168,6 @@ public class IdentifyFragment extends BaseFragment {
     private String getBirthTime(Date date) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(date);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
 }

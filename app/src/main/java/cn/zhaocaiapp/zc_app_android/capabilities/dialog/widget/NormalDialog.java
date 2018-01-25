@@ -20,11 +20,11 @@ public class NormalDialog extends BasesOsAlertDialog<NormalDialog> {
     /** horizontal line above btns */
     private View v_line_horizontal;
     /** title underline color(标题下划线颜色) */
-    private int titleLineColor = Color.parseColor("#61AEDC");
+    private int titleLineColor = Color.parseColor("#d8d8d8");
     /** title underline height(标题下划线高度) */
     private float titleLineHeight_DP = 1f;
     /** btn divider line color(对话框之间的分割线颜色(水平+垂直)) */
-    private int dividerColor = Color.parseColor("#DCDCDC");
+    private int dividerColor = Color.parseColor("#3B70E3");
 
     public static final int STYLE_ONE = 0;
     public static final int STYLE_TWO = 1;

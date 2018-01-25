@@ -39,7 +39,7 @@ public class NormalListDialog extends BasesOsDialog {
     /**
      * corner radius,dp(圆角程度,单位dp)
      */
-    private float cornerRadius_DP = 5;
+    private float cornerRadius_DP = 8;
     /**
      * title background color(标题背景颜色)
      */
@@ -129,7 +129,7 @@ public class NormalListDialog extends BasesOsDialog {
     }
 
     private void init() {
-        widthScale(0.8f);
+        widthScale(0.75f);
 
         /** LayoutAnimation */
         TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 2f, Animation.RELATIVE_TO_SELF,

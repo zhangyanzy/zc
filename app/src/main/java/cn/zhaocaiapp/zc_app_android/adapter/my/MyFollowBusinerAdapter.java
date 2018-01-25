@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,23 +16,25 @@ import cn.zhaocaiapp.zc_app_android.R;
  * Created by Administrator on 2018/1/11.
  */
 
-public class MyFollowAdapter extends RecyclerView.Adapter<MyFollowAdapter.ViewHolder> {
+public class MyFollowBusinerAdapter extends RecyclerView.Adapter<MyFollowBusinerAdapter.ViewHolder> {
     private Context context;
     private OnItemCliclkListener listene;
 
-    public MyFollowAdapter(Context context) {
+    public MyFollowBusinerAdapter(Context context) {
         this.context = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.my_follow_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.my_follow_businer_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,17 +49,23 @@ public class MyFollowAdapter extends RecyclerView.Adapter<MyFollowAdapter.ViewHo
         return 20;
     }
 
-    public interface OnItemCliclkListener{
+    public interface OnItemCliclkListener {
         void onItemCliclk(int position);
     }
 
-    public void setOnItemCliclkListener(OnItemCliclkListener listener){
+    public void setOnItemCliclkListener(OnItemCliclkListener listener) {
         this.listene = listener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_logo)
         ImageView iv_logo;
+        @BindView(R.id.tv_businer_name)
+        TextView tv_businer_name;
+        @BindView(R.id.tv_activity_count)
+        TextView tv_activity_count;
+        @BindView(R.id.tv_followed)
+        TextView tv_followed;
 
         View itemView;
 

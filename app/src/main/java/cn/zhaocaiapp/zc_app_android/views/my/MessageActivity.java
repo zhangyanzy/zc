@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,26 +19,34 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.adapter.my.MyMessageAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.Response;
+import cn.zhaocaiapp.zc_app_android.bean.response.my.MessageResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
- * Created by Administrator on 2018/1/11.
+ * Created by Administrator on 2018/1/25.
  */
 
-public class MyFollowAvtivity extends BaseActivity {
+public class MessageActivity extends BaseActivity {
     @BindView(R.id.iv_top_back)
     ImageView iv_top_back;
     @BindView(R.id.tv_top_title)
-    TextView tv_top_titlel;
+    TextView tv_top_title;
     @BindView(R.id.iv_top_menu)
     ImageView iv_top_menu;
     @BindView(R.id.tab_title)
-    TabLayout tab_title;
+    TabLayout titles;
     @BindView(R.id.pager)
     ViewPager pager;
 
-    private String[]tabTitles = {"活动", "商家"};
-    private List<Fragment>fragments = new ArrayList<>();
+    private List<Fragment> fragments = new ArrayList<>();
+    private String[]tabTitles = {"活动提醒", "系统消息"};
 
     @Override
     public int getContentViewResId() {
@@ -45,16 +55,16 @@ public class MyFollowAvtivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        fragments.add(new MyFollowBusinerFragment());
-        fragments.add(new MyFollowActivityFragment());
-        pager.setAdapter(new MyFollowPagerAdapter(getSupportFragmentManager()));
-        tab_title.setupWithViewPager(pager);
+        fragments.add(new ActivityMessageFragment());
+        fragments.add(new SystemMessageFragment());
+
+        pager.setAdapter(new MessagePagerAdapter(getSupportFragmentManager()));
+        titles.setupWithViewPager(pager);
         pager.setCurrentItem(0);
     }
 
-    private class MyFollowPagerAdapter extends FragmentPagerAdapter {
-
-        public MyFollowPagerAdapter(FragmentManager fm) {
+    private class MessagePagerAdapter extends FragmentPagerAdapter {
+        public MessagePagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -75,15 +85,8 @@ public class MyFollowAvtivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.iv_top_back:
-                finish();
-                break;
-            case R.id.iv_top_menu:
-
-                break;
-        }
+    @OnClick({R.id.iv_top_back})
+    public void onClicl(View view){
+        finish();
     }
 }

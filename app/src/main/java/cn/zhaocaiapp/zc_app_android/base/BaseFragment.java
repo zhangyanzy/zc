@@ -1,26 +1,34 @@
 package cn.zhaocaiapp.zc_app_android.base;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jph.takephoto.app.TakePhotoFragment;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.widget.LoadingDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -83,10 +91,42 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
 
     }
 
+    //验证手机号是否符合规则
+    protected boolean judgePhone(Context context, String phone) {
+        if (GeneralUtils.isNullOrZeroLenght(phone)) {
+            ToastUtil.makeText(context, getString(R.string.phone_not_empty));
+            return false;
+        }
+        if (!GeneralUtils.isTel(phone)) {
+            ToastUtil.makeText(context, getString(R.string.isNot_phone));
+            return false;
+        }
+        return true;
+    }
+
+    //验证密码是否符合规则
+    protected boolean judgePass(Context context, String pass) {
+        if (GeneralUtils.isNullOrZeroLenght(pass)) {
+            ToastUtil.makeText(context, getString(R.string.pass_not_empty));
+            return false;
+        }
+        if (!GeneralUtils.IsPassword(pass)) {
+            ToastUtil.makeText(context, getString(R.string.pass_length));
+            return false;
+        }
+        return true;
+    }
+
     //管理软键盘的显示
     public void manageKeyBord(View view, Activity mActivity) {
         if (KeyBoardUtils.isKeyBordVisiable(mActivity))
             KeyBoardUtils.closeKeybord(view, mActivity);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -157,5 +197,18 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
     }
+
+    public View.OnTouchListener onTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            InputMethodManager manager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            if(event.getAction() == MotionEvent.ACTION_DOWN){
+                if(getActivity().getCurrentFocus()!=null && getActivity().getCurrentFocus().getWindowToken()!=null){
+                    manager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }
+            return false;
+        }
+    };
 
 }
