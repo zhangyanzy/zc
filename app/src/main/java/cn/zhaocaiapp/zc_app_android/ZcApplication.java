@@ -24,6 +24,7 @@ import java.util.List;
 import cn.zhaocaiapp.zc_app_android.base.BaseAndroid;
 import cn.zhaocaiapp.zc_app_android.base.BaseConfig;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 
 /**
  * Created by jinxunmediapty.ltd on 2018/1/3.
@@ -77,6 +78,9 @@ public class ZcApplication extends Application {
 
         //SharedPreferences存储全局设置
         sp = getSharedPreferences(Constants.SPREF.FILE_NAME, Context.MODE_PRIVATE);
+
+        //初始化定位
+        LocationUtil.initLocation(this);
     }
 
     /**
@@ -93,7 +97,7 @@ public class ZcApplication extends Application {
     }
 
     //获取UMShareAPI初始化对象
-    public static UMShareAPI getUMShareAPI(){
+    public static UMShareAPI getUMShareAPI() {
         return umShareAPI;
     }
 }

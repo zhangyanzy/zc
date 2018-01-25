@@ -16,6 +16,7 @@ import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragmentActivity;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.util.AppUtil;
+import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.views.home.HomeFragment;
 import cn.zhaocaiapp.zc_app_android.views.member.MemberFragment;
 import cn.zhaocaiapp.zc_app_android.views.my.MyFragment;
@@ -155,88 +156,4 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         EBLog.i("tag", "定位服务是否开启，" + isLocation.toString());
 
     }
-
-    /**
-     * 判断系统定位是否打开
-     *//*
-    private void initGPS() {
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        // 判断GPS模块是否开启，如果没有则开启
-        if (!locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
-            Toast.makeText(MainActivity.this, "请打开GPS", Toast.LENGTH_SHORT).show();
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setTitle("请打开GPS连接");
-            dialog.setMessage("为方便司机更容易接到您，请先打开GPS");
-            dialog.setPositiveButton("设置", new android.content.DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface arg0, int arg1) {
-                    // 转到手机设置界面，用户设置GPS
-                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    Toast.makeText(MainActivity.this, "打开后直接点击返回键即可，若不打开返回下次将再次出现", Toast.LENGTH_SHORT).show();
-                    startActivityForResult(intent, 0); // 设置完成后返回到原来的界面
-                }
-            });
-            dialog.setNeutralButton("取消", new android.content.DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface arg0, int arg1) {
-                    arg0.dismiss();
-                }
-            });
-            dialog.show();
-        } else {
-            searchRouteResult(startPoint, endPoint);//路径规划
-            // 弹出Toast
-//          Toast.makeText(TrainDetailsActivity.this, "GPS is ready",Toast.LENGTH_LONG).show();
-//          // 弹出对话框
-//          new AlertDialog.Builder(this).setMessage("GPS is ready").setPositiveButton("OK", null).show();
-        }
-    }
-
-    *//**
-     * 判断网络连接是否已开
-     * true 已打开  false 未打开
-     *//*
-    public static boolean isConn(Context context) {
-        if (context != null) {
-            ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-            if (mNetworkInfo != null) {
-                return mNetworkInfo.isAvailable();
-            }
-            searchNetwork(context);//弹出提示对话框
-        }
-        return false;
-    }
-
-    *//**
-     * 判断网络是否连接成功，连接成功不做任何操作
-     * 未连接则弹出对话框提示用户设置网络连接
-     *//*
-    public static void searchNetwork(final Context context) {
-        //提示对话框
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("网络设置提示").setMessage("网络连接不可用,是否进行设置?").setPositiveButton("设置", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = null;
-                //判断手机系统的版本  即API大于10 就是3.0或以上版本
-                if (android.os.Build.VERSION.SDK_INT > 10) {
-                    intent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-                } else {
-                    intent = new Intent();
-                    ComponentName component = new ComponentName("com.android.settings", "com.android.settings.WirelessSettings");
-                    intent.setComponent(component);
-                    intent.setAction("android.intent.action.VIEW");
-                }
-                context.startActivity(intent);
-            }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        }).show();
-    }*/
-
 }
