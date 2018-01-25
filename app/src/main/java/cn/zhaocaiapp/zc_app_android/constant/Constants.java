@@ -87,12 +87,12 @@ public interface Constants {
         String GET_BRIEF_USER_INFO = "userinfo/user";
         /**
          * 获取用户详细信息
-         * */
-         String GET_USER_INFO_DETAIL = "userinfo/userdetail";
-         /**
-          * 获取个人标签
-          * */
-          String GET_USER_LABEL = "userinfo/tag";
+         */
+        String GET_USER_INFO_DETAIL = "userinfo/userdetail";
+        /**
+         * 获取个人标签
+         */
+        String GET_USER_LABEL = "userinfo/tag";
 
         /**
          * 获取城市列表
@@ -103,6 +103,11 @@ public interface Constants {
          * 活动首页活动列表
          */
         String GET_ACTIVITY_LIST = "activity/list";
+
+        /**
+         * 活动首页活动列表
+         */
+        String GET_SEARCH_RECOMMEND = "searchrecommend";
 
         /**
          * 商家列表

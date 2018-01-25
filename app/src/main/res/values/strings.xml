@@ -5,7 +5,7 @@
     <string name="log_tip">一款做任务，赚钱的APP</string>
     <string name="input_phone_number">请输入手机号</string>
     <string name="input_pass_word">请输入密码</string>
-    <string name="pass_length">密码必须为6-20位数字或字母</string>
+    <string name="pass_length">密码必须为6–20位数字或字母</string>
     <string name="forget_pass_word">忘记密码</string>
     <string name="other_login_mode">使用社交账号登录</string>
     <string name="phone_not_empty">手机号不能为空</string>
@@ -39,6 +39,22 @@
     <string name="activity_sort_area">距离最近</string>
     <string name="search_cancel">取消</string>
     <string name="search_activity">搜索活动</string>
+    <string name="search_history">搜索历史</string>
+    <string name="search_recommend">推荐搜索</string>
+    <string name="search_class">活动分类</string>
+    <string name="search_type">活动类型</string>
+    <string name="search_money">奖励金额</string>
+    <string name="search_area">区域搜索</string>
+    <string name="activity_class_0">单体活动</string>
+    <string name="activity_class_1">串联活动</string>
+    <string name="activity_class_2">协同活动</string>
+    <string name="search_money_0">0–5元</string>
+    <string name="search_money_1">5–10元</string>
+    <string name="search_money_2">10–15元</string>
+    <string name="search_money_3">15–20元</string>
+    <string name="search_money_4">20元以上</string>
+    <string name="search_money_5">起始金额</string>
+    <string name="search_money_6">终止金额</string>
 
 
 </resources>
