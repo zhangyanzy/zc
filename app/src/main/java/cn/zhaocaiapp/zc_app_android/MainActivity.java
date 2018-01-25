@@ -32,7 +32,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
     RadioGroup groupBotton;
 
     private int currentPosition;
-    private final String[] tags = {"task", "partner", "personal", "Test"};
+    private final String[] tags = {"task", "partner", "personal"};
     private int currentIndex = -1;
     private Map<Integer, Fragment> fragmentMap = new HashMap<>();
 
@@ -74,9 +74,6 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
             case 2:
                 groupBotton.check(R.id.group_button_personal);
                 break;
-            case 3:
-                groupBotton.check(R.id.group_button_test);
-                break;
         }
     }
 
@@ -92,9 +89,6 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
                 break;
             case R.id.group_button_personal:
                 index = 2;
-                break;
-            case R.id.group_button_test:
-                index = 3;
                 break;
         }
         selectFragment(index);
@@ -138,9 +132,6 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
                     break;
                 case 2:  //我的
                     fragment = new MyFragment();
-                    break;
-                case 3:  //测试入口
-                    fragment = new TestFragment();
                     break;
             }
             fragmentMap.put(index, fragment);

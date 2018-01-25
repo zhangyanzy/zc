@@ -33,6 +33,8 @@ public class HomeFragment extends BaseFragment {
     ViewPager home_view;
     @BindView(R.id.home_title_search)
     ImageView home_title_search;
+    @BindView(R.id.home_title_area)
+    ImageView home_title_area;
 
     private String[] tabTitles = new String[]{"最新活动", "线上活动", "线下活动", "历史活动"};
     private Map<Integer, Fragment> fragments = new HashMap<>();
@@ -145,11 +147,15 @@ public class HomeFragment extends BaseFragment {
 
     @OnClick({
             R.id.home_title_search,
+            R.id.home_title_area
     })
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.home_title_search:
                 openActivity(SearchActivity.class);
+                break;
+            case R.id.home_title_area:
+                openActivity(LocationActivity.class);
                 break;
         }
     }
