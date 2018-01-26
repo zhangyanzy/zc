@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +25,7 @@ import cn.zhaocaiapp.zc_app_android.MainActivity;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.MessageEvent;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.UserInfoResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
@@ -102,7 +105,9 @@ public class HomeFragment extends BaseFragment {
             //再次选中tab的逻辑
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                EBLog.i("tag", "您再次点击了");
+                EBLog.i("tag", tab.toString());
+                EventBus.getDefault().post(new MessageEvent<String>("home_tab_" + tab.getPosition()));
             }
         });
         home_view.setCurrentItem(0);
