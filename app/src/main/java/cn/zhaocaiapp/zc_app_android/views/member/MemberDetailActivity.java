@@ -20,6 +20,7 @@ import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
+import cn.zhaocaiapp.zc_app_android.bean.response.member.MemberResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
@@ -37,6 +38,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
 
     private long memberId;//商家
     private int pageNumber = 1;//分页
+    private MemberResp memberResp = new MemberResp(); //商家详情
     private List<ActivityResp> activityRespList = new ArrayList<>();//活动列表
 
     private ActivityAdapter activityAdapter;
@@ -55,7 +57,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
 
         member_detail_recycler.setLayoutManager(new LinearLayoutManager(this));
 
-        activityAdapter = new ActivityAdapter(this, activityRespList);
+        activityAdapter = new ActivityAdapter(this, activityRespList, memberResp);
         member_detail_recycler.setAdapter(activityAdapter);
 
         member_detail_refresh.setOnRefreshListener(this);
@@ -64,6 +66,22 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
     }
 
     private void initData() {
+
+        //获取商家详情
+        HttpUtil.get(String.format(Constants.URL.GET_MEMBER_DETAIL, memberId)).subscribe(new BaseResponseObserver<MemberResp>() {
+            @Override
+            public void success(MemberResp result) {
+                memberResp = result;
+                activityAdapter.updataMember(memberResp);
+                EBLog.i("tag", result.toString());
+            }
+
+            @Override
+            public void error(Response<MemberResp> response) {
+            }
+        });
+
+        //获取商家活动列表
         Map<String, String> params = new HashMap<>();
         params.put("memberId", String.valueOf(memberId));
         params.put("pageSize", String.valueOf(Constants.CONFIG.PAGE_SIZE));

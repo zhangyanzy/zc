@@ -119,6 +119,11 @@ public interface Constants {
          */
         String GET_ACTIVITY_LIST_MEMBER = "activity/list/member";
 
+        /**
+         * 商家详情
+         */
+        String GET_MEMBER_DETAIL = "member/%s";
+
 
     }
 

@@ -29,6 +29,7 @@
     <string name="activity_type_1">视频活动</string>
     <string name="activity_type_2">问卷活动</string>
     <string name="activity_region">活动区域：</string>
+    <string name="activity_state">活动总数</string>
     <string name="activity_state_0">未开始</string>
     <string name="activity_state_1">进行中</string>
     <string name="activity_state_2">已结束</string>
