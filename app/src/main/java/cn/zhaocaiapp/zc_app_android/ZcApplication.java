@@ -1,10 +1,13 @@
 package cn.zhaocaiapp.zc_app_android;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.baidu.ocr.sdk.OCR;
+import com.baidu.ocr.sdk.OnResultListener;
+import com.baidu.ocr.sdk.exception.OCRError;
+import com.baidu.ocr.sdk.model.AccessToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
@@ -23,7 +26,10 @@ import java.util.List;
 
 import cn.zhaocaiapp.zc_app_android.base.BaseAndroid;
 import cn.zhaocaiapp.zc_app_android.base.BaseConfig;
+import cn.zhaocaiapp.zc_app_android.bean.response.home.LocationResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.AreaUtil;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 
 /**
@@ -57,6 +63,8 @@ public class ZcApplication extends Application {
 
     private static SharedPreferences sp;
     private static UMShareAPI umShareAPI;
+    private static List<LocationResp> provinces = new ArrayList<>();
+    private static String OCRToken;
 
     @Override
     public void onCreate() {
@@ -81,6 +89,37 @@ public class ZcApplication extends Application {
 
         //初始化定位
         LocationUtil.initLocation(this);
+
+        //获取省列表
+        getAreasList();
+
+        //初始化OCR单例
+        initAccessToken(this);
+    }
+
+    //开启子线程解析城市数据
+    private void getAreasList() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                provinces = AreaUtil.initArea(getApplicationContext());
+            }
+        }).start();
+    }
+
+    private void initAccessToken(Context context) {
+
+        OCR.getInstance().initAccessToken(new OnResultListener<AccessToken>() {
+            @Override
+            public void onResult(AccessToken accessToken) {
+                OCRToken = accessToken.getAccessToken();
+            }
+
+            @Override
+            public void onError(OCRError error) {
+                EBLog.e("百度身份证识别licence授权失败", error.getMessage());
+            }
+        }, context);
     }
 
     /**
@@ -100,4 +139,13 @@ public class ZcApplication extends Application {
     public static UMShareAPI getUMShareAPI() {
         return umShareAPI;
     }
+
+    public static List<LocationResp> getProvinces() {
+        return provinces;
+    }
+
+    public static String getLicenceToken() {
+        return OCRToken;
+    }
+
 }

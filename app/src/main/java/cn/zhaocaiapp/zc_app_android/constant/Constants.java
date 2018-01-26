@@ -105,6 +105,21 @@ public interface Constants {
          * 修改密码
          * */
         String REVISE_PASS = "userinfo/updatepassword";
+        /**
+         * 更新消息状态
+         * */
+        String UPDATE_MESSAGE_STATUS = "userinfo/usermessage/%s";
+        /**
+         * 修改活动相关信息
+         * */
+        String REVISE_ACTIVITY_INFO = "userinfo/update/activtiyinfo";
+        /**
+         * 修改实名信息
+         * */
+        String REVISE_REAL_INFO = "userinfo/update/realinfo";
+
+
+
 
         /**
          * 获取城市列表

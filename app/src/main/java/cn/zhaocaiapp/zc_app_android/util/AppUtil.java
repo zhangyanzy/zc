@@ -1,8 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.util;
 
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -10,10 +8,8 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.util.Log;
 
-import cn.zhaocaiapp.zc_app_android.constant.Constants;
 
 /**
  * App 相关信息

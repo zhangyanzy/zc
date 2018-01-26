@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
  * Created by Administrator on 2018/1/25.
  */
 
-public class SystemMessageFragment extends BaseFragment implements OnRefreshListener, OnLoadmoreListener{
+public class SystemMessageFragment extends BaseFragment implements OnRefreshListener, OnLoadmoreListener {
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout refresh_layout;
     @BindView(R.id.list)
@@ -46,6 +47,8 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
     private int currentResult = 0;
     private int pageSize = 10;
     private MyMessageAdapter adapter;
+    private List<MessageResp> messages = new ArrayList<>();
+    private long msgId;
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,8 +62,9 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         list.setLayoutManager(manager);
-        adapter = new MyMessageAdapter(getActivity(), new ArrayList<MessageResp>());
+        adapter = new MyMessageAdapter(getActivity(), messages);
         list.setAdapter(adapter);
+        adapter.setOnItemCliclkListener(listener);
     }
 
     @Override
@@ -75,7 +79,8 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
             @Override
             public void success(List<MessageResp> messageResps) {
                 EBLog.i(TAG, messageResps.toString());
-                adapter.refresh(messageResps);
+                messages = messageResps;
+                adapter.refresh(messages);
             }
 
             @Override
@@ -85,6 +90,31 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
             }
         });
     }
+
+    private void updateMessageStatus() {
+        Map<String, String> params = new HashMap<>();
+        params.put("messages", msgId + "");
+        HttpUtil.get(String.format(Constants.URL.UPDATE_MESSAGE_STATUS, type), params).subscribe(new BaseResponseObserver<String>() {
+
+            @Override
+            public void success(String s) {
+                ToastUtil.makeText(getActivity(), s);
+            }
+
+            @Override
+            public void error(Response<String> response) {
+                EBLog.e(TAG, response.getCode()+"");
+            }
+        });
+    }
+
+    private MyMessageAdapter.OnItemCliclkListener listener = new MyMessageAdapter.OnItemCliclkListener() {
+        @Override
+        public void onItemCliclk(int position) {
+//            msgId = messages.get(position).getMessageId();
+//            updateMessageStatus();
+        }
+    };
 
     @Override
     public void onLoadmore(RefreshLayout refreshlayout) {

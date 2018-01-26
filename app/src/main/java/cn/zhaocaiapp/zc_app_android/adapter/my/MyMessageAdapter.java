@@ -21,6 +21,7 @@ import cn.zhaocaiapp.zc_app_android.bean.response.my.MessageResp;
 public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.ViewHolder> {
     private Context context;
     private List<MessageResp> messageResps;
+    private OnItemCliclkListener listene;
 
     public MyMessageAdapter(Context context, List<MessageResp> messageResps) {
         this.context = context;
@@ -36,6 +37,13 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listene.onItemCliclk(holder.getLayoutPosition());
+            }
+        });
     }
 
     @Override
@@ -48,6 +56,13 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.View
         notifyDataSetChanged();
     }
 
+    public interface OnItemCliclkListener {
+        void onItemCliclk(int position);
+    }
+
+    public void setOnItemCliclkListener(OnItemCliclkListener listener) {
+        this.listene = listener;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_describe)
@@ -55,9 +70,12 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.View
         @BindView(R.id.tv_time)
         TextView tv_time;
 
+        View itemView;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            this.itemView = itemView;
         }
     }
 }

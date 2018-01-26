@@ -1,13 +1,10 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,23 +22,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
-import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.MessageEvent;
-import cn.zhaocaiapp.zc_app_android.bean.Response;
-import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.LocationResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.UserDetailResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.capabilities.takephoto.PhotoHelper;
-import cn.zhaocaiapp.zc_app_android.constant.Constants;
-import cn.zhaocaiapp.zc_app_android.util.AreaUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
-import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
-import cn.zhaocaiapp.zc_app_android.util.NormalDialogUtil;
 import cn.zhaocaiapp.zc_app_android.util.PhotoPickerUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
-import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
  * Created by Administrator on 2018/1/12.
@@ -96,20 +86,12 @@ public class UserInfoFragment extends BaseFragment {
         citys = new ArrayList<>();
         towns = new ArrayList<>();
         getAreasList();
-        setCityPicker();
 
         //初始化照片选择器设置
-        photoHelper = PhotoHelper.of(rootView);
+        photoHelper = PhotoHelper.of(rootView, true);
 
         //监听点击空白处，隐藏软键盘
         rootView.setOnTouchListener(onTouchListener);
-    }
-
-    //显示用户信息
-    private void showUserInfo() {
-        if (GeneralUtils.isNotNullOrZeroLenght(baseInfoBean.getNickname()))
-            edit_user_nickname.setText(baseInfoBean.getNickname());
-        edit_user_phone.setText(baseInfoBean.getPhone());
     }
 
     //城市选择器初始化和设置
@@ -121,11 +103,19 @@ public class UserInfoFragment extends BaseFragment {
             }
         }).setTitleText("城市选择")
                 .build();
-        optionsPickerView.setPicker(provinces, citys, towns);
+        if (GeneralUtils.isNotNullOrZeroSize(provinces) && GeneralUtils.isNotNullOrZeroSize(citys) && GeneralUtils.isNotNullOrZeroSize(towns))
+            optionsPickerView.setPicker(provinces, citys, towns);
     }
 
     @Override
     public void loadData() {
+    }
+
+    //显示用户信息
+    private void showUserInfo() {
+        if (GeneralUtils.isNotNullOrZeroLenght(baseInfoBean.getNickname()))
+            edit_user_nickname.setText(baseInfoBean.getNickname());
+        edit_user_phone.setText(baseInfoBean.getPhone());
     }
 
     //接收EventBus发送的消息，并处理
@@ -135,15 +125,14 @@ public class UserInfoFragment extends BaseFragment {
             baseInfoBean = (UserDetailResp.BaseInfoBean) event.getMessage();
             showUserInfo();
             EBLog.i(TAG, baseInfoBean.toString());
-        }
-        else if (event.getMessage() instanceof String){
+        } else if (event.getMessage() instanceof String) {
             edit_user_phone.setText((String) event.getMessage());
         }
     }
 
-    //获取省、市、区列表
+    //获取省、市、区三级列表
     private void getAreasList() {
-        provinces = AreaUtil.initArea(getActivity());
+        provinces = ZcApplication.getProvinces();
         for (int i = 0; i < provinces.size(); i++) {
             List<LocationResp> cityList = provinces.get(i).getAreaList();//该省的城市列表（第二级）
             List<List<LocationResp>> province_townList = new ArrayList<>();//该省的所有地区列表（第三极）
@@ -155,6 +144,7 @@ public class UserInfoFragment extends BaseFragment {
             citys.add(cityList);
             towns.add(province_townList);
         }
+        setCityPicker();
     }
 
     @OnClick({R.id.iv_user_photo, R.id.tv_change_photo, R.id.tv_revise_phone, R.id.tv_submit,
@@ -206,4 +196,9 @@ public class UserInfoFragment extends BaseFragment {
         super.takeFail(result, msg);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 }

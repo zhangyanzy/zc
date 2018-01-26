@@ -16,10 +16,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.ocr.sdk.OCR;
 import com.jph.takephoto.app.TakePhotoFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -36,12 +38,14 @@ import pub.devrel.easypermissions.EasyPermissions;
 /**
  * fragment懒加载
  */
-public abstract class BaseFragment extends TakePhotoFragment implements EasyPermissions.PermissionCallbacks{
+public abstract class BaseFragment extends TakePhotoFragment implements EasyPermissions.PermissionCallbacks {
     private View rootView;
     private Unbinder unbinder;
 
     protected boolean isInit = false;//视图是否已经初初始化
     protected boolean isLoad = false;//是否已加载数据
+
+    private List<String> perms = new ArrayList<>();
 
     @Nullable
     @Override
@@ -124,12 +128,6 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
@@ -181,6 +179,16 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
         startActivity(intent);
     }
 
+    public void openActivityForResult(Class<?> mClass, int requestCode){
+        Intent intent = new Intent(getActivity(), mClass);
+        startActivityForResult(intent, requestCode);
+    }
+
+    //判断是否获取到指定的权限
+    public boolean isGrantPerm(String perm) {
+        return (perms.contains(perm));
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -189,9 +197,9 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
+        this.perms = perms;
     }
 
     @Override
@@ -202,8 +210,8 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             InputMethodManager manager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            if(event.getAction() == MotionEvent.ACTION_DOWN){
-                if(getActivity().getCurrentFocus()!=null && getActivity().getCurrentFocus().getWindowToken()!=null){
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (getActivity().getCurrentFocus() != null && getActivity().getCurrentFocus().getWindowToken() != null) {
                     manager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 }
             }

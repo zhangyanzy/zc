@@ -67,8 +67,8 @@ public class UserInfoActivity extends BaseActivity {
         iv_top_menu.setVisibility(View.GONE);
 
         fragments.add(new UserInfoFragment());
-        fragments.add(new IdentifyFragment());
-        fragments.add(new TaskRelativeFragment());
+        fragments.add(new RealInfoFragment());
+        fragments.add(new RelativeInfoFragment());
         fragments.add(new LabelFragment());
         fragments.add(new RevisePassFragment());
 

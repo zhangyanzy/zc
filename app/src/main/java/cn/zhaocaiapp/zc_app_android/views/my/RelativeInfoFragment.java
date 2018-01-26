@@ -30,7 +30,7 @@ import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
  * Created by Administrator on 2018/1/12.
  */
 
-public class TaskRelativeFragment extends BaseFragment {
+public class RelativeInfoFragment extends BaseFragment {
     @BindView(R.id.tv_educational)
     TextView tv_educational;
     @BindView(R.id.tv_profession)
@@ -115,6 +115,12 @@ public class TaskRelativeFragment extends BaseFragment {
                 .setSelectOptions(0)
                 .build();
         optionsPickerView.setPicker(items);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
 }

@@ -106,6 +106,11 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         startActivity(intent);
     }
 
+    public void openActivityForResult(Class<?> mClass, int requestCode){
+        Intent intent = new Intent(this, mClass);
+        startActivityForResult(intent, requestCode);
+    }
+
     protected void waitTimer(TextView identify_code) {
         this.identify_code = identify_code;
         identify_code.setBackgroundResource(R.drawable.button_shape_gray_bg);

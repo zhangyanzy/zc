@@ -1,10 +1,13 @@
 package cn.zhaocaiapp.zc_app_android.util;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Paint;
+import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.View.MeasureSpec;
@@ -249,12 +252,10 @@ public final class GeneralUtils {
      * @see [类、类#方法、类#成员]
      */
     public static String splitTodate(String str) {
-        if (isNullOrZeroLenght(str) || str.length() != 14) {
-            return str;
-        }
-
         String strs = "";
-        strs = str.substring(0, 4) + "-" + str.substring(4, 6) + "-" + str.substring(6, 8);
+        if (isNotNullOrZeroLenght(str)) {
+            strs = str.substring(0, 4) + "-" + str.substring(4, 6) + "-" + str.substring(6, 8);
+        }
         return strs;
     }
 
@@ -265,6 +266,7 @@ public final class GeneralUtils {
      * @return
      * @see [类、类#方法、类#成员]
      */
+
     public static String splitToMinute(String str) {
         if (isNullOrZeroLenght(str) || str.length() != 14) {
             return str;
@@ -338,24 +340,6 @@ public final class GeneralUtils {
                 str.substring(2, 4) + "-" + str.substring(4, 6) + "-" + str.substring(6, 8) + " " + str.substring(8, 10)
                         + ":" + str.substring(10, 12) + ":" + str.substring(12, 14);
         return strs;
-    }
-
-
-    /**
-     * 获取版本信息
-     *
-     * @return
-     * @throws Exception
-     */
-    public static String getVersionName(Context context) {
-        try {
-            PackageManager packageManager = context.getPackageManager();
-            PackageInfo packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
-            String version = packInfo.versionName;
-            return version;
-        } catch (NameNotFoundException e) {
-        }
-        return "";
     }
 
     /**
@@ -456,89 +440,11 @@ public final class GeneralUtils {
      * @return
      * @see [类、类#方法、类#成员]
      */
+    @SuppressLint("MissingPermission")
     public static String getDeviceId(Context context) {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+
         return telephonyManager.getDeviceId();
     }
 
-    /**
-     * http://stackoverflow.com/questions/3495890/how-can-i-put-a-listview-into-a-scrollview-without-it-collapsing/3495908#3495908
-     *
-     * @param listView
-     */
-    public static void setListViewHeightBasedOnChildrenExtend(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            return;
-        }
-        int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.AT_MOST);
-        int totalHeight = 0;
-        View view = null;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            view = listAdapter.getView(i, view, listView);
-            if (i == 0) {
-                view.setLayoutParams(new LayoutParams(desiredWidth, LayoutParams.WRAP_CONTENT));
-            }
-            view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
-        }
-        LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-    }
-
-    // 去除textview的排版问题
-    public static String ToDBC(String input) {
-        char[] c = input.toCharArray();
-        for (int i = 0; i < c.length; i++) {
-            if (c[i] == 12288) {
-                c[i] = (char) 32;
-                continue;
-            }
-            if (c[i] > 65280 && c[i] < 65375)
-                c[i] = (char) (c[i] - 65248);
-        }
-        return new String(c);
-    }
-
-    /**
-     * 获取设备型号
-     *
-     * @return
-     */
-    public static String getDeviceModel() {
-        return android.os.Build.MODEL;
-    }
-
-    /**
-     * 返回当前程序版本名
-     */
-    public static String getAppVersionName(Context context) {
-        String versionName = "";
-        try {
-            PackageManager pm = context.getPackageManager();
-            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
-            versionName = pi.versionName;
-        } catch (Exception e) {
-        }
-        return versionName;
-    }
-
-    /**
-     * 为文本添加下划线
-     */
-    public static void addUnderLineToText(TextView textView) {
-        textView.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
-        textView.getPaint().setAntiAlias(true);//抗锯齿
-    }
-
-    /**
-     * 小数点后两位
-     */
-    public static String getBigDecimalToTwo(BigDecimal bigDecimal) {
-        DecimalFormat df2 = new DecimalFormat("#.00"); // #.00 表示两位小数 #.0000四位小数
-        String str2 = df2.format(bigDecimal);
-        return str2;
-    }
 }

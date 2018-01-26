@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.io.File;
+
 import cn.zhaocaiapp.zc_app_android.R;
 
 import static cn.zhaocaiapp.zc_app_android.util.DensityUtil.dip2px;
@@ -22,6 +24,8 @@ public class PictureLoadUtil {
 
      /**
       * 调用glide加载图片
+      *
+      * @param url 图片网络地址
       * */
      public static void loadPicture(Context context, String url, ImageView view){
          Glide.with(context)
@@ -31,6 +35,20 @@ public class PictureLoadUtil {
                  .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                  .into(view);
      }
+
+    /**
+     * 调用glide加载图片
+     *
+     * @param file 图片文件
+     * */
+    public static void loadPicture(Context context, File file, ImageView view){
+        Glide.with(context)
+                .load(file)
+                .dontAnimate()//防止设置placeholder导致第一次不显示网络图片,只显示默认图片的问题
+                //.placeholder(R.mipmap.user_boy)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(view);
+    }
 
 
     /**

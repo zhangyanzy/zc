@@ -83,9 +83,6 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        GeneralUtils.addUnderLineToText(tv_forget_pass);
-        GeneralUtils.addUnderLineToText(tv_register);
-
         umShareAPI = ZcApplication.getUMShareAPI();
     }
 
@@ -148,7 +145,7 @@ public class LoginActivity extends BaseActivity {
                 loginResp = result;
                 saveUserData();
                 Bundle bundle = new Bundle();
-                bundle.putInt("position", 0);
+                bundle.putInt("position", 1);
                 openActivity(MainActivity.class, bundle);
             }
 
@@ -251,7 +248,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        UMShareAPI.get(this).release();
+        umShareAPI.release();
     }
 
 }

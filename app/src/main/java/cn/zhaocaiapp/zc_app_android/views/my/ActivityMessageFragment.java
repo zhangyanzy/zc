@@ -61,6 +61,7 @@ public class ActivityMessageFragment extends BaseFragment implements OnRefreshLi
         list.setLayoutManager(manager);
         adapter = new MyMessageAdapter(getActivity(), new ArrayList<MessageResp>());
         list.setAdapter(adapter);
+        adapter.setOnItemCliclkListener(listener);
     }
 
     @Override
@@ -85,6 +86,14 @@ public class ActivityMessageFragment extends BaseFragment implements OnRefreshLi
             }
         });
     }
+
+    private MyMessageAdapter.OnItemCliclkListener listener = new MyMessageAdapter.OnItemCliclkListener() {
+        @Override
+        public void onItemCliclk(int position) {
+//            msgId = messages.get(position).getMessageId();
+//            updateMessageStatus();
+        }
+    };
 
     @Override
     public void onLoadmore(RefreshLayout refreshlayout) {

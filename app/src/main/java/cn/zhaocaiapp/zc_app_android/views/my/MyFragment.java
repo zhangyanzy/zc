@@ -189,7 +189,7 @@ public class MyFragment extends BaseFragment {
             case R.id.tv_setting: // 设置
                 openActivity(SettingActivity.class);
                 break;
-            case R.id.iv_top_menu:
+            case R.id.iv_top_menu://消息
                 openActivity(MessageActivity.class);
                 break;
         }
