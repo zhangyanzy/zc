@@ -447,4 +447,13 @@ public final class GeneralUtils {
         return telephonyManager.getDeviceId();
     }
 
+    /**
+     * 小数点后两位
+     */
+    public static String getBigDecimalToTwo(BigDecimal bigDecimal) {
+        DecimalFormat df2 = new DecimalFormat("#.00"); // #.00 表示两位小数 #.0000四位小数
+        String str2 = df2.format(bigDecimal);
+        return str2;
+    }
+
 }

@@ -4,24 +4,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/home_on_line_refresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srlEnablePreviewInEditMode="true">
-
-        <com.scwang.smartrefresh.layout.header.ClassicsHeader
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/home_on_line_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorGround"
-            android:scrollbars="none">
-
-        </android.support.v7.widget.RecyclerView>
-
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    <include layout="@layout/home_tab_view" />
 </LinearLayout>
