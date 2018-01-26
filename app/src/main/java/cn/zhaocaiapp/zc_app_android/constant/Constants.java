@@ -100,6 +100,11 @@ public interface Constants {
         String GET_AREA = "area";
 
         /**
+         * 首页获取个人信息
+         */
+        String GET_ACTIVITY_USER = "activity/user";
+
+        /**
          * 活动首页活动列表
          */
         String GET_ACTIVITY_LIST = "activity/list";
