@@ -8,8 +8,6 @@
 
     <include layout="@layout/layout_top_title" />
 
-    <include layout="@layout/member_detail_header" />
-
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/member_detail_refresh"
         android:layout_width="match_parent"

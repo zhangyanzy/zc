@@ -112,6 +112,11 @@ public interface Constants {
         String GET_AREA = "area";
 
         /**
+         * 首页获取个人信息
+         */
+        String GET_ACTIVITY_USER = "activity/user";
+
+        /**
          * 活动首页活动列表
          */
         String GET_ACTIVITY_LIST = "activity/list";
@@ -130,6 +135,11 @@ public interface Constants {
          * 商家活动列表
          */
         String GET_ACTIVITY_LIST_MEMBER = "activity/list/member";
+
+        /**
+         * 商家详情
+         */
+        String GET_MEMBER_DETAIL = "member/%s";
 
 
     }

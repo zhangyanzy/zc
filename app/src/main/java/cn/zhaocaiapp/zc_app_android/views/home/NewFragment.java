@@ -16,6 +16,10 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +31,7 @@ import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.adapter.common.ActivityAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.MessageEvent;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
@@ -64,13 +69,20 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
     private int listType = 1;//最新活动 1最新活动 2线下活动 3线上活动 4历史活动
     private int pageNumber = 1;//分页
     private int sortRule = 2;//降序 1升序 2降序
-    private int sortType = 1;//时间 1时间 2金额 3距离
+    private int sortType = 0;//默认 0默认 1时间 2金额 3距离
     private String longitude = "";//经度
     private String latitude = "";//纬度
 
     private List<ActivityResp> activityRespList = new ArrayList<>();//活动列表
 
     private ActivityAdapter activityAdapter;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //注册EventBus消息订阅者
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -91,6 +103,8 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
     @Override
     public void loadData() {
         setSort();
+        home_recycler.scrollToPosition(0);//回到顶部
+        home_refresh.autoRefresh();//自动刷新
         Map<String, String> params = new HashMap<>();
         params.put("listType", String.valueOf(listType));
         params.put("pageSize", String.valueOf(Constants.CONFIG.PAGE_SIZE));
@@ -127,6 +141,33 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
             }
 
         });
+    }
+
+    /**
+     * 初始化数据
+     */
+    public void initData() {
+        listType = 1;//最新活动 1最新活动 2线下活动 3线上活动 4历史活动
+        pageNumber = 1;//分页
+        sortRule = 2;//降序 1升序 2降序
+        sortType = 0;//默认 0默认 1时间 2金额 3距离
+        longitude = "";//经度
+        latitude = "";//纬度
+        EBLog.i("tag", "点击了");
+    }
+
+    //接收EventBus发送的消息，并处理
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(MessageEvent<String> event) {
+        if (event.getMessage() instanceof String) {
+            if (event.getMessage().equals("home_tab_0")) {
+                initData();
+                setSort();
+                loadData();
+                EBLog.i("tag", "接受到了");
+            }
+        }
+
     }
 
     @OnClick({
@@ -168,7 +209,13 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
      * 筛选状态
      */
     private void setSort() {
-        if (sortType == 1) {
+        if (sortType == 0) {
+            home_sort_time_img.setVisibility(View.INVISIBLE);
+            home_sort_money_img.setVisibility(View.INVISIBLE);
+            home_sort_time_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
+            home_sort_money_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
+            home_sort_area_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
+        } else if (sortType == 1) {
             home_sort_time_img.setVisibility(View.VISIBLE);
             if (sortRule == 1) {
                 home_sort_time_img.setImageResource(R.mipmap.sort_up);

@@ -17,22 +17,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/home_title_area"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0"
-                android:src="@mipmap/home_area" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="0"
-                android:text="上海"
-                android:textColor="@color/colorWhite"
-                android:textSize="14sp" />
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/home_title_area"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/home_area" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="上海"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
             <ImageView
                 android:layout_width="80dp"
@@ -41,13 +48,21 @@
                 android:layout_weight="1"
                 android:src="@mipmap/home_logo" />
 
-            <ImageView
-                android:id="@+id/home_title_search"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="0"
-                android:src="@mipmap/home_search" />
+            <LinearLayout
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:gravity="right">
+
+                <ImageView
+                    android:id="@+id/home_title_search"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/home_search" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
@@ -61,6 +76,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/home_title_user_cart"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_alignParentBottom="true"
@@ -77,7 +93,7 @@
             android:orientation="vertical">
 
             <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
-                android:id="@+id/activity_item_member_logo"
+                android:id="@+id/home_title_user_img"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_gravity="center"
@@ -86,11 +102,17 @@
                 app:civ_border_width="5dp" />
 
             <TextView
+                android:id="@+id/home_title_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:ellipsize="end"
                 android:gravity="center"
-                android:text="JACK" />
+                android:paddingStart="10dp"
+                android:singleLine="true"
+                android:text="未登录"
+                android:textColor="@color/colorFont3"
+                android:textSize="14sp" />
 
 
         </LinearLayout>
@@ -114,16 +136,19 @@
                     android:src="@mipmap/logo_money" />
 
                 <TextView
+                    android:id="@+id/home_title_user_income"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="685000.00"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="0.00"
                     android:textColor="@color/colorFont3"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="元"
+                    android:text="@string/element"
                     android:textColor="@color/colorFont3"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -156,16 +181,19 @@
                     android:src="@mipmap/logo_money" />
 
                 <TextView
+                    android:id="@+id/home_title_user_balance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="685000.00"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="0.00"
                     android:textColor="@color/colorFont3"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="元"
+                    android:text="@string/element"
                     android:textColor="@color/colorFont3"
                     android:textSize="14sp" />
             </LinearLayout>

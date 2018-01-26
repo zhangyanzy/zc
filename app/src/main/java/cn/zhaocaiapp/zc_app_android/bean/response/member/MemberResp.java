@@ -109,6 +109,35 @@ public class MemberResp {
      */
     private Integer isDelete;
 
+
+    /**
+     * 活动个数总计
+     */
+    private Integer total;
+
+
+    /**
+     * 已结束活动个数
+     */
+    private Integer offLine;
+
+
+    /**
+     * 正在进行中的活动个数
+     */
+    private Integer onLine;
+
+    /**
+     * 未开始活动个数
+     */
+    private Integer beforeLine;
+
+    /**
+     * 是否关注标识
+     */
+    private Integer isFollow;
+
+
     public Long getKid() {
         return kid;
     }
@@ -269,6 +298,46 @@ public class MemberResp {
         this.memberId = memberId;
     }
 
+    public Integer getTotal() {
+        return total;
+    }
+
+    public Integer getOffLine() {
+        return offLine;
+    }
+
+    public Integer getOnLine() {
+        return onLine;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
+    public void setOffLine(Integer offLine) {
+        this.offLine = offLine;
+    }
+
+    public void setOnLine(Integer onLine) {
+        this.onLine = onLine;
+    }
+
+    public Integer getBeforeLine() {
+        return beforeLine;
+    }
+
+    public void setBeforeLine(Integer beforeLine) {
+        this.beforeLine = beforeLine;
+    }
+
+    public Integer getIsFollow() {
+        return isFollow;
+    }
+
+    public void setIsFollow(Integer isFollow) {
+        this.isFollow = isFollow;
+    }
+
     @Override
     public String toString() {
         return "MemberResp{" +
@@ -292,6 +361,11 @@ public class MemberResp {
                 ", updateId=" + updateId +
                 ", updateTime=" + updateTime +
                 ", isDelete=" + isDelete +
+                ", total=" + total +
+                ", offLine=" + offLine +
+                ", onLine=" + onLine +
+                ", beforeLine=" + beforeLine +
+                ", isFollow=" + isFollow +
                 '}';
     }
 }

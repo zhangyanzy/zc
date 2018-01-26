@@ -11,15 +11,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.zhaocaiapp.zc_app_android.MainActivity;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
+import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.MessageEvent;
+import cn.zhaocaiapp.zc_app_android.bean.Response;
+import cn.zhaocaiapp.zc_app_android.bean.response.home.UserInfoResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
+import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
+import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 
 /**
  * @author 林子
@@ -35,9 +50,20 @@ public class HomeFragment extends BaseFragment {
     ImageView home_title_search;
     @BindView(R.id.home_title_area)
     ImageView home_title_area;
+    @BindView(R.id.home_title_user_img)
+    ImageView home_title_user_img;
+    @BindView(R.id.home_title_user_name)
+    TextView home_title_user_name;
+    @BindView(R.id.home_title_user_income)
+    TextView home_title_user_income;
+    @BindView(R.id.home_title_user_balance)
+    TextView home_title_user_balance;
+    @BindView(R.id.home_title_user_cart)
+    LinearLayout home_title_user_cart;
 
     private String[] tabTitles = new String[]{"最新活动", "线上活动", "线下活动", "历史活动"};
     private Map<Integer, Fragment> fragments = new HashMap<>();
+    private UserInfoResp userInfoResp;//用户个人信息
 
 
     @Override
@@ -79,7 +105,9 @@ public class HomeFragment extends BaseFragment {
             //再次选中tab的逻辑
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                EBLog.i("tag", "您再次点击了");
+                EBLog.i("tag", tab.toString());
+                EventBus.getDefault().post(new MessageEvent<String>("home_tab_" + tab.getPosition()));
             }
         });
         home_view.setCurrentItem(0);
@@ -89,6 +117,29 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void loadData() {
 
+        //判断登录
+        if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
+            //获取商家详情
+            HttpUtil.get(String.format(Constants.URL.GET_ACTIVITY_USER)).subscribe(new BaseResponseObserver<UserInfoResp>() {
+                @Override
+                public void success(UserInfoResp result) {
+                    userInfoResp = result;
+                    //用户头像
+                    PictureLoadUtil.loadPicture(getActivity(), userInfoResp.getAvatar(), home_title_user_img);
+                    //用户昵称
+                    home_title_user_name.setText(userInfoResp.getNickname());
+                    //用户总收入
+                    home_title_user_income.setText(String.valueOf(userInfoResp.getGrossIncomeAmount()));
+                    //用户余额
+                    home_title_user_balance.setText(String.valueOf(userInfoResp.getAccountBalanceAmount()));
+                    EBLog.i("tag", result.toString());
+                }
+
+                @Override
+                public void error(Response<UserInfoResp> response) {
+                }
+            });
+        }
     }
 
 
@@ -147,7 +198,8 @@ public class HomeFragment extends BaseFragment {
 
     @OnClick({
             R.id.home_title_search,
-            R.id.home_title_area
+            R.id.home_title_area,
+            R.id.home_title_user_cart
     })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -156,6 +208,16 @@ public class HomeFragment extends BaseFragment {
                 break;
             case R.id.home_title_area:
                 openActivity(LocationActivity.class);
+                break;
+            case R.id.home_title_user_cart:
+                //已登录
+                if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
+                    ((MainActivity) getActivity()).setCheckButton(2);
+                }
+                //未登录
+                else {
+                    openActivity(LoginActivity.class);
+                }
                 break;
         }
     }
