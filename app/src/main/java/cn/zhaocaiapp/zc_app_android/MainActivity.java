@@ -59,10 +59,11 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
 
     private void initView() {
         groupBotton.setOnCheckedChangeListener(this);
-        setCheckButton();
+        setCheckButton(currentPosition);
     }
 
-    private void setCheckButton() {
+    public void setCheckButton(int position) {
+        currentPosition = position;
         switch (currentPosition) {
             case -1:
             case 0:

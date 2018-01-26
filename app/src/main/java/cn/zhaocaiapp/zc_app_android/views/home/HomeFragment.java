@@ -205,17 +205,14 @@ public class HomeFragment extends BaseFragment {
                 openActivity(LocationActivity.class);
                 break;
             case R.id.home_title_user_cart:
-                Bundle bundle = new Bundle();
-                bundle.putInt("position", 1);
-                openActivity(getActivity().getClass(), bundle);
-                /*//已登录
+                //已登录
                 if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
-
+                    ((MainActivity) getActivity()).setCheckButton(2);
                 }
                 //未登录
                 else {
                     openActivity(LoginActivity.class);
-                }*/
+                }
                 break;
         }
     }
