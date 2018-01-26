@@ -83,10 +83,25 @@
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="关注" />
+            android:layout_height="25dp"
+            android:layout_weight="0"
+            android:background="@drawable/member_follow_off"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:src="@mipmap/add" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="关注"
+                android:textColor="@color/colorWhite"
+                android:textSize="12sp" />
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.adapter.common;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -89,13 +90,13 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             //商家地址
             viewHolderMember.member_detail_area.setText(memberResp.getProvinceName() + memberResp.getCityName() + memberResp.getAreaName() + memberResp.getAddressDetail());
             //商家活动 全部
-            viewHolderMember.member_detail_state.setText("11");
+            viewHolderMember.member_detail_state.setText(String.valueOf(memberResp.getTotal()));
             //商家活动 未开始
-            viewHolderMember.member_detail_state_0.setText("12");
+            viewHolderMember.member_detail_state_0.setText(String.valueOf(memberResp.getBeforeLine()));
             //商家活动 进行中
-            viewHolderMember.member_detail_state_1.setText("13");
+            viewHolderMember.member_detail_state_1.setText(String.valueOf(memberResp.getOnLine()));
             //商家活动 已结束
-            viewHolderMember.member_detail_state_2.setText("14");
+            viewHolderMember.member_detail_state_2.setText(String.valueOf(memberResp.getOffLine()));
         }
         //活动列表
         else {
