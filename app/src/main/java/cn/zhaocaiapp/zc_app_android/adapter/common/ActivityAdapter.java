@@ -142,9 +142,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 }
             }
             //剩余额度
-            DecimalFormat df2 = new DecimalFormat("#.00"); // #.00 表示两位小数 #.0000四位小数
-            String str2 = df2.format(list.get(k).getLeftAmount());
-            viewHolderActivity.activity_item_text_amount.setText(str2);
+            viewHolderActivity.activity_item_text_amount.setText(GeneralUtils.getBigDecimalToTwo(list.get(k).getLeftAmount()));
             //已领取人数
             //viewHolderActivity.activity_item_text_number.setText(list.get(k).getActualUser());
             //剩余额度进度条

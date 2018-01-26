@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -526,10 +527,18 @@ public final class GeneralUtils {
 
     /**
      * 为文本添加下划线
-     * */
-    public static void addUnderLineToText(TextView textView){
+     */
+    public static void addUnderLineToText(TextView textView) {
         textView.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
         textView.getPaint().setAntiAlias(true);//抗锯齿
     }
 
+    /**
+     * 小数点后两位
+     */
+    public static String getBigDecimalToTwo(BigDecimal bigDecimal) {
+        DecimalFormat df2 = new DecimalFormat("#.00"); // #.00 表示两位小数 #.0000四位小数
+        String str2 = df2.format(bigDecimal);
+        return str2;
+    }
 }
