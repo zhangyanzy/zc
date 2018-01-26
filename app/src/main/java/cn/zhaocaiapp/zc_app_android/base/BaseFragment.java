@@ -79,7 +79,7 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
         if (!isInit) {
             return;
         }
-        if (getUserVisibleHint()) {
+        if (getUserVisibleHint() && !isLoad) {
             loadData();
             isLoad = true;
         } else if (isLoad) {

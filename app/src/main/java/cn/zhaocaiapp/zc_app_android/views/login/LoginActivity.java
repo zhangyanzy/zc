@@ -145,7 +145,7 @@ public class LoginActivity extends BaseActivity {
                 loginResp = result;
                 saveUserData();
                 Bundle bundle = new Bundle();
-                bundle.putInt("position", 1);
+                bundle.putInt("position", 0);
                 openActivity(MainActivity.class, bundle);
             }
 
