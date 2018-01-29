@@ -1,22 +1,5 @@
-<!DOCTYPE html><html lang=zh><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,user-scalable=0"><title></title><link href=./static/css/app.4fcdf66f5cbd3ce7471062becd9c784c.css rel=stylesheet></head><body><div id=app></div><script type=text/javascript src=./static/js/manifest.13263f1c81186fffaac4.js></script><script type=text/javascript src=./static/js/vendor.19fc78727131f13f8617.js></script><script type=text/javascript src=./static/js/app.6a82dcb59ad5cd106396.js></script></body><script>var ua = navigator.userAgent;
+<!DOCTYPE html><html lang=zh><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,user-scalable=0"><title></title><link href=./static/css/app.5c55cb2e746e89e68b235548594fa038.css rel=stylesheet></head><body><div id=app></div><script type=text/javascript src=./static/js/manifest.57a6e05e6a7d972e4243.js></script><script type=text/javascript src=./static/js/vendor.19fc78727131f13f8617.js></script><script type=text/javascript src=./static/js/app.ae34dc0d9ed5bf4f81f4.js></script></body><script>var ua = navigator.userAgent;
     var isIOS = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
     if(isIOS){
-        function setupWebViewJavascriptBridge(callback) {
-            if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
-            if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
-            window.WVJBCallbacks = [callback];
-            var WVJBIframe = document.createElement('iframe');
-            WVJBIframe.style.display = 'none';
-            WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
-            document.documentElement.appendChild(WVJBIframe);
-            setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
-        }
 
-        //native调用js
-        setupWebViewJavascriptBridge(function(bridge) {
-            bridge.registerHandler('testJSFunction', function(data, responseCallback) {
-                responseCallback('js执行过了');
-
-            })
-        })
     }</script></html>

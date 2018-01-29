@@ -37,7 +37,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WelcomeActivity"
+        <activity
+            android:name=".WelcomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,7 +50,6 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".views.activity.ActivityActivityDetail" />
         <!--定位-->
         <activity
             android:name=".views.home.LocationActivity"
@@ -57,6 +57,10 @@
         <!--搜索-->
         <activity
             android:name=".views.home.SearchActivity"
+            android:screenOrientation="portrait" />
+        <!--活动详情-->
+        <activity
+            android:name=".views.common.ActivityDetailActivity"
             android:screenOrientation="portrait" />
 
 
@@ -124,7 +128,6 @@
         <activity
             android:name=".views.my.MessageActivity"
             android:screenOrientation="portrait" />
-
 
 
         <!--商家详情-->

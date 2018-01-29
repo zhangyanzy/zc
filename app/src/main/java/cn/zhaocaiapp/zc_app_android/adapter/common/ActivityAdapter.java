@@ -27,6 +27,7 @@ import cn.zhaocaiapp.zc_app_android.bean.response.member.MemberResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
+import cn.zhaocaiapp.zc_app_android.views.common.ActivityDetailActivity;
 import cn.zhaocaiapp.zc_app_android.views.member.MemberDetailActivity;
 
 
@@ -153,20 +154,34 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             //已领取人数进度条
             viewHolderActivity.activity_item_text_number_progress.setProgress(50);
 
-
-            viewHolderActivity.itemView.setOnClickListener(new View.OnClickListener() {
+            //商家图片 点击
+            viewHolderActivity.activity_item_member_logo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    switch (v.getId()) {
-                        case R.id.activity_item_member_logo:
-                            Intent intent = new Intent(context, MemberDetailActivity.class);
-                            intent.putExtra("memberId", list.get(k).getMemberId());
-                            context.startActivity(intent);
-                            break;
-                    }
-                    //listene.onItemCliclk(holder.getLayoutPosition());
+                    Intent intent = new Intent(context, MemberDetailActivity.class);
+                    intent.putExtra("memberId", list.get(k).getMemberId());
+                    context.startActivity(intent);
                 }
             });
+            //商家名称 点击
+            viewHolderActivity.activity_item_member_name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, MemberDetailActivity.class);
+                    intent.putExtra("memberId", list.get(k).getMemberId());
+                    context.startActivity(intent);
+                }
+            });
+            //活动图片 点击
+            viewHolderActivity.activity_item_img_i.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ActivityDetailActivity.class);
+                    //intent.putExtra("memberId", list.get(k).getMemberId());
+                    context.startActivity(intent);
+                }
+            });
+
         }
 
     }

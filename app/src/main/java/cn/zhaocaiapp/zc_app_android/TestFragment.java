@@ -22,7 +22,6 @@ import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.LabelResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
-import cn.zhaocaiapp.zc_app_android.views.activity.ActivityActivityDetail;
 import cn.zhaocaiapp.zc_app_android.views.home.LocationActivity;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.views.my.LabelFragment;
@@ -51,7 +50,7 @@ public class TestFragment extends BaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        //h5页面
+        /*//h5页面
         goH5 = (Button) getActivity().findViewById(R.id.goH5);
         goH5.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +59,7 @@ public class TestFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(), ActivityActivityDetail.class);
                 startActivity(intent);
             }
-        });
+        });*/
     }
 
     @Override
