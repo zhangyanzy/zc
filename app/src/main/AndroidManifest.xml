@@ -128,6 +128,8 @@
         <activity
             android:name=".views.my.MessageActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".views.activity.MyActivity"
+            android:screenOrientation="portrait"/>
 
 
         <!--商家详情-->

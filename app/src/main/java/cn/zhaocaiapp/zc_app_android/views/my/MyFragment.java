@@ -12,6 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.autonavi.rtbt.IFrameForRTBT;
+import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +34,7 @@ import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.views.activity.MyActivity;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
 
@@ -140,18 +144,18 @@ public class MyFragment extends BaseFragment {
     }
 
     private void showUserInfo() {
-        tv_msg.setText(userInfo.getMessage() + "");
         tv_user_name.setText(userInfo.getNickname());
         tv_user_identify.setText(userInfo.getRealInfoAudit());
         tv_user_blance.setText(userInfo.getAccountBalanceAmount() + "");
         tv_user_income.setText(userInfo.getGrossIncomeAmount() + "");
-        tv_deliver_msg.setText(userInfo.getSubmit() + "");
-        tv_verify_msg.setText(userInfo.getAudit() + "");
-        tv_reward_msg.setText(userInfo.getPay() + "");
-        tv_failed_msg.setText(userInfo.getUnPass() + "");
         tv_invite.setText(userInfo.getInviteMessage());
         tv_contact_phone.setText(userInfo.getCustomerPhone());
         tv_email.setText(userInfo.getEmail());
+        if (userInfo.getMessage() > 0) tv_msg.setText(userInfo.getMessage() + "");
+        if (userInfo.getSubmit() > 0) tv_deliver_msg.setText(userInfo.getSubmit() + "");
+        if (userInfo.getAudit() > 0) tv_verify_msg.setText(userInfo.getAudit() + "");
+        if (userInfo.getPay() > 0) tv_reward_msg.setText(userInfo.getPay() + "");
+        if (userInfo.getUnPass() > 0) tv_failed_msg.setText(userInfo.getUnPass() + "");
 
         if (GeneralUtils.isNotNullOrZeroLenght(userInfo.getAvatar()))
             PictureLoadUtil.loadPicture(getActivity(), userInfo.getAvatar(), iv_user_photo);
@@ -162,6 +166,7 @@ public class MyFragment extends BaseFragment {
             R.id.layout_verify_task, R.id.layout_reward_task, R.id.layout_failed_task, R.id.layout_invite, R.id.tv_account_manager,
             R.id.tv_follow, R.id.layout_contact, R.id.layout_email, R.id.tv_setting, R.id.tv_exit})
     public void onClick(View view) {
+        Bundle bundle = new Bundle();
         switch (view.getId()) {
             case R.id.iv_user_photo: //个人资料
                 openActivity(UserInfoActivity.class);
@@ -182,7 +187,7 @@ public class MyFragment extends BaseFragment {
                 openActivity(MyFollowAvtivity.class);
                 break;
             case R.id.layout_contact:
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:021-68788170" ));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:021-68788170"));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getActivity().startActivity(intent);
                 break;
@@ -191,6 +196,31 @@ public class MyFragment extends BaseFragment {
                 break;
             case R.id.iv_top_menu://消息
                 openActivity(MessageActivity.class);
+                break;
+            case R.id.layout_all_task:
+                bundle.clear();
+                bundle.putInt("position", 0);
+                openActivity(MyActivity.class, bundle);
+                break;
+            case R.id.layout_deliver_task:
+                bundle.clear();
+                bundle.putInt("position", 1);
+                openActivity(MyActivity.class, bundle);
+                break;
+            case R.id.layout_verify_task:
+                bundle.clear();
+                bundle.putInt("position", 2);
+                openActivity(MyActivity.class, bundle);
+                break;
+            case R.id.layout_reward_task:
+                bundle.clear();
+                bundle.putInt("position", 3);
+                openActivity(MyActivity.class, bundle);
+                break;
+            case R.id.layout_failed_task:
+                bundle.clear();
+                bundle.putInt("position", 4);
+                openActivity(MyActivity.class, bundle);
                 break;
         }
     }

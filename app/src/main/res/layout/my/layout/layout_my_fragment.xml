@@ -49,7 +49,7 @@
                     android:singleLine="true"
                     android:text="找财"
                     android:textColor="@color/colorFont6"
-                    android:textSize="@dimen/font_size_16"
+                    android:textSize="@dimen/font_size_15"
                     android:textStyle="bold"
                     android:minWidth="72dp"
                     android:maxWidth="130dp"/>
@@ -71,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/iv_user_photo"
-                    android:layout_marginLeft="70dp"
+                    android:layout_marginLeft="80dp"
                     android:layout_marginTop="10dp"
                     android:layout_toEndOf="@+id/iv_user_photo"
                     android:text="0.00元"
@@ -93,7 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/iv_user_photo"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="70dp"
                     android:layout_marginTop="10dp"
                     android:layout_toEndOf="@+id/tv_user_balance"
                     android:text="0.00元"
@@ -112,7 +112,7 @@
 
                 <TextView
                     android:id="@+id/tv_apply_cash"
-                    android:layout_width="160dp"
+                    android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignStart="@+id/tv_user_balance"
@@ -120,7 +120,7 @@
                     android:gravity="center"
                     android:text="提现"
                     android:textColor="@color/colorFont6"
-                    android:textSize="@dimen/font_size_16" />
+                    android:textSize="@dimen/font_size_14" />
             </RelativeLayout>
 
             <View style="@style/C9_8dp_divider" />
@@ -191,10 +191,10 @@
                         android:layout_marginRight="12dp"
                         android:background="@drawable/button_shape_red_round"
                         android:gravity="center"
-                        android:text="3"
+                        android:text="0"
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/font_size_8"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                 </RelativeLayout>
 
@@ -231,10 +231,10 @@
                         android:layout_marginRight="12dp"
                         android:background="@drawable/button_shape_red_round"
                         android:gravity="center"
-                        android:text="3"
+                        android:text="0"
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/font_size_8"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                 </RelativeLayout>
 
@@ -272,10 +272,10 @@
                         android:layout_marginRight="12dp"
                         android:background="@drawable/button_shape_red_round"
                         android:gravity="center"
-                        android:text="3"
+                        android:text="0"
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/font_size_8"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                 </RelativeLayout>
 
@@ -313,10 +313,10 @@
                         android:layout_marginRight="12dp"
                         android:background="@drawable/button_shape_red_round"
                         android:gravity="center"
-                        android:text="3"
+                        android:text="0"
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/font_size_8"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                 </RelativeLayout>
             </LinearLayout>

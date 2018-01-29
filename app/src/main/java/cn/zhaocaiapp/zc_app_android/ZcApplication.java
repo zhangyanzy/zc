@@ -127,6 +127,7 @@ public class ZcApplication extends Application {
      */
     @Override
     public void onTerminate() {
+        OCR.getInstance().release();
         super.onTerminate();
     }
 

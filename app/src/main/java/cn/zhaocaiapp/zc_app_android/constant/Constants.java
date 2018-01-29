@@ -51,7 +51,7 @@ public interface Constants {
          */
         String SERVER = "http://appapi.zhaocaiapp.local/"; //必须以／结尾否则初始化会报错
 //        String SERVER = "http://192.168.1.10:8082/"; //必须以／结尾否则初始化会报错
-        //String SERVER = "http://192.168.1.181:8082/"; //必须以／结尾否则初始化会报错
+//        String SERVER = "http://192.168.1.181:8082/"; //必须以／结尾否则初始化会报错
 
         /**
          * 注册
@@ -122,6 +122,14 @@ public interface Constants {
          * 修改个人信息
          * */
         String REVISE_BASE_INFO = "userinfo/update/baseinfo";
+        /**
+         * 删除个人标签
+         * */
+        String DELETE_LABEL = "userinfo/deletelabels";
+        /**
+         *获取用户账户信息
+         * */
+        String GET_ACCOUNT_INFO = "userinfo/account";
 
 
 

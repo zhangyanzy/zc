@@ -38,8 +38,8 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        EBLog.i("图片流", builder.toString().replaceAll("\\\\", "//"));
-        return builder.toString().replaceAll("\\\\", "//");
+
+        return builder.toString();
     }
 
 }

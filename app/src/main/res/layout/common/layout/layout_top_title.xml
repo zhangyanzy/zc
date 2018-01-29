@@ -48,10 +48,10 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/button_shape_red_round"
         android:gravity="center"
-        android:text="3"
+        android:text="0"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/font_size_8"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 </RelativeLayout>
 

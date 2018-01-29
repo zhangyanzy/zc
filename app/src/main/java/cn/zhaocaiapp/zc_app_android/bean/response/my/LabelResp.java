@@ -17,6 +17,12 @@ public class LabelResp {
     private int times;
     private int type;
 
+    public LabelResp(long tagId, String name, int times){
+        this.tagId = tagId;
+        this.name = name;
+        this.times = times;
+    }
+
     public long getTagId() {
         return tagId;
     }

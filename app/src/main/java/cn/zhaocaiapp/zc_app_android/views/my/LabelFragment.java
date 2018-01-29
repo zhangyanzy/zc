@@ -1,7 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,20 +9,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.amap.api.maps.AMap;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import java.security.PrivateKey;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
+import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.LabelResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
@@ -43,6 +46,9 @@ public class LabelFragment extends BaseFragment {
     TagFlowLayout label_list;
 
     private List<LabelResp> labels;
+    private boolean isShowDel = false;
+    private TagAdapter tagAdapter;
+    private int deletePosition;
 
     private static final String TAG = "个人标签";
 
@@ -54,6 +60,12 @@ public class LabelFragment extends BaseFragment {
     @Override
     public void init() {
         labels = new ArrayList<>();
+        labels.add(new LabelResp(1, "篮球", 30));
+        labels.add(new LabelResp(2, "看电影", 20));
+        labels.add(new LabelResp(3, "cosplay", 10));
+        labels.add(new LabelResp(4, "旅行", 40));
+
+        initLabel();
     }
 
     @Override
@@ -63,8 +75,8 @@ public class LabelFragment extends BaseFragment {
             @Override
             public void success(List<LabelResp> labelResps) {
                 EBLog.i(TAG, labelResps.toString());
-                labels = labelResps;
-                initLabel();
+//                labels = labelResps;
+//                initLabel();
             }
 
             @Override
@@ -76,23 +88,37 @@ public class LabelFragment extends BaseFragment {
     }
 
     //显示标签数据
-    private void initLabel(){
+    private void initLabel() {
         final LayoutInflater mInflater = LayoutInflater.from(getActivity());
-        if (labels != null)
-            label_list.setAdapter(new TagAdapter<LabelResp>(labels) {
+        if (labels != null) {
+            label_list.setAdapter(tagAdapter = new TagAdapter<LabelResp>(labels) {
 
                 @Override
                 public View getView(FlowLayout parent, int position, LabelResp labelResp) {
                     View view = mInflater.inflate(R.layout.my_label_item, label_list, false);
                     ViewHolder holder = new ViewHolder(view);
+                    deletePosition = position;
+
                     holder.tv_label_name.setText(labelResp.getName());
-                    holder.tv_labek_number.setText(labelResp.getTimes() + "");
+                    holder.tv_labek_number.setText("(" + labelResp.getTimes() + ")");
+                    if (isShowDel) holder.delete_label.setVisibility(View.VISIBLE);
+                    else holder.delete_label.setVisibility(View.GONE);
                     setLabelGrade(labelResp.getTimes() / 10, holder);
 
                     EBLog.i(TAG, labelResp.toString());
                     return view;
                 }
             });
+            label_list.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+                @Override
+                public boolean onTagClick(View view, int position, FlowLayout parent) {
+                    view.setVisibility(View.GONE);
+                    labels.remove(position);
+                    tagAdapter.notifyDataChanged();
+                    return false;
+                }
+            });
+        }
     }
 
     private void setLabelGrade(int grade, ViewHolder holder) {
@@ -116,6 +142,38 @@ public class LabelFragment extends BaseFragment {
                 holder.layout_label.setBackground(getResources().getDrawable(R.drawable.button_shape_orange_alpha6));
                 break;
         }
+    }
+
+    @OnClick({R.id.iv_add, R.id.iv_delete})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_add:
+
+                break;
+            case R.id.iv_delete:
+                if (isShowDel) isShowDel = false;
+                else isShowDel = true;
+                tagAdapter.notifyDataChanged();
+                break;
+        }
+    }
+
+    private void deleteLabel(String id) {
+        Map<String, String> params = new HashMap<>();
+        params.put("ids", id);
+        HttpUtil.delete(Constants.URL.DELETE_LABEL, params).subscribe(new BaseResponseObserver<CommonResp>() {
+
+            @Override
+            public void success(CommonResp commonResp) {
+                ToastUtil.makeText(getActivity(), commonResp.getDesc());
+            }
+
+            @Override
+            public void error(Response<CommonResp> response) {
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(getActivity(), response.getDesc());
+            }
+        });
     }
 
     public static class ViewHolder {

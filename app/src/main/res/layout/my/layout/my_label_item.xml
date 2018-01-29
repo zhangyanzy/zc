@@ -39,6 +39,6 @@
         android:layout_height="16dp"
         android:layout_alignEnd="@+id/layout_label"
         android:src="@mipmap/delete_label"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 
 </RelativeLayout>
