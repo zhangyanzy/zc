@@ -181,6 +181,16 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                     context.startActivity(intent);
                 }
             });
+            //活动名称 点击
+            viewHolderActivity.activity_item_text_title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ActivityDetailActivity.class);
+                    //intent.putExtra("memberId", list.get(k).getMemberId());
+                    context.startActivity(intent);
+                }
+            });
+
 
         }
 
@@ -354,6 +364,12 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         //已领取人数进度条
         @BindView(R.id.activity_item_text_number_progress)
         ProgressBar activity_item_text_number_progress;
+        //地址logo
+        @BindView(R.id.activity_item_text_area_logo)
+        ImageView activity_item_text_area_logo;
+        //地址距离
+        @BindView(R.id.activity_item_text_area_text)
+        TextView activity_item_text_area_text;
 
         View itemView;
 

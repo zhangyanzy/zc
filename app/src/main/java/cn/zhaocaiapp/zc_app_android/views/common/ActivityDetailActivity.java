@@ -7,9 +7,15 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.capabilities.json.GsonHelper;
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 
 public class ActivityDetailActivity extends BaseActivity {
 
@@ -57,7 +63,11 @@ public class ActivityDetailActivity extends BaseActivity {
          */
         @JavascriptInterface
         public String getPage() {
-            return "{\"id\":\"1\",\"token\":\"98f8df6220da997283eace4bab823a9b\"}";
+            Map<String, String> params = new HashMap<>();
+            params.put("id", "1");
+            params.put("token", "98f8df6220da997283eace4bab823a9b");
+            EBLog.i("tag", GsonHelper.toJson(params));
+            return GsonHelper.toJson(params);
         }
     }
 }
