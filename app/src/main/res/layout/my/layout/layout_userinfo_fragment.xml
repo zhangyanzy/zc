@@ -91,13 +91,13 @@
     <View style="@style/horizontal_C9_line"
         android:layout_marginLeft="80dp"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="12dp">
 
         <TextView
+            android:id="@+id/home_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorFont9"
@@ -110,22 +110,40 @@
             android:id="@+id/edit_user_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_14"
+            android:paddingLeft="15dp"
+            android:layout_toEndOf="@+id/home_address"/>
+
+        <View style="@style/horizontal_C9_line"
+            android:layout_marginLeft="80dp"
+            android:layout_below="@+id/edit_user_address"/>
+
+        <EditText
+            android:id="@+id/home_address_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_user_address"
+            android:layout_alignStart="@+id/edit_user_address"
             android:background="@null"
             android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_14"
-            android:paddingLeft="15dp"/>
-    </LinearLayout>
+            android:paddingLeft="15dp"
+            android:minHeight="34dp"
+            android:hint="详细地址"
+            android:textColorHint="@color/colorFont9"/>
+    </RelativeLayout>
 
     <View style="@style/horizontal_C9_line"
         android:layout_marginLeft="80dp"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="12dp">
 
         <TextView
+            android:id="@+id/company_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorFont9"
@@ -138,11 +156,29 @@
             android:id="@+id/edit_company_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_14"
+            android:paddingLeft="15dp"
+            android:layout_toEndOf="@+id/company_address"/>
+
+        <View style="@style/horizontal_C9_line"
+            android:layout_marginLeft="80dp"
+            android:layout_below="@+id/edit_company_address"/>
+
+        <EditText
+            android:id="@+id/company_address_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_company_address"
+            android:layout_alignStart="@+id/edit_company_address"
             android:background="@null"
             android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_14"
-            android:paddingLeft="15dp" />
-    </LinearLayout>
+            android:paddingLeft="15dp"
+            android:minHeight="34dp"
+            android:hint="详细地址"
+            android:textColorHint="@color/colorFont9"/>
+    </RelativeLayout>
 
     <View style="@style/horizontal_C9_line"
         android:layout_marginLeft="80dp"/>

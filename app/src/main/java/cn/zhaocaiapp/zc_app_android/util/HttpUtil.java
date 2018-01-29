@@ -52,7 +52,7 @@ public class HttpUtil {
         http = retrofit.create(BaseHttpService.class);
         //TODO 临时使用 林子 2018年01月18日20:59:12
         //USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
-        USER_TOKEN = "422dab6b0fa3ef5abf65439f26866e57";
+        USER_TOKEN = "98f8df6220da997283eace4bab823a9b";
         EBLog.i("HTTP_TOKEN", USER_TOKEN);
     }
 

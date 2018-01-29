@@ -259,4 +259,10 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
         loadData();
 
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 }

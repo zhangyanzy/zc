@@ -16,22 +16,34 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
+import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.MessageEvent;
+import cn.zhaocaiapp.zc_app_android.bean.Response;
+import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.LocationResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.UserDetailResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.capabilities.takephoto.PhotoHelper;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.FileUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
+import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.PhotoPickerUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import retrofit2.http.HTTP;
+import retrofit2.http.PATCH;
 
 /**
  * Created by Administrator on 2018/1/12.
@@ -54,6 +66,10 @@ public class UserInfoFragment extends BaseFragment {
     EditText edit_user_nickname;
     @BindView(R.id.edit_user_phone)
     EditText edit_user_phone;
+    @BindView(R.id.home_address_detail)
+    EditText home_address_detail;
+    @BindView(R.id.company_address_detail)
+    EditText company_address_detail;
 
     private View rootView;
     private PhotoHelper photoHelper;
@@ -64,6 +80,14 @@ public class UserInfoFragment extends BaseFragment {
     private OptionsPickerView optionsPickerView;
 
     private UserDetailResp.BaseInfoBean baseInfoBean;
+    private String avatar;
+    private LocationResp province, city, town;
+    private String nickName;
+    private String homeAddressDetail;
+    private String companyAddressDetail;
+
+    private int addressType; // 0-家庭住址  1-公司地址
+    private Map<String, String>params = new HashMap<>();
 
     private static final String TAG = "个人资料";
 
@@ -99,7 +123,31 @@ public class UserInfoFragment extends BaseFragment {
         optionsPickerView = new OptionsPickerView.Builder(getActivity(), new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                province = provinces.get(options1);
+                city = citys.get(options1).get(options2);
+                town = towns.get(options1).get(options2).get(options3);
 
+                if (addressType == 0){
+                    edit_user_address.setText(province.getAreaName()+city.getAreaName()+town.getAreaName());
+
+                    params.put("homeProvinceCode", province.getAreaCode()+"");
+                    params.put("homeProvinceName", province.getAreaName());
+                    params.put("homeCityCode", city.getAreaCode()+"");
+                    params.put("homeCityName", city.getAreaName());
+                    params.put("homeAreaCode", town.getAreaCode()+"");
+                    params.put("homeAreaName", town.getAreaName());
+                }
+
+                if (addressType == 1){
+                    edit_company_address.setText(province.getAreaName()+city.getAreaName()+town.getAreaName());
+
+                    params.put("companyProvinceCode", province.getAreaCode()+"");
+                    params.put("companyProvinceName", province.getAreaName());
+                    params.put("companyCityCode", city.getAreaCode()+"");
+                    params.put("companyCityName", city.getAreaName());
+                    params.put("companyAreaCode", town.getAreaCode()+"");
+                    params.put("companyAreaName", town.getAreaName());
+                }
             }
         }).setTitleText("城市选择")
                 .build();
@@ -160,14 +208,27 @@ public class UserInfoFragment extends BaseFragment {
                 PhotoPickerUtil.show(listener);
                 break;
             case R.id.edit_user_address: //选择地址
+                addressType = 0;
+                optionsPickerView.show();
+                break;
             case R.id.edit_company_address:
+                addressType = 1;
                 optionsPickerView.show();
                 break;
             case R.id.tv_revise_phone: // 更换手机号
                 openActivity(ChangePhoneActivity.class);
                 break;
             case R.id.tv_submit:
-
+                 nickName = edit_user_nickname.getText().toString();
+                 homeAddressDetail = home_address_detail.getText().toString();
+                 companyAddressDetail = company_address_detail.getText().toString();
+                 if (GeneralUtils.isNullOrZeroLenght(nickName))
+                     ToastUtil.makeText(getActivity(),"昵称不能为空");
+                 else if (GeneralUtils.isNullOrZeroLenght(homeAddressDetail))
+                     ToastUtil.makeText(getActivity(),"家庭住址不能为空");
+                 else if (GeneralUtils.isNullOrZeroLenght(companyAddressDetail))
+                     ToastUtil.makeText(getActivity(),"公司住址不能为空");
+                 else reviceBaseInfo();
                 break;
         }
     }
@@ -179,11 +240,56 @@ public class UserInfoFragment extends BaseFragment {
         }
     };
 
+    private void reviceBaseInfo() {
+        params.put("avatar", avatar);
+        params.put("nickname", nickName);
+        params.put("homeAddressDetail", homeAddressDetail);
+        params.put("companyAddressDetail", companyAddressDetail);
+
+        HttpUtil.put(Constants.URL.REVISE_BASE_INFO, params).subscribe(new BaseResponseObserver<CommonResp>() {
+
+            @Override
+            public void success(CommonResp commonResp) {
+                ToastUtil.makeText(getActivity(), commonResp.getDesc());
+            }
+
+            @Override
+            public void error(Response<CommonResp> response) {
+                EBLog.e(TAG, response.getCode()+"");
+                ToastUtil.makeText(getActivity(), response.getDesc());
+            }
+        });
+    }
+
+    private void uploadImage(File file) {
+        Map<String, String> params = new HashMap<>();
+        params.put("postfix", ".jpg");
+        params.put("inputStream", FileUtil.fileToStream(file));
+
+        HttpUtil.post(Constants.URL.UPLOAD_IMAGE, params).subscribe(new BaseResponseObserver<String>() {
+
+            @Override
+            public void success(String s) {
+                EBLog.i(TAG, s);
+                avatar = s;
+            }
+
+            @Override
+            public void error(Response<String> response) {
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(getActivity(), response.getDesc());
+            }
+        });
+    }
+
     @Override
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
         String imgUrl = result.getImage().getCompressPath();
         PictureLoadUtil.loadPicture(getActivity(), imgUrl, iv_user_photo);
+
+        File file = new File(imgUrl);
+        uploadImage(file);
     }
 
     @Override

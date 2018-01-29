@@ -258,4 +258,10 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
         loadData();
 
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 }

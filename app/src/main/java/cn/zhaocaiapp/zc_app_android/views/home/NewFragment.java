@@ -260,4 +260,10 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
         loadData();
 
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 }

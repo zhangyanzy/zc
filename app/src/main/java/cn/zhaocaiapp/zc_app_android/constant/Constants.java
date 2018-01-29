@@ -49,8 +49,9 @@ public interface Constants {
         /**
          * 服务器地址
          */
-        String SERVER = "http://appapi.zhaocaiapp.local/"; //必须以／结尾否则初始化会报错
+//        String SERVER = "http://appapi.zhaocaiapp.local/"; //必须以／结尾否则初始化会报错
 //        String SERVER = "http://192.168.1.10:8082/"; //必须以／结尾否则初始化会报错
+        String SERVER = "http://192.168.1.181:8082/"; //必须以／结尾否则初始化会报错
 
         /**
          * 注册
@@ -117,7 +118,10 @@ public interface Constants {
          * 修改实名信息
          * */
         String REVISE_REAL_INFO = "userinfo/update/realinfo";
-
+        /**
+         * 修改个人信息
+         * */
+        String REVISE_BASE_INFO = "userinfo/update/baseinfo";
 
 
 
@@ -156,7 +160,10 @@ public interface Constants {
          */
         String GET_MEMBER_DETAIL = "member/%s";
 
-
+        /**
+         * 图片上传
+         * */
+        String UPLOAD_IMAGE = "common/upload/image";
     }
 
     interface SPREF {
