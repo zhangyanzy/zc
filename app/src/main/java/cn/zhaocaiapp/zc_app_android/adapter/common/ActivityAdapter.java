@@ -2,6 +2,7 @@ package cn.zhaocaiapp.zc_app_android.adapter.common;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -26,6 +27,7 @@ import cn.zhaocaiapp.zc_app_android.bean.response.member.MemberResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
+import cn.zhaocaiapp.zc_app_android.views.member.MemberDetailActivity;
 
 
 /**
@@ -40,6 +42,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     private OnItemCliclkListener listene;
     private int type; //1首页默认列表 2商家详情列表
     private MemberResp memberResp; //商家详情
+    private int k;
 
     public ActivityAdapter(Context context, List<ActivityResp> list) {
         this.list = list;
@@ -77,7 +80,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        int k = position;
+        k = position;
         //商家详情
         if (type == 2 && position == 0) {
             ViewHolderMember viewHolderMember = (ViewHolderMember) holder;
@@ -154,7 +157,14 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             viewHolderActivity.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listene.onItemCliclk(holder.getLayoutPosition());
+                    switch (v.getId()) {
+                        case R.id.activity_item_member_logo:
+                            Intent intent = new Intent(context, MemberDetailActivity.class);
+                            intent.putExtra("memberId", list.get(k).getMemberId());
+                            context.startActivity(intent);
+                            break;
+                    }
+                    //listene.onItemCliclk(holder.getLayoutPosition());
                 }
             });
         }
