@@ -16,6 +16,9 @@ import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.capabilities.json.GsonHelper;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 
 public class ActivityDetailActivity extends BaseActivity {
 
@@ -67,15 +70,16 @@ public class ActivityDetailActivity extends BaseActivity {
             //活动详情id
             params.put("id", "1");
             //token
-            params.put("token", "98f8df6220da997283eace4bab823a9b");
+            params.put("token", (String) SpUtils.get(Constants.SPREF.TOKEN, ""));
             //授权码
             params.put("code", "");
             //经度
-            params.put("longitude", "");
+            params.put("longitude", String.valueOf(LocationUtil.getGps().getLongitude()));
             //经度
-            params.put("latitude", "");
+            params.put("latitude", String.valueOf(LocationUtil.getGps().getLatitude()));
 
             EBLog.i("tag", GsonHelper.toJson(params));
+
             return GsonHelper.toJson(params);
         }
     }

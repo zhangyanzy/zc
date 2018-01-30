@@ -216,7 +216,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, ActivityDetailActivity.class);
-                    //intent.putExtra("memberId", list.get(k).getMemberId());
+                    intent.putExtra("id", list.get(k).getKid());
                     context.startActivity(intent);
                 }
             });
@@ -225,7 +225,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, ActivityDetailActivity.class);
-                    //intent.putExtra("memberId", list.get(k).getMemberId());
+                    intent.putExtra("id", list.get(k).getKid());
                     context.startActivity(intent);
                 }
             });
