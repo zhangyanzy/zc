@@ -3,6 +3,10 @@ package cn.zhaocaiapp.zc_app_android.views.home;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -14,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+import cn.zhaocaiapp.zc_app_android.MainActivity;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.adapter.common.ActivityAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
@@ -34,6 +40,12 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
     RefreshLayout search_refresh;
     @BindView(R.id.search_recycler)
     RecyclerView search_recycler;
+    @BindView(R.id.iv_top_back)
+    ImageView iv_top_back;
+    @BindView(R.id.iv_top_layout)
+    LinearLayout iv_top_layout;
+    @BindView(R.id.iv_top_edit)
+    EditText iv_top_edit;
 
     private String name = ""; //活动名称
     private int pageNumber = 1;//分页
@@ -107,6 +119,27 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
         search_refresh.setOnRefreshListener(this);
         search_refresh.setOnLoadmoreListener(this);
 
+
+        iv_top_edit.setFocusable(false);
+        iv_top_edit.setHint("搜索所有活动");
+
+
+    }
+
+
+    @OnClick({
+            R.id.iv_top_edit,
+            R.id.iv_top_back
+    })
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_top_edit:
+                finish();
+                break;
+            case R.id.iv_top_back:
+                openActivity(MainActivity.class);
+                break;
+        }
     }
 
     @Override
