@@ -9,8 +9,10 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.OptionsPickerView;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -24,9 +26,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
+import cn.zhaocaiapp.zc_app_android.bean.response.home.LocationResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.SearchRecommendResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.member.MemberResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
@@ -73,6 +77,10 @@ public class SearchActivity extends BaseActivity {
     TextView search_money_3;
     @BindView(R.id.search_money_4)
     TextView search_money_4;
+    @BindView(R.id.search_city)
+    LinearLayout search_city;
+    @BindView(R.id.search_town)
+    LinearLayout search_town;
 
 
     private List<SearchRecommendResp> searchRecommendRespList; //推荐活动
@@ -84,6 +92,12 @@ public class SearchActivity extends BaseActivity {
     private String activityMoney = "";//金额
     private String topLimit = "";//金额上限
     private String limit = "";//金额下限
+    private List<LocationResp> provinces;
+    private List<List<LocationResp>> citys;
+    private List<List<List<LocationResp>>> towns;
+    private OptionsPickerView optionsPickerView;
+    private LocationResp province, city, town;
+    private Map<String, String> params = new HashMap<>();
 
 
     @Override
@@ -95,6 +109,7 @@ public class SearchActivity extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         searchRecommendRespList = new ArrayList<>();
         initView();
+        getAreasList();
         getHistory();
         initData();
     }
@@ -281,7 +296,9 @@ public class SearchActivity extends BaseActivity {
             R.id.search_money_1,
             R.id.search_money_2,
             R.id.search_money_3,
-            R.id.search_money_4
+            R.id.search_money_4,
+            R.id.search_city,
+            R.id.search_town
 
     })
     public void onClick(View view) {
@@ -337,6 +354,14 @@ public class SearchActivity extends BaseActivity {
             //20元
             case R.id.search_money_4:
                 onMoney(4);
+                break;
+            //区域 市
+            case R.id.search_city:
+                optionsPickerView.show();
+                break;
+            //区域 区
+            case R.id.search_town:
+                optionsPickerView.show();
                 break;
 
         }
@@ -478,5 +503,49 @@ public class SearchActivity extends BaseActivity {
             search_money_4.setBackground(this.getResources().getDrawable(R.drawable.search_class_off));
         }
 
+    }
+
+    //城市选择器初始化和设置
+    private void setCityPicker() {
+        optionsPickerView = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                province = provinces.get(options1);
+                city = citys.get(options1).get(options2);
+                town = towns.get(options1).get(options2).get(options3);
+
+                /*if (addressType == 0) {
+                    edit_user_address.setText(province.getAreaName() + city.getAreaName() + town.getAreaName());
+
+                    params.put("homeProvinceCode", province.getAreaCode() + "");
+                    params.put("homeProvinceName", province.getAreaName());
+                    params.put("homeCityCode", city.getAreaCode() + "");
+                    params.put("homeCityName", city.getAreaName());
+                    params.put("homeAreaCode", town.getAreaCode() + "");
+                    params.put("homeAreaName", town.getAreaName());
+                }*/
+
+            }
+        }).setTitleText("城市选择")
+                .build();
+        if (GeneralUtils.isNotNullOrZeroSize(provinces) && GeneralUtils.isNotNullOrZeroSize(citys) && GeneralUtils.isNotNullOrZeroSize(towns))
+            optionsPickerView.setPicker(provinces, citys, towns);
+    }
+
+    //获取省、市、区三级列表
+    private void getAreasList() {
+        provinces = ZcApplication.getProvinces();
+        for (int i = 0; i < provinces.size(); i++) {
+            List<LocationResp> cityList = provinces.get(i).getAreaList();//该省的城市列表（第二级）
+            List<List<LocationResp>> province_townList = new ArrayList<>();//该省的所有地区列表（第三极）
+
+            for (int j = 0; j < cityList.size(); j++) {
+                List<LocationResp> city_townList = cityList.get(j).getAreaList();
+                province_townList.add(city_townList);
+            }
+            citys.add(cityList);
+            towns.add(province_townList);
+        }
+        setCityPicker();
     }
 }

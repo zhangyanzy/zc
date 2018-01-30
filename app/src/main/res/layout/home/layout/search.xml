@@ -387,6 +387,7 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:id="@+id/search_city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="7.5dp"
@@ -413,6 +414,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/search_town"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7.5dp"
