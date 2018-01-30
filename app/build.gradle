@@ -81,6 +81,7 @@ dependencies {
     //没有使用特殊Header，可以不加这行
     compile 'com.contrarywind:Android-PickerView:3.2.7'
     compile 'com.amap.api:location:latest.integration'
+    compile 'com.amap.api:search:latest.integration'
     //高德地图定位
     compile 'com.amap.api:navi-3dmap:latest.integration'
     //高德地图导航

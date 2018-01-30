@@ -64,8 +64,17 @@ public class ActivityDetailActivity extends BaseActivity {
         @JavascriptInterface
         public String getPage() {
             Map<String, String> params = new HashMap<>();
+            //活动详情id
             params.put("id", "1");
+            //token
             params.put("token", "98f8df6220da997283eace4bab823a9b");
+            //授权码
+            params.put("code", "");
+            //经度
+            params.put("longitude", "");
+            //经度
+            params.put("latitude", "");
+
             EBLog.i("tag", GsonHelper.toJson(params));
             return GsonHelper.toJson(params);
         }

@@ -51,6 +51,7 @@ public interface Constants {
          */
         String SERVER = "http://appapi.zhaocaiapp.local/"; //必须以／结尾否则初始化会报错
 //        String SERVER = "http://192.168.1.10:8082/"; //必须以／结尾否则初始化会报错
+        //String SERVER = "http://192.168.1.181:8083/"; //必须以／结尾否则初始化会报错
 //        String SERVER = "http://192.168.1.181:8082/"; //必须以／结尾否则初始化会报错
 
         /**
@@ -100,27 +101,27 @@ public interface Constants {
         String UPDATE_PHONE = "userinfo/updatephone";
         /**
          * 个人中心消息列表
-         * */
+         */
         String MESSAGE_LIST = "userinfo/usermessage/%s";
         /**
          * 修改密码
-         * */
+         */
         String REVISE_PASS = "userinfo/updatepassword";
         /**
          * 更新消息状态
-         * */
+         */
         String UPDATE_MESSAGE_STATUS = "userinfo/usermessage/%s";
         /**
          * 修改活动相关信息
-         * */
+         */
         String REVISE_ACTIVITY_INFO = "userinfo/update/activtiyinfo";
         /**
          * 修改实名信息
-         * */
+         */
         String REVISE_REAL_INFO = "userinfo/update/realinfo";
         /**
          * 修改个人信息
-         * */
+         */
         String REVISE_BASE_INFO = "userinfo/update/baseinfo";
         /**
          * 删除个人标签
@@ -154,6 +155,11 @@ public interface Constants {
         String GET_SEARCH_RECOMMEND = "searchrecommend";
 
         /**
+         * 活动关注与取消关注
+         */
+        String POST_ACTIVITY_FOLLOW = "activity/%s/follow";
+
+        /**
          * 商家列表
          */
         String GET_MEMBER_QUERY = "member/query";
@@ -170,7 +176,7 @@ public interface Constants {
 
         /**
          * 图片上传
-         * */
+         */
         String UPLOAD_IMAGE = "common/upload/image";
     }
 

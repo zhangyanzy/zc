@@ -3,6 +3,7 @@ package cn.zhaocaiapp.zc_app_android.adapter.common;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -14,20 +15,33 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+
+import com.amap.api.location.CoordinateConverter;
+import com.amap.api.location.DPoint;
 import com.joooonho.SelectableRoundedImageView;
 
-import java.text.DecimalFormat;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
+import cn.zhaocaiapp.zc_app_android.bean.response.home.Gps;
 import cn.zhaocaiapp.zc_app_android.bean.response.member.MemberResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
+import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.views.common.ActivityDetailActivity;
+import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.views.member.MemberDetailActivity;
 
 
@@ -124,7 +138,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             viewHolderActivity.activity_item_img_type.setText(getActivityFormString(list.get(k).getActivityForm()));
             //活动名称
             SpannableStringBuilder spannableString = new SpannableStringBuilder("#" + getActivityFormString(list.get(k).getActivityForm()) + "#" + list.get(k).getName());
-            spannableString.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             viewHolderActivity.activity_item_text_title.setText(spannableString);
             //视频活动播放
             if (list.get(k).getActivityForm() == 1) {
@@ -153,6 +167,27 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             viewHolderActivity.activity_item_text_amount_progress.setProgress(50);
             //已领取人数进度条
             viewHolderActivity.activity_item_text_number_progress.setProgress(50);
+            //地址logo 距离
+            if (list.get(k).getActivityForm() == 0 && LocationUtil.getGps().getOpen()) {
+                viewHolderActivity.activity_item_text_area_logo.setVisibility(View.VISIBLE);
+                viewHolderActivity.activity_item_text_area_text.setVisibility(View.VISIBLE);
+                //起始位置 我的位置
+                DPoint startGps = new DPoint();
+                startGps.setLatitude(LocationUtil.getGps().getLatitude());
+                startGps.setLongitude(LocationUtil.getGps().getLongitude());
+                //结束位置 活动位置
+                DPoint stopGps = new DPoint();
+                stopGps.setLatitude(list.get(k).getLatitude().doubleValue());
+                stopGps.setLongitude(list.get(k).getLongitude().doubleValue());
+                //两点距离
+                int areaText = (int) CoordinateConverter.calculateLineDistance(startGps, stopGps);
+                viewHolderActivity.activity_item_text_area_text.setText(areaText > 1000 ? (areaText / 1000) + "KM" : areaText + "M");
+            }
+            //收藏
+            if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, "")) && list.get(k).getFollow()) {
+                viewHolderActivity.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
+            }
+
 
             //商家图片 点击
             viewHolderActivity.activity_item_member_logo.setOnClickListener(new View.OnClickListener() {
@@ -188,6 +223,66 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                     Intent intent = new Intent(context, ActivityDetailActivity.class);
                     //intent.putExtra("memberId", list.get(k).getMemberId());
                     context.startActivity(intent);
+                }
+            });
+            //收藏 点击
+            viewHolderActivity.activity_item_text_collection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //未登录
+                    if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
+                        //已经收藏
+                        if (list.get(k).getFollow()) {
+                            //获取商家活动列表
+                            Map<String, String> params = new HashMap<>();
+                            params.put("follow", "0");
+                            EBLog.i("tag", params.toString());
+                            EBLog.i("tag", list.get(k).getKid().toString());
+
+                            HttpUtil.post(String.format(Constants.URL.POST_ACTIVITY_FOLLOW, list.get(k).getKid()), params).subscribe(new BaseResponseObserver<String>() {
+                                @Override
+                                public void success(String result) {
+                                    list.get(k).setFollow(false);
+                                    viewHolderActivity.activity_item_text_collection.setImageResource(R.mipmap.collection_off);
+                                    EBLog.i("tag", result.toString());
+                                }
+
+                                @Override
+                                public void error(Response<String> response) {
+
+                                }
+
+                            });
+                        }
+                        //未收藏
+                        else {
+                            //获取商家活动列表
+                            Map<String, String> params = new HashMap<>();
+                            params.put("follow", "1");
+                            EBLog.i("tag", params.toString());
+                            EBLog.i("tag", list.get(k).getKid().toString());
+
+                            HttpUtil.post(String.format(Constants.URL.POST_ACTIVITY_FOLLOW, list.get(k).getKid()), params).subscribe(new BaseResponseObserver<String>() {
+                                @Override
+                                public void success(String result) {
+                                    list.get(k).setFollow(true);
+                                    viewHolderActivity.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
+                                    EBLog.i("tag", result.toString());
+                                }
+
+                                @Override
+                                public void error(Response<String> response) {
+
+                                }
+
+                            });
+                        }
+                    }
+                    //登录
+                    else {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        context.startActivity(intent);
+                    }
                 }
             });
 
@@ -370,6 +465,10 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         //地址距离
         @BindView(R.id.activity_item_text_area_text)
         TextView activity_item_text_area_text;
+        //收藏
+        @BindView(R.id.activity_item_text_collection)
+        ImageView activity_item_text_collection;
+
 
         View itemView;
 

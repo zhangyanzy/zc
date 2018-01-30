@@ -75,7 +75,8 @@ public abstract class BaseResponseObserver<T> implements Observer<JsonObject> {
             } else if (data.isJsonNull()) {
                 //TODO
             } else if (data.isJsonPrimitive()) {
-                T t = (T) gson.fromJson(data.getAsJsonPrimitive(), type);
+                Class<T> cls = (Class<T>) pt.getActualTypeArguments()[0];
+                T t = (T) gson.fromJson(data.getAsJsonPrimitive(), cls);
                 this.success(t);
             }
         } else {
