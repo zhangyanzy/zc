@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -7,6 +7,7 @@
 
     <!--搜索-->
     <LinearLayout
+        android:id="@+id/search_edit_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical">
@@ -63,340 +64,398 @@
             android:textSize="14sp" />
     </LinearLayout>
 
-    <!--搜索历史-->
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/search_history"
-            android:textColor="@color/colorFont3"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:src="@mipmap/delete" />
-    </LinearLayout>
-
-    <com.zhy.view.flowlayout.TagFlowLayout
-        android:id="@+id/search_history_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </com.zhy.view.flowlayout.TagFlowLayout>
-
-    <!--推荐活动-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/search_recommend"
-            android:textColor="@color/colorFont3"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-    <com.zhy.view.flowlayout.TagFlowLayout
-        android:id="@+id/search_recommend_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </com.zhy.view.flowlayout.TagFlowLayout>
-
-    <!--活动分类-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/search_class"
-            android:textColor="@color/colorFont3"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/search_class_off"
-            android:gravity="center"
-            android:text="@string/activity_class_0"
-            android:textColor="@color/colorFont6"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/search_class_off"
-            android:gravity="center"
-            android:text="@string/activity_class_1"
-            android:textColor="@color/colorFont6"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/search_class_off"
-            android:gravity="center"
-            android:text="@string/activity_class_2"
-            android:textColor="@color/colorFont6"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <!--活动类型-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/search_type"
-            android:textColor="@color/colorFont3"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/search_class_off"
-            android:gravity="center"
-            android:text="@string/activity_type_1"
-            android:textColor="@color/colorFont6"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/search_class_off"
-            android:gravity="center"
-            android:text="@string/activity_type_2"
-            android:textColor="@color/colorFont6"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/search_class_off"
-            android:gravity="center"
-            android:text="@string/activity_type_0"
-            android:textColor="@color/colorFont6"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <!--奖励金额-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/search_money"
-            android:textColor="@color/colorFont3"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/search_class_off"
-            android:gravity="center"
-            android:text="@string/search_money_0"
-            android:textColor="@color/colorFont6"
-            android:textSize="14sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/search_class_off"
-            android:gravity="center"
-            android:text="@string/search_money_1"
-            android:textColor="@color/colorFont6"
-            android:textSize="14sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/search_class_off"
-            android:gravity="center"
-            android:text="@string/search_money_2"
-            android:textColor="@color/colorFont6"
-            android:textSize="14sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/search_class_off"
-            android:gravity="center"
-            android:text="@string/search_money_3"
-            android:textColor="@color/colorFont6"
-            android:textSize="14sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/search_class_off"
-            android:gravity="center"
-            android:text="@string/search_money_4"
-            android:textColor="@color/colorFont6"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/search_class_off"
-            android:gravity="center"
-            android:hint="@string/search_money_5"
-            android:singleLine="true"
-            android:textColor="@color/colorFont6"
-            android:textColorHint="@color/colorFont9"
-            android:textSize="14sp" />
-
-        <View
-            android:layout_width="30dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="0"
-            android:background="@color/colorLine" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/search_class_off"
-            android:gravity="center"
-            android:hint="@string/search_money_6"
-            android:singleLine="true"
-            android:textColor="@color/colorFont6"
-            android:textColorHint="@color/colorFont9"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <!--区域搜索-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/search_area"
-            android:textColor="@color/colorFont3"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_edit_layout">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="7.5dp"
-            android:layout_weight="1"
-            android:background="@drawable/search_class_off">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="0"
-                android:text="@string/search_area_0"
-                android:textColor="@color/colorFont9"
-                android:textSize="16sp" />
-
-            <TextView
+            android:orientation="vertical">
+            <!--搜索历史-->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="上海市"
-                android:textColor="@color/colorFont6"
-                android:textSize="16sp" />
-        </LinearLayout>
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
 
-        <LinearLayout
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/search_history"
+                    android:textColor="@color/colorFont3"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:src="@mipmap/delete" />
+            </LinearLayout>
+
+            <com.zhy.view.flowlayout.TagFlowLayout
+                android:id="@+id/search_history_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.zhy.view.flowlayout.TagFlowLayout>
+
+            <!--推荐活动-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/search_recommend"
+                    android:textColor="@color/colorFont3"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <com.zhy.view.flowlayout.TagFlowLayout
+                android:id="@+id/search_recommend_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.zhy.view.flowlayout.TagFlowLayout>
+
+            <!--活动分类-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/search_class"
+                    android:textColor="@color/colorFont3"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/activity_class_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_class_off"
+                    android:gravity="center"
+                    android:text="@string/activity_class_0"
+                    android:textColor="@color/colorFont6"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/activity_class_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_class_off"
+                    android:gravity="center"
+                    android:text="@string/activity_class_1"
+                    android:textColor="@color/colorFont6"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/activity_class_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_class_off"
+                    android:gravity="center"
+                    android:text="@string/activity_class_2"
+                    android:textColor="@color/colorFont6"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!--活动类型-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/search_type"
+                    android:textColor="@color/colorFont3"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/activity_type_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_class_off"
+                    android:gravity="center"
+                    android:text="@string/activity_type_1"
+                    android:textColor="@color/colorFont6"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/activity_type_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_class_off"
+                    android:gravity="center"
+                    android:text="@string/activity_type_2"
+                    android:textColor="@color/colorFont6"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/activity_type_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_class_off"
+                    android:gravity="center"
+                    android:text="@string/activity_type_0"
+                    android:textColor="@color/colorFont6"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!--奖励金额-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/search_money"
+                    android:textColor="@color/colorFont3"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/search_money_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_class_off"
+                    android:gravity="center"
+                    android:text="@string/search_money_0"
+                    android:textColor="@color/colorFont6"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/search_money_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_class_off"
+                    android:gravity="center"
+                    android:text="@string/search_money_1"
+                    android:textColor="@color/colorFont6"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/search_money_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_class_off"
+                    android:gravity="center"
+                    android:text="@string/search_money_2"
+                    android:textColor="@color/colorFont6"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/search_money_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_class_off"
+                    android:gravity="center"
+                    android:text="@string/search_money_3"
+                    android:textColor="@color/colorFont6"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/search_money_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_class_off"
+                    android:gravity="center"
+                    android:text="@string/search_money_4"
+                    android:textColor="@color/colorFont6"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_class_off"
+                    android:gravity="center"
+                    android:hint="@string/search_money_5"
+                    android:singleLine="true"
+                    android:textColor="@color/colorFont6"
+                    android:textColorHint="@color/colorFont9"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="30dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="0"
+                    android:background="@color/colorLine" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_class_off"
+                    android:gravity="center"
+                    android:hint="@string/search_money_6"
+                    android:singleLine="true"
+                    android:textColor="@color/colorFont6"
+                    android:textColorHint="@color/colorFont9"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!--区域搜索-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/search_area"
+                    android:textColor="@color/colorFont3"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="7.5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_class_off">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="0"
+                        android:text="@string/search_area_0"
+                        android:textColor="@color/colorFont9"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="上海市"
+                        android:textColor="@color/colorFont6"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7.5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/search_class_off">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="0"
+                        android:text="@string/search_area_0"
+                        android:textColor="@color/colorFont9"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="浦东新区"
+                        android:textColor="@color/colorFont6"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="7.5dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/search_class_off">
+            android:text="重置" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="0"
-                android:text="@string/search_area_0"
-                android:textColor="@color/colorFont9"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="浦东新区"
-                android:textColor="@color/colorFont6"
-                android:textSize="16sp" />
-        </LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="完成" />
     </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

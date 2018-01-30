@@ -125,11 +125,11 @@ public interface Constants {
         String REVISE_BASE_INFO = "userinfo/update/baseinfo";
         /**
          * 删除个人标签
-         * */
+         */
         String DELETE_LABEL = "userinfo/deletelabels";
         /**
-         *获取用户账户信息
-         * */
+         * 获取用户账户信息
+         */
         String GET_ACCOUNT_INFO = "userinfo/account";
         /**
          *我的活动列表
@@ -139,7 +139,6 @@ public interface Constants {
          * 我关注的活动列表
          * */
         String GET_FOLLOW_ACTIVITY = "my/activity/follow";
-
 
 
         /**
@@ -222,6 +221,8 @@ public interface Constants {
 
         int TYPE_ALI = 4;      //支付宝账户
         int TYPE_BANK = 5;     //银行卡账户
+
+        String SEARCH_HISTORY = "searchHistory"; //搜索历史
     }
 
     interface ASSETS {

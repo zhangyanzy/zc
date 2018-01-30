@@ -22,9 +22,11 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -456,4 +458,38 @@ public final class GeneralUtils {
         return str2;
     }
 
+    /**
+     * 数组转字符串
+     *
+     * @param list
+     * @return
+     */
+    public static String listToString(List<String> list) {
+        if (list == null) {
+            return null;
+        }
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+        //第一个前面不拼接","
+        for (String string : list) {
+            if (first) {
+                first = false;
+            } else {
+                result.append(",");
+            }
+            result.append(string);
+        }
+        return result.toString();
+    }
+
+    /**
+     * 字符串转数组
+     *
+     * @param strs
+     * @return
+     */
+    public static List<String> stringToList(String strs) {
+        String str[] = strs.split(",");
+        return Arrays.asList(str);
+    }
 }
