@@ -34,6 +34,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.adapter.home.LocationAdapter;
 import cn.zhaocaiapp.zc_app_android.adapter.home.LocationDecoration;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
@@ -117,7 +118,7 @@ public class LocationActivity extends BaseActivity {
      */
     private void initData() {
 
-        locationRespsAllList = AreaUtil.initArea(this);
+        locationRespsAllList = ZcApplication.getProvinces();
         EBLog.i("tag", locationRespsAllList.toString());
         for (LocationResp list : locationRespsAllList) {
             for (LocationResp item : list.getAreaList()) {

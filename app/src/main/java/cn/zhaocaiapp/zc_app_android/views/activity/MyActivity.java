@@ -78,7 +78,6 @@ public class MyActivity extends BaseActivity {
             return tabTitles.length;
         }
 
-        @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
             return tabTitles[position];

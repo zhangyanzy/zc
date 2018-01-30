@@ -197,7 +197,7 @@ public class MyFragment extends BaseFragment {
             case R.id.iv_top_menu://消息
                 openActivity(MessageActivity.class);
                 break;
-            case R.id.layout_all_task:
+            case R.id.layout_all_task: //全部活动
                 bundle.clear();
                 bundle.putInt("position", 0);
                 openActivity(MyActivity.class, bundle);

@@ -64,7 +64,6 @@ public class LoginActivity extends BaseActivity {
 
     private String phone;
     private String pass;
-    private LoginResp loginResp;
     private int type = 0;
     private String uid = "";
 
@@ -135,6 +134,8 @@ public class LoginActivity extends BaseActivity {
         }
         params.put("type", type + "");
 
+        EBLog.i(TAG, params.toString());
+
         HttpUtil.post(Constants.URL.USER_LOGIN, params).subscribe(new BaseResponseObserver<LoginResp>() {
 
             @Override
@@ -142,8 +143,7 @@ public class LoginActivity extends BaseActivity {
                 EBLog.i(TAG, result.toString());
                 ToastUtil.makeText(LoginActivity.this, result.getDescription());
 
-                loginResp = result;
-                saveUserData();
+                saveUserData(result);
                 Bundle bundle = new Bundle();
                 bundle.putInt("position", 0);
                 openActivity(MainActivity.class, bundle);
@@ -161,7 +161,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     //保存用户数据
-    private void saveUserData() {
+    private void saveUserData(LoginResp loginResp) {
         SpUtils.put(Constants.SPREF.TOKEN, loginResp.getToken());
         SpUtils.put(Constants.SPREF.IS_LOGIN, true);
         SpUtils.put(Constants.SPREF.USER_PHOTO, loginResp.getAvatar());
@@ -200,6 +200,8 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void getAuthInfo(Map<String, String> map) {
+        EBLog.i(TAG, map.toString());
+
         if (map.get("gender").equals("男") || map.get("gender").equals("1"))
             sex = 0;
         else sex = 1;

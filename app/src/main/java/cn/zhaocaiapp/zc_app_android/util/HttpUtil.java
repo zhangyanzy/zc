@@ -1,8 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.util;
 
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -51,9 +49,7 @@ public class HttpUtil {
 
         http = retrofit.create(BaseHttpService.class);
         //TODO 临时使用 林子 2018年01月18日20:59:12
-        //USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
-        USER_TOKEN = "98f8df6220da997283eace4bab823a9b";
-        EBLog.i("HTTP_TOKEN", USER_TOKEN);
+//        USER_TOKEN = "755a20736c28601b92dccda99fccb142";
     }
 
 
@@ -64,17 +60,12 @@ public class HttpUtil {
      * @return
      */
     public static Observable get(String url) {
-//        if (GeneralUtils.isNotNullOrZeroLenght(USER_TOKEN)) {
-//            return http.get(url)
-//                    .subscribeOn(Schedulers.io())
-//                    .unsubscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread());
-//        } else {
-            return http.get(url, USER_TOKEN)
-                    .subscribeOn(Schedulers.io())
-                    .unsubscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
-//        }
+        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        EBLog.i("HTTP_TOKEN", USER_TOKEN);
+        return http.get(url, USER_TOKEN)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
@@ -85,17 +76,12 @@ public class HttpUtil {
      * @return
      */
     public static Observable get(String url, Map params) {
-//        if (GeneralUtils.isNullOrZeroLenght(USER_TOKEN)) {
-//            return http.get(url, params)
-//                    .subscribeOn(Schedulers.io())
-//                    .unsubscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread());
-//        } else {
-            return http.get(url, USER_TOKEN, params)
-                    .subscribeOn(Schedulers.io())
-                    .unsubscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
-//        }
+        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        EBLog.i("HTTP_TOKEN", USER_TOKEN);
+        return http.get(url, USER_TOKEN, params)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
@@ -105,17 +91,12 @@ public class HttpUtil {
      * @return
      */
     public static Observable post(String url) {
-//        if (GeneralUtils.isNullOrZeroLenght(USER_TOKEN)) {
-//            return http.post(url)
-//                    .subscribeOn(Schedulers.io())
-//                    .unsubscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread());
-//        } else {
-            return http.post(url, USER_TOKEN)
-                    .subscribeOn(Schedulers.io())
-                    .unsubscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
-//        }
+        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        EBLog.i("HTTP_TOKEN", USER_TOKEN);
+        return http.post(url, USER_TOKEN)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
@@ -126,17 +107,12 @@ public class HttpUtil {
      * @return
      */
     public static Observable post(String url, Map params) {
-//        if (GeneralUtils.isNullOrZeroLenght(USER_TOKEN)) {
-//            return http.post(url, params)
-//                    .subscribeOn(Schedulers.io())
-//                    .unsubscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread());
-//        } else {
-            return http.post(url, USER_TOKEN, params)
-                    .subscribeOn(Schedulers.io())
-                    .unsubscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
-//        }
+        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        EBLog.i("HTTP_TOKEN", USER_TOKEN);
+        return http.post(url, USER_TOKEN, params)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
 
     }
 
@@ -147,7 +123,8 @@ public class HttpUtil {
      * @return
      */
     public static Observable put(String url) {
-
+        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        EBLog.i("HTTP_TOKEN", USER_TOKEN);
         return http.put(url, USER_TOKEN)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
@@ -162,7 +139,8 @@ public class HttpUtil {
      * @return
      */
     public static Observable put(String url, Map params) {
-
+        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        EBLog.i("HTTP_TOKEN", USER_TOKEN);
         return http.put(url, USER_TOKEN, params)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
@@ -176,7 +154,8 @@ public class HttpUtil {
      * @return
      */
     public static Observable delete(String url) {
-
+        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        EBLog.i("HTTP_TOKEN", USER_TOKEN);
         return http.delete(url, USER_TOKEN)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
@@ -191,7 +170,8 @@ public class HttpUtil {
      * @return
      */
     public static Observable delete(String url, Map params) {
-
+        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        EBLog.i("HTTP_TOKEN", USER_TOKEN);
         return http.delete(url, USER_TOKEN, params)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())

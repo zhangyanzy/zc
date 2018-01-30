@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.Set;
 
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
 
@@ -67,6 +68,18 @@ public class SpUtils {
         }
 
         return null;
+    }
+
+    public static Set<String> getStringSet(String key, Set<String> defValues) {
+        SharedPreferences sp = ZcApplication.getPreferences();
+        return sp.getStringSet(key, defValues);
+    }
+
+    public static void putStringSet(String key, Set<String> values) {
+        SharedPreferences sp = ZcApplication.getPreferences();
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putStringSet(key, values);
+        SharedPreferencesCompat.apply(edit);
     }
 
     /**

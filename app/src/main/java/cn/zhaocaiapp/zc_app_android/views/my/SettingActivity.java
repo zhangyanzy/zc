@@ -3,12 +3,14 @@ package cn.zhaocaiapp.zc_app_android.views.my;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.util.AppUtil;
 
 /**
  * Created by Administrator on 2018/1/11.
@@ -27,6 +29,8 @@ public class SettingActivity extends BaseActivity {
     TextView tv_clear_cache;
     @BindView(R.id.tv_about_us)
     TextView tv_about_us;
+    @BindView(R.id.layout_clear_cache)
+    LinearLayout layout_clear_cache;
 
     @Override
     public int getContentViewResId() {
@@ -36,10 +40,16 @@ public class SettingActivity extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         tv_top_titlel.setText("设置");
+        tv_version.setText("V" + AppUtil.getAppVersionName(this));
+        try {
+            tv_clear_cache.setText(AppUtil.getCacheSize(getCacheDir()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
-    @OnClick({R.id.iv_top_back, R.id.iv_top_menu, R.id.tv_clear_cache, R.id.tv_about_us})
+    @OnClick({R.id.iv_top_back, R.id.iv_top_menu, R.id.tv_about_us, R.id.layout_clear_cache})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_top_back:
@@ -48,8 +58,13 @@ public class SettingActivity extends BaseActivity {
             case R.id.iv_top_menu:
 
                 break;
-            case R.id.tv_clear_cache:
-
+            case R.id.layout_clear_cache:
+                AppUtil.cleanInternalCache(this);
+                try {
+                    tv_clear_cache.setText(AppUtil.getCacheSize(getCacheDir()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.tv_about_us:
                 openActivity(AboutUsActivity.class);

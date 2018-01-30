@@ -131,6 +131,14 @@ public interface Constants {
          *获取用户账户信息
          * */
         String GET_ACCOUNT_INFO = "userinfo/account";
+        /**
+         *我的活动列表
+         */
+        String GET_ALL_ACTIVITY = "my/activity/list";
+        /**
+         * 我关注的活动列表
+         * */
+        String GET_FOLLOW_ACTIVITY = "my/activity/follow";
 
 
 

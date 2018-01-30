@@ -8,6 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.adapter.my.MyFollowBusinerAdapter;
@@ -17,7 +22,9 @@ import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
  * Created by Administrator on 2018/1/24.
  */
 
-public class MyFollowBusinerFragment extends BaseFragment {
+public class MyFollowBusinerFragment extends BaseFragment implements OnRefreshListener, OnLoadmoreListener {
+    @BindView(R.id.refresh_layout)
+    SmartRefreshLayout refresh_layout;
     @BindView(R.id.list)
     RecyclerView list;
 
@@ -26,7 +33,7 @@ public class MyFollowBusinerFragment extends BaseFragment {
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.layout_list, container, false);
+        return inflater.inflate(R.layout.layout_refresh_list, container, false);
     }
 
     @Override
@@ -50,4 +57,14 @@ public class MyFollowBusinerFragment extends BaseFragment {
 
         }
     };
+
+    @Override
+    public void onLoadmore(RefreshLayout refreshlayout) {
+
+    }
+
+    @Override
+    public void onRefresh(RefreshLayout refreshlayout) {
+
+    }
 }

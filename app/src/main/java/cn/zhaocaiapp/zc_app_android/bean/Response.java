@@ -79,4 +79,13 @@ public class Response<T> implements Serializable {
     public static <E> Response<E> BUILDER() {
         return new Response<E>();
     }
+
+    @Override
+    public String toString() {
+        return "Response{" +
+                "code=" + code +
+                ", desc='" + desc + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }
