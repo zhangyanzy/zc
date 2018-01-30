@@ -21,6 +21,7 @@ import com.amap.api.location.DPoint;
 import com.joooonho.SelectableRoundedImageView;
 
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -162,11 +163,12 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             //剩余额度
             viewHolderActivity.activity_item_text_amount.setText(GeneralUtils.getBigDecimalToTwo(list.get(k).getLeftAmount()));
             //已领取人数
-            //viewHolderActivity.activity_item_text_number.setText(list.get(k).getActualUser());
+            viewHolderActivity.activity_item_text_number.setText(String.valueOf(list.get(k).getActualUser()));
             //剩余额度进度条
-            viewHolderActivity.activity_item_text_amount_progress.setProgress(50);
+            double amount = list.get(k).getLeftAmount().divide(list.get(k).getTotalAmount(), BigDecimal.ROUND_UP).doubleValue();
+            viewHolderActivity.activity_item_text_amount_progress.setProgress((int) amount);
             //已领取人数进度条
-            viewHolderActivity.activity_item_text_number_progress.setProgress(50);
+            viewHolderActivity.activity_item_text_number_progress.setProgress(list.get(k).getActualUser() / list.get(k).getMaxUser());
             //地址logo 距离
             if (list.get(k).getActivityForm() == 0 && LocationUtil.getGps().getOpen()) {
                 viewHolderActivity.activity_item_text_area_logo.setVisibility(View.VISIBLE);
@@ -187,6 +189,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, "")) && list.get(k).getFollow()) {
                 viewHolderActivity.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
             }
+            //奖励金额
+            viewHolderActivity.activity_item_text_reward.setText(GeneralUtils.getBigDecimalToTwo(list.get(k).getRewardAmount()));
 
 
             //商家图片 点击
@@ -468,6 +472,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         //收藏
         @BindView(R.id.activity_item_text_collection)
         ImageView activity_item_text_collection;
+        @BindView(R.id.activity_item_text_reward)
+        TextView activity_item_text_reward;
 
 
         View itemView;
