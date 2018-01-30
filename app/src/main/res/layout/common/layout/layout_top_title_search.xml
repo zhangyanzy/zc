@@ -16,20 +16,20 @@
 
         <ImageView
             android:id="@+id/iv_top_back"
-            android:layout_width="@dimen/width_btn_img"
-            android:layout_height="@dimen/height_nav"
+            android:layout_width="45dp"
+            android:layout_height="50dp"
             android:paddingBottom="12dp"
-            android:paddingLeft="@dimen/window_padding_15"
+            android:paddingStart="15dp"
             android:paddingTop="12dp"
             android:src="@mipmap/point_left" />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/height_search"
-            android:layout_marginTop="10dp"
+            android:layout_height="30dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginRight="@dimen/window_padding_15"
-            android:layout_marginLeft="@dimen/window_padding_15"
+            android:layout_marginEnd="60dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@drawable/search_member"
             android:orientation="horizontal">
@@ -38,20 +38,22 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:src="@mipmap/search" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="5dp"
                 android:background="@null"
                 android:hint="@string/search_member"
+                android:imeOptions="actionSearch"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:textColor="@color/colorFont6"
                 android:textColorHint="@color/colorFont9"
-                android:textSize="@dimen/font_size_14"
-                android:maxLines="1"/>
+                android:textSize="@dimen/font_size_14" />
         </LinearLayout>
     </LinearLayout>
 

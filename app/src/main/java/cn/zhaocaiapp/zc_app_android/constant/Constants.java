@@ -150,9 +150,14 @@ public interface Constants {
         String GET_ACTIVITY_LIST = "activity/list";
 
         /**
-         * 活动首页活动列表
+         * 搜索推荐
          */
         String GET_SEARCH_RECOMMEND = "searchrecommend";
+
+        /**
+         * 搜索结果
+         */
+        String GET_ACTIVITY_FIND = "activity/find";
 
         /**
          * 活动关注与取消关注

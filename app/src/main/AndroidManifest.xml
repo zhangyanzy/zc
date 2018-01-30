@@ -58,6 +58,10 @@
         <activity
             android:name=".views.home.SearchActivity"
             android:screenOrientation="portrait" />
+        <!--搜索结果页-->
+        <activity
+            android:name=".views.home.SearchResulfActivity"
+            android:screenOrientation="portrait" />
         <!--活动详情-->
         <activity
             android:name=".views.common.ActivityDetailActivity"
@@ -128,8 +132,9 @@
         <activity
             android:name=".views.my.MessageActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".views.activity.MyActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".views.activity.MyActivity"
+            android:screenOrientation="portrait" />
 
 
         <!--商家详情-->
