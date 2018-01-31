@@ -61,8 +61,8 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
         if (!isFirstStart) launchHomeScreen();
         else editor.putBoolean("is_first_start", false).apply();
 
-        //让状态栏透明
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        //设置activity全屏显示，且状态栏不隐藏
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
 

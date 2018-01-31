@@ -8,7 +8,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,6 +21,7 @@ import butterknife.ButterKnife;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.widget.LoadingDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
@@ -27,7 +31,7 @@ import pub.devrel.easypermissions.EasyPermissions;
  * Created by jinxunmediapty.ltd on 2018/1/3.
  */
 
-public abstract class BaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
+public abstract class BaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
     private TextView identify_code;
 
@@ -41,12 +45,19 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         init(savedInstanceState);
     }
 
+    /**
+     * 绑定根布局
+     */
     public abstract int getContentViewResId();
 
+    /**
+     *初始化工程
+     */
     public abstract void init(Bundle savedInstanceState);
 
-
-    //验证手机号是否符合规则
+    /**
+     * 验证手机号是否符合规则
+     */
     protected boolean judgePhone(String phone) {
         if (GeneralUtils.isNullOrZeroLenght(phone)) {
             ToastUtil.makeText(this, getString(R.string.phone_not_empty));
@@ -59,7 +70,9 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         return true;
     }
 
-    //验证密码是否符合规则
+    /**
+     * 验证密码是否符合规则
+     * */
     protected boolean judgePass(String pass) {
         if (GeneralUtils.isNullOrZeroLenght(pass)) {
             ToastUtil.makeText(this, getString(R.string.pass_not_empty));
@@ -72,6 +85,9 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         return true;
     }
 
+    /**
+     * 输入框的输入监听器
+     * */
     protected void monitorEditChange(EditText editText) {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -95,22 +111,64 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         });
     }
 
+    /**
+     * 开启浮动加载进度条
+     */
+    public void startProgressDialog() {
+        LoadingDialog.showDialogForLoading(this);
+    }
+
+    /**
+     * 开启浮动加载进度条Gif
+     */
+    public void startGifProgressDialog() {
+        LoadingDialog.showDialogForLoadingGif(this);
+    }
+
+    /**
+     * 开启浮动加载进度条
+     *
+     * @param msg
+     */
+    public void startProgressDialog(String msg) {
+        LoadingDialog.showDialogForLoading(this, msg, true);
+    }
+
+    /**
+     * 停止浮动加载进度条
+     */
+    public void stopProgressDialog() {
+        LoadingDialog.cancelDialogForLoading();
+    }
+
+    /**
+     * activity跳转
+     * */
     public void openActivity(Class<?> mClass) {
         Intent intent = new Intent(this, mClass);
         startActivity(intent);
     }
 
+    /**
+     * activity跳转
+     * */
     public void openActivity(Class<?> mClass, Bundle bundle) {
         Intent intent = new Intent(this, mClass);
         intent.putExtras(bundle);
         startActivity(intent);
     }
 
-    public void openActivityForResult(Class<?> mClass, int requestCode){
+    /**
+     * activity跳转
+     * */
+    public void openActivityForResult(Class<?> mClass, int requestCode) {
         Intent intent = new Intent(this, mClass);
         startActivityForResult(intent, requestCode);
     }
 
+    /**
+     * 开启计时器
+     * */
     protected void waitTimer(TextView identify_code) {
         this.identify_code = identify_code;
         identify_code.setBackgroundResource(R.drawable.button_shape_gray_bg);
@@ -134,6 +192,9 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         }
     };
 
+    /**
+     * 动态申请权限回调
+     * */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

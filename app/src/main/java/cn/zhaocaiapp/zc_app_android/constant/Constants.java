@@ -51,8 +51,7 @@ public interface Constants {
          */
         String SERVER = "http://appapi.zhaocaiapp.local/"; //必须以／结尾否则初始化会报错
 //        String SERVER = "http://192.168.1.10:8082/"; //必须以／结尾否则初始化会报错
-        //String SERVER = "http://192.168.1.181:8083/"; //必须以／结尾否则初始化会报错
-//        String SERVER = "http://192.168.1.181:8082/"; //必须以／结尾否则初始化会报错
+//        String SERVER = "http://192.168.1.182:8083/"; //必须以／结尾否则初始化会报错
 
         /**
          * 注册
@@ -139,7 +138,10 @@ public interface Constants {
          * 我关注的活动列表
          * */
         String GET_FOLLOW_ACTIVITY = "my/activity/follow";
-
+        /**
+         * 我关注的商家列表
+         * */
+         String GET_FOLLOW_BUSINER = "userinfo/member/follow";
 
         /**
          * 获取城市列表
@@ -202,7 +204,6 @@ public interface Constants {
          */
         String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
         //保存到sharedPreferenced的数据的key
-        String IS_FIRST = "isFirstLogin";           //是否首次登陆
         String IS_LOGIN = "isLogin";                //登录状态
         String LOGIN_MODE = "loginMode";            //登录方式
         String USER_ID = "userId";                  //用户id

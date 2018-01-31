@@ -8,9 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.bean.response.member.MemberResp;
 
 /**
  * Created by Administrator on 2018/1/11.
@@ -19,10 +23,18 @@ import cn.zhaocaiapp.zc_app_android.R;
 public class MyFollowBusinerAdapter extends RecyclerView.Adapter<MyFollowBusinerAdapter.ViewHolder> {
     private Context context;
     private OnItemCliclkListener listene;
+    private List<MemberResp> members;
 
-    public MyFollowBusinerAdapter(Context context) {
+    public MyFollowBusinerAdapter(Context context, List<MemberResp> members) {
         this.context = context;
+        this.members = members;
     }
+
+    public void refresh(List<MemberResp> members) {
+        this.members = members;
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -33,7 +45,14 @@ public class MyFollowBusinerAdapter extends RecyclerView.Adapter<MyFollowBusiner
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.tv_businer_name.setText(members.get(position).getName());
+        holder.tv_activity_count.setText("共" + members.get(position).getTotal() + "个活动");
+        if (members.get(position).getIsFollow() == 1){ // 已关注
 
+        }
+        if (members.get(position).getIsFollow() == 0){ // 未关注
+
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +65,7 @@ public class MyFollowBusinerAdapter extends RecyclerView.Adapter<MyFollowBusiner
 
     @Override
     public int getItemCount() {
-        return 20;
+        return members.size();
     }
 
     public interface OnItemCliclkListener {

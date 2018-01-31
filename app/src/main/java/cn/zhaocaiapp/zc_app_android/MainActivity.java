@@ -15,9 +15,13 @@ import java.util.Map;
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragmentActivity;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.AppUtil;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.views.home.HomeFragment;
+import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.views.member.MemberFragment;
 import cn.zhaocaiapp.zc_app_android.views.my.MyFragment;
 
@@ -37,16 +41,6 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
     private Map<Integer, Fragment> fragmentMap = new HashMap<>();
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        currentPosition = getIntent().getIntExtra("position", -1);
-
-        initView();
-        //判断定位服务
-        isLocation();
-    }
-
-    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main_activity);
@@ -55,6 +49,8 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         initView();
         //判断定位服务
         isLocation();
+
+        ActivityUtil.getActivityManager().finishAllActivity();
     }
 
     private void initView() {

@@ -127,8 +127,14 @@ public class ZcApplication extends Application {
      */
     @Override
     public void onTerminate() {
-        OCR.getInstance().release();
         super.onTerminate();
+        OCR.getInstance().release();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        System.gc();
     }
 
     //获取全局SharedPreferences对象

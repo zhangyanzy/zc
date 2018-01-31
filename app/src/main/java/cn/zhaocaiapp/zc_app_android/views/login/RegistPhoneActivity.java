@@ -65,7 +65,6 @@ public class RegistPhoneActivity extends BaseActivity {
         uid = getIntent().getStringExtra("uid");
         avatar = getIntent().getStringExtra("avatar");
         sex = getIntent().getIntExtra("gender", 0);
-
     }
 
     @OnClick({R.id.iv_top_back, R.id.tv_submit})
@@ -104,6 +103,7 @@ public class RegistPhoneActivity extends BaseActivity {
                 Bundle bundle = new Bundle();
                 bundle.putInt("position", 0);
                 openActivity(MainActivity.class, bundle);
+                RegistPhoneActivity.this.finish();
             }
 
             @Override

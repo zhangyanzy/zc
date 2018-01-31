@@ -20,6 +20,7 @@ import cn.zhaocaiapp.zc_app_android.bean.response.login.ObtainCodeResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.VerifyCodeResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
@@ -68,6 +69,8 @@ public class CheckPhoneActivity extends BaseActivity {
         uid = bundle.getString("uid", "");
 
         showLoginMode(type);
+
+        ActivityUtil.getActivityManager().addActivity(this);
     }
 
     private void showLoginMode(int mode) {

@@ -59,13 +59,19 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
         return rootView;
     }
 
-    //绑定rootView
+    /**
+     * 绑定rootView
+     */
     public abstract View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState);
 
-    //初始化数据
+    /**
+     * 初始化工程
+     */
     public abstract void init();
 
-    //加载数据
+    /**
+     * 加载数据
+     */
     public abstract void loadData();
 
     @Override
@@ -74,7 +80,9 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
         isCanLoadData();
     }
 
-    //是否可以加载数据
+    /**
+     * 是否可以加载数据
+     */
     private void isCanLoadData() {
         if (!isInit) {
             return;
@@ -95,7 +103,9 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
 
     }
 
-    //验证手机号是否符合规则
+    /**
+     * 验证手机号是否符合规则
+     */
     protected boolean judgePhone(Context context, String phone) {
         if (GeneralUtils.isNullOrZeroLenght(phone)) {
             ToastUtil.makeText(context, getString(R.string.phone_not_empty));
@@ -108,7 +118,9 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
         return true;
     }
 
-    //验证密码是否符合规则
+    /**
+     * 验证密码是否符合规则
+     */
     protected boolean judgePass(Context context, String pass) {
         if (GeneralUtils.isNullOrZeroLenght(pass)) {
             ToastUtil.makeText(context, getString(R.string.pass_not_empty));
@@ -121,17 +133,12 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
         return true;
     }
 
-    //管理软键盘的显示
+    /**
+     * 管理软键盘的显示
+     */
     public void manageKeyBord(View view, Activity mActivity) {
         if (KeyBoardUtils.isKeyBordVisiable(mActivity))
             KeyBoardUtils.closeKeybord(view, mActivity);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-        stopLoad();
     }
 
     /**
@@ -164,7 +171,6 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
         LoadingDialog.cancelDialogForLoading();
     }
 
-
     /**
      * 启动Activity
      */
@@ -173,13 +179,19 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
         startActivity(intent);
     }
 
+    /**
+     * 启动Activity
+     */
     public void openActivity(Class<?> cls, Bundle bundle) {
         Intent intent = new Intent(getActivity(), cls);
         intent.putExtras(bundle);
         startActivity(intent);
     }
 
-    public void openActivityForResult(Class<?> mClass, int requestCode){
+    /**
+     * 启动Activity
+     */
+    public void openActivityForResult(Class<?> mClass, int requestCode) {
         Intent intent = new Intent(getActivity(), mClass);
         startActivityForResult(intent, requestCode);
     }
@@ -189,6 +201,9 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
         return (perms.contains(perm));
     }
 
+    /**
+     * 动态申请权限回调
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -206,6 +221,9 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
     public void onPermissionsDenied(int requestCode, List<String> perms) {
     }
 
+    /**
+     * 监听触摸空白处，隐藏软键盘
+     */
     public View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -219,4 +237,11 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
         }
     };
 
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+        stopLoad();
+    }
 }

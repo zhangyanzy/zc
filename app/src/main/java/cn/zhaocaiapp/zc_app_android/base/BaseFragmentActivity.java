@@ -1,29 +1,15 @@
 package cn.zhaocaiapp.zc_app_android.base;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.ButterKnife;
-import cn.zhaocaiapp.zc_app_android.R;
-import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.widget.LoadingDialog;
 
@@ -71,14 +57,6 @@ public class BaseFragmentActivity extends FragmentActivity {
     }
 
     /**
-     * 隐藏后退
-     */
-    public void hideBack() {
-        LinearLayout backTv = (LinearLayout) findViewById(R.id.ly_base_back);
-        backTv.setVisibility(View.INVISIBLE);
-    }
-
-    /**
      * 启动Activity
      */
     public void openActivity(Class<?> cls) {
@@ -93,35 +71,23 @@ public class BaseFragmentActivity extends FragmentActivity {
     }
 
     /**
-     * 菜单、返回键响应
-     */
-    @Override
-    public void onBackPressed() {
-        exitBy2Click(); //调用双击退出函数
-    }
-
-    /**
-     * 双击退出函数
+     * 双击退出应用
      */
     private static Boolean isExit = false;
-
-    private void exitBy2Click() {
-        Timer tExit = null;
-        if (isExit == false) {
-            isExit = true; // 准备退出
+    @Override
+    public void onBackPressed() {
+        if (!isExit) {
             ToastUtil.makeText(this, "再按一次退出程序");
-            tExit = new Timer();
-            tExit.schedule(new TimerTask() {
+            isExit = true;
+            new Timer().schedule(new TimerTask() {
                 @Override
-                public void run() {
-                    isExit = false; // 取消退出
+                public void run() { //如果2秒内没有按下返回键，则启动定时器取消掉刚才执行的任务
+                    isExit = false;
                 }
-            }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
+            }, 2000);
         } else {
             finish();
             System.exit(0);
         }
     }
-
-
 }

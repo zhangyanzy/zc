@@ -2,6 +2,7 @@ package cn.zhaocaiapp.zc_app_android.views.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,11 +23,13 @@ import cn.zhaocaiapp.zc_app_android.MainActivity;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.base.BaseFragmentActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.LoginResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
@@ -40,7 +43,7 @@ import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
  * @filename LoginActivity.java
  * @data 2018-01-05 17:52
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseFragmentActivity {
     @BindView(R.id.iv_app_logo)
     ImageView iv_log;
     @BindView(R.id.tv_skip_login)
@@ -72,17 +75,16 @@ public class LoginActivity extends BaseActivity {
     private String avatar;
     private int sex;
 
-
     private static final String TAG = "登录";
 
     @Override
-    public int getContentViewResId() {
-        return R.layout.layout_login_main;
-    }
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.layout_login_main);
 
-    @Override
-    public void init(Bundle savedInstanceState) {
         umShareAPI = ZcApplication.getUMShareAPI();
+
+        ActivityUtil.getActivityManager().finishAllActivity();
     }
 
     @OnClick({R.id.tv_skip_login, R.id.tv_register, R.id.tv_forget_pass, R.id.tv_login,
@@ -108,17 +110,17 @@ public class LoginActivity extends BaseActivity {
             case R.id.login_wechat:
                 type = 1;
                 platform = SHARE_MEDIA.WEIXIN;
-                doOauth();
+                isPlatformExist(platform);
                 break;
             case R.id.login_qq:
                 type = 2;
                 platform = SHARE_MEDIA.QQ;
-                doOauth();
+                isPlatformExist(platform);
                 break;
             case R.id.login_sina:
                 type = 3;
                 platform = SHARE_MEDIA.SINA;
-                doOauth();
+                isPlatformExist(platform);
                 break;
         }
     }
@@ -147,6 +149,7 @@ public class LoginActivity extends BaseActivity {
                 Bundle bundle = new Bundle();
                 bundle.putInt("position", 0);
                 openActivity(MainActivity.class, bundle);
+                LoginActivity.this.finish();
             }
 
             @Override
@@ -168,6 +171,14 @@ public class LoginActivity extends BaseActivity {
         SpUtils.put(Constants.SPREF.NICK_NAME, loginResp.getNickname());
         SpUtils.put(Constants.SPREF.USER_PHONE, loginResp.getPhone());
         SpUtils.put(Constants.SPREF.USER_ID, loginResp.getKid());
+    }
+
+    //检测是否安装三方应用
+    private void isPlatformExist(SHARE_MEDIA platform){
+        if (!umShareAPI.isInstall(this, platform))
+            ToastUtil.makeText(this, "请先安装应用");
+        else doOauth();
+
     }
 
     //获取三方授权
@@ -199,6 +210,7 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
+    //获取三方账号信息
     private void getAuthInfo(Map<String, String> map) {
         EBLog.i(TAG, map.toString());
 
@@ -229,16 +241,42 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+    //验证手机号是否符合规则
+    protected boolean judgePhone(String phone) {
+        if (GeneralUtils.isNullOrZeroLenght(phone)) {
+            ToastUtil.makeText(this, getString(R.string.phone_not_empty));
+            return false;
+        }
+        if (!GeneralUtils.isTel(phone)) {
+            ToastUtil.makeText(this, getString(R.string.isNot_phone));
+            return false;
+        }
+        return true;
+    }
+
+    //验证密码是否符合规则
+    protected boolean judgePass(String pass) {
+        if (GeneralUtils.isNullOrZeroLenght(pass)) {
+            ToastUtil.makeText(this, getString(R.string.pass_not_empty));
+            return false;
+        }
+        if (!GeneralUtils.IsPassword(pass)) {
+            ToastUtil.makeText(this, getString(R.string.pass_length));
+            return false;
+        }
+        return true;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+        umShareAPI.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        UMShareAPI.get(this).onSaveInstanceState(outState);
+        umShareAPI.onSaveInstanceState(outState);
     }
 
     @Override

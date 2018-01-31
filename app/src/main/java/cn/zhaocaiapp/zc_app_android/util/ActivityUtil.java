@@ -1,33 +1,31 @@
 package cn.zhaocaiapp.zc_app_android.util;
 
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.Context;
 
 import java.util.Stack;
 
-import static android.content.Context.ACTIVITY_SERVICE;
-
 /**
  * Created by ASUS on 2017/10/31.
- *
+ * <p>
  * 创建堆栈，存取activity实例
  */
 
-public class ActivityManagerUtil {
+public class ActivityUtil {
     public static Activity context;
     private static Stack<Activity> activityStack;
-    private static ActivityManagerUtil activityManager;
+    private static ActivityUtil activityManager;
 
-    private ActivityManagerUtil() {}
+    private ActivityUtil() {
+    }
 
     /**
      * 单一实例
      */
-    public static ActivityManagerUtil getActivityManager() {
+    public static ActivityUtil getActivityManager() {
         if (activityManager == null) {
-            activityManager = new ActivityManagerUtil();
+            activityManager = new ActivityUtil();
         }
+        activityStack = new Stack<>();
         return activityManager;
     }
 
@@ -35,9 +33,6 @@ public class ActivityManagerUtil {
      * 添加Activity到堆栈
      */
     public void addActivity(Activity activity) {
-        if (activityStack == null) {
-            activityStack = new Stack<Activity>();
-        }
         activityStack.add(activity);
     }
 
@@ -64,7 +59,6 @@ public class ActivityManagerUtil {
         if (activity != null) {
             activityStack.remove(activity);
             activity.finish();
-            activity = null;
         }
     }
 
@@ -86,9 +80,9 @@ public class ActivityManagerUtil {
         for (int i = 0, size = activityStack.size(); i < size; i++) {
             if (null != activityStack.get(i) && cls != activityStack.get(i).getClass()) {
                 activityStack.get(i).finish();
+                activityStack.remove(i);
             }
         }
-        activityStack.clear();
     }
 
     /**
@@ -103,18 +97,5 @@ public class ActivityManagerUtil {
         activityStack.clear();
     }
 
-    /**
-     * 退出应用程序
-     */
-//    public void AppExit(Context context) {
-//        try {
-//            finishAllActivity();
-//            ActivityManager manager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
-//            manager.killBackgroundProcesses(context.getPackageName());
-//            System.exit(0);
-//        } catch (Exception e) {
-//
-//        }
-//    }
 }
 

@@ -173,7 +173,7 @@ public class RealInfoFragment extends BaseFragment {
         params.put("idCard", idCard);
         params.put("sex", sex + "");
         params.put("birthday", birthday);
-        params.put("idCardPath", idCardPath);
+        params.put("idCardPath", "http://wenwen.soso.com/p/20150128/20150128123302-300234987.jpg");
 
         HttpUtil.put(Constants.URL.REVISE_REAL_INFO, params).subscribe(new BaseResponseObserver<CommonResp>() {
 

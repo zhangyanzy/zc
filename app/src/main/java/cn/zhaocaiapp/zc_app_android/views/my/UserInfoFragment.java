@@ -222,13 +222,14 @@ public class UserInfoFragment extends BaseFragment {
                  nickName = edit_user_nickname.getText().toString();
                  homeAddressDetail = home_address_detail.getText().toString();
                  companyAddressDetail = company_address_detail.getText().toString();
-                 if (GeneralUtils.isNullOrZeroLenght(nickName))
-                     ToastUtil.makeText(getActivity(),"昵称不能为空");
-                 else if (GeneralUtils.isNullOrZeroLenght(homeAddressDetail))
-                     ToastUtil.makeText(getActivity(),"家庭住址不能为空");
-                 else if (GeneralUtils.isNullOrZeroLenght(companyAddressDetail))
-                     ToastUtil.makeText(getActivity(),"公司住址不能为空");
-                 else reviceBaseInfo();
+//                 if (GeneralUtils.isNullOrZeroLenght(nickName))
+//                     ToastUtil.makeText(getActivity(),"昵称不能为空");
+//                 else if (GeneralUtils.isNullOrZeroLenght(homeAddressDetail))
+//                     ToastUtil.makeText(getActivity(),"家庭住址不能为空");
+//                 else if (GeneralUtils.isNullOrZeroLenght(companyAddressDetail))
+//                     ToastUtil.makeText(getActivity(),"公司住址不能为空");
+//                 else reviceBaseInfo();
+                reviceBaseInfo();
                 break;
         }
     }
@@ -264,7 +265,7 @@ public class UserInfoFragment extends BaseFragment {
     private void uploadImage(File file) {
         Map<String, String> params = new HashMap<>();
         params.put("postfix", ".jpg");
-        params.put("inputStream", FileUtil.fileToStream(file));
+        params.put("base64Str", FileUtil.fileToStream(file));
 
         HttpUtil.post(Constants.URL.UPLOAD_IMAGE, params).subscribe(new BaseResponseObserver<String>() {
 

@@ -166,6 +166,13 @@ public class MyFragment extends BaseFragment {
             R.id.layout_verify_task, R.id.layout_reward_task, R.id.layout_failed_task, R.id.layout_invite, R.id.tv_account_manager,
             R.id.tv_follow, R.id.layout_contact, R.id.layout_email, R.id.tv_setting, R.id.tv_exit})
     public void onClick(View view) {
+        // 用户未登录，跳转到登陆界面
+        if (!(boolean)SpUtils.get(Constants.SPREF.IS_LOGIN, false)) {
+            openActivity(LoginActivity.class);
+            getActivity().finish();
+            return;
+        }
+
         Bundle bundle = new Bundle();
         switch (view.getId()) {
             case R.id.iv_user_photo: //个人资料
@@ -225,6 +232,7 @@ public class MyFragment extends BaseFragment {
         }
     }
 
+    //退出登录
     private void doLoginOut() {
         Map<String, String> params = new HashMap<>();
         params.put("token", (String) SpUtils.get(Constants.SPREF.TOKEN, ""));
@@ -234,6 +242,7 @@ public class MyFragment extends BaseFragment {
                 EBLog.i(TAG, result.toString());
                 SpUtils.clear();
                 openActivity(LoginActivity.class);
+                getActivity().finish();
             }
 
             @Override

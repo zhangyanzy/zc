@@ -1,6 +1,8 @@
 package cn.zhaocaiapp.zc_app_android.views.common;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -8,25 +10,37 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 
+import com.jph.takephoto.model.TResult;
+
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.base.BasePhotoActivity;
 import cn.zhaocaiapp.zc_app_android.capabilities.json.GsonHelper;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
+import cn.zhaocaiapp.zc_app_android.capabilities.takephoto.PhotoHelper;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.PhotoPickerUtil;
+import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 
-public class ActivityDetailActivity extends BaseActivity {
-
+public class ActivityDetailActivity extends BasePhotoActivity {
     @BindView(R.id.activity_detail_webView)
     WebView activity_detail_webView;
 
+    private View rootView;
+    private PhotoHelper photoHelper;
+
     @Override
     public int getContentViewResId() {
+        rootView = LayoutInflater.from(this).inflate(R.layout.activity_detail, null);
         return R.layout.activity_detail;
     }
 
@@ -53,6 +67,9 @@ public class ActivityDetailActivity extends BaseActivity {
                 return true;
             }
         });
+
+        //初始化takephoto
+        photoHelper = PhotoHelper.of(rootView, true);
 
     }
 
@@ -82,5 +99,26 @@ public class ActivityDetailActivity extends BaseActivity {
 
             return GsonHelper.toJson(params);
         }
+
+        @JavascriptInterface
+        public void takePhoto(){
+            photoHelper.onClick(0, getTakePhoto());
+        }
+    }
+
+    @Override
+    public void takeSuccess(TResult result) {
+        super.takeSuccess(result);
+        String imgUrl = result.getImage().getCompressPath();
+    }
+
+    @Override
+    public void takeCancel() {
+        super.takeCancel();
+    }
+
+    @Override
+    public void takeFail(TResult result, String msg) {
+        super.takeFail(result, msg);
     }
 }

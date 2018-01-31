@@ -148,6 +148,7 @@ public class RegisterActivity extends BaseActivity {
                 Bundle bundle = new Bundle();
                 bundle.putInt("position", 0);
                 openActivity(MainActivity.class, bundle);
+                RegisterActivity.this.finish();
             }
 
             @Override
@@ -161,7 +162,7 @@ public class RegisterActivity extends BaseActivity {
     //保存用户数据
     private void saveUserData(SignupResp result) {
         SpUtils.put(Constants.SPREF.TOKEN, result.getToken());
-        SpUtils.put(Constants.SPREF.IS_LOGIN, (Boolean) true);
+        SpUtils.put(Constants.SPREF.IS_LOGIN, true);
         SpUtils.put(Constants.SPREF.USER_PHONE, result.getPhone());
     }
 
