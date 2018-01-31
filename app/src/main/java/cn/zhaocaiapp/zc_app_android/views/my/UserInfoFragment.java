@@ -27,6 +27,7 @@ import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
+import cn.zhaocaiapp.zc_app_android.base.BaseImage;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.MessageEvent;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
@@ -86,8 +87,13 @@ public class UserInfoFragment extends BaseFragment {
     private String homeAddressDetail;
     private String companyAddressDetail;
 
+    private String homeAddress;
+    private String homeDetail;
+    private String companyAddress;
+    private String companyDetail;
+
     private int addressType; // 0-家庭住址  1-公司地址
-    private Map<String, String>params = new HashMap<>();
+    private Map<String, String> params = new HashMap<>();
 
     private static final String TAG = "个人资料";
 
@@ -127,25 +133,25 @@ public class UserInfoFragment extends BaseFragment {
                 city = citys.get(options1).get(options2);
                 town = towns.get(options1).get(options2).get(options3);
 
-                if (addressType == 0){
-                    edit_user_address.setText(province.getAreaName()+city.getAreaName()+town.getAreaName());
+                if (addressType == 0) {
+                    edit_user_address.setText(province.getAreaName() + city.getAreaName() + town.getAreaName());
 
-                    params.put("homeProvinceCode", province.getAreaCode()+"");
+                    params.put("homeProvinceCode", province.getAreaCode() + "");
                     params.put("homeProvinceName", province.getAreaName());
-                    params.put("homeCityCode", city.getAreaCode()+"");
+                    params.put("homeCityCode", city.getAreaCode() + "");
                     params.put("homeCityName", city.getAreaName());
-                    params.put("homeAreaCode", town.getAreaCode()+"");
+                    params.put("homeAreaCode", town.getAreaCode() + "");
                     params.put("homeAreaName", town.getAreaName());
                 }
 
-                if (addressType == 1){
-                    edit_company_address.setText(province.getAreaName()+city.getAreaName()+town.getAreaName());
+                if (addressType == 1) {
+                    edit_company_address.setText(province.getAreaName() + city.getAreaName() + town.getAreaName());
 
-                    params.put("companyProvinceCode", province.getAreaCode()+"");
+                    params.put("companyProvinceCode", province.getAreaCode() + "");
                     params.put("companyProvinceName", province.getAreaName());
-                    params.put("companyCityCode", city.getAreaCode()+"");
+                    params.put("companyCityCode", city.getAreaCode() + "");
                     params.put("companyCityName", city.getAreaName());
-                    params.put("companyAreaCode", town.getAreaCode()+"");
+                    params.put("companyAreaCode", town.getAreaCode() + "");
                     params.put("companyAreaName", town.getAreaName());
                 }
             }
@@ -163,6 +169,20 @@ public class UserInfoFragment extends BaseFragment {
     private void showUserInfo() {
         if (GeneralUtils.isNotNullOrZeroLenght(baseInfoBean.getNickname()))
             edit_user_nickname.setText(baseInfoBean.getNickname());
+
+        homeAddress = baseInfoBean.getHomeProvinceName() + baseInfoBean.getHomeCityName() + baseInfoBean.getHomeAreaName();
+        homeDetail = baseInfoBean.getHomeAddressDetail();
+        companyAddress = baseInfoBean.getCompanyProvinceName() + baseInfoBean.getCompanyCityName() + baseInfoBean.getCompanyAreaName();
+        companyDetail = baseInfoBean.getCompanyAddressDetail();
+        if (GeneralUtils.isNotNullOrZeroLenght(homeAddress))
+            edit_user_address.setText(homeAddress);
+        if (GeneralUtils.isNotNullOrZeroLenght(homeDetail))
+            home_address_detail.setText(homeDetail);
+        if (GeneralUtils.isNotNullOrZeroLenght(companyAddress))
+            edit_company_address.setText(companyAddress);
+        if (GeneralUtils.isNotNullOrZeroLenght(companyDetail))
+            company_address_detail.setText(companyDetail);
+//        BaseImage.getInstance().displayCricleImage(getActivity(), baseInfoBean.getAvatar(),);
         edit_user_phone.setText(baseInfoBean.getPhone());
     }
 
@@ -219,9 +239,9 @@ public class UserInfoFragment extends BaseFragment {
                 openActivity(ChangePhoneActivity.class);
                 break;
             case R.id.tv_submit:
-                 nickName = edit_user_nickname.getText().toString();
-                 homeAddressDetail = home_address_detail.getText().toString();
-                 companyAddressDetail = company_address_detail.getText().toString();
+                nickName = edit_user_nickname.getText().toString();
+                homeAddressDetail = home_address_detail.getText().toString();
+                companyAddressDetail = company_address_detail.getText().toString();
 //                 if (GeneralUtils.isNullOrZeroLenght(nickName))
 //                     ToastUtil.makeText(getActivity(),"昵称不能为空");
 //                 else if (GeneralUtils.isNullOrZeroLenght(homeAddressDetail))
@@ -232,6 +252,11 @@ public class UserInfoFragment extends BaseFragment {
                 reviceBaseInfo();
                 break;
         }
+    }
+
+    private boolean isCanUpdate(){
+//        if (GeneralUtils.isNotNullOrZeroLenght())
+     return false;
     }
 
     private PhotoPickerUtil.OnItemClickListener listener = new PhotoPickerUtil.OnItemClickListener() {
@@ -256,7 +281,7 @@ public class UserInfoFragment extends BaseFragment {
 
             @Override
             public void error(Response<CommonResp> response) {
-                EBLog.e(TAG, response.getCode()+"");
+                EBLog.e(TAG, response.getCode() + "");
                 ToastUtil.makeText(getActivity(), response.getDesc());
             }
         });

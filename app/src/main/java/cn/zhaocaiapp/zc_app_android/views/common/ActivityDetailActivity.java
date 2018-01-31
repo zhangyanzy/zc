@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -104,12 +105,21 @@ public class ActivityDetailActivity extends BasePhotoActivity {
         public void takePhoto(){
             photoHelper.onClick(0, getTakePhoto());
         }
+
     }
 
     @Override
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
         String imgUrl = result.getImage().getCompressPath();
+
+        activity_detail_webView.evaluateJavascript("javascript:callJs(" + "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517399801249&di=4a680b11296f67259748efe4ca2108e1&imgtype=0&src=http%3A%2F%2Fcms-bucket.nosdn.127.net%2Fcatchpic%2F5%2F54%2F54a8cd32c0aae2254f9cdaeb70ae8697.png%3FimageView%26thumbnail%3D550x0" + ")", new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String value) {
+                EBLog.i("H5回调", value);
+            }
+        });
+
     }
 
     @Override

@@ -77,7 +77,7 @@ public class PhotoHelper {
     private void configCompress(TakePhoto takePhoto) {
         CompressConfig config = new CompressConfig.Builder()
                 .setMaxSize(102400)//大小不超过100k
-                .setMaxPixel(1200)//最大像素500
+                .setMaxPixel(1200)//最大像素
                 .enableReserveRaw(true)//是否压缩
                 .create();
         takePhoto.onEnableCompress(config, false);//这个true代表显示压缩进度条
