@@ -256,30 +256,6 @@ public class LocationResp extends BaseIndexPinyinBean implements IPickerViewData
     }
 
     @Override
-    public String toString() {
-        return "LocationResp{" +
-                "id=" + id +
-                ", areaCode=" + areaCode +
-                ", areaName='" + areaName + '\'' +
-                ", parentId=" + parentId +
-                ", shortName='" + shortName + '\'' +
-                ", areaLevel=" + areaLevel +
-                ", phoneCode='" + phoneCode + '\'' +
-                ", postCode='" + postCode + '\'' +
-                ", mergerName='" + mergerName + '\'' +
-                ", areaList=" + areaList +
-                ", lng=" + lng +
-                ", lat=" + lat +
-                ", pinyin='" + pinyin + '\'' +
-                ", createId=" + createId +
-                ", createTime=" + createTime +
-                ", updateId=" + updateId +
-                ", updateTime=" + updateTime +
-                ", isDelete=" + isDelete +
-                '}';
-    }
-
-    @Override
     public String getTarget() {
         return areaName;
     }

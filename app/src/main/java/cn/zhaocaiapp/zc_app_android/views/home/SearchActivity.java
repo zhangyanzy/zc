@@ -81,6 +81,10 @@ public class SearchActivity extends BaseActivity {
     LinearLayout search_city;
     @BindView(R.id.search_town)
     LinearLayout search_town;
+    @BindView(R.id.search_city_text)
+    TextView search_city_text;
+    @BindView(R.id.search_town_text)
+    TextView search_town_text;
 
 
     private List<SearchRecommendResp> searchRecommendRespList; //推荐活动
@@ -93,10 +97,10 @@ public class SearchActivity extends BaseActivity {
     private String topLimit = "";//金额上限
     private String limit = "";//金额下限
     private List<LocationResp> provinces;
-    private List<List<LocationResp>> citys;
-    private List<List<List<LocationResp>>> towns;
+    private List<LocationResp> citys;
+    private List<List<LocationResp>> towns;
     private OptionsPickerView optionsPickerView;
-    private LocationResp province, city, town;
+    private long city, town;
     private Map<String, String> params = new HashMap<>();
 
 
@@ -107,7 +111,10 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        //初始化城市列表
         searchRecommendRespList = new ArrayList<>();
+        citys = new ArrayList<>();
+        towns = new ArrayList<>();
         initView();
         getAreasList();
         getHistory();
@@ -510,41 +517,47 @@ public class SearchActivity extends BaseActivity {
         optionsPickerView = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                province = provinces.get(options1);
-                city = citys.get(options1).get(options2);
-                town = towns.get(options1).get(options2).get(options3);
-
-                /*if (addressType == 0) {
-                    edit_user_address.setText(province.getAreaName() + city.getAreaName() + town.getAreaName());
-
-                    params.put("homeProvinceCode", province.getAreaCode() + "");
-                    params.put("homeProvinceName", province.getAreaName());
-                    params.put("homeCityCode", city.getAreaCode() + "");
-                    params.put("homeCityName", city.getAreaName());
-                    params.put("homeAreaCode", town.getAreaCode() + "");
-                    params.put("homeAreaName", town.getAreaName());
-                }*/
-
+                EBLog.i("tag", "options1:" + String.valueOf(options1));
+                EBLog.i("tag", "options2:" + String.valueOf(options2));
+                EBLog.i("tag", "options3:" + String.valueOf(options3));
+                city = citys.get(options1).getAreaCode();
+                search_city_text.setText(citys.get(options1).getAreaName());
+                if (options2 == 0) {
+                    town = 0;
+                    search_town_text.setText("不限");
+                } else {
+                    town = citys.get(options1).getAreaList().get(options2 - 1).getAreaCode();
+                    search_town_text.setText(citys.get(options1).getAreaList().get(options2 - 1).getAreaName());
+                }
             }
         }).setTitleText("城市选择")
                 .build();
         if (GeneralUtils.isNotNullOrZeroSize(provinces) && GeneralUtils.isNotNullOrZeroSize(citys) && GeneralUtils.isNotNullOrZeroSize(towns))
-            optionsPickerView.setPicker(provinces, citys, towns);
+            optionsPickerView.setPicker(citys, towns);
     }
 
     //获取省、市、区三级列表
     private void getAreasList() {
         provinces = ZcApplication.getProvinces();
+        LocationResp citysDefault = new LocationResp();
+        citysDefault.setAreaName("不限");
+        citysDefault.setAreaCode((long) 0);
+        citys.add(citysDefault);
+        List<LocationResp> townsDefault = new ArrayList<>();
+        townsDefault.add(citysDefault);
+        towns.add(townsDefault);
+
         for (int i = 0; i < provinces.size(); i++) {
             List<LocationResp> cityList = provinces.get(i).getAreaList();//该省的城市列表（第二级）
             List<List<LocationResp>> province_townList = new ArrayList<>();//该省的所有地区列表（第三极）
-
             for (int j = 0; j < cityList.size(); j++) {
-                List<LocationResp> city_townList = cityList.get(j).getAreaList();
+                List<LocationResp> city_townList = new ArrayList<>();
+                city_townList.add(citysDefault);
+                city_townList.addAll(cityList.get(j).getAreaList());
                 province_townList.add(city_townList);
             }
-            citys.add(cityList);
-            towns.add(province_townList);
+            citys.addAll(cityList);
+            towns.addAll(province_townList);
         }
         setCityPicker();
     }
