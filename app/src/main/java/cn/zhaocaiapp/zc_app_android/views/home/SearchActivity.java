@@ -132,6 +132,7 @@ public class SearchActivity extends BaseActivity {
         HttpUtil.get(Constants.URL.GET_SEARCH_RECOMMEND).subscribe(new BaseResponseObserver<List<SearchRecommendResp>>() {
             @Override
             public void success(List<SearchRecommendResp> result) {
+                EBLog.i("tag", result.toString());
                 searchRecommendRespList = result;
                 final LayoutInflater mInflater = LayoutInflater.from(SearchActivity.this);
                 tagAdapter = new TagAdapter<SearchRecommendResp>(searchRecommendRespList) {
@@ -149,6 +150,7 @@ public class SearchActivity extends BaseActivity {
                 search_recommend_list.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
                     @Override
                     public boolean onTagClick(View view, int position, FlowLayout parent) {
+                        search_edit.setText(searchRecommendRespList.get(position).getName());
                         EBLog.i("tag", searchRecommendRespList.get(position).toString());
                         return true;
                     }
@@ -158,7 +160,7 @@ public class SearchActivity extends BaseActivity {
 
             @Override
             public void error(Response<List<SearchRecommendResp>> response) {
-
+                EBLog.i("tag", response.toString());
             }
 
         });
@@ -183,6 +185,7 @@ public class SearchActivity extends BaseActivity {
         search_history_list.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
+                search_edit.setText(historyList.get(position));
                 EBLog.i("tag", historyList.get(position));
                 return true;
             }
@@ -231,17 +234,25 @@ public class SearchActivity extends BaseActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {//EditorInfo.IME_ACTION_SEARCH、EditorInfo.IME_ACTION_SEND等分别对应EditText的imeOptions属性
                     //TODO回车键按下时要执行的操作
+                    //保存搜索历史
                     saveHistory(search_edit.getText().toString());
-                    Bundle bd = new Bundle();
-                    bd.putString("name", search_edit.getText().toString());
-                    openActivity(SearchResulfActivity.class, bd);
-
+                    goSearch();
                 }
                 return false;
             }
         });
 
     }
+
+    /**
+     * 确认搜索
+     */
+    private void goSearch() {
+        Bundle bd = new Bundle();
+        bd.putString("name", search_edit.getText().toString());
+        openActivity(SearchResulfActivity.class, bd);
+    }
+
 
     /**
      * 保存历史记录
