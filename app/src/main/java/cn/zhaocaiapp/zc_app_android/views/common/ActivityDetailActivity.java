@@ -13,18 +13,24 @@ import android.webkit.WebViewClient;
 
 import com.jph.takephoto.model.TResult;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BasePhotoActivity;
+import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.capabilities.json.GsonHelper;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.capabilities.takephoto.PhotoHelper;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.FileUtil;
+import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 public class ActivityDetailActivity extends BasePhotoActivity {
     @BindView(R.id.activity_detail_webView)
@@ -32,6 +38,8 @@ public class ActivityDetailActivity extends BasePhotoActivity {
 
     private View rootView;
     private PhotoHelper photoHelper;
+
+    private static final String TAG = "H5详情页";
 
     @Override
     public int getContentViewResId() {
@@ -102,18 +110,42 @@ public class ActivityDetailActivity extends BasePhotoActivity {
 
     }
 
-    @Override
-    public void takeSuccess(TResult result) {
-        super.takeSuccess(result);
-        String imgUrl = result.getImage().getCompressPath();
+    private void uploadImage(File file) {
+        Map<String, String> map = new HashMap<>();
+        map.put("postfix", ".jpg");
+        map.put("base64Str", FileUtil.fileToStream(file));
 
-        activity_detail_webView.evaluateJavascript("javascript:callJs(" + "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517399801249&di=4a680b11296f67259748efe4ca2108e1&imgtype=0&src=http%3A%2F%2Fcms-bucket.nosdn.127.net%2Fcatchpic%2F5%2F54%2F54a8cd32c0aae2254f9cdaeb70ae8697.png%3FimageView%26thumbnail%3D550x0" + ")", new ValueCallback<String>() {
+        HttpUtil.post(Constants.URL.UPLOAD_IMAGE, map).subscribe(new BaseResponseObserver<String>() {
+
+            @Override
+            public void success(String s) {
+                EBLog.i(TAG, s);
+                getPicture(s);
+            }
+
+            @Override
+            public void error(Response<String> response) {
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(ActivityDetailActivity.this, response.getDesc());
+            }
+        });
+    }
+
+    private void getPicture(String imgUrl){
+        activity_detail_webView.evaluateJavascript("javascript:callJs('" + imgUrl + "')", new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
                 EBLog.i("H5回调", value);
             }
         });
+    }
 
+    @Override
+    public void takeSuccess(TResult result) {
+        super.takeSuccess(result);
+        String imgUrl = result.getImage().getCompressPath();
+
+        uploadImage(new File(imgUrl));
     }
 
     @Override

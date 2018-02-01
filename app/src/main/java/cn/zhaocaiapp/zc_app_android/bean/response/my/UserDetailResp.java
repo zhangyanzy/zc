@@ -38,10 +38,18 @@ public class UserDetailResp {
     public class ActivityInfoBean {
         /**
          * "educationalCode": Long    学历ID
-         * "jobCode": 1
+         * "jobCode": Long   职业ID
+         * "job”：   String     职业
+         * "educational”:  String  学历
+         * “activityInfoAlterCount”: Integer  更改次数
+         * “UpdateIs”:   Boolean  true 可更改，false 不可
          */
         private long educationalCode;
         private int jobCode;
+        private String job;
+        private String educational;
+        private int activityInfoAlterCount;
+        private boolean UpdateIs;
 
         public long getEducationalCode() {
             return educationalCode;
@@ -59,11 +67,47 @@ public class UserDetailResp {
             this.jobCode = jobCode;
         }
 
+        public String getJob() {
+            return job;
+        }
+
+        public void setJob(String job) {
+            this.job = job;
+        }
+
+        public String getEducational() {
+            return educational;
+        }
+
+        public void setEducational(String educational) {
+            this.educational = educational;
+        }
+
+        public int getActivityInfoAlterCount() {
+            return activityInfoAlterCount;
+        }
+
+        public void setActivityInfoAlterCount(int activityInfoAlterCount) {
+            this.activityInfoAlterCount = activityInfoAlterCount;
+        }
+
+        public boolean isUpdateIs() {
+            return UpdateIs;
+        }
+
+        public void setUpdateIs(boolean updateIs) {
+            UpdateIs = updateIs;
+        }
+
         @Override
         public String toString() {
             return "ActivityInfoBean{" +
                     "educationalCode=" + educationalCode +
                     ", jobCode=" + jobCode +
+                    ", job='" + job + '\'' +
+                    ", educational='" + educational + '\'' +
+                    ", activityInfoAlterCount=" + activityInfoAlterCount +
+                    ", UpdateIs=" + UpdateIs +
                     '}';
         }
     }
@@ -272,7 +316,9 @@ public class UserDetailResp {
          * "idCard": String   身份证号码
          * "idCardPath": String    身份证反面路径
          * "name": String   姓名
-         * "realInfoAuditStatus": Integer  实名认证变动次数
+         * "realInfoAuditStatus": Integer  实名认证状态实名认证状态 0未认证 1待审核 2已认证 3 未通过
+         * "realInfoAlterCount": Integer  更新次数
+         * “UpdateIs”:   Boolean  true 可更改，false 不可
          * "sex": Integer    性别
          */
         private Date birthday;
@@ -280,6 +326,8 @@ public class UserDetailResp {
         private String idCardPath;
         private String name;
         private int realInfoAuditStatus;
+        private int realInfoAlterCount;
+        private boolean UpdateIs;
         private int sex;
 
         public Date getBirthday() {
@@ -330,6 +378,22 @@ public class UserDetailResp {
             this.sex = sex;
         }
 
+        public int getRealInfoAlterCount() {
+            return realInfoAlterCount;
+        }
+
+        public void setRealInfoAlterCount(int realInfoAlterCount) {
+            this.realInfoAlterCount = realInfoAlterCount;
+        }
+
+        public boolean isUpdateIs() {
+            return UpdateIs;
+        }
+
+        public void setUpdateIs(boolean updateIs) {
+            UpdateIs = updateIs;
+        }
+
         @Override
         public String toString() {
             return "RealInfoBean{" +
@@ -338,6 +402,8 @@ public class UserDetailResp {
                     ", idCardPath='" + idCardPath + '\'' +
                     ", name='" + name + '\'' +
                     ", realInfoAuditStatus=" + realInfoAuditStatus +
+                    ", realInfoAlterCount=" + realInfoAlterCount +
+                    ", UpdateIs=" + UpdateIs +
                     ", sex=" + sex +
                     '}';
         }

@@ -73,6 +73,8 @@ public class RealInfoFragment extends BaseFragment {
     EditText edit_user_name;
     @BindView(R.id.edit_id_number)
     EditText edit_id_number;
+    @BindView(R.id.tv_identify_state)
+    TextView tv_identify_state;
 
     private View rootView;
 
@@ -82,13 +84,21 @@ public class RealInfoFragment extends BaseFragment {
     private Calendar startDate;
     private Calendar endDate;
     private UserDetailResp.RealInfoBean realInfoBean;
-    private PhotoHelper photoHelper;
+
+    private String realName;
+    private String userGender = "男";
+    private String birthDay;
+    private String idNumber;
+    private String cardPath;
+    private File idFile;
+    private Map<String, String> params = new HashMap<>();
+    private boolean isCanUpdate;
 
     private String name;
-    private String idCard;
-    private int sex;
-    private String birthday;
-    private String idCardPath;
+    private String gender;
+    private Date date;
+    private String number;
+    private String path;
 
     private static final String TAG = "用户实名信息";
     private static final int REQUEST_CODE_PICK_IMAGE_FRONT = 101;
@@ -113,23 +123,44 @@ public class RealInfoFragment extends BaseFragment {
         setGenderPicker();
         setDatePicker();
 
-        //初始化照片选择器设置
-        photoHelper = PhotoHelper.of(rootView, true);
-
         //监听点击空白处，隐藏软键盘
         rootView.setOnTouchListener(onTouchListener);
     }
 
     private void showUserInfo() {
-        if (GeneralUtils.isNotNullOrZeroLenght(realInfoBean.getName()))
-            edit_user_name.setText(realInfoBean.getName());
-        if (GeneralUtils.isNotNullOrZeroLenght(realInfoBean.getIdCard()))
-            edit_id_number.setText(realInfoBean.getIdCard());
+        switch (realInfoBean.getRealInfoAuditStatus()) {
+            case 0:
+                tv_identify_state.setText("未认证");
+                break;
+            case 1:
+                tv_identify_state.setText("待审核");
+                break;
+            case 2:
+                tv_identify_state.setText("已认证");
+                break;
+            case 3:
+                tv_identify_state.setText("未通过");
+                break;
+        }
 
-        int sex = realInfoBean.getSex();
-        if (sex == 0) tv_user_gender.setText("男");
-        else tv_user_gender.setText("女");
+        name = realInfoBean.getName();
+        if (realInfoBean.getSex() == 0)
+            gender = "男";
+        if (realInfoBean.getSex() == 1)
+            gender = "女";
+        date = realInfoBean.getBirthday();
+        number = realInfoBean.getIdCard();
+        path = realInfoBean.getIdCardPath();
 
+        if (GeneralUtils.isNotNullOrZeroLenght(name))
+            edit_user_name.setText(name);
+        if (GeneralUtils.isNotNull(date))
+            tv_birth_day.setText(getBirthTime(date));
+        if (GeneralUtils.isNotNullOrZeroLenght(number))
+            edit_id_number.setText(number);
+        tv_user_gender.setText(gender);
+        if (GeneralUtils.isNotNullOrZeroLenght(path))
+            PictureLoadUtil.loadPicture(getActivity(), path, iv_scan_icture);
     }
 
     //性别选择器初始化设置
@@ -139,7 +170,8 @@ public class RealInfoFragment extends BaseFragment {
         optionsPickerView = new OptionsPickerView.Builder(getActivity(), new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                tv_user_gender.setText(genders.get(options1));
+                userGender = genders.get(options1);
+                tv_user_gender.setText(userGender);
             }
         }).setTitleText("性别选择")
                 .setSelectOptions(0)
@@ -157,7 +189,8 @@ public class RealInfoFragment extends BaseFragment {
         timePickerView = new TimePickerView.Builder(getActivity(), new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                tv_birth_day.setText(getBirthTime(date));
+                birthDay = getBirthTime(date);
+                tv_birth_day.setText(birthDay);
             }
         }).setTitleText("出生日期选择")
                 .setType(new boolean[]{true, true, true, false, false, false})
@@ -168,13 +201,6 @@ public class RealInfoFragment extends BaseFragment {
     }
 
     private void reviseRealInfo() {
-        Map<String, String> params = new HashMap<>();
-        params.put("name", name);
-        params.put("idCard", idCard);
-        params.put("sex", sex + "");
-        params.put("birthday", birthday);
-        params.put("idCardPath", "http://wenwen.soso.com/p/20150128/20150128123302-300234987.jpg");
-
         HttpUtil.put(Constants.URL.REVISE_REAL_INFO, params).subscribe(new BaseResponseObserver<CommonResp>() {
 
             @Override
@@ -196,13 +222,12 @@ public class RealInfoFragment extends BaseFragment {
 
     //接收EventBus发送的消息，并处理
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(MessageEvent<UserDetailResp.RealInfoBean> event) {
+    public void onEvent(MessageEvent event) {
         if (event.getMessage() instanceof UserDetailResp.RealInfoBean) {
-            realInfoBean = event.getMessage();
+            realInfoBean = (UserDetailResp.RealInfoBean) event.getMessage();
             showUserInfo();
             EBLog.i(TAG, realInfoBean.toString());
         }
-
     }
 
     @OnClick({R.id.tv_user_gender, R.id.tv_birth_day, R.id.iv_scan_icture, R.id.tv_submit})
@@ -227,33 +252,55 @@ public class RealInfoFragment extends BaseFragment {
                 }
                 break;
             case R.id.tv_submit:
-                name = edit_user_name.getText().toString();
-                idCard = edit_id_number.getText().toString();
-                birthday = tv_birth_day.getText().toString();
-                if (tv_user_gender.getText().toString().equals("男"))
-                    sex = 0;
-                else sex = 1;
-                if (verify()) {
-                    reviseRealInfo();
-                }
+                verify();
+                if (isCanUpdate) reviseRealInfo();
                 break;
         }
     }
 
-    private boolean verify() {
-        if (GeneralUtils.isNullOrZeroLenght(name)) {
+    private void verify() {
+        realName = edit_user_name.getText().toString();
+        idNumber = edit_id_number.getText().toString();
+
+        if (GeneralUtils.isNullOrZeroLenght(realName)) {
             ToastUtil.makeText(getActivity(), "用户姓名不能为空");
-            return false;
+            isCanUpdate = false;
+            return;
+        } else if (!name.equals(realName)) {
+            params.put("name", realName);
+            isCanUpdate = true;
         }
-        if (GeneralUtils.isNullOrZeroLenght(birthday)) {
+        if (!gender.equals(userGender)) {
+            if (userGender.equals("男"))
+                params.put("sex", "0");
+            if (userGender.equals("女"))
+                params.put("sex", "1");
+            isCanUpdate = true;
+        }
+        if (GeneralUtils.isNullOrZeroLenght(birthDay)) {
             ToastUtil.makeText(getActivity(), "用户出生年月不能为空");
-            return false;
+            isCanUpdate = false;
+            return;
+        } else if (GeneralUtils.isNotNull(date) && !getBirthTime(date).equals(birthDay)) {
+            params.put("birthday", birthDay);
+            isCanUpdate = true;
         }
-        if (GeneralUtils.isNullOrZeroLenght(idCard)) {
+        if (GeneralUtils.isNullOrZeroLenght(idNumber)) {
             ToastUtil.makeText(getActivity(), "用户身份证号不能为空");
-            return false;
+            isCanUpdate = false;
+            return;
+        } else if (!number.equals(idNumber)) {
+            params.put("idCard", idNumber);
+            isCanUpdate = true;
         }
-        return true;
+        if (GeneralUtils.isNullOrZeroLenght(cardPath)) {
+            ToastUtil.makeText(getActivity(), "身份证上传失败");
+            isCanUpdate = false;
+            return;
+        } else if (!path.equals(cardPath)) {
+            params.put("idCardPath", cardPath);
+            isCanUpdate = true;
+        }
     }
 
     private PhotoPickerUtil.OnItemClickListener listener = new PhotoPickerUtil.OnItemClickListener() {
@@ -279,9 +326,9 @@ public class RealInfoFragment extends BaseFragment {
     }
 
     //识别身份证信息
-    private void recIDCard(String filePath) {
+    private void recIDCard(File file) {
         IDCardParams param = new IDCardParams();
-        param.setImageFile(new File(filePath));
+        param.setImageFile(file);
         // 设置身份证正反面
         param.setIdCardSide(IDCardParams.ID_CARD_SIDE_FRONT);
         // 设置方向检测
@@ -297,7 +344,7 @@ public class RealInfoFragment extends BaseFragment {
                     tv_user_gender.setText(result.getGender().toString());
                     tv_birth_day.setText(GeneralUtils.splitTodate(result.getBirthday().toString()));
                     edit_id_number.setText(result.getIdNumber().toString());
-                    PictureLoadUtil.loadPicture(getActivity(), new File(filePath), iv_scan_icture);
+                    PictureLoadUtil.loadPicture(getActivity(), file, iv_scan_icture);
                 }
             }
 
@@ -331,16 +378,36 @@ public class RealInfoFragment extends BaseFragment {
                 Uri uri = data.getData();
                 filePath = getRealPathFromURI(uri);
             } else if (requestCode == REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
-                filePath = FileUtil.getSaveFile(getActivity().getApplicationContext()).getAbsolutePath();
+                filePath = FileUtil.getSaveFile(getActivity()).getAbsolutePath();
             }
-
-            recIDCard(filePath);
+            idFile = new File(filePath);
+            uploadImage(idFile);
+            recIDCard(idFile);
         } else {
             ToastUtil.makeText(getActivity(), "身份证未识别，请重新选择照片");
         }
     }
 
+    private void uploadImage(File file) {
+        Map<String, String> map = new HashMap<>();
+        map.put("postfix", ".jpg");
+        map.put("base64Str", FileUtil.fileToStream(file));
 
+        HttpUtil.post(Constants.URL.UPLOAD_IMAGE, map).subscribe(new BaseResponseObserver<String>() {
+
+            @Override
+            public void success(String s) {
+                EBLog.i(TAG, s);
+                cardPath = s;
+            }
+
+            @Override
+            public void error(Response<String> response) {
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(getActivity(), response.getDesc());
+            }
+        });
+    }
 
     @Override
     public void onStop() {

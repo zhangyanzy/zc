@@ -142,30 +142,10 @@ public class UserInfoFragment extends BaseFragment {
                 if (addressType == 0) {
                     homeAddress = province.getAreaName() + city.getAreaName() + town.getAreaName();
                     edit_user_address.setText(homeAddress);
-
-                    if (!hAddress.equals(homeAddress)) {
-                        params.put("homeProvinceCode", province.getAreaCode() + "");
-                        params.put("homeProvinceName", province.getAreaName());
-                        params.put("homeCityCode", city.getAreaCode() + "");
-                        params.put("homeCityName", city.getAreaName());
-                        params.put("homeAreaCode", town.getAreaCode() + "");
-                        params.put("homeAreaName", town.getAreaName());
-                        isCanUpdate = true;
-                    }
                 }
                 if (addressType == 1) {
                     companyAddress = province.getAreaName() + city.getAreaName() + town.getAreaName();
                     edit_company_address.setText(companyAddress);
-
-                    if (!cAddress.equals(companyAddress)) {
-                        params.put("companyProvinceCode", province.getAreaCode() + "");
-                        params.put("companyProvinceName", province.getAreaName());
-                        params.put("companyCityCode", city.getAreaCode() + "");
-                        params.put("companyCityName", city.getAreaName());
-                        params.put("companyAreaCode", town.getAreaCode() + "");
-                        params.put("companyAreaName", town.getAreaName());
-                        isCanUpdate = true;
-                    }
                 }
             }
         }).setTitleText("城市选择")
@@ -256,27 +236,70 @@ public class UserInfoFragment extends BaseFragment {
                 break;
             case R.id.tv_submit:
                 isCanUpdate();
-                if (isCanUpdate)
-                    reviceBaseInfo();
-                else ToastUtil.makeText(getActivity(), "没有修改的内容");
+                if (isCanUpdate) reviceBaseInfo();
                 break;
         }
     }
 
+    //判断是否修改内容
     private void isCanUpdate() {
         nickName = edit_user_nickname.getText().toString();
+        homeAddress = edit_user_address.getText().toString();
         homeAddressDetail = home_address_detail.getText().toString();
+        companyAddress = edit_company_address.getText().toString();
         companyAddressDetail = company_address_detail.getText().toString();
 
-        if (!name.equals(nickName)) {
+        if (GeneralUtils.isNullOrZeroLenght(nickName)) {
+            ToastUtil.makeText(getActivity(), "用户昵称不能为空");
+            isCanUpdate = false;
+            return;
+        } else if (!name.equals(nickName)) {
             params.put("nickname", nickName);
             isCanUpdate = true;
         }
-        if (!hDetail.equals(homeAddressDetail)) {
+        if (GeneralUtils.isNullOrZeroLenght(homeAddressDetail)){
+            ToastUtil.makeText(getActivity(), "家庭详细地址不能为空");
+            isCanUpdate = false;
+            return;
+        }else if (!hAddress.equals(homeAddress)) {
+            params.put("homeProvinceCode", province.getAreaCode() + "");
+            params.put("homeProvinceName", province.getAreaName());
+            params.put("homeCityCode", city.getAreaCode() + "");
+            params.put("homeCityName", city.getAreaName());
+            params.put("homeAreaCode", town.getAreaCode() + "");
+            params.put("homeAreaName", town.getAreaName());
+            params.put("homeAddressDetail", homeAddressDetail);
+            isCanUpdate = true;
+        }else if (!hDetail.equals(homeAddressDetail)) {
+            params.put("homeProvinceCode", province.getAreaCode() + "");
+            params.put("homeProvinceName", province.getAreaName());
+            params.put("homeCityCode", city.getAreaCode() + "");
+            params.put("homeCityName", city.getAreaName());
+            params.put("homeAreaCode", town.getAreaCode() + "");
+            params.put("homeAreaName", town.getAreaName());
             params.put("homeAddressDetail", homeAddressDetail);
             isCanUpdate = true;
         }
-        if (!cDetail.equals(companyAddressDetail)) {
+        if (GeneralUtils.isNullOrZeroLenght(companyAddressDetail)){
+            ToastUtil.makeText(getActivity(), "公司详细地址不能为空");
+            isCanUpdate = false;
+            return;
+        }else if (!cAddress.equals(companyAddress)) {
+            params.put("companyProvinceCode", province.getAreaCode() + "");
+            params.put("companyProvinceName", province.getAreaName());
+            params.put("companyCityCode", city.getAreaCode() + "");
+            params.put("companyCityName", city.getAreaName());
+            params.put("companyAreaCode", town.getAreaCode() + "");
+            params.put("companyAreaName", town.getAreaName());
+            params.put("companyAddressDetail", companyAddressDetail);
+            isCanUpdate = true;
+        }else if (!cDetail.equals(companyAddressDetail)) {
+            params.put("companyProvinceCode", province.getAreaCode() + "");
+            params.put("companyProvinceName", province.getAreaName());
+            params.put("companyCityCode", city.getAreaCode() + "");
+            params.put("companyCityName", city.getAreaName());
+            params.put("companyAreaCode", town.getAreaCode() + "");
+            params.put("companyAreaName", town.getAreaName());
             params.put("companyAddressDetail", companyAddressDetail);
             isCanUpdate = true;
         }
@@ -295,6 +318,7 @@ public class UserInfoFragment extends BaseFragment {
             @Override
             public void success(CommonResp commonResp) {
                 ToastUtil.makeText(getActivity(), commonResp.getDesc());
+                isCanUpdate = false;
             }
 
             @Override

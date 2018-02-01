@@ -84,9 +84,9 @@ public class RelativeInfoFragment extends BaseFragment {
 
     //接收EventBus发送的消息，并处理
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(MessageEvent<UserDetailResp.ActivityInfoBean> event) {
+    public void onEvent(MessageEvent event) {
         if (event.getMessage() instanceof UserDetailResp.ActivityInfoBean) {
-            activityInfoBean = event.getMessage();
+            activityInfoBean = (UserDetailResp.ActivityInfoBean) event.getMessage();
             EBLog.i(TAG, activityInfoBean.toString());
         }
     }
