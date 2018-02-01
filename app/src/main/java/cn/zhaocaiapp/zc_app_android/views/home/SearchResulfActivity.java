@@ -48,6 +48,13 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
     EditText iv_top_edit;
 
     private String name = ""; //活动名称
+    private String activityForm = "";//活动类型 0线下活动 1视频活动 2问卷活动
+    private String activityType = "";//活动分类 0单体活动 1串联活动 2协同活动
+    private String limit = ""; //金额下限
+    private String topLimit = "";//金额上限
+    private String cityCode = ""; //城市编码
+    private String areaCode = ""; //区县编码
+
     private int pageNumber = 1;//分页
     private List<ActivityResp> activityRespList = new ArrayList<>();//活动列表
 
@@ -62,6 +69,14 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
     public void init(Bundle savedInstanceState) {
         Bundle bd = this.getIntent().getExtras();
         name = bd != null ? bd.getString("name", "") : "";
+        activityForm = bd != null ? bd.getString("activityForm", "") : "";
+        activityType = bd != null ? bd.getString("activityType", "") : "";
+        limit = bd != null ? bd.getString("limit", "") : "";
+        topLimit = bd != null ? bd.getString("topLimit", "") : "";
+        cityCode = bd != null ? bd.getString("cityCode", "") : "";
+        areaCode = bd != null ? bd.getString("areaCode", "") : "";
+
+
         EBLog.i("tag", "接受到搜索名称：" + name);
 
         initView();
@@ -79,6 +94,12 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
         //获取商家活动列表
         Map<String, String> params = new HashMap<>();
         params.put("name", name);
+        params.put("activityForm", activityForm);
+        params.put("activityType", activityType);
+        params.put("limit", limit);
+        params.put("topLimit", topLimit);
+        params.put("cityCode", cityCode);
+        params.put("areaCode", areaCode);
         params.put("pageSize", String.valueOf(Constants.CONFIG.PAGE_SIZE));
         params.put("currentResult", String.valueOf((pageNumber - 1) * Constants.CONFIG.PAGE_SIZE));
         EBLog.i("tag", params.toString());

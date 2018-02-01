@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -85,12 +86,22 @@ public class SearchActivity extends BaseActivity {
     TextView search_city_text;
     @BindView(R.id.search_town_text)
     TextView search_town_text;
+    @BindView(R.id.search_history_clear)
+    ImageView search_history_clear;
+    @BindView(R.id.search_edit_top_limit)
+    EditText search_edit_top_limit;
+    @BindView(R.id.search_edit_limit)
+    EditText search_edit_limit;
+    @BindView(R.id.search_btn_off)
+    Button search_btn_off;
+    @BindView(R.id.search_btn_on)
+    Button search_btn_on;
 
 
     private List<SearchRecommendResp> searchRecommendRespList; //推荐活动
     private TagAdapter tagAdapter;
     private TagAdapter hisTagAdapter;
-    private List<String> historyList = new ArrayList<String>();//搜索历史
+    private List<String> historyList;//搜索历史
     private String activityType = "";//活动分类 0单体活动 1串联活动 2协同活动
     private String activityForm = "";//活动类型 0线下活动 1视频活动 2问卷活动
     private String activityMoney = "";//金额
@@ -112,13 +123,15 @@ public class SearchActivity extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         //初始化城市列表
+        historyList = new ArrayList<>();
         searchRecommendRespList = new ArrayList<>();
         citys = new ArrayList<>();
         towns = new ArrayList<>();
         initView();
         getAreasList();
-        getHistory();
         initData();
+        getHistory();
+
     }
 
     /**
@@ -195,8 +208,21 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void initView() {
-        //输入框改变
-        /*search_edit.addTextChangedListener(new TextWatcher() {
+        search_edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {//EditorInfo.IME_ACTION_SEARCH、EditorInfo.IME_ACTION_SEND等分别对应EditText的imeOptions属性
+                    //TODO回车键按下时要执行的操作
+                    goSearch();
+                    //保存搜索历史
+                    saveHistory(search_edit.getText().toString());
+                }
+                return false;
+            }
+        });
+
+        //输入框改变 终止金额
+        search_edit_top_limit.addTextChangedListener(new TextWatcher() {
             //内容改变前
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -206,42 +232,38 @@ public class SearchActivity extends BaseActivity {
             //内容改变
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                onMoney(5);
 
             }
 
             //内容改变后
             @Override
             public void afterTextChanged(Editable s) {
-
-            }
-        });*/
-        //输入框 输入法确认
-        /*search_edit.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == event.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
-                    saveHistory(search_edit.getText().toString());
-                    Bundle bd = new Bundle();
-                    bd.putString("name", search_edit.getText().toString());
-                    openActivity(SearchResulfActivity.class, bd);
-                    return true;
-                }
-                return false;
-            }
-        });*/
-        search_edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {//EditorInfo.IME_ACTION_SEARCH、EditorInfo.IME_ACTION_SEND等分别对应EditText的imeOptions属性
-                    //TODO回车键按下时要执行的操作
-                    //保存搜索历史
-                    saveHistory(search_edit.getText().toString());
-                    goSearch();
-                }
-                return false;
+                topLimit = String.valueOf(s);
             }
         });
 
+        //输入框改变 起始金额
+        search_edit_limit.addTextChangedListener(new TextWatcher() {
+            //内容改变前
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            //内容改变
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                onMoney(5);
+
+            }
+
+            //内容改变后
+            @Override
+            public void afterTextChanged(Editable s) {
+                limit = String.valueOf(s);
+            }
+        });
     }
 
     /**
@@ -250,7 +272,31 @@ public class SearchActivity extends BaseActivity {
     private void goSearch() {
         Bundle bd = new Bundle();
         bd.putString("name", search_edit.getText().toString());
+        bd.putString("activityType", activityType);
+        bd.putString("activityForm", activityForm);
+        bd.putString("topLimit", topLimit);
+        bd.putString("limit", limit);
+        bd.putString("cityCode", city == 0 ? "" : String.valueOf(city));
+        bd.putString("areaCode", town == 0 ? "" : String.valueOf(town));
         openActivity(SearchResulfActivity.class, bd);
+    }
+
+    /**
+     * 重置
+     */
+    private void goClear() {
+        search_edit.setText("");
+        onClass(3);
+        onType(3);
+        onMoney(5);
+        topLimit = "";
+        limit = "";
+        search_edit_top_limit.setText(topLimit);
+        search_edit_limit.setText(limit);
+        city = 0;
+        town = 0;
+        search_city_text.setText("不限");
+        search_town_text.setText("不限");
     }
 
 
@@ -271,7 +317,7 @@ public class SearchActivity extends BaseActivity {
         //添加
         stringList.add(content);
         SpUtils.put(Constants.SPREF.SEARCH_HISTORY, GeneralUtils.listToString(stringList));
-
+        getHistory();
     }
 
     /**
@@ -279,6 +325,7 @@ public class SearchActivity extends BaseActivity {
      */
     private void getHistory() {
         List<String> stringList = new ArrayList(GeneralUtils.stringToList((String) SpUtils.get(Constants.SPREF.SEARCH_HISTORY, "")));
+
         List<String> stringList1 = new ArrayList<>();
         for (int i = stringList.size() - 1; i >= 0 && stringList1.size() < 10; i--) {
             if (GeneralUtils.isNullOrZeroLenght(stringList.get(i))) {
@@ -286,7 +333,18 @@ public class SearchActivity extends BaseActivity {
             }
             stringList1.add(stringList.get(i));
         }
-        historyList = stringList1;
+        historyList.clear();
+        historyList.addAll(stringList1);
+        hisTagAdapter.notifyDataChanged();
+    }
+
+    /**
+     * 清除搜索历史
+     */
+    private void clearHistory() {
+        SpUtils.put(Constants.SPREF.SEARCH_HISTORY, "");
+        historyList.clear();
+        hisTagAdapter.notifyDataChanged();
     }
 
     public static class ViewHolder {
@@ -316,7 +374,10 @@ public class SearchActivity extends BaseActivity {
             R.id.search_money_3,
             R.id.search_money_4,
             R.id.search_city,
-            R.id.search_town
+            R.id.search_town,
+            R.id.search_history_clear,
+            R.id.search_btn_on,
+            R.id.search_btn_off,
 
     })
     public void onClick(View view) {
@@ -381,6 +442,18 @@ public class SearchActivity extends BaseActivity {
             case R.id.search_town:
                 optionsPickerView.show();
                 break;
+            //清楚搜索历史
+            case R.id.search_history_clear:
+                clearHistory();
+                break;
+            //完成
+            case R.id.search_btn_on:
+                goSearch();
+                break;
+            //重置
+            case R.id.search_btn_off:
+                goClear();
+                break;
 
         }
     }
@@ -399,6 +472,10 @@ public class SearchActivity extends BaseActivity {
             case 2:
                 activityType = activityType.equals("2") ? "" : "2";
                 break;
+            case 3:
+                activityType = "";
+                break;
+
         }
         if (activityType.equals("0")) {
             activity_class_0.setTextColor(this.getResources().getColor(R.color.colorPrimary));
@@ -437,6 +514,9 @@ public class SearchActivity extends BaseActivity {
             case 2:
                 activityForm = activityForm.equals("2") ? "" : "2";
                 break;
+            case 3:
+                activityForm = "";
+                break;
         }
         if (activityForm.equals("0")) {
             activity_type_0.setTextColor(this.getResources().getColor(R.color.colorPrimary));
@@ -462,28 +542,43 @@ public class SearchActivity extends BaseActivity {
     }
 
     /**
-     * 控制活动类型
+     * 控制奖励金额
      */
     private void onMoney(int k) {
         switch (k) {
             case 0:
                 activityMoney = activityMoney.equals("0") ? "" : "0";
+                topLimit = "5";
+                limit = "0";
                 break;
             case 1:
                 activityMoney = activityMoney.equals("1") ? "" : "1";
+                topLimit = "10";
+                limit = "5";
                 break;
             case 2:
                 activityMoney = activityMoney.equals("2") ? "" : "2";
+                topLimit = "15";
+                limit = "10";
                 break;
             case 3:
                 activityMoney = activityMoney.equals("3") ? "" : "3";
+                topLimit = "20";
+                limit = "15";
                 break;
             case 4:
                 activityMoney = activityMoney.equals("4") ? "" : "4";
+                topLimit = "20";
+                limit = "";
                 break;
             case 5:
                 activityMoney = "";
                 break;
+            default:
+                if (activityMoney.equals("")) {
+                    topLimit = "";
+                    limit = "";
+                }
         }
         if (activityMoney.equals("0")) {
             search_money_0.setTextColor(this.getResources().getColor(R.color.colorPrimary));

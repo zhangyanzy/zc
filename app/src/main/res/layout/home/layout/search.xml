@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center">
 
                 <TextView
@@ -90,6 +90,7 @@
                     android:textSize="18sp" />
 
                 <ImageView
+                    android:id="@+id/search_history_clear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
@@ -332,6 +333,7 @@
                 android:layout_marginTop="10dp">
 
                 <EditText
+                    android:id="@+id/search_edit_limit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
@@ -339,6 +341,7 @@
                     android:background="@drawable/search_class_off"
                     android:gravity="center"
                     android:hint="@string/search_money_5"
+                    android:inputType="number"
                     android:singleLine="true"
                     android:textColor="@color/colorFont6"
                     android:textColorHint="@color/colorFont9"
@@ -352,6 +355,7 @@
                     android:background="@color/colorLine" />
 
                 <EditText
+                    android:id="@+id/search_edit_top_limit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -359,6 +363,7 @@
                     android:background="@drawable/search_class_off"
                     android:gravity="center"
                     android:hint="@string/search_money_6"
+                    android:inputType="number"
                     android:singleLine="true"
                     android:textColor="@color/colorFont6"
                     android:textColorHint="@color/colorFont9"
@@ -448,18 +453,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp">
 
         <Button
+            android:id="@+id/search_btn_off"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginEnd="7.5dp"
             android:layout_weight="1"
-            android:text="重置" />
+            android:background="@drawable/search_btn_off"
+            android:text="重置"
+            android:textColor="@color/colorFont6"
+            android:textSize="18sp" />
 
         <Button
+            android:id="@+id/search_btn_on"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="7.5dp"
             android:layout_weight="1"
-            android:text="完成" />
+            android:background="@drawable/search_btn_on"
+            android:text="完成"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
     </LinearLayout>
 </RelativeLayout>

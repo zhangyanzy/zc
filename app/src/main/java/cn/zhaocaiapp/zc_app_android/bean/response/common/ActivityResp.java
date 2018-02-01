@@ -21,6 +21,11 @@ public class ActivityResp {
     private Integer activityType;
 
     /**
+     * 活动分类名称
+     */
+    private String activityTypeName;
+
+    /**
      * 子活动
      */
     private List<SeriesActivityResp> seriesActivity;
@@ -40,8 +45,14 @@ public class ActivityResp {
      */
     private Integer online;
 
+    /**
+     * 分页信息 起始条数(不包含)
+     */
     private Integer currentResult;
 
+    /**
+     * 分页信息 每页条数
+     */
     private Integer pageSize;
 
     /**
@@ -49,6 +60,9 @@ public class ActivityResp {
      */
     private Boolean join;
 
+    /**
+     * 是否关注
+     */
     private Boolean follow;
 
     /**
@@ -61,12 +75,23 @@ public class ActivityResp {
      */
     private Integer activityForm;
 
+    private String activityFormName;
+
     /**
      * 活动名称
      */
     private String name;
 
+    /**
+     * 活动二维码
+     */
     private String activityCode;
+
+
+    /**
+     * 是否检查二维码
+     */
+    private Integer ifCheck;
 
     /**
      * 开始时间
@@ -123,6 +148,9 @@ public class ActivityResp {
      */
     private String memberName;
 
+    /**
+     * 商家图片
+     */
     private String memberImg;
 
     /**
@@ -211,11 +239,6 @@ public class ActivityResp {
     private Long questionId;
 
     /**
-     * 问卷状态 0待回答 1已完成 2已取消
-     */
-    private Integer questionStatus;
-
-    /**
      * 问卷类型
      */
     private Integer questionType;
@@ -224,6 +247,18 @@ public class ActivityResp {
      * 问卷奖励金额 每人元
      */
     private BigDecimal questionRewardAmount;
+
+
+    /**
+     * 问卷状态 0待回答 1已完成 2已取消
+     */
+    private Integer questionStatus;
+
+
+    /**
+     * 用户活动状态
+     */
+    private Integer activityStatus;
 
     /**
      * 活动视频
@@ -246,6 +281,11 @@ public class ActivityResp {
     private Integer contentAuditStatus;
 
     /**
+     * 内容审核状态名称
+     */
+    private String contentAuditStatusName;
+
+    /**
      * 内容审核备注
      */
     private String contentAuditMemo;
@@ -255,6 +295,15 @@ public class ActivityResp {
      */
     private Integer financeAuditStatus;
 
+    /**
+     * 财务审核状态名称
+     */
+    private String financeAuditStatusName;
+
+    /**
+     * 活动发布状态 0未发布 1已发布
+     */
+    private Integer releaseStatus;
     /**
      * 财务审核备注
      */
@@ -285,6 +334,27 @@ public class ActivityResp {
      */
     private Integer isDelete;
 
+    /**
+     * 活动分类名称
+     */
+    private String typeName;
+
+    /**
+     * 置顶状态名称
+     */
+    private String stickName;
+
+    /**
+     * 活动状态名称
+     */
+    private String actName;
+
+    /**
+     * 发布状态名称
+     */
+    private String statusName;
+
+
     public Long getKid() {
         return kid;
     }
@@ -301,6 +371,13 @@ public class ActivityResp {
         this.activityType = activityType;
     }
 
+    public List<SeriesActivityResp> getSeriesActivity() {
+        return seriesActivity;
+    }
+
+    public void setSeriesActivity(List<SeriesActivityResp> seriesActivity) {
+        this.seriesActivity = seriesActivity;
+    }
 
     public Integer getActivityForm() {
         return activityForm;
@@ -710,6 +787,14 @@ public class ActivityResp {
         this.follow = follow;
     }
 
+    public List<FinishUserResp> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<FinishUserResp> userList) {
+        this.userList = userList;
+    }
+
     public Integer getFinishCount() {
         return finishCount;
     }
@@ -734,83 +819,91 @@ public class ActivityResp {
         this.activityCode = activityCode;
     }
 
-    public List<SeriesActivityResp> getSeriesActivity() {
-        return seriesActivity;
+    public String getContentAuditStatusName() {
+        return contentAuditStatusName;
     }
 
-    public void setSeriesActivity(List<SeriesActivityResp> seriesActivity) {
-        this.seriesActivity = seriesActivity;
+    public void setContentAuditStatusName(String contentAuditStatusName) {
+        this.contentAuditStatusName = contentAuditStatusName;
     }
 
-    public List<FinishUserResp> getUserList() {
-        return userList;
+    public String getFinanceAuditStatusName() {
+        return financeAuditStatusName;
     }
 
-    public void setUserList(List<FinishUserResp> userList) {
-        this.userList = userList;
+    public void setFinanceAuditStatusName(String financeAuditStatusName) {
+        this.financeAuditStatusName = financeAuditStatusName;
     }
 
-    @Override
-    public String toString() {
-        return "ActivityResp{" +
-                "kid=" + kid +
-                ", activityType=" + activityType +
-                ", seriesActivity=" + seriesActivity +
-                ", userList=" + userList +
-                ", finishCount=" + finishCount +
-                ", online=" + online +
-                ", currentResult=" + currentResult +
-                ", pageSize=" + pageSize +
-                ", join=" + join +
-                ", follow=" + follow +
-                ", sortType='" + sortType + '\'' +
-                ", activityForm=" + activityForm +
-                ", name='" + name + '\'' +
-                ", activityCode='" + activityCode + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", requireTime=" + requireTime +
-                ", notifyTime=" + notifyTime +
-                ", totalAmount=" + totalAmount +
-                ", leftAmount=" + leftAmount +
-                ", rewardAmount=" + rewardAmount +
-                ", maxUser=" + maxUser +
-                ", actualUser=" + actualUser +
-                ", memberId=" + memberId +
-                ", memberName='" + memberName + '\'' +
-                ", memberImg='" + memberImg + '\'' +
-                ", joinCondition='" + joinCondition + '\'' +
-                ", pushRange='" + pushRange + '\'' +
-                ", contentRich='" + contentRich + '\'' +
-                ", activityImage1='" + activityImage1 + '\'' +
-                ", isStick=" + isStick +
-                ", pushType=" + pushType +
-                ", provinceCode=" + provinceCode +
-                ", provinceName='" + provinceName + '\'' +
-                ", cityCode=" + cityCode +
-                ", cityName='" + cityName + '\'' +
-                ", areaCode=" + areaCode +
-                ", areaName='" + areaName + '\'' +
-                ", addressDetail='" + addressDetail + '\'' +
-                ", longitude=" + longitude +
-                ", latitude=" + latitude +
-                ", referImage1='" + referImage1 + '\'' +
-                ", questionId=" + questionId +
-                ", questionStatus=" + questionStatus +
-                ", questionType=" + questionType +
-                ", questionRewardAmount=" + questionRewardAmount +
-                ", activityVedio='" + activityVedio + '\'' +
-                ", activityOuterVedio='" + activityOuterVedio + '\'' +
-                ", coopCount=" + coopCount +
-                ", contentAuditStatus=" + contentAuditStatus +
-                ", contentAuditMemo='" + contentAuditMemo + '\'' +
-                ", financeAuditStatus=" + financeAuditStatus +
-                ", financeAuditMemo='" + financeAuditMemo + '\'' +
-                ", createId=" + createId +
-                ", createTime=" + createTime +
-                ", updateId=" + updateId +
-                ", updateTime=" + updateTime +
-                ", isDelete=" + isDelete +
-                '}';
+    public String getActivityTypeName() {
+        return activityTypeName;
+    }
+
+    public void setActivityTypeName(String activityTypeName) {
+        this.activityTypeName = activityTypeName;
+    }
+
+    public String getActivityFormName() {
+        return activityFormName;
+    }
+
+    public void setActivityFormName(String activityFormName) {
+        this.activityFormName = activityFormName;
+    }
+
+    public Integer getActivityStatus() {
+        return activityStatus;
+    }
+
+    public void setActivityStatus(Integer activityStatus) {
+        this.activityStatus = activityStatus;
+    }
+
+    public Integer getIfCheck() {
+        return ifCheck;
+    }
+
+    public void setIfCheck(Integer ifCheck) {
+        this.ifCheck = ifCheck;
+    }
+
+    public Integer getReleaseStatus() {
+        return releaseStatus;
+    }
+
+    public void setReleaseStatus(Integer releaseStatus) {
+        this.releaseStatus = releaseStatus;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public String getStickName() {
+        return stickName;
+    }
+
+    public String getActName() {
+        return actName;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public void setStickName(String stickName) {
+        this.stickName = stickName;
+    }
+
+    public void setActName(String actName) {
+        this.actName = actName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
 }
