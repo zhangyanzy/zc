@@ -9,6 +9,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import com.jph.takephoto.model.TResult;
@@ -18,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BasePhotoActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
@@ -33,6 +36,12 @@ import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 public class ActivityDetailActivity extends BasePhotoActivity {
+    @BindView(R.id.iv_top_back)
+    ImageView iv_back;
+    @BindView(R.id.tv_top_title)
+    TextView tv_title;
+    @BindView(R.id.iv_top_menu)
+    ImageView iv_menu;
     @BindView(R.id.activity_detail_webView)
     WebView activity_detail_webView;
 
@@ -49,6 +58,7 @@ public class ActivityDetailActivity extends BasePhotoActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        tv_title.setText("活动详情");
 
         activity_detail_webView.loadUrl("file:///android_asset/h5-assets/index.html");
         //webView.loadUrl("http://192.168.1.189:8080");
@@ -110,6 +120,18 @@ public class ActivityDetailActivity extends BasePhotoActivity {
 
     }
 
+    @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.iv_top_back:
+                goBack();
+                break;
+            case R.id.iv_top_menu:
+
+                break;
+        }
+    }
+
     private void uploadImage(File file) {
         Map<String, String> map = new HashMap<>();
         map.put("postfix", ".jpg");
@@ -131,8 +153,18 @@ public class ActivityDetailActivity extends BasePhotoActivity {
         });
     }
 
+    public void goBack(){
+        activity_detail_webView.evaluateJavascript("javascript:goBack()", new ValueCallback<String>() {
+
+            @Override
+            public void onReceiveValue(String value) {
+                EBLog.i("H5回调", value);
+            }
+        });
+    }
+
     private void getPicture(String imgUrl){
-        activity_detail_webView.evaluateJavascript("javascript:callJs('" + imgUrl + "')", new ValueCallback<String>() {
+        activity_detail_webView.evaluateJavascript("javascript:getPicture('" + imgUrl + "')", new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
                 EBLog.i("H5回调", value);
