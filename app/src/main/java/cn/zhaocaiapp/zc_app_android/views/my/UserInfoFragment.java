@@ -18,6 +18,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +42,6 @@ import cn.zhaocaiapp.zc_app_android.util.FileUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.PhotoPickerUtil;
-import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import retrofit2.http.HTTP;
 import retrofit2.http.PATCH;
@@ -81,16 +81,22 @@ public class UserInfoFragment extends BaseFragment {
     private OptionsPickerView optionsPickerView;
 
     private UserDetailResp.BaseInfoBean baseInfoBean;
-    private String avatar;
     private LocationResp province, city, town;
+    //    private String avatar;
     private String nickName;
+    private String homeAddress;
+    private String companyAddress;
     private String homeAddressDetail;
     private String companyAddressDetail;
 
-    private String homeAddress;
-    private String homeDetail;
-    private String companyAddress;
-    private String companyDetail;
+    private String hAddress;
+    private String hDetail;
+    private String cAddress;
+    private String cDetail;
+    private String name;
+    private String imgUrl;
+
+    private boolean isCanUpdate;
 
     private int addressType; // 0-家庭住址  1-公司地址
     private Map<String, String> params = new HashMap<>();
@@ -134,25 +140,32 @@ public class UserInfoFragment extends BaseFragment {
                 town = towns.get(options1).get(options2).get(options3);
 
                 if (addressType == 0) {
-                    edit_user_address.setText(province.getAreaName() + city.getAreaName() + town.getAreaName());
+                    homeAddress = province.getAreaName() + city.getAreaName() + town.getAreaName();
+                    edit_user_address.setText(homeAddress);
 
-                    params.put("homeProvinceCode", province.getAreaCode() + "");
-                    params.put("homeProvinceName", province.getAreaName());
-                    params.put("homeCityCode", city.getAreaCode() + "");
-                    params.put("homeCityName", city.getAreaName());
-                    params.put("homeAreaCode", town.getAreaCode() + "");
-                    params.put("homeAreaName", town.getAreaName());
+                    if (!hAddress.equals(homeAddress)) {
+                        params.put("homeProvinceCode", province.getAreaCode() + "");
+                        params.put("homeProvinceName", province.getAreaName());
+                        params.put("homeCityCode", city.getAreaCode() + "");
+                        params.put("homeCityName", city.getAreaName());
+                        params.put("homeAreaCode", town.getAreaCode() + "");
+                        params.put("homeAreaName", town.getAreaName());
+                        isCanUpdate = true;
+                    }
                 }
-
                 if (addressType == 1) {
-                    edit_company_address.setText(province.getAreaName() + city.getAreaName() + town.getAreaName());
+                    companyAddress = province.getAreaName() + city.getAreaName() + town.getAreaName();
+                    edit_company_address.setText(companyAddress);
 
-                    params.put("companyProvinceCode", province.getAreaCode() + "");
-                    params.put("companyProvinceName", province.getAreaName());
-                    params.put("companyCityCode", city.getAreaCode() + "");
-                    params.put("companyCityName", city.getAreaName());
-                    params.put("companyAreaCode", town.getAreaCode() + "");
-                    params.put("companyAreaName", town.getAreaName());
+                    if (!cAddress.equals(companyAddress)) {
+                        params.put("companyProvinceCode", province.getAreaCode() + "");
+                        params.put("companyProvinceName", province.getAreaName());
+                        params.put("companyCityCode", city.getAreaCode() + "");
+                        params.put("companyCityName", city.getAreaName());
+                        params.put("companyAreaCode", town.getAreaCode() + "");
+                        params.put("companyAreaName", town.getAreaName());
+                        isCanUpdate = true;
+                    }
                 }
             }
         }).setTitleText("城市选择")
@@ -167,22 +180,25 @@ public class UserInfoFragment extends BaseFragment {
 
     //显示用户信息
     private void showUserInfo() {
-        if (GeneralUtils.isNotNullOrZeroLenght(baseInfoBean.getNickname()))
-            edit_user_nickname.setText(baseInfoBean.getNickname());
+        name = baseInfoBean.getNickname();
+        imgUrl = baseInfoBean.getAvatar();
+        hAddress = baseInfoBean.getHomeProvinceName() + baseInfoBean.getHomeCityName() + baseInfoBean.getHomeAreaName();
+        hDetail = baseInfoBean.getHomeAddressDetail();
+        cAddress = baseInfoBean.getCompanyProvinceName() + baseInfoBean.getCompanyCityName() + baseInfoBean.getCompanyAreaName();
+        cDetail = baseInfoBean.getCompanyAddressDetail();
 
-        homeAddress = baseInfoBean.getHomeProvinceName() + baseInfoBean.getHomeCityName() + baseInfoBean.getHomeAreaName();
-        homeDetail = baseInfoBean.getHomeAddressDetail();
-        companyAddress = baseInfoBean.getCompanyProvinceName() + baseInfoBean.getCompanyCityName() + baseInfoBean.getCompanyAreaName();
-        companyDetail = baseInfoBean.getCompanyAddressDetail();
-        if (GeneralUtils.isNotNullOrZeroLenght(homeAddress))
-            edit_user_address.setText(homeAddress);
-        if (GeneralUtils.isNotNullOrZeroLenght(homeDetail))
-            home_address_detail.setText(homeDetail);
-        if (GeneralUtils.isNotNullOrZeroLenght(companyAddress))
-            edit_company_address.setText(companyAddress);
-        if (GeneralUtils.isNotNullOrZeroLenght(companyDetail))
-            company_address_detail.setText(companyDetail);
-//        BaseImage.getInstance().displayCricleImage(getActivity(), baseInfoBean.getAvatar(),);
+        if (GeneralUtils.isNotNullOrZeroLenght(name))
+            edit_user_nickname.setText(name);
+        if (GeneralUtils.isNotNullOrZeroLenght(hAddress))
+            edit_user_address.setText(hAddress);
+        if (GeneralUtils.isNotNullOrZeroLenght(hDetail))
+            home_address_detail.setText(hDetail);
+        if (GeneralUtils.isNotNullOrZeroLenght(cAddress))
+            edit_company_address.setText(cAddress);
+        if (GeneralUtils.isNotNullOrZeroLenght(cDetail))
+            company_address_detail.setText(cDetail);
+        if (GeneralUtils.isNotNullOrZeroLenght(imgUrl))
+            BaseImage.getInstance().displayCricleImage(getActivity(), imgUrl, iv_user_photo);
         edit_user_phone.setText(baseInfoBean.getPhone());
     }
 
@@ -239,24 +255,31 @@ public class UserInfoFragment extends BaseFragment {
                 openActivity(ChangePhoneActivity.class);
                 break;
             case R.id.tv_submit:
-                nickName = edit_user_nickname.getText().toString();
-                homeAddressDetail = home_address_detail.getText().toString();
-                companyAddressDetail = company_address_detail.getText().toString();
-//                 if (GeneralUtils.isNullOrZeroLenght(nickName))
-//                     ToastUtil.makeText(getActivity(),"昵称不能为空");
-//                 else if (GeneralUtils.isNullOrZeroLenght(homeAddressDetail))
-//                     ToastUtil.makeText(getActivity(),"家庭住址不能为空");
-//                 else if (GeneralUtils.isNullOrZeroLenght(companyAddressDetail))
-//                     ToastUtil.makeText(getActivity(),"公司住址不能为空");
-//                 else reviceBaseInfo();
-                reviceBaseInfo();
+                isCanUpdate();
+                if (isCanUpdate)
+                    reviceBaseInfo();
+                else ToastUtil.makeText(getActivity(), "没有修改的内容");
                 break;
         }
     }
 
-    private boolean isCanUpdate(){
-//        if (GeneralUtils.isNotNullOrZeroLenght())
-     return false;
+    private void isCanUpdate() {
+        nickName = edit_user_nickname.getText().toString();
+        homeAddressDetail = home_address_detail.getText().toString();
+        companyAddressDetail = company_address_detail.getText().toString();
+
+        if (!name.equals(nickName)) {
+            params.put("nickname", nickName);
+            isCanUpdate = true;
+        }
+        if (!hDetail.equals(homeAddressDetail)) {
+            params.put("homeAddressDetail", homeAddressDetail);
+            isCanUpdate = true;
+        }
+        if (!cDetail.equals(companyAddressDetail)) {
+            params.put("companyAddressDetail", companyAddressDetail);
+            isCanUpdate = true;
+        }
     }
 
     private PhotoPickerUtil.OnItemClickListener listener = new PhotoPickerUtil.OnItemClickListener() {
@@ -267,11 +290,6 @@ public class UserInfoFragment extends BaseFragment {
     };
 
     private void reviceBaseInfo() {
-        params.put("avatar", avatar);
-        params.put("nickname", nickName);
-        params.put("homeAddressDetail", homeAddressDetail);
-        params.put("companyAddressDetail", companyAddressDetail);
-
         HttpUtil.put(Constants.URL.REVISE_BASE_INFO, params).subscribe(new BaseResponseObserver<CommonResp>() {
 
             @Override
@@ -288,16 +306,18 @@ public class UserInfoFragment extends BaseFragment {
     }
 
     private void uploadImage(File file) {
-        Map<String, String> params = new HashMap<>();
-        params.put("postfix", ".jpg");
-        params.put("base64Str", FileUtil.fileToStream(file));
+        Map<String, String> map = new HashMap<>();
+        map.put("postfix", ".jpg");
+        map.put("base64Str", FileUtil.fileToStream(file));
 
-        HttpUtil.post(Constants.URL.UPLOAD_IMAGE, params).subscribe(new BaseResponseObserver<String>() {
+        HttpUtil.post(Constants.URL.UPLOAD_IMAGE, map).subscribe(new BaseResponseObserver<String>() {
 
             @Override
             public void success(String s) {
                 EBLog.i(TAG, s);
-                avatar = s;
+                if (!imgUrl.equals(s))
+                    params.put("avatar", s);
+                isCanUpdate = true;
             }
 
             @Override
@@ -312,7 +332,7 @@ public class UserInfoFragment extends BaseFragment {
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
         String imgUrl = result.getImage().getCompressPath();
-        PictureLoadUtil.loadPicture(getActivity(), imgUrl, iv_user_photo);
+        BaseImage.getInstance().displayImage(getActivity(), imgUrl, iv_user_photo);
 
         File file = new File(imgUrl);
         uploadImage(file);

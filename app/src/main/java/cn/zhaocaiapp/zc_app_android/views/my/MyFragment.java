@@ -22,6 +22,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
+import cn.zhaocaiapp.zc_app_android.base.BaseImage;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
@@ -159,7 +160,6 @@ public class MyFragment extends BaseFragment {
 
         if (GeneralUtils.isNotNullOrZeroLenght(userInfo.getAvatar()))
             PictureLoadUtil.loadPicture(getActivity(), userInfo.getAvatar(), iv_user_photo);
-
     }
 
     @OnClick({R.id.iv_top_menu, R.id.iv_user_photo, R.id.tv_user_identify, R.id.tv_apply_cash, R.id.layout_all_task, R.id.layout_deliver_task,

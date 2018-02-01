@@ -40,11 +40,11 @@ public class BaseImage {
     public void displayImage(Context context, String url, ImageView imageView) {
         Glide.with(context)
                 .load(url)
-                .centerCrop()
+                //.centerCrop()//网友反馈，设置此属性可能不起作用,在有些设备上可能会不能显示为圆形。
+                .thumbnail(0.1f)
                 .placeholder(BaseAndroid.getBaseConfig().getFailPicture())
                 .error(BaseAndroid.getBaseConfig().getFailPicture())
                 .crossFade()
-                .thumbnail(0.1f)
                 .into(imageView);
     }
 
