@@ -182,8 +182,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 stopGps.setLatitude(list.get(k).getLatitude().doubleValue());
                 stopGps.setLongitude(list.get(k).getLongitude().doubleValue());
                 //两点距离
-                int areaText = (int) CoordinateConverter.calculateLineDistance(startGps, stopGps);
-                viewHolderActivity.activity_item_text_area_text.setText(areaText > 1000 ? (areaText / 1000) + "KM" : areaText + "M");
+                float areaText = CoordinateConverter.calculateLineDistance(startGps, stopGps);
+                viewHolderActivity.activity_item_text_area_text.setText(areaText > 1000 ? String.format("%.2f", (areaText / 1000)) + "KM" : String.format("%.2f", (areaText)) + "M");
             }
             //收藏
             if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, "")) && list.get(k).getFollow()) {
