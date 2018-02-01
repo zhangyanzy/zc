@@ -58,13 +58,12 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
         SharedPreferences.Editor editor = sp.edit();
         boolean isFirstStart = sp.getBoolean("is_first_start", true);
         // 不是第一次启动
-        if (!isFirstStart) launchHomeScreen();
-        else editor.putBoolean("is_first_start", false).apply();
+        //if (!isFirstStart) launchHomeScreen();
+        //else editor.putBoolean("is_first_start", false).apply();
 
-        //设置activity全屏显示，且状态栏不隐藏
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
+        //设置activity全屏显示，且状态栏隐藏
+        requestWindowFeature(Window.FEATURE_NO_TITLE);  //无title
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);  //全屏
 
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
