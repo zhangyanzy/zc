@@ -40,9 +40,12 @@ import cn.zhaocaiapp.zc_app_android.adapter.home.LocationDecoration;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.LocationResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.listener.OnBtnClickL;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.AreaUtil;
+import cn.zhaocaiapp.zc_app_android.util.DialogUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 
 /**
@@ -137,10 +140,23 @@ public class LocationActivity extends BaseActivity {
     private LocationAdapter.OnItemCliclkListener listener = new LocationAdapter.OnItemCliclkListener() {
         @Override
         public void onItemCliclk(int position) {
-            /*Bundle bd = new Bundle();
-            bd.putLong("memberId", memberRespList.get(position).getKid());
-            openActivity(MemberDetailActivity.class, bd);*/
+            NormalDialog normalDialog = DialogUtil.showDialogTwoBut(LocationActivity.this, "提示", "是否切换城市！", "取消", "确定");
+            normalDialog.setOnBtnClickL(new OnBtnClickL() {
+                @Override
+                public void onBtnClick() {
+                    EBLog.i("tag", "您点击了取消");
+                    normalDialog.cancel();
+                }
+            }, new OnBtnClickL() {
+                @Override
+                public void onBtnClick() {
+                    EBLog.i("tag", "您点击了确认");
+                    normalDialog.dismiss();
+                }
+            });
             EBLog.i("tag", "您点击了第" + position + "条");
         }
     };
+
+
 }

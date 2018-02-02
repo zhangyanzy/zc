@@ -10,7 +10,7 @@ import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalDialog;
 
 /**
  * 弹出框
- *
+ * <p>
  * Created by jinxunmediapty.ltd on 2018/1/3.
  */
 
@@ -29,7 +29,7 @@ public class DialogUtil {
                 .title(title)
                 .titleLineColor(Color.parseColor("#333333"))
                 .titleTextSize(18)
-                .isTitleShow(false)
+                .isTitleShow(true)
                 .content(content)
                 .contentGravity(Gravity.CENTER)
                 .contentTextColor(Color.parseColor("#333333"))
@@ -44,9 +44,9 @@ public class DialogUtil {
     /**
      * 两个按钮的弹窗
      *
-     * @param title   弹窗标题
-     * @param content 弹窗提示内容
-     * @param leftText 左侧按钮文字
+     * @param title     弹窗标题
+     * @param content   弹窗提示内容
+     * @param leftText  左侧按钮文字
      * @param rightText 右侧按钮文字
      */
     public static NormalDialog showDialogTwoBut(Context context, @Nullable String title, String content, String leftText, String rightText) {
@@ -55,7 +55,7 @@ public class DialogUtil {
                 .title(title)
                 .titleLineColor(Color.parseColor("#333333"))
                 .titleTextSize(18)
-                .isTitleShow(false)
+                .isTitleShow(true)
                 .content(content)
                 .contentTextColor(Color.parseColor("#333333"))
                 .contentTextSize(16)
@@ -63,18 +63,6 @@ public class DialogUtil {
                 .btnTextColor(Color.parseColor("#3B70E3"))
                 .btnTextSize(18)
                 .show();
-
-        dialog.setOnBtnClickL(new OnBtnClickL() {
-            @Override
-            public void onBtnClick() {
-
-            }
-        }, new OnBtnClickL() {
-            @Override
-            public void onBtnClick() {
-
-            }
-        });
 
         return dialog;
     }

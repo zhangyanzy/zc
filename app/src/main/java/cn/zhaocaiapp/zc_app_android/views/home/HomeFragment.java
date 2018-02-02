@@ -60,6 +60,8 @@ public class HomeFragment extends BaseFragment {
     TextView home_title_user_balance;
     @BindView(R.id.home_title_user_cart)
     LinearLayout home_title_user_cart;
+    @BindView(R.id.home_title_area_text)
+    TextView home_title_area_text;
 
     private String[] tabTitles = new String[]{"最新活动", "线上活动", "线下活动", "历史活动"};
     private Map<Integer, Fragment> fragments = new HashMap<>();
