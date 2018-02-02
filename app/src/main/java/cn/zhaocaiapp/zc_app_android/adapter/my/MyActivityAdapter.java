@@ -67,10 +67,22 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         notifyDataSetChanged();
     }
 
-    private String getOnlineState(int state){
-        switch (state){
-            case
+    private String getOnlineState(int state) {
+        String online = "";
+        switch (state) {
+            case 0:
+                online = context.getString(R.string.activity_state_0);
+                break;
+            case 1:
+                online = context.getString(R.string.activity_state_1);
+                break;
+            case 2:
+                online = context.getString(R.string.activity_state_2);
+                break;
+            default:
+                online = context.getString(R.string.activity_state_0);
         }
+        return online;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
