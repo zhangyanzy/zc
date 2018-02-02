@@ -35,12 +35,6 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class WelcomeActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     @BindView(R.id.view_pager)
     ViewPager viewPager;
-    /*@BindView(R.id.welcome_slide1)
-    LinearLayout welcome_slide1;
-    @BindView(R.id.welcome_slide2)
-    LinearLayout welcome_slide2;
-    @BindView(R.id.welcome_slide3)
-    LinearLayout welcome_slide3;*/
     @BindView(R.id.btn_skip)
     Button btnSkip;
 
@@ -61,8 +55,8 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
         SharedPreferences.Editor editor = sp.edit();
         boolean isFirstStart = sp.getBoolean("is_first_start", true);
         // 不是第一次启动
-        //if (!isFirstStart) launchHomeScreen();
-        //else editor.putBoolean("is_first_start", false).apply();
+        if (!isFirstStart) launchHomeScreen();
+        else editor.putBoolean("is_first_start", false).apply();
 
         //设置activity全屏显示，且状态栏隐藏
         requestWindowFeature(Window.FEATURE_NO_TITLE);  //无title
@@ -81,8 +75,6 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
                 R.layout.activity_welcome_slide2,
                 R.layout.activity_welcome_slide3
         };
-        //添加点
-        //addBottomDots(0);
 
         //让状态栏透明
         changeStatusBarColor();
