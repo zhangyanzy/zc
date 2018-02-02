@@ -96,7 +96,7 @@ public class RealInfoFragment extends BaseFragment {
 
     private String name;
     private String gender;
-    private Date date;
+    private String date;
     private String number;
     private String path;
 
@@ -148,14 +148,14 @@ public class RealInfoFragment extends BaseFragment {
             gender = "男";
         if (realInfoBean.getSex() == 1)
             gender = "女";
-        date = realInfoBean.getBirthday();
+        date = realInfoBean.getBirthdayStr();
         number = realInfoBean.getIdCard();
         path = realInfoBean.getIdCardPath();
 
         if (GeneralUtils.isNotNullOrZeroLenght(name))
             edit_user_name.setText(name);
-        if (GeneralUtils.isNotNull(date))
-            tv_birth_day.setText(getBirthTime(date));
+        if (GeneralUtils.isNotNullOrZeroLenght(date))
+            tv_birth_day.setText(date);
         if (GeneralUtils.isNotNullOrZeroLenght(number))
             edit_id_number.setText(number);
         tv_user_gender.setText(gender);
@@ -189,8 +189,7 @@ public class RealInfoFragment extends BaseFragment {
         timePickerView = new TimePickerView.Builder(getActivity(), new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                birthDay = getBirthTime(date);
-                tv_birth_day.setText(birthDay);
+                tv_birth_day.setText(getBirthTime(date));
             }
         }).setTitleText("出生日期选择")
                 .setType(new boolean[]{true, true, true, false, false, false})
@@ -217,8 +216,7 @@ public class RealInfoFragment extends BaseFragment {
     }
 
     @Override
-    public void loadData() {
-    }
+    public void loadData() {}
 
     //接收EventBus发送的消息，并处理
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -245,10 +243,11 @@ public class RealInfoFragment extends BaseFragment {
                 if (GeneralUtils.isNullOrZeroLenght(ZcApplication.getLicenceToken())) {
                     ToastUtil.makeText(getActivity(), "未获取百度身份证识别LICENCE授权");
                 } else {
-                    //弹出获取照片选择框
-                    PhotoPickerUtil.init(getActivity());
-                    PhotoPickerUtil.setContent("选择照片", new String[]{"拍照", "从相册选择"}, null);
-                    PhotoPickerUtil.show(listener);
+                    Intent intent = new Intent(getActivity(), CameraActivity.class);
+                    intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
+                            FileUtil.getSaveFile(getActivity()).getAbsolutePath());
+                    intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_ID_CARD_FRONT);
+                    startActivityForResult(intent, REQUEST_CODE_CAMERA);
                 }
                 break;
             case R.id.tv_submit:
@@ -261,16 +260,17 @@ public class RealInfoFragment extends BaseFragment {
     private void verify() {
         realName = edit_user_name.getText().toString();
         idNumber = edit_id_number.getText().toString();
+        birthDay = tv_birth_day.getText().toString();
 
         if (GeneralUtils.isNullOrZeroLenght(realName)) {
             ToastUtil.makeText(getActivity(), "用户姓名不能为空");
             isCanUpdate = false;
             return;
-        } else if (!name.equals(realName)) {
+        } else if (!realName.equals(name)) {
             params.put("name", realName);
             isCanUpdate = true;
         }
-        if (!gender.equals(userGender)) {
+        if (!userGender.equals(gender)) {
             if (userGender.equals("男"))
                 params.put("sex", "0");
             if (userGender.equals("女"))
@@ -281,15 +281,15 @@ public class RealInfoFragment extends BaseFragment {
             ToastUtil.makeText(getActivity(), "用户出生年月不能为空");
             isCanUpdate = false;
             return;
-        } else if (GeneralUtils.isNotNull(date) && !getBirthTime(date).equals(birthDay)) {
-            params.put("birthday", birthDay);
+        } else if (!birthDay.equals(date)) {
+            params.put("birthdayStr", birthDay);
             isCanUpdate = true;
         }
         if (GeneralUtils.isNullOrZeroLenght(idNumber)) {
             ToastUtil.makeText(getActivity(), "用户身份证号不能为空");
             isCanUpdate = false;
             return;
-        } else if (!number.equals(idNumber)) {
+        } else if (!idNumber.equals(number)) {
             params.put("idCard", idNumber);
             isCanUpdate = true;
         }
@@ -297,28 +297,11 @@ public class RealInfoFragment extends BaseFragment {
             ToastUtil.makeText(getActivity(), "身份证上传失败");
             isCanUpdate = false;
             return;
-        } else if (!path.equals(cardPath)) {
+        } else if (!cardPath.equals(path)) {
             params.put("idCardPath", cardPath);
             isCanUpdate = true;
         }
     }
-
-    private PhotoPickerUtil.OnItemClickListener listener = new PhotoPickerUtil.OnItemClickListener() {
-        @Override
-        public void onItemClick(int position) {
-            if (position == 0) {
-                Intent intent = new Intent(getActivity(), CameraActivity.class);
-                intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
-                        FileUtil.getSaveFile(getActivity()).getAbsolutePath());
-                intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_ID_CARD_FRONT);
-                startActivityForResult(intent, REQUEST_CODE_CAMERA);
-            } else {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE_FRONT);
-            }
-        }
-    };
 
     private String getBirthTime(Date date) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -326,9 +309,9 @@ public class RealInfoFragment extends BaseFragment {
     }
 
     //识别身份证信息
-    private void recIDCard(File file) {
+    private void recIDCard(String filePath) {
         IDCardParams param = new IDCardParams();
-        param.setImageFile(file);
+        param.setImageFile(new File(filePath));
         // 设置身份证正反面
         param.setIdCardSide(IDCardParams.ID_CARD_SIDE_FRONT);
         // 设置方向检测
@@ -339,12 +322,15 @@ public class RealInfoFragment extends BaseFragment {
         OCR.getInstance().recognizeIDCard(param, new OnResultListener<IDCardResult>() {
             @Override
             public void onResult(IDCardResult result) {
+                EBLog.i(TAG, result.toString());
                 if (result != null) {
                     edit_user_name.setText(result.getName().toString());
                     tv_user_gender.setText(result.getGender().toString());
                     tv_birth_day.setText(GeneralUtils.splitTodate(result.getBirthday().toString()));
                     edit_id_number.setText(result.getIdNumber().toString());
-                    PictureLoadUtil.loadPicture(getActivity(), file, iv_scan_icture);
+                    iv_scan_icture.setImageURI(Uri.parse(filePath));
+
+                    uploadImage(new File(filePath));
                 }
             }
 
@@ -355,34 +341,20 @@ public class RealInfoFragment extends BaseFragment {
         });
     }
 
-    private String getRealPathFromURI(Uri contentURI) {
-        String result;
-        Cursor cursor = getActivity().getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            result = contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
-            cursor.close();
-        }
-        return result;
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String filePath = "";
-        if (data != null) {
-            if (requestCode == REQUEST_CODE_PICK_IMAGE_FRONT && resultCode == Activity.RESULT_OK) {
-                Uri uri = data.getData();
-                filePath = getRealPathFromURI(uri);
-            } else if (requestCode == REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
-                filePath = FileUtil.getSaveFile(getActivity()).getAbsolutePath();
+        // 识别成功回调，身份证识别
+        if (requestCode == REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                String contentType = data.getStringExtra(CameraActivity.KEY_CONTENT_TYPE);
+                String filePath = FileUtil.getSaveFile(getActivity()).getAbsolutePath();
+                if (!contentType.isEmpty()) {
+                    if (CameraActivity.CONTENT_TYPE_ID_CARD_FRONT.equals(contentType)) {
+                        recIDCard(filePath);
+                    }
+                }
             }
-            idFile = new File(filePath);
-            uploadImage(idFile);
-            recIDCard(idFile);
         } else {
             ToastUtil.makeText(getActivity(), "身份证未识别，请重新选择照片");
         }

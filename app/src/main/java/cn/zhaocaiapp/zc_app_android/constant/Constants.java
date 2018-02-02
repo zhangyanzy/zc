@@ -142,6 +142,12 @@ public interface Constants {
          * 我关注的商家列表
          * */
          String GET_FOLLOW_BUSINER = "userinfo/member/follow";
+         /**
+          * 获取学历及职业列表
+          * */
+         String GET_RELATION_LIST = "common/user/info";
+
+
 
         /**
          * 获取城市列表

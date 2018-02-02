@@ -321,7 +321,7 @@ public class UserDetailResp {
          * “UpdateIs”:   Boolean  true 可更改，false 不可
          * "sex": Integer    性别
          */
-        private Date birthday;
+        private String birthdayStr;
         private String idCard;
         private String idCardPath;
         private String name;
@@ -330,12 +330,12 @@ public class UserDetailResp {
         private boolean UpdateIs;
         private int sex;
 
-        public Date getBirthday() {
-            return birthday;
+        public String getBirthdayStr() {
+            return birthdayStr;
         }
 
-        public void setBirthday(Date birthday) {
-            this.birthday = birthday;
+        public void setBirthdayStr(String birthdayStr) {
+            this.birthdayStr = birthdayStr;
         }
 
         public String getIdCard() {
@@ -397,7 +397,7 @@ public class UserDetailResp {
         @Override
         public String toString() {
             return "RealInfoBean{" +
-                    "birthday=" + birthday +
+                    "birthdayStr='" + birthdayStr + '\'' +
                     ", idCard='" + idCard + '\'' +
                     ", idCardPath='" + idCardPath + '\'' +
                     ", name='" + name + '\'' +

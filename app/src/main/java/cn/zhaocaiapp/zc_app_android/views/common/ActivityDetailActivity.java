@@ -29,11 +29,13 @@ import cn.zhaocaiapp.zc_app_android.capabilities.json.GsonHelper;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.capabilities.takephoto.PhotoHelper;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.FileUtil;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 
 public class ActivityDetailActivity extends BasePhotoActivity {
     @BindView(R.id.iv_top_back)
@@ -58,6 +60,8 @@ public class ActivityDetailActivity extends BasePhotoActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        ActivityUtil.getActivityManager().addActivity(this);
+
         tv_title.setText("活动详情");
 
         activity_detail_webView.loadUrl("file:///android_asset/h5-assets/index.html");
@@ -118,6 +122,12 @@ public class ActivityDetailActivity extends BasePhotoActivity {
             photoHelper.onClick(0, getTakePhoto());
         }
 
+        @JavascriptInterface
+        public void goLogin(){
+            if (!(boolean)SpUtils.get(Constants.SPREF.IS_LOGIN, false))
+                openActivity(LoginActivity.class);
+        }
+
     }
 
     @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
@@ -158,7 +168,9 @@ public class ActivityDetailActivity extends BasePhotoActivity {
 
             @Override
             public void onReceiveValue(String value) {
-                EBLog.i("H5回调", value);
+                if (value.equals("false")){
+                    finish();
+                }
             }
         });
     }
