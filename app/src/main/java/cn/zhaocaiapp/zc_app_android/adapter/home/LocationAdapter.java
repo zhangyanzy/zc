@@ -25,7 +25,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     protected Context context;
     protected List<LocationResp> list;
     protected LayoutInflater mInflater;
-    private MemberAdapter.OnItemCliclkListener listene;
+    private OnItemCliclkListener listene;
 
     public LocationAdapter(Context context, List<LocationResp> list) {
         this.context = context;
@@ -61,6 +61,14 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     @Override
     public int getItemCount() {
         return list != null ? list.size() : 0;
+    }
+
+    public interface OnItemCliclkListener {
+        void onItemCliclk(int position);
+    }
+
+    public void setOnItemCliclkListener(OnItemCliclkListener listener) {
+        this.listene = listener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

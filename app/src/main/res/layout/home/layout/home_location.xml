@@ -1,28 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_top_title" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/home_location_recycler"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorGround">
+        android:orientation="vertical">
 
-    </android.support.v7.widget.RecyclerView>
+        <include layout="@layout/layout_top_title" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorWhite"
+            android:gravity="center_vertical"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="定位到您的位置："
+                android:textColor="@color/colorFont6"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="南京"
+                android:textColor="@color/colorFont6"
+                android:textSize="14sp" />
+
+            <Button
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="75dp"
+                android:layout_height="26dp"
+                android:layout_weight="0"
+                android:background="@drawable/home_location_btn"
+                android:text="立即切换"
+                android:textColor="@color/colorWhite"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/top_line"
+            style="@style/horizontal_F0_line" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/home_location_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorGround"
+            android:paddingTop="20dp">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
 
     <com.mcxtzhang.indexlib.IndexBar.widget.IndexBar
         android:id="@+id/indexBar"
-        android:layout_width="24dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="right"
-        app:indexBarPressBackground="@color/colorFont6"
-        app:indexBarTextSize="16sp" />
+        android:layout_width="15dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:gravity="center_vertical"
+        app:indexBarPressBackground="@color/colorFont9"
+        app:indexBarTextSize="12sp" />
 
     <TextView
         android:id="@+id/tvSideBarHint"
@@ -36,4 +83,4 @@
         android:visibility="gone"
         tools:text="A"
         tools:visibility="visible" />
-</LinearLayout>
+</FrameLayout>
