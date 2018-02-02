@@ -54,7 +54,7 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
         SharedPreferences sp = getSharedPreferences("first_start", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         boolean isFirstStart = sp.getBoolean("is_first_start", true);
-        // 不是第一次启动
+        //不是第一次启动
         if (!isFirstStart) launchHomeScreen();
         else editor.putBoolean("is_first_start", false).apply();
 

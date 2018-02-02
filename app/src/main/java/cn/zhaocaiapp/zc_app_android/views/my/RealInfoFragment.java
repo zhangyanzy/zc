@@ -355,8 +355,6 @@ public class RealInfoFragment extends BaseFragment {
                     }
                 }
             }
-        } else {
-            ToastUtil.makeText(getActivity(), "身份证未识别，请重新选择照片");
         }
     }
 

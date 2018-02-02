@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -12,7 +13,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.io.File;
 
-import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.base.BaseAndroid;
+import cn.zhaocaiapp.zc_app_android.capabilities.glide.GlideCircleTransform;
+import cn.zhaocaiapp.zc_app_android.capabilities.glide.GlideRoundTransform;
 
 import static cn.zhaocaiapp.zc_app_android.util.DensityUtil.dip2px;
 
@@ -21,27 +24,29 @@ import static cn.zhaocaiapp.zc_app_android.util.DensityUtil.dip2px;
  */
 
 public class PictureLoadUtil {
+    public static final String ANDROID_RESOURCE = "android.resource://";
+    public static final String FOREWARD_SLASH = "/";
 
-     /**
-      * 调用glide加载图片
-      *
-      * @param url 图片网络地址
-      * */
-     public static void loadPicture(Context context, String url, ImageView view){
-         Glide.with(context)
-                 .load(url)
-                 .dontAnimate()//防止设置placeholder导致第一次不显示网络图片,只显示默认图片的问题
-                 //.placeholder(R.mipmap.user_boy)
-                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                 .into(view);
-     }
+    /**
+     * 调用glide加载图片
+     *
+     * @param url 图片网络地址
+     */
+    public static void loadPicture(Context context, String url, ImageView view) {
+        Glide.with(context)
+                .load(url)
+                .dontAnimate()//防止设置placeholder导致第一次不显示网络图片,只显示默认图片的问题
+                //.placeholder(R.mipmap.user_boy)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(view);
+    }
 
     /**
      * 调用glide加载图片
      *
      * @param file 图片文件
-     * */
-    public static void loadPicture(Context context, File file, ImageView view){
+     */
+    public static void loadPicture(Context context, File file, ImageView view) {
         Glide.with(context)
                 .load(file)
                 .dontAnimate()//防止设置placeholder导致第一次不显示网络图片,只显示默认图片的问题
@@ -50,9 +55,109 @@ public class PictureLoadUtil {
                 .into(view);
     }
 
+    //直接加载网络图片
+    public void displayImage(Context context, String url, ImageView imageView) {
+        Glide.with(context)
+                .load(url)
+                //.centerCrop()//网友反馈，设置此属性可能不起作用,在有些设备上可能会不能显示为圆形。
+                .thumbnail(0.1f)
+                .placeholder(BaseAndroid.getBaseConfig().getFailPicture())
+                .error(BaseAndroid.getBaseConfig().getFailPicture())
+                .crossFade()
+                .into(imageView);
+    }
+
+    //加载SD卡图片
+    public void displayImage(Context context, File file, ImageView imageView) {
+        Glide.with(context)
+                .load(file)
+                .centerCrop()
+                .crossFade()
+                .into(imageView);
+    }
+
+    //加载SD卡图片并设置大小
+    public void displayImage(Context context, File file, ImageView imageView, int width, int height) {
+        Glide.with(context)
+                .load(file)
+                .override(width, height)
+                .centerCrop()
+                .into(imageView);
+    }
+
+    //加载网络图片并设置大小
+    public void displayImage(Context context, String url, ImageView imageView, int width, int height) {
+        Glide.with(context)
+                .load(url)
+                .centerCrop()
+                .thumbnail(0.1f)
+                .override(width, height)
+                .crossFade()
+                .into(imageView);
+    }
+
+    //加载drawable图片
+    public void displayImage(Context context, int resId, ImageView imageView) {
+        Glide.with(context)
+                .load(resourceIdToUri(context, resId))
+                .crossFade()
+                .into(imageView);
+    }
+
+    //加载drawable图片显示为圆形图片
+    public void displayCricleImage(Context context, int resId, ImageView imageView) {
+        Glide.with(context)
+                .load(resourceIdToUri(context, resId))
+                .crossFade()
+                .placeholder(BaseAndroid.getBaseConfig().getFailPicture())
+                .error(BaseAndroid.getBaseConfig().getFailPicture())
+                .transform(new GlideCircleTransform(context))
+                .into(imageView);
+    }
+
+    //加载网络图片显示为圆形图片
+    public void displayCricleImage(Context context, String url, ImageView imageView) {
+        Glide.with(context)
+                .load(url)
+                //.centerCrop()//网友反馈，设置此属性可能不起作用,在有些设备上可能会不能显示为圆形。
+                .thumbnail(0.1f)
+                .placeholder(BaseAndroid.getBaseConfig().getFailPicture())
+                .error(BaseAndroid.getBaseConfig().getFailPicture())
+                .transform(new GlideCircleTransform(context))
+                .crossFade()
+                .into(imageView);
+    }
+
+    //加载SD卡图片显示为圆形图片
+    public void displayCricleImage(Context context, File file, ImageView imageView) {
+        Glide.with(context)
+                .load(file)
+                //.centerCrop()
+                .transform(new GlideCircleTransform(context))
+                .into(imageView);
+    }
+
+    //加载网络图片显示为圆角图片
+    public void displayRoundImage(Context context, String url, ImageView imageView) {
+        Glide.with(context)
+                .load(url)
+                //.centerCrop()
+                .thumbnail(0.1f)
+                .placeholder(BaseAndroid.getBaseConfig().getFailPicture())
+                .error(BaseAndroid.getBaseConfig().getFailPicture())
+                .transform(new GlideRoundTransform(context))
+                .crossFade()
+                .into(imageView);
+    }
+
+    //将资源ID转为Uri
+    public Uri resourceIdToUri(Context context, int resourceId) {
+        return Uri.parse(ANDROID_RESOURCE + context.getPackageName() + FOREWARD_SLASH + resourceId);
+    }
 
     /**
      * 设置水印图片在左上角
+     *
      * @param context
      * @param src
      * @param watermark
@@ -91,6 +196,7 @@ public class PictureLoadUtil {
 
     /**
      * 设置水印图片在右下角
+     *
      * @param context
      * @param src
      * @param watermark
@@ -108,6 +214,7 @@ public class PictureLoadUtil {
 
     /**
      * 设置水印图片到右上角
+     *
      * @param context
      * @param src
      * @param watermark
@@ -118,13 +225,14 @@ public class PictureLoadUtil {
     public static Bitmap createWaterMaskRightTop(
             Context context, Bitmap src, Bitmap watermark,
             int paddingRight, int paddingTop) {
-        return createWaterMaskBitmap( src, watermark,
+        return createWaterMaskBitmap(src, watermark,
                 src.getWidth() - watermark.getWidth() - dip2px(context, paddingRight),
                 dip2px(context, paddingTop));
     }
 
     /**
      * 设置水印图片到左下角
+     *
      * @param context
      * @param src
      * @param watermark
@@ -141,6 +249,7 @@ public class PictureLoadUtil {
 
     /**
      * 设置水印图片到中间
+     *
      * @param src
      * @param watermark
      * @return
@@ -153,6 +262,7 @@ public class PictureLoadUtil {
 
     /**
      * 给图片添加文字到左上角
+     *
      * @param context
      * @param bitmap
      * @param text
@@ -172,6 +282,7 @@ public class PictureLoadUtil {
 
     /**
      * 绘制文字到右下角
+     *
      * @param context
      * @param bitmap
      * @param text
@@ -195,6 +306,7 @@ public class PictureLoadUtil {
 
     /**
      * 绘制文字到右上方
+     *
      * @param context
      * @param bitmap
      * @param text
@@ -218,6 +330,7 @@ public class PictureLoadUtil {
 
     /**
      * 绘制文字到左下方
+     *
      * @param context
      * @param bitmap
      * @param text
@@ -241,6 +354,7 @@ public class PictureLoadUtil {
 
     /**
      * 绘制文字到中间
+     *
      * @param context
      * @param bitmap
      * @param text

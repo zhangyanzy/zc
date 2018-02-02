@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="2dp">
+    android:layout_height="36dp">
 
     <TextView
         android:id="@+id/tv_subscrib"
@@ -11,7 +10,8 @@
         android:layout_height="wrap_content"
         android:textColor="@color/colorFont3"
         android:textSize="@dimen/font_size_14"
-        android:text="距活动结束："/>
+        android:text="距活动结束："
+        android:layout_centerVertical="true"/>
 
     <cn.iwgang.countdownview.CountdownView
         android:id="@+id/count_down_time"
@@ -27,7 +27,8 @@
         app:isTimeTextBold="true"
         app:suffixTextSize="@dimen/font_size_12"
         app:suffixTextColor="@color/colorFont6"
-        android:layout_toEndOf="@+id/tv_subscrib"/>
+        android:layout_toEndOf="@+id/tv_subscrib"
+        android:layout_centerVertical="true"/>
 
     <TextView
         android:id="@+id/tv_submit"
@@ -38,10 +39,11 @@
         android:textSize="@dimen/font_size_12"
         android:text="交付"
         android:layout_alignParentRight="true"
-        android:paddingEnd="5dp"
-        android:paddingStart="5dp"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"/>
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_centerVertical="true"/>
 
     <TextView
         android:id="@+id/tv_cancel"
@@ -53,9 +55,10 @@
         android:layout_marginEnd="12dp"
         android:textSize="@dimen/font_size_12"
         android:text="取消"
-        android:paddingEnd="5dp"
-        android:paddingStart="5dp"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"/>
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_centerVertical="true"/>
 
 </RelativeLayout>

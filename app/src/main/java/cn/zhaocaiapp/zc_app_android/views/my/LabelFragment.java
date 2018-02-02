@@ -27,7 +27,7 @@ import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
-import cn.zhaocaiapp.zc_app_android.bean.response.my.LabelResp;
+import cn.zhaocaiapp.zc_app_android.bean.response.my.UserLabelResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
@@ -45,7 +45,7 @@ public class LabelFragment extends BaseFragment {
     @BindView(R.id.label_list)
     TagFlowLayout label_list;
 
-    private List<LabelResp> labels;
+    private List<UserLabelResp> labels;
     private boolean isShowDel = false;
     private TagAdapter tagAdapter;
     private int deletePosition;
@@ -59,28 +59,28 @@ public class LabelFragment extends BaseFragment {
 
     @Override
     public void init() {
-        labels = new ArrayList<>();
-        labels.add(new LabelResp(1, "篮球", 30));
-        labels.add(new LabelResp(2, "看电影", 20));
-        labels.add(new LabelResp(3, "cosplay", 10));
-        labels.add(new LabelResp(4, "旅行", 40));
-
-        initLabel();
+//        labels = new ArrayList<>();
+//        labels.add(new UserLabelResp(1, "篮球", 30));
+//        labels.add(new UserLabelResp(2, "看电影", 20));
+//        labels.add(new UserLabelResp(3, "cosplay", 10));
+//        labels.add(new UserLabelResp(4, "旅行", 40));
+//
+//        initLabel();
     }
 
     @Override
     public void loadData() {
-        HttpUtil.get(Constants.URL.GET_USER_LABEL).subscribe(new BaseResponseObserver<List<LabelResp>>() {
+        HttpUtil.get(Constants.URL.GET_USER_LABEL).subscribe(new BaseResponseObserver<List<UserLabelResp>>() {
 
             @Override
-            public void success(List<LabelResp> labelResps) {
-                EBLog.i(TAG, labelResps.toString());
-//                labels = labelResps;
-//                initLabel();
+            public void success(List<UserLabelResp> UserLabelResps) {
+                EBLog.i(TAG, UserLabelResps.toString());
+                labels = UserLabelResps;
+                initLabel();
             }
 
             @Override
-            public void error(Response<List<LabelResp>> response) {
+            public void error(Response<List<UserLabelResp>> response) {
                 EBLog.e(TAG, response.getCode() + "");
                 ToastUtil.makeText(getActivity(), response.getDesc());
             }
@@ -91,30 +91,33 @@ public class LabelFragment extends BaseFragment {
     private void initLabel() {
         final LayoutInflater mInflater = LayoutInflater.from(getActivity());
         if (labels != null) {
-            label_list.setAdapter(tagAdapter = new TagAdapter<LabelResp>(labels) {
+            label_list.setAdapter(tagAdapter = new TagAdapter<UserLabelResp>(labels) {
 
                 @Override
-                public View getView(FlowLayout parent, int position, LabelResp labelResp) {
+                public View getView(FlowLayout parent, int position, UserLabelResp UserLabelResp) {
                     View view = mInflater.inflate(R.layout.my_label_item, label_list, false);
                     ViewHolder holder = new ViewHolder(view);
-                    deletePosition = position;
 
-                    holder.tv_label_name.setText(labelResp.getName());
-                    holder.tv_labek_number.setText("(" + labelResp.getTimes() + ")");
+                    holder.tv_label_name.setText(UserLabelResp.getName());
+                    holder.tv_label_number.setText("(" + UserLabelResp.getTimes() + ")");
                     if (isShowDel) holder.delete_label.setVisibility(View.VISIBLE);
                     else holder.delete_label.setVisibility(View.GONE);
-                    setLabelGrade(labelResp.getTimes() / 10, holder);
 
-                    EBLog.i(TAG, labelResp.toString());
+                    setLabelGrade(UserLabelResp.getTimes() / 10, holder);
+
+                    EBLog.i(TAG, UserLabelResp.toString());
                     return view;
                 }
             });
             label_list.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
                 @Override
                 public boolean onTagClick(View view, int position, FlowLayout parent) {
-                    view.setVisibility(View.GONE);
-                    labels.remove(position);
-                    tagAdapter.notifyDataChanged();
+                    if (isShowDel) {
+                        deletePosition = position;
+                        view.setVisibility(View.GONE);
+                        labels.remove(position);
+                        tagAdapter.notifyDataChanged();
+                    }
                     return false;
                 }
             });
@@ -148,7 +151,7 @@ public class LabelFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_add:
-
+                openActivity(AddLabelActivity.class);
                 break;
             case R.id.iv_delete:
                 if (isShowDel) isShowDel = false;
@@ -179,8 +182,8 @@ public class LabelFragment extends BaseFragment {
     public static class ViewHolder {
         @BindView(R.id.tv_label_name)
         TextView tv_label_name;
-        @BindView(R.id.tv_labek_number)
-        TextView tv_labek_number;
+        @BindView(R.id.tv_label_number)
+        TextView tv_label_number;
         @BindView(R.id.delete_label)
         ImageView delete_label;
         @BindView(R.id.layout_label)

@@ -4,23 +4,27 @@ package cn.zhaocaiapp.zc_app_android.bean.response.my;
  * Created by Administrator on 2018/1/23.
  */
 
-public class LabelResp {
+public class UserLabelResp {
     /**
-     * "name":  标签名称
-     "tagId":   标签ID
-     "times":   标签次数
-     "type":    标签类型  0  可选类型  1  非可选
-     * */
+     * "name":    标签名称
+     * "tagId":   标签ID
+     * "times":   标签次数
+     * "type":    标签类型  0  可选类型  1  非可选
+     */
 
     private long tagId;
     private String name;
     private int times;
     private int type;
 
-    public LabelResp(long tagId, String name, int times){
+    public UserLabelResp(long tagId, String name, int times) {
         this.tagId = tagId;
         this.name = name;
         this.times = times;
+    }
+
+    public UserLabelResp(long tagId) {
+        this.tagId = tagId;
     }
 
     public long getTagId() {
@@ -57,7 +61,7 @@ public class LabelResp {
 
     @Override
     public String toString() {
-        return "LabelResp{" +
+        return "UserLabelResp{" +
                 "tagId=" + tagId +
                 ", name='" + name + '\'' +
                 ", times=" + times +

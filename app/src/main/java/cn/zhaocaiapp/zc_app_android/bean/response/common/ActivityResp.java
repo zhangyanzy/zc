@@ -906,4 +906,79 @@ public class ActivityResp {
     public void setStatusName(String statusName) {
         this.statusName = statusName;
     }
+
+    @Override
+    public String toString() {
+        return "ActivityResp{" +
+                "kid=" + kid +
+                ", activityType=" + activityType +
+                ", activityTypeName='" + activityTypeName + '\'' +
+                ", seriesActivity=" + seriesActivity +
+                ", userList=" + userList +
+                ", finishCount=" + finishCount +
+                ", online=" + online +
+                ", currentResult=" + currentResult +
+                ", pageSize=" + pageSize +
+                ", join=" + join +
+                ", follow=" + follow +
+                ", sortType='" + sortType + '\'' +
+                ", activityForm=" + activityForm +
+                ", activityFormName='" + activityFormName + '\'' +
+                ", name='" + name + '\'' +
+                ", activityCode='" + activityCode + '\'' +
+                ", ifCheck=" + ifCheck +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", requireTime=" + requireTime +
+                ", notifyTime=" + notifyTime +
+                ", totalAmount=" + totalAmount +
+                ", leftAmount=" + leftAmount +
+                ", rewardAmount=" + rewardAmount +
+                ", maxUser=" + maxUser +
+                ", actualUser=" + actualUser +
+                ", memberId=" + memberId +
+                ", memberName='" + memberName + '\'' +
+                ", memberImg='" + memberImg + '\'' +
+                ", joinCondition='" + joinCondition + '\'' +
+                ", pushRange='" + pushRange + '\'' +
+                ", contentRich='" + contentRich + '\'' +
+                ", activityImage1='" + activityImage1 + '\'' +
+                ", isStick=" + isStick +
+                ", pushType=" + pushType +
+                ", provinceCode=" + provinceCode +
+                ", provinceName='" + provinceName + '\'' +
+                ", cityCode=" + cityCode +
+                ", cityName='" + cityName + '\'' +
+                ", areaCode=" + areaCode +
+                ", areaName='" + areaName + '\'' +
+                ", addressDetail='" + addressDetail + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", referImage1='" + referImage1 + '\'' +
+                ", questionId=" + questionId +
+                ", questionType=" + questionType +
+                ", questionRewardAmount=" + questionRewardAmount +
+                ", questionStatus=" + questionStatus +
+                ", activityStatus=" + activityStatus +
+                ", activityVedio='" + activityVedio + '\'' +
+                ", activityOuterVedio='" + activityOuterVedio + '\'' +
+                ", coopCount=" + coopCount +
+                ", contentAuditStatus=" + contentAuditStatus +
+                ", contentAuditStatusName='" + contentAuditStatusName + '\'' +
+                ", contentAuditMemo='" + contentAuditMemo + '\'' +
+                ", financeAuditStatus=" + financeAuditStatus +
+                ", financeAuditStatusName='" + financeAuditStatusName + '\'' +
+                ", releaseStatus=" + releaseStatus +
+                ", financeAuditMemo='" + financeAuditMemo + '\'' +
+                ", createId=" + createId +
+                ", createTime=" + createTime +
+                ", updateId=" + updateId +
+                ", updateTime=" + updateTime +
+                ", isDelete=" + isDelete +
+                ", typeName='" + typeName + '\'' +
+                ", stickName='" + stickName + '\'' +
+                ", actName='" + actName + '\'' +
+                ", statusName='" + statusName + '\'' +
+                '}';
+    }
 }

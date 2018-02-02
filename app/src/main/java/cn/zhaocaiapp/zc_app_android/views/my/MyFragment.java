@@ -12,9 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.autonavi.rtbt.IFrameForRTBT;
-import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +19,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
-import cn.zhaocaiapp.zc_app_android.base.BaseImage;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;

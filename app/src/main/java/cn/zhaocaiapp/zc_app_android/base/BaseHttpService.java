@@ -133,6 +133,17 @@ public interface BaseHttpService {
      *
      * @param url
      * @param token
+     * @return
+     */
+    @Headers({"Content-Type: application/json", "Accept: application/json", "x-requested-with:XMLHttpRequest"})
+    @PUT
+    Observable<JsonObject> put(@Url String url, @Query("token") String token, @Body Object Object);
+
+    /**
+     * put请求
+     *
+     * @param url
+     * @param token
      * @param params
      * @return
      */

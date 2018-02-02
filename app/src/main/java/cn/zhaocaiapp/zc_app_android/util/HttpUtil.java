@@ -135,6 +135,21 @@ public class HttpUtil {
      * put 请求
      *
      * @param url
+     * @return
+     */
+    public static Observable put(String url, Object object) {
+        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        EBLog.i("HTTP_TOKEN", USER_TOKEN);
+        return http.put(url, USER_TOKEN)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * put 请求
+     *
+     * @param url
      * @param params
      * @return
      */

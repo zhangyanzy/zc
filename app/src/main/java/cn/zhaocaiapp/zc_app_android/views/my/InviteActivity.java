@@ -45,7 +45,7 @@ public class InviteActivity extends BaseActivity {
     @BindView(R.id.tv_copy)
     TextView tv_copy;
 
-    private String webUrl = "https://www.baidu.com/";
+    private String webUrl = "http://m.zhaocaiapp.local/#/activity/detail?id=1";
     private String shareTitle = "一个可以赚钱的APP";
     private String shareDesc = "你看广告，我发钱";
 

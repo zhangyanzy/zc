@@ -137,8 +137,13 @@
         <activity
             android:name=".views.my.MessageActivity"
             android:screenOrientation="portrait" />
+        <!--个人中心-->
         <activity
             android:name=".views.activity.MyActivity"
+            android:screenOrientation="portrait" />
+        <!--添加个人标签-->
+        <activity
+            android:name=".views.my.AddLabelActivity"
             android:screenOrientation="portrait" />
 
 

@@ -146,6 +146,14 @@ public interface Constants {
           * 获取学历及职业列表
           * */
          String GET_RELATION_LIST = "common/user/info";
+         /**
+          * 添加个人标签
+          * */
+         String ADD_LABEL = "userinfo/addlabels";
+         /**
+          * 获取标签
+          * */
+         String GET_LABELS = "/label";
 
 
 

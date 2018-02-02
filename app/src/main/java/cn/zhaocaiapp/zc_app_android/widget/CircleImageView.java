@@ -34,7 +34,6 @@ import android.widget.ImageView;
 
 import cn.zhaocaiapp.zc_app_android.R;
 
-
 @SuppressLint("AppCompatCustomView")
 public class CircleImageView extends ImageView {
 

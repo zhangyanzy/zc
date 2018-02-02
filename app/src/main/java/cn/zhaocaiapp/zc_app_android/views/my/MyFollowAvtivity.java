@@ -47,6 +47,7 @@ public class MyFollowAvtivity extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         fragments.add(new MyFollowActivityFragment());
         fragments.add(new MyFollowBusinerFragment());
+
         pager.setAdapter(new MyFollowPagerAdapter(getSupportFragmentManager()));
         tab_title.setupWithViewPager(pager);
         pager.setCurrentItem(0);

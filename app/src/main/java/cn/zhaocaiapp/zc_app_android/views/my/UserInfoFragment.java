@@ -18,7 +18,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +27,6 @@ import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
-import cn.zhaocaiapp.zc_app_android.base.BaseImage;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.MessageEvent;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
@@ -42,9 +40,8 @@ import cn.zhaocaiapp.zc_app_android.util.FileUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.PhotoPickerUtil;
+import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
-import retrofit2.http.HTTP;
-import retrofit2.http.PATCH;
 
 /**
  * Created by Administrator on 2018/1/12.
@@ -178,7 +175,7 @@ public class UserInfoFragment extends BaseFragment {
         if (GeneralUtils.isNotNullOrZeroLenght(cDetail))
             company_address_detail.setText(cDetail);
         if (GeneralUtils.isNotNullOrZeroLenght(imgUrl))
-            BaseImage.getInstance().displayCricleImage(getActivity(), imgUrl, iv_user_photo);
+            PictureLoadUtil.loadPicture(getActivity(), imgUrl, iv_user_photo);
         edit_user_phone.setText(baseInfoBean.getPhone());
     }
 
@@ -359,7 +356,7 @@ public class UserInfoFragment extends BaseFragment {
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
         String imgUrl = result.getImage().getCompressPath();
-        BaseImage.getInstance().displayImage(getActivity(), imgUrl, iv_user_photo);
+        PictureLoadUtil.loadPicture(getActivity(), imgUrl, iv_user_photo);
 
         File file = new File(imgUrl);
         uploadImage(file);
