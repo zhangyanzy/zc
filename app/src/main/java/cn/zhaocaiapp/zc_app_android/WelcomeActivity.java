@@ -25,6 +25,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.PermissionUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
@@ -34,10 +35,12 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class WelcomeActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     @BindView(R.id.view_pager)
     ViewPager viewPager;
-    @BindView(R.id.layoutDots)
-    LinearLayout dotsLayout;
-    @BindView(R.id.btn_next)
-    Button btnNext;
+    /*@BindView(R.id.welcome_slide1)
+    LinearLayout welcome_slide1;
+    @BindView(R.id.welcome_slide2)
+    LinearLayout welcome_slide2;
+    @BindView(R.id.welcome_slide3)
+    LinearLayout welcome_slide3;*/
     @BindView(R.id.btn_skip)
     Button btnSkip;
 
@@ -76,12 +79,10 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
         layouts = new int[]{
                 R.layout.activity_welcome_slide1,
                 R.layout.activity_welcome_slide2,
-                R.layout.activity_welcome_slide3,
-                R.layout.activity_welcome_slide4,
-                R.layout.activity_welcome_slide5
+                R.layout.activity_welcome_slide3
         };
         //添加点
-        addBottomDots(0);
+        //addBottomDots(0);
 
         //让状态栏透明
         changeStatusBarColor();
@@ -96,44 +97,22 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
                 launchHomeScreen();
             }
         });
-
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int current = getItem(+1);
-                if (current < layouts.length) {
-                    viewPager.setCurrentItem(current);
-                } else {
-                    launchHomeScreen();
-                }
-            }
-        });
     }
 
-    private void addBottomDots(int currentPage) {
-        dots = new TextView[layouts.length];
 
-        //int[] colorsActive = getResources().getIntArray(R.array.array_dot_active);
-        //int[] colorsInactive = getResources().getIntArray(R.array.array_dot_inactive);
-
-        dotsLayout.removeAllViews();
-        for (int i = 0; i < dots.length; i++) {
-            dots[i] = new TextView(this);
-            dots[i].setText(Html.fromHtml("&#8226;"));//圆点
-            dots[i].setTextSize(35);
-            //dots[i].setTextColor(colorsInactive[currentPage]);
-            dotsLayout.addView(dots[i]);
-        }
-
-        if (dots.length > 0) {
-            //dots[currentPage].setTextColor(colorsActive[currentPage]);
-        }
-    }
-
+    /**
+     * 获取下一个页面
+     *
+     * @param i
+     * @return
+     */
     private int getItem(int i) {
         return viewPager.getCurrentItem() + i;
     }
 
+    /**
+     * 跳过
+     */
     private void launchHomeScreen() {
         SpUtils.put(Constants.SPREF.IS_FIRST_TIME_LAUNCH, false);
         if ((boolean) SpUtils.get((Constants.SPREF.IS_LOGIN), false))
@@ -154,6 +133,7 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
         }
     }
 
+
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
 
         @Override
@@ -163,16 +143,7 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
 
         @Override
         public void onPageSelected(int position) {
-            addBottomDots(position);
 
-            //改变下一步按钮text  “NEXT”或“GOT IT”
-            if (position == layouts.length - 1) {
-                btnNext.setText("立即体验");
-                btnSkip.setVisibility(View.GONE);
-            } else {
-                btnNext.setText("下一步");
-                btnSkip.setVisibility(View.VISIBLE);
-            }
         }
 
         @Override
@@ -194,6 +165,17 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
 
             View view = layoutInflater.inflate(layouts[position], container, false);
             container.addView(view);
+            view.findViewById(R.id.welcome_slide).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int current = getItem(+1);
+                    if (current < layouts.length) {
+                        viewPager.setCurrentItem(current);
+                    } else {
+                        launchHomeScreen();
+                    }
+                }
+            });
             return view;
         }
 
