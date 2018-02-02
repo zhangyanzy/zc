@@ -27,11 +27,16 @@ import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.MessageEvent;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
+import cn.zhaocaiapp.zc_app_android.bean.response.home.Gps;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.UserInfoResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.listener.OnBtnClickL;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.DialogUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
@@ -66,6 +71,8 @@ public class HomeFragment extends BaseFragment {
     private String[] tabTitles = new String[]{"最新活动", "线上活动", "线下活动", "历史活动"};
     private Map<Integer, Fragment> fragments = new HashMap<>();
     private UserInfoResp userInfoResp;//用户个人信息
+    private String areaName;//用户定位城市名称
+    private String areaCode;//用户定位城市Code
 
 
     @Override
@@ -113,6 +120,7 @@ public class HomeFragment extends BaseFragment {
             }
         });
         home_view.setCurrentItem(0);
+
     }
 
 
@@ -142,6 +150,32 @@ public class HomeFragment extends BaseFragment {
                 }
             });
         }
+
+        /**
+         * 定位判断
+         */
+        areaName = (String) SpUtils.get(Constants.SPREF.AREA_NAME, Constants.CONFIG.AREA_NAME);
+        areaCode = (String) SpUtils.get(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE);
+        //显示当前用户定位城市
+        home_title_area_text.setText(areaName);
+        Gps gps = LocationUtil.getGps();
+        if (gps.getOpen() && !areaName.equals(gps.getCity())) {
+            NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "提示", "定位到您在" + gps.getCity() + "，是否切换？！", "取消", "切换");
+            normalDialog.setOnBtnClickL(new OnBtnClickL() {
+                @Override
+                public void onBtnClick() {
+                    EBLog.i("tag", "您点击了取消");
+                    normalDialog.cancel();
+                }
+            }, new OnBtnClickL() {
+                @Override
+                public void onBtnClick() {
+                    EBLog.i("tag", "您点击了确认");
+                    normalDialog.dismiss();
+                }
+            });
+        }
+
     }
 
 

@@ -43,6 +43,15 @@ public interface Constants {
          * 分页pageSize
          */
         int PAGE_SIZE = 10;
+
+        /**
+         *
+         */
+        String AREA_NAME = "上海市"; //用户定位城市名称
+        /**
+         *
+         */
+        String AREA_CODE = "310115"; //用户定位城市Code
     }
 
     interface URL {
@@ -131,30 +140,29 @@ public interface Constants {
          */
         String GET_ACCOUNT_INFO = "userinfo/account";
         /**
-         *我的活动列表
+         * 我的活动列表
          */
         String GET_ALL_ACTIVITY = "my/activity/list";
         /**
          * 我关注的活动列表
-         * */
+         */
         String GET_FOLLOW_ACTIVITY = "my/activity/follow";
         /**
          * 我关注的商家列表
-         * */
-         String GET_FOLLOW_BUSINER = "userinfo/member/follow";
-         /**
-          * 获取学历及职业列表
-          * */
-         String GET_RELATION_LIST = "common/user/info";
-         /**
-          * 添加个人标签
-          * */
-         String ADD_LABEL = "userinfo/addlabels";
-         /**
-          * 获取标签
-          * */
-         String GET_LABELS = "/label";
-
+         */
+        String GET_FOLLOW_BUSINER = "userinfo/member/follow";
+        /**
+         * 获取学历及职业列表
+         */
+        String GET_RELATION_LIST = "common/user/info";
+        /**
+         * 添加个人标签
+         */
+        String ADD_LABEL = "userinfo/addlabels";
+        /**
+         * 获取标签
+         */
+        String GET_LABELS = "/label";
 
 
         /**
@@ -238,6 +246,9 @@ public interface Constants {
         int TYPE_BANK = 5;     //银行卡账户
 
         String SEARCH_HISTORY = "searchHistory"; //搜索历史
+
+        String AREA_NAME = "areaName"; //用户定位城市名称
+        String AREA_CODE = "areaCode"; //用户定位城市Code
     }
 
     interface ASSETS {
