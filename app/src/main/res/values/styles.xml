@@ -11,7 +11,7 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <!--<item name="android:background">@drawable/welcome_slide1</item>-->
+        <item name="android:windowBackground">@mipmap/welcome_slide1</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -23,6 +23,7 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+
     <style name="CustomDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -54,6 +55,7 @@
         <item name="android:layout_height">2px</item>
         <item name="android:background">@color/colorFont9</item>
     </style>
+
     <style name="horizontal_F0_line">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">2px</item>
@@ -76,7 +78,7 @@
         <item name="tabGravity">center</item>
     </style>
 
-     <!--MainActivity底部button-->
+    <!--MainActivity底部button-->
     <style name="main_tab_bottom">
         <item name="android:gravity">center</item>
         <item name="android:layout_width">wrap_content</item>
