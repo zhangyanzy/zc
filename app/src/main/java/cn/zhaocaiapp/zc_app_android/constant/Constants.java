@@ -146,7 +146,7 @@ public interface Constants {
         /**
          * 我关注的活动列表
          */
-        String GET_FOLLOW_ACTIVITY = "my/activity/follow";
+        String GET_FOLLOW_ACTIVITY = "activity/follow";
         /**
          * 我关注的商家列表
          */
