@@ -1,5 +1,8 @@
 package cn.zhaocaiapp.zc_app_android.base;
 
+import android.app.Activity;
+import android.content.Intent;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -17,6 +20,9 @@ import java.util.Date;
 
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.refer.BusinessEnum;
+import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -52,7 +58,8 @@ public abstract class BaseResponseObserver<T> implements Observer<JsonObject> {
         });
 
         Gson gson = builder.create();
-        Type type = new TypeToken<Response>() {}.getType();
+        Type type = new TypeToken<Response>() {
+        }.getType();
 
         Response<T> response = gson.fromJson(result, type);
 
@@ -79,6 +86,8 @@ public abstract class BaseResponseObserver<T> implements Observer<JsonObject> {
                 T t = (T) gson.fromJson(data.getAsJsonPrimitive(), cls);
                 this.success(t);
             }
+        } else if (response.getCode().equals(BusinessEnum.NO_AVAIL)) {
+            turnToLogin();
         } else {
             error(response);
         }
@@ -95,5 +104,11 @@ public abstract class BaseResponseObserver<T> implements Observer<JsonObject> {
 
     @Override
     public void onComplete() {
+    }
+
+    private void turnToLogin() {
+        Activity activity = ActivityUtil.getActivityManager().currentActivity();
+        ToastUtil.makeText(activity, "用户登录已失效");
+        activity.startActivity(new Intent(activity, LoginActivity.class));
     }
 }

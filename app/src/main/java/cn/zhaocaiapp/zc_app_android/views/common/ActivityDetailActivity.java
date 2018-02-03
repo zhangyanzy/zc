@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.views.common;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 
 import com.jph.takephoto.model.TResult;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import java.io.File;
 import java.util.HashMap;
@@ -37,6 +40,8 @@ import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 
+import static com.darsh.multipleimageselect.helpers.Constants.REQUEST_CODE;
+
 public class ActivityDetailActivity extends BasePhotoActivity {
     @BindView(R.id.iv_top_back)
     ImageView iv_back;
@@ -49,6 +54,7 @@ public class ActivityDetailActivity extends BasePhotoActivity {
 
     private View rootView;
     private PhotoHelper photoHelper;
+    private String zxResult; //二维码扫描解析结果
 
     private static final String TAG = "H5详情页";
 
@@ -88,6 +94,9 @@ public class ActivityDetailActivity extends BasePhotoActivity {
         //初始化takephoto
         photoHelper = PhotoHelper.of(rootView, true);
 
+        //初始化扫描二维码组件
+        ZXingLibrary.initDisplayOpinion(this);
+
     }
 
     //预留给js调用的回调
@@ -118,21 +127,21 @@ public class ActivityDetailActivity extends BasePhotoActivity {
         }
 
         @JavascriptInterface
-        public void takePhoto(){
+        public void takePhoto() {
             photoHelper.onClick(0, getTakePhoto());
         }
 
         @JavascriptInterface
-        public void goLogin(){
-            if (!(boolean)SpUtils.get(Constants.SPREF.IS_LOGIN, false))
+        public void goLogin() {
+            if (!(boolean) SpUtils.get(Constants.SPREF.IS_LOGIN, false))
                 openActivity(LoginActivity.class);
         }
 
     }
 
     @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
-    public void onClick(View view){
-        switch (view.getId()){
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.iv_top_back:
                 goBack();
                 break;
@@ -163,19 +172,19 @@ public class ActivityDetailActivity extends BasePhotoActivity {
         });
     }
 
-    public void goBack(){
+    public void goBack() {
         activity_detail_webView.evaluateJavascript("javascript:goBack()", new ValueCallback<String>() {
 
             @Override
             public void onReceiveValue(String value) {
-                if (value.equals("false")){
+                if (value.equals("false")) {
                     finish();
                 }
             }
         });
     }
 
-    private void getPicture(String imgUrl){
+    private void getPicture(String imgUrl) {
         activity_detail_webView.evaluateJavascript("javascript:getPicture('" + imgUrl + "')", new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
@@ -200,5 +209,30 @@ public class ActivityDetailActivity extends BasePhotoActivity {
     @Override
     public void takeFail(TResult result, String msg) {
         super.takeFail(result, msg);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /**
+         * 处理二维码扫描结果
+         */
+        if (requestCode == REQUEST_CODE) {
+            //处理扫描结果（在界面上显示）
+            if (null != data) {
+                Bundle bundle = data.getExtras();
+                if (bundle == null) {
+                    return;
+                }
+                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                    //返回解析结果字符串
+                    zxResult = bundle.getString(CodeUtils.RESULT_STRING);
+                    ToastUtil.makeText(this, "解析结果:" + zxResult);
+                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                    ToastUtil.makeText(this, "解析二维码失败");
+                }
+            }
+        }
     }
 }

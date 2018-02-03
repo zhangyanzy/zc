@@ -21,6 +21,7 @@ import java.util.Map;
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.adapter.common.ActivityAdapter;
+import cn.zhaocaiapp.zc_app_android.adapter.my.MyActivityAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
@@ -44,7 +45,7 @@ public class DeliverActivityFragment extends BaseFragment implements OnRefreshLi
     private int currentResult = 0;
     private int status = 0;
 
-    private ActivityAdapter adapter;
+    private MyActivityAdapter adapter;
     private List<ActivityResp> activitys = new ArrayList<>();
 
     private static final String TAG = "待交付活动";
@@ -62,7 +63,7 @@ public class DeliverActivityFragment extends BaseFragment implements OnRefreshLi
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         list.setLayoutManager(manager);
 
-        adapter = new ActivityAdapter(getActivity(), activitys);
+        adapter = new MyActivityAdapter(getActivity(), activitys, MyActivityAdapter.MYACTIVITY_DELIVER);
         list.setAdapter(adapter);
     }
 
@@ -79,7 +80,7 @@ public class DeliverActivityFragment extends BaseFragment implements OnRefreshLi
             public void success(List<ActivityResp> activityResps) {
                 EBLog.i(TAG, activityResps.toString());
                 activitys.addAll(activityResps);
-                adapter.updata(activitys);
+                adapter.refresh(activitys);
 
                 refresh_layout.finishLoadmore();
                 refresh_layout.finishRefresh();

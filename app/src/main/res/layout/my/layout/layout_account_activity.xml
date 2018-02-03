@@ -4,63 +4,121 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_top_title"/>
+    <include layout="@layout/layout_top_title" />
 
-    <TextView
-        android:id="@+id/tv_wechat"
+    <RelativeLayout
+        android:id="@+id/layout_wechat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:button="@null"
-        android:drawableLeft="@mipmap/icon_wechat"
-        android:drawablePadding="10dp"
-        android:drawableRight="@mipmap/logo_money"
-        android:text="微信"
-        android:textColor="@color/colorFont6"
-        android:textSize="@dimen/font_size_14"
         android:layout_marginTop="30dp"
-        android:layout_marginLeft="@dimen/window_padding_15"
-        android:layout_marginRight="@dimen/window_padding_15"
-        android:gravity="center_vertical"/>
+        android:paddingEnd="@dimen/window_padding_15"
+        android:paddingStart="@dimen/window_padding_15">
 
-    <View style="@style/horizontal_C9_line"
-        android:layout_marginTop="@dimen/edit_line_top"/>
+        <TextView
+            android:id="@+id/tv_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:button="@null"
+            android:drawableLeft="@mipmap/logo_money"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="微信"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_14" />
 
-    <TextView
-        android:id="@+id/tv_ali"
+        <TextView
+            android:id="@+id/wechat_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawablePadding="10dp"
+            android:drawableRight="@mipmap/logo_money"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_14" />
+    </RelativeLayout>
+
+    <View
+        style="@style/horizontal_C9_line"
+        android:layout_marginTop="@dimen/edit_line_top" />
+
+    <RelativeLayout
+        android:id="@+id/layout_ali"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:button="@null"
-        android:drawableLeft="@mipmap/logo_money"
-        android:drawablePadding="10dp"
-        android:drawableRight="@mipmap/logo_money"
-        android:text="支付宝"
-        android:textColor="@color/colorFont6"
-        android:textSize="@dimen/font_size_14"
-        android:layout_marginLeft="@dimen/window_padding_15"
-        android:layout_marginRight="@dimen/window_padding_15"
-        android:gravity="center_vertical"/>
+        android:paddingEnd="@dimen/window_padding_15"
+        android:paddingStart="@dimen/window_padding_15">
 
-    <View style="@style/horizontal_C9_line"
-        android:layout_marginTop="@dimen/edit_line_top"/>
+        <TextView
+            android:id="@+id/tv_ali"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:button="@null"
+            android:drawableLeft="@mipmap/logo_money"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="支付宝"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_14" />
 
-    <TextView
-        android:id="@+id/tv_bank_card"
+        <TextView
+            android:id="@+id/ali_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawablePadding="10dp"
+            android:drawableRight="@mipmap/logo_money"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_14" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/horizontal_C9_line"
+        android:layout_marginTop="@dimen/edit_line_top" />
+
+    <RelativeLayout
+        android:id="@+id/layout_bank"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:button="@null"
-        android:drawableLeft="@mipmap/logo_money"
-        android:drawablePadding="10dp"
-        android:drawableRight="@mipmap/logo_money"
-        android:text="银行卡"
-        android:textColor="@color/colorFont6"
-        android:textSize="@dimen/font_size_14"
-        android:layout_marginLeft="@dimen/window_padding_15"
-        android:layout_marginRight="@dimen/window_padding_15"
-        android:gravity="center_vertical"/>
+        android:paddingEnd="@dimen/window_padding_15"
+        android:paddingStart="@dimen/window_padding_15">
 
-    <View style="@style/horizontal_C9_line"
-        android:layout_marginTop="@dimen/edit_line_top"/>
+        <TextView
+            android:id="@+id/tv_bank_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableLeft="@mipmap/logo_money"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="银行卡"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_14" />
+
+        <TextView
+            android:id="@+id/bank_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawablePadding="10dp"
+            android:drawableRight="@mipmap/logo_money"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_14" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/horizontal_C9_line"
+        android:layout_marginTop="@dimen/edit_line_top" />
 
 </LinearLayout>

@@ -16,6 +16,7 @@ public class FinishUserResp {
      */
     private String avatar;
 
+    private String joinTime;
 
     private Long userActivityId;
 
@@ -64,5 +65,13 @@ public class FinishUserResp {
 
     public void setCoopRoleType(Integer coopRoleType) {
         this.coopRoleType = coopRoleType;
+    }
+
+    public String getJoinTime() {
+        return joinTime;
+    }
+
+    public void setJoinTime(String joinTime) {
+        this.joinTime = joinTime;
     }
 }

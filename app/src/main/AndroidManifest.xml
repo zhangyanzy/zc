@@ -149,6 +149,13 @@
         <activity
             android:name=".views.my.AddLabelActivity"
             android:screenOrientation="portrait" />
+        <!--绑定银行卡-->
+        <activity
+            android:name=".views.my.BindCardActivity"
+            android:screenOrientation="portrait" />
+
+
+
 
 
         <!--商家详情-->

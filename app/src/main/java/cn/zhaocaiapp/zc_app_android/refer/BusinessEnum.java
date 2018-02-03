@@ -16,7 +16,8 @@ public enum BusinessEnum {
     USER_DIS_ENABLED(3, "用户已停用"),
     USER_NOT_EXIST(-1, "用户不存在"),
     SEVENDAY_SECOND(604800, "七天的秒数"),
-    AUTH_NOT(-1, "该用户无权访问");
+    AUTH_NOT(-1, "该用户无权访问"),
+    NO_AVAIL(-3, "token失效");
 
     // 业务码
     private Integer code;

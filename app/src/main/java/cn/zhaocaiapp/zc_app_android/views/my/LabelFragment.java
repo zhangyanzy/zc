@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,11 +45,13 @@ public class LabelFragment extends BaseFragment {
     ImageView iv_delete;
     @BindView(R.id.label_list)
     TagFlowLayout label_list;
+    @BindView(R.id.tv_submit)
+    TextView tv_submit;
 
     private List<UserLabelResp> labels;
     private boolean isShowDel = false;
     private TagAdapter tagAdapter;
-    private int deletePosition;
+    private List<Integer> positions = new ArrayList<>();
 
     private static final String TAG = "个人标签";
 
@@ -59,13 +62,7 @@ public class LabelFragment extends BaseFragment {
 
     @Override
     public void init() {
-//        labels = new ArrayList<>();
-//        labels.add(new UserLabelResp(1, "篮球", 30));
-//        labels.add(new UserLabelResp(2, "看电影", 20));
-//        labels.add(new UserLabelResp(3, "cosplay", 10));
-//        labels.add(new UserLabelResp(4, "旅行", 40));
-//
-//        initLabel();
+
     }
 
     @Override
@@ -113,10 +110,9 @@ public class LabelFragment extends BaseFragment {
                 @Override
                 public boolean onTagClick(View view, int position, FlowLayout parent) {
                     if (isShowDel) {
-                        deletePosition = position;
+                        positions.add(position);
                         view.setVisibility(View.GONE);
                         labels.remove(position);
-                        tagAdapter.notifyDataChanged();
                     }
                     return false;
                 }
@@ -147,7 +143,7 @@ public class LabelFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.iv_add, R.id.iv_delete})
+    @OnClick({R.id.iv_add, R.id.iv_delete, R.id.tv_submit})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_add:
@@ -158,12 +154,25 @@ public class LabelFragment extends BaseFragment {
                 else isShowDel = true;
                 tagAdapter.notifyDataChanged();
                 break;
+            case R.id.tv_submit:
+                getSelectedLabel();
+                break;
         }
     }
 
-    private void deleteLabel(String id) {
+    private void getSelectedLabel() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < positions.size(); i++) {
+            if (i == 0)
+                sb.append(labels.get(i).getTagId());
+            else sb.append(",").append(labels.get(i).getTagId());
+        }
+        deleteLabel(sb.toString());
+    }
+
+    private void deleteLabel(String ids) {
         Map<String, String> params = new HashMap<>();
-        params.put("ids", id);
+        params.put("ids", ids);
         HttpUtil.delete(Constants.URL.DELETE_LABEL, params).subscribe(new BaseResponseObserver<CommonResp>() {
 
             @Override

@@ -404,7 +404,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
      * @param t
      * @return
      */
-    private String getOnlineString(Integer t) {
+    private String getOnlineString(int t) {
         String online;
         switch (t) {
             case 0:

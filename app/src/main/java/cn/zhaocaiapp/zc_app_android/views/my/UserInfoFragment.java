@@ -42,6 +42,7 @@ import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.PhotoPickerUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
 
 /**
  * Created by Administrator on 2018/1/12.
@@ -49,7 +50,7 @@ import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 public class UserInfoFragment extends BaseFragment {
     @BindView(R.id.iv_user_photo)
-    ImageView iv_user_photo;
+    CircleImageView iv_user_photo;
     @BindView(R.id.tv_change_photo)
     TextView tv_change_photo;
     @BindView(R.id.tv_revise_phone)

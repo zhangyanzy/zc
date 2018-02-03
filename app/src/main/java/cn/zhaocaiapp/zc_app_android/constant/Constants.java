@@ -163,6 +163,14 @@ public interface Constants {
          * 获取标签
          */
         String GET_LABELS = "/label";
+        /**
+         * 绑定银行卡账户
+         * */
+        String BIND_CARD = "userinfo/add/account";
+        /**
+         * 解除账户绑定
+         * */
+        String REMOVE_ACCOUNT_BIND = "userinfo/abolish/account";
 
 
         /**

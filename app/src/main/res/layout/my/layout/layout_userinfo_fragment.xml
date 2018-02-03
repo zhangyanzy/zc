@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="@dimen/window_padding_32"
     android:paddingRight="@dimen/window_padding_32">
     
-    <ImageView
+    <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
         android:id="@+id/iv_user_photo"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@mipmap/user_girl"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="30dp"
+        app:civ_border_width="3dp"
+        app:civ_border_color="@color/colorPrimary"/>
 
     <TextView
         android:id="@+id/tv_change_photo"

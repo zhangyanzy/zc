@@ -101,4 +101,5 @@ dependencies {
     implementation files('libs/ocr-sdk.jar')
     implementation project(':ocr_ui')
     compile 'com.github.iwgang:countdownview:2.1.6'
+    compile 'cn.yipianfengye.android:zxing-library:2.2'
 }

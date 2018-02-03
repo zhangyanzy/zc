@@ -67,7 +67,7 @@ public class ActivityUtil {
      */
     public void finishActivity(Class<?> cls) {
         for (Activity activity : activityStack) {
-            if (activity.getClass().equals(cls)) {
+            if (activity != null && activity.getClass().equals(cls)) {
                 finishActivity(activity);
             }
         }
