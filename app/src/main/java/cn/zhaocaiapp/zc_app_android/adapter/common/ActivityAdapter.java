@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -116,6 +117,84 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             viewHolderMember.member_detail_state_1.setText(String.valueOf(memberResp.getOnLine()));
             //商家活动 已结束
             viewHolderMember.member_detail_state_2.setText(String.valueOf(memberResp.getOffLine()));
+            //判断登录
+            if (GeneralUtils.isNotNullOrZeroLenght((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
+                //已关注
+                if (memberResp.getIsFollow() == 1) {
+                    //商家关注 按钮
+                    viewHolderMember.member_detail_follow_layout.setBackground(context.getResources().getDrawable(R.drawable.member_follow_on));
+                    //商家关注 图片
+                    viewHolderMember.member_detail_follow_img.setVisibility(View.GONE);
+                    //商家关注 文案
+                    viewHolderMember.member_detail_follow_text.setText("已关注");
+                    viewHolderMember.member_detail_follow_text.setTextColor(context.getResources().getColor(R.color.colorLine));
+                }
+            }
+            //商家图片 点击
+            viewHolderMember.member_detail_follow_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (GeneralUtils.isNotNullOrZeroLenght((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
+                        //已关注
+                        if (memberResp.getIsFollow() == 1) {
+                            //取消关注
+                            Map<String, String> params = new HashMap<>();
+                            params.put("follow", "0");
+                            EBLog.i("tag", params.toString());
+
+                            HttpUtil.post(String.format(Constants.URL.POST_MEMBER_FOLLOW, memberResp.getKid()), params).subscribe(new BaseResponseObserver<String>() {
+                                @Override
+                                public void success(String result) {
+                                    memberResp.setIsFollow(0);
+                                    //商家关注 按钮
+                                    viewHolderMember.member_detail_follow_layout.setBackground(context.getResources().getDrawable(R.drawable.member_follow_off));
+                                    //商家关注 图片
+                                    viewHolderMember.member_detail_follow_img.setVisibility(View.VISIBLE);
+                                    //商家关注 文案
+                                    viewHolderMember.member_detail_follow_text.setText("关注");
+                                    viewHolderMember.member_detail_follow_text.setTextColor(context.getResources().getColor(R.color.colorWhite));
+                                    EBLog.i("tag", result.toString());
+                                }
+
+                                @Override
+                                public void error(Response<String> response) {
+                                }
+                            });
+                        }
+                        //未关注
+                        else {
+                            //关注
+                            Map<String, String> params = new HashMap<>();
+                            params.put("follow", "1");
+                            EBLog.i("tag", params.toString());
+
+                            HttpUtil.post(String.format(Constants.URL.POST_MEMBER_FOLLOW, memberResp.getKid()), params).subscribe(new BaseResponseObserver<String>() {
+                                @Override
+                                public void success(String result) {
+                                    memberResp.setIsFollow(1);
+                                    //商家关注 按钮
+                                    viewHolderMember.member_detail_follow_layout.setBackground(context.getResources().getDrawable(R.drawable.member_follow_on));
+                                    //商家关注 图片
+                                    viewHolderMember.member_detail_follow_img.setVisibility(View.GONE);
+                                    //商家关注 文案
+                                    viewHolderMember.member_detail_follow_text.setText("已关注");
+                                    viewHolderMember.member_detail_follow_text.setTextColor(context.getResources().getColor(R.color.colorLine));
+                                    EBLog.i("tag", result.toString());
+                                }
+
+                                @Override
+                                public void error(Response<String> response) {
+                                }
+                            });
+
+                        }
+                    } else {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        context.startActivity(intent);
+                    }
+                }
+            });
+
         }
         //活动列表
         else {
@@ -237,7 +316,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                     if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
                         //已经收藏
                         if (list.get(k).getFollow()) {
-                            //获取商家活动列表
+                            //取消收藏
                             Map<String, String> params = new HashMap<>();
                             params.put("follow", "0");
                             EBLog.i("tag", params.toString());
@@ -260,7 +339,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                         }
                         //未收藏
                         else {
-                            //获取商家活动列表
+                            //收藏
                             Map<String, String> params = new HashMap<>();
                             params.put("follow", "1");
                             EBLog.i("tag", params.toString());
@@ -367,6 +446,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         return type;
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
 
@@ -405,7 +485,15 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         //商家活动 已结束
         @BindView(R.id.member_detail_state_2)
         TextView member_detail_state_2;
-
+        //商家关注 按钮
+        @BindView(R.id.member_detail_follow_layout)
+        LinearLayout member_detail_follow_layout;
+        //商家关注 图片
+        @BindView(R.id.member_detail_follow_img)
+        ImageView member_detail_follow_img;
+        //商家关注 文案
+        @BindView(R.id.member_detail_follow_text)
+        TextView member_detail_follow_text;
 
         View itemView;
 

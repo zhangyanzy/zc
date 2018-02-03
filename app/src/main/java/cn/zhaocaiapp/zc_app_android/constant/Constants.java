@@ -198,6 +198,10 @@ public interface Constants {
          * 活动关注与取消关注
          */
         String POST_ACTIVITY_FOLLOW = "activity/%s/follow";
+        /**
+         * 商家关注与取消关注
+         */
+        String POST_MEMBER_FOLLOW = "/member/%s/follow";
 
         /**
          * 商家列表
