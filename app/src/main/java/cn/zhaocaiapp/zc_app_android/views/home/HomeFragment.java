@@ -29,6 +29,7 @@ import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.MessageEvent;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
+import cn.zhaocaiapp.zc_app_android.bean.response.common.UserResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.Gps;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.UserInfoResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.dialog.listener.OnBtnClickL;
@@ -75,6 +76,7 @@ public class HomeFragment extends BaseFragment {
     private UserInfoResp userInfoResp;//用户个人信息
     private String areaName;//用户定位城市名称
     private String areaCode;//用户定位城市Code
+    private UserResp userResp;//用户
 
 
     @Override
@@ -131,30 +133,6 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void loadData() {
 
-        //判断登录
-        if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
-            //获取商家详情
-            HttpUtil.get(String.format(Constants.URL.GET_ACTIVITY_USER)).subscribe(new BaseResponseObserver<UserInfoResp>() {
-                @Override
-                public void success(UserInfoResp result) {
-                    userInfoResp = result;
-                    //用户头像
-                    PictureLoadUtil.loadPicture(getActivity(), userInfoResp.getAvatar(), home_title_user_img);
-                    //用户昵称
-                    home_title_user_name.setText(userInfoResp.getNickname());
-                    //用户总收入
-                    home_title_user_income.setText(String.valueOf(userInfoResp.getGrossIncomeAmount()));
-                    //用户余额
-                    home_title_user_balance.setText(String.valueOf(userInfoResp.getAccountBalanceAmount()));
-                    EBLog.i("tag", result.toString());
-                }
-
-                @Override
-                public void error(Response<UserInfoResp> response) {
-                }
-            });
-        }
-
         /**
          * 定位判断
          */
@@ -180,6 +158,64 @@ public class HomeFragment extends BaseFragment {
                     SpUtils.put(Constants.SPREF.AREA_CODE, gps.getCityCode());
                     EventBus.getDefault().post(new MessageEvent<String>("home_tab_0"));
                     normalDialog.dismiss();
+                }
+            });
+        }
+
+
+        //判断登录
+        if (GeneralUtils.isNotNullOrZeroLenght((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
+            //获取用户信息
+            HttpUtil.get(String.format(Constants.URL.GET_ACTIVITY_USER)).subscribe(new BaseResponseObserver<UserInfoResp>() {
+                @Override
+                public void success(UserInfoResp result) {
+                    userInfoResp = result;
+                    //用户头像
+                    PictureLoadUtil.loadPicture(getActivity(), userInfoResp.getAvatar(), home_title_user_img);
+                    //用户昵称
+                    home_title_user_name.setText(userInfoResp.getNickname());
+                    //用户总收入
+                    home_title_user_income.setText(String.valueOf(userInfoResp.getGrossIncomeAmount()));
+                    //用户余额
+                    home_title_user_balance.setText(String.valueOf(userInfoResp.getAccountBalanceAmount()));
+                    EBLog.i("tag", result.toString());
+                }
+
+                @Override
+                public void error(Response<UserInfoResp> response) {
+                }
+            });
+
+            //获取新手任务
+            HttpUtil.get(String.format(Constants.URL.GET_USERINFO_FRISTPAGE)).subscribe(new BaseResponseObserver<UserResp>() {
+                @Override
+                public void success(UserResp result) {
+                    userResp = result;
+                    //判断用户是否做新手任务
+                    if (userResp.getIsFinishActivity() == 0) {
+                        NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "新手奖励", "完成新手任务即可领取奖励金", "取消", "任务详情");
+                        normalDialog.setOnBtnClickL(new OnBtnClickL() {
+                            @Override
+                            public void onBtnClick() {
+                                EBLog.i("tag", "您点击了取消");
+                                normalDialog.cancel();
+                            }
+                        }, new OnBtnClickL() {
+                            @Override
+                            public void onBtnClick() {
+                                EBLog.i("tag", "您点击了确认");
+                                Bundle bd = new Bundle();
+                                bd.putString("newbieAmount", GeneralUtils.getBigDecimalToTwo(userResp.getNewbieAmount()));
+                                openActivity(newbieTaskActivity.class, bd);
+                                normalDialog.dismiss();
+                            }
+                        });
+                    }
+                    EBLog.i("tag", result.toString());
+                }
+
+                @Override
+                public void error(Response<UserResp> response) {
                 }
             });
         }

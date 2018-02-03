@@ -59,6 +59,10 @@
         <activity
             android:name=".views.home.LocationActivity"
             android:screenOrientation="portrait" />
+        <!--定位-->
+        <activity
+            android:name=".views.home.newbieTaskActivity"
+            android:screenOrientation="portrait" />
         <!--搜索-->
         <activity
             android:name=".views.home.SearchActivity"

@@ -174,6 +174,10 @@ public interface Constants {
          * 首页获取个人信息
          */
         String GET_ACTIVITY_USER = "activity/user";
+        /**
+         * 首页获取个人信息
+         */
+        String GET_USERINFO_FRISTPAGE = "userinfo/fristpage";
 
         /**
          * 活动首页活动列表
