@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -22,6 +24,8 @@ import com.mcxtzhang.indexlib.IndexBar.widget.IndexBar;
 import com.mcxtzhang.indexlib.suspension.SuspensionDecoration;
 
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,20 +37,27 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+import cn.zhaocaiapp.zc_app_android.MainActivity;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.adapter.home.LocationAdapter;
 import cn.zhaocaiapp.zc_app_android.adapter.home.LocationDecoration;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.bean.MessageEvent;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
+import cn.zhaocaiapp.zc_app_android.bean.response.home.Gps;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.LocationResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.dialog.listener.OnBtnClickL;
 import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.AreaUtil;
 import cn.zhaocaiapp.zc_app_android.util.DialogUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
+import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 
 /**
  * @author 林子
@@ -61,6 +72,10 @@ public class LocationActivity extends BaseActivity {
     IndexBar indexBar;
     @BindView(R.id.tvSideBarHint)
     TextView tvSideBarHint;
+    @BindView(R.id.home_location_area_text)
+    TextView home_location_area_text;
+    @BindView(R.id.home_location_switch)
+    Button home_location_switch;
 
     private Context mContext;
     private LinearLayoutManager linearLayoutManager;
@@ -84,6 +99,7 @@ public class LocationActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        ActivityUtil.getActivityManager().addActivity(this);
         EBLog.i("tag", "初始化");
         initView();
         initData();
@@ -133,6 +149,23 @@ public class LocationActivity extends BaseActivity {
         indexBar.setmSourceDatas(locationRespsList)//设置数据
                 .invalidate();
         mDecoration.setmDatas(locationRespsList);
+
+
+        /**
+         * 切换城市
+         */
+        Gps gps = LocationUtil.getGps();
+        String areaName = (String) SpUtils.get(Constants.SPREF.AREA_NAME, Constants.CONFIG.AREA_NAME);
+        String areaCode = (String) SpUtils.get(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE);
+        if (gps.getOpen()) {
+            if (!areaName.equals(gps.getCity())) {
+                home_location_switch.setVisibility(View.VISIBLE);
+            } else {
+                home_location_area_text.setText(gps.getCity());
+            }
+        } else {
+            home_location_area_text.setText("无法定位到当前城市");
+        }
         EBLog.i("tag", "列表定位完成");
 
     }
@@ -151,12 +184,30 @@ public class LocationActivity extends BaseActivity {
                 @Override
                 public void onBtnClick() {
                     EBLog.i("tag", "您点击了确认");
+                    SpUtils.put(Constants.SPREF.AREA_NAME, locationRespsList.get(position).getAreaName());
+                    SpUtils.put(Constants.SPREF.AREA_CODE, String.valueOf(locationRespsList.get(position).getAreaCode()));
                     normalDialog.dismiss();
+                    EventBus.getDefault().post(new MessageEvent<String>("home_location"));
+                    LocationActivity.this.finish();
                 }
             });
             EBLog.i("tag", "您点击了第" + position + "条");
         }
     };
 
+    @OnClick({
+            R.id.home_location_switch
+    })
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.home_location_switch:
+                Gps gps = LocationUtil.getGps();
+                SpUtils.put(Constants.SPREF.AREA_NAME, gps.getCity());
+                SpUtils.put(Constants.SPREF.AREA_CODE, gps.getCityCode());
+                EventBus.getDefault().post(new MessageEvent<String>("home_location"));
+                LocationActivity.this.finish();
+                break;
+        }
+    }
 
 }

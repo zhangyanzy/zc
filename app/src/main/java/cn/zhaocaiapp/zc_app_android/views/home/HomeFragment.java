@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -121,6 +123,8 @@ public class HomeFragment extends BaseFragment {
         });
         home_view.setCurrentItem(0);
 
+        //注册EventBus消息订阅者
+        EventBus.getDefault().register(this);
     }
 
 
@@ -171,6 +175,10 @@ public class HomeFragment extends BaseFragment {
                 @Override
                 public void onBtnClick() {
                     EBLog.i("tag", "您点击了确认");
+                    home_title_area_text.setText(gps.getCity());
+                    SpUtils.put(Constants.SPREF.AREA_NAME, gps.getCity());
+                    SpUtils.put(Constants.SPREF.AREA_CODE, gps.getCityCode());
+                    EventBus.getDefault().post(new MessageEvent<String>("home_tab_0"));
                     normalDialog.dismiss();
                 }
             });
@@ -178,6 +186,19 @@ public class HomeFragment extends BaseFragment {
 
     }
 
+    //接收EventBus发送的消息，并处理
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(MessageEvent<String> event) {
+        if (event.getMessage() instanceof String) {
+            if (event.getMessage().equals("home_location")) {
+                home_view.setCurrentItem(0);
+                EventBus.getDefault().post(new MessageEvent<String>("home_tab_0"));
+                home_title_area_text.setText((String) SpUtils.get(Constants.SPREF.AREA_NAME, Constants.CONFIG.AREA_NAME));
+                EBLog.i("tag", "接受到了");
+            }
+        }
+
+    }
 
     /**
      * tabs控制器
@@ -235,7 +256,8 @@ public class HomeFragment extends BaseFragment {
     @OnClick({
             R.id.home_title_search,
             R.id.home_title_area,
-            R.id.home_title_user_cart
+            R.id.home_title_user_cart,
+            R.id.home_title_area_text
     })
     public void onClick(View view) {
         switch (view.getId()) {
