@@ -1,5 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.constant;
 
+import java.util.Date;
+
 /**
  * 全局常量
  */
@@ -181,13 +183,12 @@ public interface Constants {
         String REMOVE_ACCOUNT_BIND = "userinfo/abolish/account";
         /**
          * 提现
-         * */
+         */
         String DO_WITHDRAW = "userinfo/witdraw";
         /**
          * 关于我们
-         * */
+         */
         String ABOUT_US = "about_us/%s";
-
 
 
         /**
@@ -282,6 +283,7 @@ public interface Constants {
 
         String AREA_NAME = "areaName"; //用户定位城市名称
         String AREA_CODE = "areaCode"; //用户定位城市Code
+        String MESSAGE_PUSH = "messagePush"; //消息推送时间
     }
 
     interface ASSETS {

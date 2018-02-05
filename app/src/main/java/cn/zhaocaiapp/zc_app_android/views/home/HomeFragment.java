@@ -1,11 +1,15 @@
 package cn.zhaocaiapp.zc_app_android.views.home;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -132,6 +136,39 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void loadData() {
+
+        /**
+         * 消息推送判断
+         */
+        NotificationManagerCompat manager = NotificationManagerCompat.from(this.getActivity());
+        boolean isOpened = manager.areNotificationsEnabled();
+        EBLog.i("tag", "消息推送通知开关：" + isOpened);
+        if (isOpened) {
+
+        } else {
+            NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "提示", "您的通知没有打开，无法收到最近消息。", "取消", "去设置");
+            normalDialog.setOnBtnClickL(new OnBtnClickL() {
+                @Override
+                public void onBtnClick() {
+                    EBLog.i("tag", "您点击了取消");
+                    normalDialog.cancel();
+                }
+            }, new OnBtnClickL() {
+                @Override
+                public void onBtnClick() {
+                    EBLog.i("tag", "您点击了确认");
+                    // 根据isOpened结果，判断是否需要提醒用户跳转AppInfo页面，去打开App通知权限
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", HomeFragment.this.getActivity().getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
+                    normalDialog.dismiss();
+                }
+            });
+
+        }
+
 
         /**
          * 定位判断
