@@ -177,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/logo_money"
                 android:drawablePadding="10dp"
-                android:text="支付宝"
+                android:text="银行卡"
                 android:textColor="@color/colorFont3"
                 android:textSize="@dimen/font_size_14" />
 

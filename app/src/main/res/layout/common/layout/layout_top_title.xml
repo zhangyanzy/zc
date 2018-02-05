@@ -37,7 +37,7 @@
         android:paddingBottom="12dp"
         android:paddingRight="@dimen/window_padding_15"
         android:paddingTop="12dp"
-        android:src="@mipmap/logo_money" />
+        android:src="@mipmap/add" />
 
     <TextView
         android:id="@+id/tv_msg"

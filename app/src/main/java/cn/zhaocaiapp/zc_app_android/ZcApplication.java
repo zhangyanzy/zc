@@ -80,7 +80,7 @@ public class ZcApplication extends Application {
                 .setHttpMessage("message")//网络请求返回的message字段名称，默认为message
                 .setHttpResult("response"));//网络请求返回的result字段名称，默认为result
 
-        //初始化友盟sdk
+        //初始化友盟社会化组件
         umShareAPI = UMShareAPI.get(this);
         Config.DEBUG = true;
 

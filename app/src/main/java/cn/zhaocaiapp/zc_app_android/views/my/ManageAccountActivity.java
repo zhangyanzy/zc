@@ -102,30 +102,33 @@ public class ManageAccountActivity extends BaseActivity {
 
     //解除账户关联
     private void removeBind() {
-         Map<String, String>map = new HashMap<>();
-         if (type == 0){
-             map.put("alipayNo", accountResp.getAlipayNo());
-         }
-         if (type == 1){
-             map.put("wechatNo", accountResp.getWechatNo());
-         }
-         if (type == 2){
-             map.put("bankCard", accountResp.getBankCard());
-         }
+        Map<String, String> map = new HashMap<>();
+        if (type == 0) {
+            map.put("alipayNo", "");
+        }
+        if (type == 1) {
+            map.put("wechatNo", "");
+        }
+        if (type == 2) {
+            map.put("bankCard", "");
+            map.put("name", "");
+        }
+        map.put("type", type + "");
 
-         HttpUtil.post(Constants.URL.REMOVE_ACCOUNT_BIND, map).subscribe(new BaseResponseObserver<CommonResp>() {
+        HttpUtil.post(Constants.URL.REMOVE_ACCOUNT_BIND, map).subscribe(new BaseResponseObserver<CommonResp>() {
 
-             @Override
-             public void success(CommonResp commonResp) {
-                 ToastUtil.makeText(ManageAccountActivity.this, commonResp.getDesc());
-             }
+            @Override
+            public void success(CommonResp commonResp) {
+                ToastUtil.makeText(ManageAccountActivity.this, commonResp.getDesc());
+                getAccount();
+            }
 
-             @Override
-             public void error(Response<CommonResp> response) {
-                 EBLog.e(TAG, response.getCode()+"");
-                 ToastUtil.makeText(ManageAccountActivity.this, response.getDesc());
-             }
-         });
+            @Override
+            public void error(Response<CommonResp> response) {
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(ManageAccountActivity.this, response.getDesc());
+            }
+        });
     }
 
     @OnClick({R.id.iv_top_back, R.id.layout_wechat, R.id.layout_ali, R.id.layout_bank})

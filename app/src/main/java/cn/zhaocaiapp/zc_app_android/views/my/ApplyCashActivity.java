@@ -2,6 +2,7 @@ package cn.zhaocaiapp.zc_app_android.views.my;
 
 import android.os.Bundle;
 import android.text.BoringLayout;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -10,10 +11,27 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.Response;
+import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
+import cn.zhaocaiapp.zc_app_android.bean.response.my.AccountResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
+import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
@@ -44,7 +62,12 @@ public class ApplyCashActivity extends BaseActivity {
     RadioButton withdraw_bank;
 
     private String balance;
-    private boolean isChecked;
+    private int type = -1;//提现方式    0 支付宝  1 微信   2 银行卡
+    private AccountResp accountResp;
+    private String amount; // 提现金额
+    private UMShareAPI umShareAPI;
+
+    private static final String TAG = "申请提现";
 
     @Override
     public int getContentViewResId() {
@@ -53,7 +76,89 @@ public class ApplyCashActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        balance = tv_balance.getText().toString();
+        umShareAPI = ZcApplication.getUMShareAPI();
+        balance = getIntent().getStringExtra("balance");
+        getAccount();
+    }
+
+    private void getAccount() {
+        HttpUtil.get(Constants.URL.GET_ACCOUNT_INFO).subscribe(new BaseResponseObserver<AccountResp>() {
+
+            @Override
+            public void success(AccountResp accountResp) {
+                EBLog.i(TAG, accountResp.toString());
+                ApplyCashActivity.this.accountResp = accountResp;
+                showInfo();
+            }
+
+            @Override
+            public void error(Response<AccountResp> response) {
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(ApplyCashActivity.this, response.getDesc());
+            }
+        });
+    }
+
+    private void showInfo() {
+        tv_balance.setText(balance);
+
+        if (accountResp.getWechatIs())
+            withdraw_wechat.setText(accountResp.getWechatNo());
+        if (accountResp.getAlipayIs())
+            withdraw_ali.setText(accountResp.getAlipayNo());
+        if (accountResp.getBankIs())
+            withdraw_bank.setText(accountResp.getBankCard());
+    }
+
+    private void doWithdraw() {
+        Map<String, String> map = new HashMap<>();
+        map.put("type", type + "");
+        map.put("amount", amount);
+
+        HttpUtil.post(Constants.URL.DO_WITHDRAW, map).subscribe(new BaseResponseObserver<CommonResp>() {
+
+            @Override
+            public void success(CommonResp commonResp) {
+                ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_success));
+            }
+
+            @Override
+            public void error(Response<CommonResp> response) {
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(ApplyCashActivity.this, response.getDesc());
+            }
+        });
+    }
+
+    //获取微信授权
+    private void getWechatAuth(SHARE_MEDIA platform) {
+        umShareAPI.getPlatformInfo(this, platform, new UMAuthListener() {
+            @Override
+            public void onStart(SHARE_MEDIA share_media) {
+
+            }
+
+            @Override
+            public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
+                Log.i("UMENG", map.toString());
+                ToastUtil.makeText(ApplyCashActivity.this, "授权成功");
+            }
+
+            @Override
+            public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
+
+            }
+
+            @Override
+            public void onCancel(SHARE_MEDIA share_media, int i) {
+
+            }
+        });
+    }
+
+    //获取阿里授权
+    private void getAliAuth() {
+
     }
 
     @Override
@@ -71,33 +176,51 @@ public class ApplyCashActivity extends BaseActivity {
             case R.id.iv_top_menu: // 收支明细
                 openActivity(IncomeActivity.class);
                 break;
-            case R.id.tv_withdraw_all:
-                edit_apply_cash.setText(balance);
+            case R.id.tv_withdraw_all: // 全部提现
+                edit_apply_cash.setText(tv_balance.getText().toString());
                 break;
             case R.id.tv_submit:
-
+                BigDecimal money = new BigDecimal(edit_apply_cash.getText().toString());
+                if (money.compareTo(new BigDecimal(20)) == -1) {
+                    ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_limit));
+                } else if (type == -1) {
+                    ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_type));
+                } else {
+                    amount = GeneralUtils.getBigDecimalToTwo(money);
+                    doWithdraw();
+                }
                 break;
             case R.id.withdraw_wechat:
-                if (withdraw_wechat.isChecked()) {
-                    ToastUtil.makeText(ApplyCashActivity.this, "微信提现");
-                } else {
+                if (accountResp.getWechatIs()) {
+                    type = 1;
                     withdraw_wechat.setChecked(true);
+                    ToastUtil.makeText(ApplyCashActivity.this, "微信提现");
+                    withdraw_ali.setChecked(false);
+                    withdraw_bank.setChecked(false);
+                } else {
+                    getWechatAuth(SHARE_MEDIA.WEIXIN);
                 }
                 break;
             case R.id.withdraw_ali:
-                if (withdraw_ali.isChecked()) {
-                    ToastUtil.makeText(ApplyCashActivity.this, "支付宝提现");
-
-                } else {
+                if (accountResp.getAlipayIs()) {
+                    type = 0;
                     withdraw_ali.setChecked(true);
+                    ToastUtil.makeText(ApplyCashActivity.this, "支付宝提现");
+                    withdraw_wechat.setChecked(false);
+                    withdraw_bank.setChecked(false);
+                } else {
+                    getAliAuth();
                 }
                 break;
             case R.id.withdraw_bank:
-                if (withdraw_bank.isChecked()) {
-                    ToastUtil.makeText(ApplyCashActivity.this, "银行卡提现");
-
-                } else {
+                if (accountResp.getBankIs()) {
+                    type = 2;
                     withdraw_bank.setChecked(true);
+                    ToastUtil.makeText(ApplyCashActivity.this, "银行卡提现");
+                    withdraw_wechat.setChecked(false);
+                    withdraw_ali.setChecked(false);
+                } else {
+                    openActivity(BindCardActivity.class);
                 }
                 break;
         }

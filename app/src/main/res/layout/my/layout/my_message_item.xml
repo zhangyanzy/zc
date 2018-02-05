@@ -4,28 +4,38 @@
     android:layout_height="wrap_content"
     android:paddingTop="10dp">
 
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/logo" />
+
     <TextView
         android:id="@+id/tv_describe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="参与凯迪拉克试驾活动"
+        android:layout_marginLeft="@dimen/window_padding_15"
+        android:layout_marginRight="@dimen/window_padding_15"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@+id/iv_logo"
+        android:text="参与凯迪拉克奥迪分红"
         android:textColor="@color/colorFont6"
         android:textSize="@dimen/font_size_14"
-        android:layout_marginLeft="@dimen/window_padding_15"
-        android:layout_marginRight="@dimen/window_padding_15"/>
+        android:maxLines="2"/>
 
     <TextView
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_describe"
-        android:layout_alignStart="@+id/tv_describe"
-        android:layout_marginTop="5dp"
-        android:text="2018-1-1 10:00"
+        android:layout_alignBottom="@+id/iv_logo"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/window_padding_15"
+        android:text="2018-1-1 00:00:00"
         android:textColor="@color/colorFont6"
         android:textSize="@dimen/font_size_14" />
 
-    <View style="@style/horizontal_C9_line"
-        android:layout_below="@+id/tv_time"
-        android:layout_marginTop="10dp"/>
+    <View
+        style="@style/horizontal_C9_line"
+        android:layout_below="@+id/iv_logo"
+        android:layout_marginTop="10dp" />
 </RelativeLayout>

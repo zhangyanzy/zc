@@ -148,6 +148,7 @@ public class MyFragment extends BaseFragment {
         tv_invite.setText(userInfo.getInviteMessage());
         tv_contact_phone.setText(userInfo.getCustomerPhone());
         tv_email.setText(userInfo.getEmail());
+        tv_msg.setVisibility(View.VISIBLE);
         if (userInfo.getMessage() > 0) tv_msg.setText(userInfo.getMessage() + "");
         if (userInfo.getSubmit() > 0) tv_deliver_msg.setText(userInfo.getSubmit() + "");
         if (userInfo.getAudit() > 0) tv_verify_msg.setText(userInfo.getAudit() + "");
@@ -163,13 +164,14 @@ public class MyFragment extends BaseFragment {
             R.id.tv_follow, R.id.layout_contact, R.id.layout_email, R.id.tv_setting, R.id.tv_exit})
     public void onClick(View view) {
         // 用户未登录，跳转到登陆界面
-        if (!(boolean)SpUtils.get(Constants.SPREF.IS_LOGIN, false)) {
+        if (!(boolean) SpUtils.get(Constants.SPREF.IS_LOGIN, false)) {
             openActivity(LoginActivity.class);
             getActivity().finish();
             return;
         }
 
         Bundle bundle = new Bundle();
+        Intent intent;
         switch (view.getId()) {
             case R.id.iv_user_photo: //个人资料
                 openActivity(UserInfoActivity.class);
@@ -178,7 +180,9 @@ public class MyFragment extends BaseFragment {
                 trembleBasesOsDialog.show();
                 break;
             case R.id.tv_apply_cash: // 申请提现
-                openActivity(ApplyCashActivity.class);
+                bundle.clear();
+                bundle.putString("balance", userInfo.getAccountBalanceAmount()+"");
+                openActivity(ApplyCashActivity.class, bundle);
                 break;
             case R.id.layout_invite: // 邀请好友
                 openActivity(InviteActivity.class);
@@ -189,8 +193,8 @@ public class MyFragment extends BaseFragment {
             case R.id.tv_follow: // 我的关注
                 openActivity(MyFollowAvtivity.class);
                 break;
-            case R.id.layout_contact:
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:021-68788170"));
+            case R.id.layout_contact: // 联系客服
+                intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:021-68788170"));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getActivity().startActivity(intent);
                 break;
@@ -205,25 +209,30 @@ public class MyFragment extends BaseFragment {
                 bundle.putInt("position", 0);
                 openActivity(MyActivity.class, bundle);
                 break;
-            case R.id.layout_deliver_task:
+            case R.id.layout_deliver_task: // 待交付活动
                 bundle.clear();
                 bundle.putInt("position", 1);
                 openActivity(MyActivity.class, bundle);
                 break;
-            case R.id.layout_verify_task:
+            case R.id.layout_verify_task: // 待审核活动
                 bundle.clear();
                 bundle.putInt("position", 2);
                 openActivity(MyActivity.class, bundle);
                 break;
-            case R.id.layout_reward_task:
+            case R.id.layout_reward_task: // 待领钱活动
                 bundle.clear();
                 bundle.putInt("position", 3);
                 openActivity(MyActivity.class, bundle);
                 break;
-            case R.id.layout_failed_task:
+            case R.id.layout_failed_task: // 未通过活动
                 bundle.clear();
                 bundle.putInt("position", 4);
                 openActivity(MyActivity.class, bundle);
+                break;
+            case R.id.layout_email: // 发送邮件
+                Uri uri = Uri.parse ("mailto: xxx@abc.com");
+                intent = new Intent (Intent.ACTION_SENDTO, uri);
+                this.startActivity(intent);
                 break;
         }
     }

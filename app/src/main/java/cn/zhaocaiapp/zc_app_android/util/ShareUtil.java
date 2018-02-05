@@ -11,6 +11,7 @@ import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
 
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.widget.LoadingDialog;
 
 /**
@@ -27,7 +28,8 @@ public class ShareUtil {
     private static String desc;//描述
     private static ShareUtil shareUtil;
 
-    private ShareUtil(){}
+    private ShareUtil() {
+    }
 
     public static ShareUtil init(Activity mActivity) {
         ShareUtil.mActivity = mActivity;
@@ -93,7 +95,10 @@ public class ShareUtil {
 
     //初始化分享内容
     private static void initMedia() {
-        umWeb = new UMWeb(webUrl);
+        String server = Constants.URL.SERVER;
+        StringBuilder sb = new StringBuilder();
+        sb.append(server).append(webUrl);
+        umWeb = new UMWeb(sb.toString());
         umWeb.setTitle(title);
         umWeb.setThumb(umImage);
         umWeb.setDescription(desc);

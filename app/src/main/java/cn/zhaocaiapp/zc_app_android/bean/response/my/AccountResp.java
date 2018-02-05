@@ -16,6 +16,7 @@ public class AccountResp {
      * "wechatIs": true,
      * "wechatNo": "",
      * "wechatOpenId": ""
+     * name
      */
     private String alipayNo;
     private String alipayOpenId;
@@ -27,6 +28,15 @@ public class AccountResp {
     private String wechatNo;
     private Boolean wechatIs;
     private String wechatOpenId;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getAlipayOpenId() {
         return alipayOpenId;
@@ -121,6 +131,7 @@ public class AccountResp {
                 ", wechatNo='" + wechatNo + '\'' +
                 ", wechatIs=" + wechatIs +
                 ", wechatOpenId='" + wechatOpenId + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }
