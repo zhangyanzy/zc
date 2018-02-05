@@ -1,4 +1,4 @@
-package cn.zhaocaiapp.zc_app_android.views.my;
+package cn.zhaocaiapp.zc_app_android.views.login;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -20,44 +20,38 @@ import cn.zhaocaiapp.zc_app_android.util.AppUtil;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
-import cn.zhaocaiapp.zc_app_android.views.login.ClosureActivity;
+import cn.zhaocaiapp.zc_app_android.views.my.AboutUsActivity;
 
 /**
- * Created by Administrator on 2018/1/24.
+ * Created by Administrator on 2018/2/5.
  */
 
-public class AboutUsActivity extends BaseActivity {
+public class ClosureActivity extends BaseActivity {
     @BindView(R.id.iv_top_back)
-    ImageView iv_top_back;
+    ImageView iv_back;
     @BindView(R.id.tv_top_title)
-    TextView tv_top_title;
+    TextView tv_title;
     @BindView(R.id.iv_top_menu)
-    ImageView iv_top_menu;
-    @BindView(R.id.tv_version)
-    TextView tv_version;
-    @BindView(R.id.tv_privacy)
-    TextView tv_privacy;
-    @BindView(R.id.tv_email)
-    TextView tv_email;
+    ImageView iv_menu;
     @BindView(R.id.tv_phone)
     TextView tv_phone;
-    @BindView(R.id.tv_address)
-    TextView tv_address;
+    @BindView(R.id.tv_email)
+    TextView tv_email;
 
     private AboutAUsResp aboutAUsResp;
 
-
-    private static final String TAG = "关于我们";
-
+    private static final String TAG = "账号封禁";
 
     @Override
     public int getContentViewResId() {
-        return R.layout.layout_about_us;
+        return R.layout.layout_closure_activity;
     }
 
     @Override
     public void init(Bundle savedInstanceState) {
-        tv_top_title.setText("关于我们");
+        tv_title.setText(getString(R.string.zccount_closure));
+        iv_menu.setVisibility(View.GONE);
+
         initDate();
     }
 
@@ -68,23 +62,21 @@ public class AboutUsActivity extends BaseActivity {
             @Override
             public void success(AboutAUsResp aboutAUsResp) {
                 EBLog.i(TAG, aboutAUsResp.toString());
-                AboutUsActivity.this.aboutAUsResp = aboutAUsResp;
+                ClosureActivity.this.aboutAUsResp = aboutAUsResp;
                 showInfo();
             }
 
             @Override
             public void error(Response<AboutAUsResp> response) {
                 EBLog.e(TAG, response.getCode() + "");
-                ToastUtil.makeText(AboutUsActivity.this, response.getDesc());
+                ToastUtil.makeText(ClosureActivity.this, response.getDesc());
             }
         });
     }
 
     private void showInfo() {
-        tv_version.setText("版本：V" + AppUtil.getAppVersionName(this));
-        tv_email.setText(aboutAUsResp.getEmail());
-        tv_phone.setText(aboutAUsResp.getPhone());
-        tv_address.setText(aboutAUsResp.getAddress());
+        tv_email.setText("联系邮箱：" + aboutAUsResp.getEmail());
+        tv_phone.setText("联系电话：" + aboutAUsResp.getPhone());
     }
 
     @OnClick({R.id.iv_top_back, R.id.tv_phone, R.id.tv_email})

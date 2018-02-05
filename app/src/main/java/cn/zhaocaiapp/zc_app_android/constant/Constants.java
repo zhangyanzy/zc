@@ -183,6 +183,10 @@ public interface Constants {
          * 提现
          * */
         String DO_WITHDRAW = "userinfo/witdraw";
+        /**
+         * 关于我们
+         * */
+        String ABOUT_US = "about_us/%s";
 
 
 

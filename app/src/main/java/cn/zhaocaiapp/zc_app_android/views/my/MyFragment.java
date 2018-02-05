@@ -232,7 +232,7 @@ public class MyFragment extends BaseFragment {
             case R.id.layout_email: // 发送邮件
                 Uri uri = Uri.parse ("mailto: xxx@abc.com");
                 intent = new Intent (Intent.ACTION_SENDTO, uri);
-                this.startActivity(intent);
+                startActivity(intent);
                 break;
         }
     }
