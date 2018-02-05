@@ -195,11 +195,6 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
                 setSort();
                 loadData();
                 break;
-            case R.id.home_sort_area_layout:
-                sortType = 3;
-                setSort();
-                loadData();
-                break;
         }
     }
 
@@ -212,7 +207,6 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
             home_sort_money_img.setVisibility(View.INVISIBLE);
             home_sort_time_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
             home_sort_money_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
-            home_sort_area_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
         } else if (sortType == 1) {
             home_sort_time_img.setVisibility(View.VISIBLE);
             if (sortRule == 1) {
@@ -223,7 +217,6 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
             home_sort_money_img.setVisibility(View.INVISIBLE);
             home_sort_time_text.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
             home_sort_money_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
-            home_sort_area_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
         } else if (sortType == 2) {
             home_sort_money_img.setVisibility(View.VISIBLE);
             if (sortRule == 1) {
@@ -234,15 +227,13 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
             home_sort_time_img.setVisibility(View.INVISIBLE);
             home_sort_time_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
             home_sort_money_text.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
-            home_sort_area_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
         } else {
             home_sort_time_img.setVisibility(View.INVISIBLE);
             home_sort_money_img.setVisibility(View.INVISIBLE);
             home_sort_time_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
             home_sort_money_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
-            home_sort_area_text.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
         }
-
+        home_sort_area_text.setTextColor(getActivity().getResources().getColor(R.color.colorHeadLine));
     }
 
 
