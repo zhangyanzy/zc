@@ -65,6 +65,8 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     private static final String TAG = "H5详情页";
     private static final int REQUEST_CODE = 2001;
 
+    private long activityId; // 活动id
+
     @Override
     public int getContentViewResId() {
         rootView = LayoutInflater.from(this).inflate(R.layout.activity_detail, null);
@@ -73,7 +75,9 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
     @Override
     public void init(Bundle savedInstanceState) {
-        ActivityUtil.getActivityManager().addActivity(this);
+        ActivityUtil.addActivity(this);
+
+        activityId = getIntent().getLongExtra("id", 0l);
 
         tv_title.setText("活动详情");
 
@@ -118,7 +122,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         public String getPage() {
             Map<String, String> params = new HashMap<>();
             //活动详情id
-            params.put("id", "1");
+            params.put("id", activityId + "");
             //token
             params.put("token", (String) SpUtils.get(Constants.SPREF.TOKEN, ""));
             //授权码
@@ -257,7 +261,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-        if (requestCode == REQUEST_CODE && perms.contains(Manifest.permission.CAMERA)){
+        if (requestCode == REQUEST_CODE && perms.contains(Manifest.permission.CAMERA)) {
             Intent intent = new Intent(ActivityDetailActivity.this, CaptureActivity.class);
             startActivityForResult(intent, REQUEST_CODE);
         }

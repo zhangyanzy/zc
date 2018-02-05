@@ -81,10 +81,11 @@ public class LoginActivity extends BaseFragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_login_main);
+        ActivityUtil.addActivity(this);
+        ActivityUtil.finishAllActivity(this.getClass());
 
         umShareAPI = ZcApplication.getUMShareAPI();
 
-        ActivityUtil.getActivityManager().finishAllActivity();
     }
 
     @OnClick({R.id.tv_skip_login, R.id.tv_register, R.id.tv_forget_pass, R.id.tv_login,
@@ -149,7 +150,6 @@ public class LoginActivity extends BaseFragmentActivity {
                 Bundle bundle = new Bundle();
                 bundle.putInt("position", 0);
                 openActivity(MainActivity.class, bundle);
-                LoginActivity.this.finish();
             }
 
             @Override
@@ -159,7 +159,7 @@ public class LoginActivity extends BaseFragmentActivity {
                 if (type != 0 && response.getCode() == 5000) { //此三方账号未绑定
                     turnToCheckPhone(platform);
                 }
-                if ( response.getCode() == 5000) { // 此账号已被封禁
+                if ( response.getCode() == 5005) { // 此账号已被封禁
                     openActivity(ClosureActivity.class);
                 }
             }

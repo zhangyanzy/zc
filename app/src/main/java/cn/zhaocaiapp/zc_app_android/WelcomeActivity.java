@@ -68,10 +68,10 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
 
-        init();
-
         //初始化友盟推送
         PushAgent.getInstance(this).onAppStart();
+
+        init();
     }
 
     private void init() {

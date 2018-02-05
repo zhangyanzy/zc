@@ -99,7 +99,7 @@ public class LocationActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        ActivityUtil.getActivityManager().addActivity(this);
+        ActivityUtil.addActivity(this);
         EBLog.i("tag", "初始化");
         initView();
         initData();

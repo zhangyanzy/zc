@@ -194,7 +194,7 @@ public class MyFragment extends BaseFragment {
                 openActivity(MyFollowAvtivity.class);
                 break;
             case R.id.layout_contact: // 联系客服
-                intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:021-68788170"));
+                intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + userInfo.getCustomerPhone()));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getActivity().startActivity(intent);
                 break;

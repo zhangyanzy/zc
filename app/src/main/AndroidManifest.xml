@@ -154,7 +154,9 @@
         <activity
             android:name=".views.my.BindCardActivity"
             android:screenOrientation="portrait" />
-
+        <!--封禁账号-->
+        <activity android:name=".views.login.ClosureActivity"
+            android:screenOrientation="portrait"/>
 
 
 

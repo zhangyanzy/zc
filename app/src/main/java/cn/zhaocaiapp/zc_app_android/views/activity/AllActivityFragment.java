@@ -29,6 +29,7 @@ import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.views.common.ActivityDetailActivity;
 
 /**
  * Created by Administrator on 2018/1/29.
@@ -64,6 +65,7 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
 
         adapter = new MyActivityAdapter(getActivity(), activitys, MyActivityAdapter.MYACTIVITY_ALL);
         list.setAdapter(adapter);
+        adapter.setOnItemClickListener(listener);
     }
 
     @Override
@@ -93,6 +95,20 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
         });
     }
 
+    private MyActivityAdapter.OnItemClickListener listener = new MyActivityAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(int position, int viewId) {
+            Bundle bundle = new Bundle();
+            switch (viewId){
+                case R.id.activity_item_img_i:
+                    bundle.clear();
+                    bundle.putLong("id", activitys.get(position).getKid());
+                    openActivity(ActivityDetailActivity.class, bundle);
+                    break;
+            }
+        }
+    };
+
     @Override
     public void onLoadmore(RefreshLayout refreshlayout) {
         currentResult += 10;
@@ -105,4 +121,5 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
         activitys.clear();
         loadData();
     }
+
 }

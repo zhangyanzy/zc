@@ -49,6 +49,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
     private Context context;
     private List<ActivityResp> items;
     private int type;
+    private OnItemClickListener listener;
 
     public MyActivityAdapter(Context context, List<ActivityResp> items, int type) {
         this.context = context;
@@ -101,6 +102,27 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         }
         isContentVisible(activity.getActivityForm(), holder);
         showUserPhoto(context, activity.getUserList(), holder);
+
+        holder.activity_item_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(holder.getLayoutPosition(), v.getId());
+            }
+        });
+
+        holder.tv_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(holder.getLayoutPosition(), v.getId());
+            }
+        });
+
+        holder.tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(holder.getLayoutPosition(), v.getId());
+            }
+        });
     }
 
     @Override
@@ -188,6 +210,14 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
                 type = context.getString(R.string.activity_type_0);
         }
         return type;
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(int position, int viewId);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.listener = listener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

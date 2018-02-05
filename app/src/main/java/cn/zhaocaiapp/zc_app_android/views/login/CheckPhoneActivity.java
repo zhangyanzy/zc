@@ -64,13 +64,13 @@ public class CheckPhoneActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        ActivityUtil.addActivity(this);
+
         bundle = getIntent().getExtras();
         type = bundle.getInt(Constants.SPREF.LOGIN_MODE, -1);
         uid = bundle.getString("uid", "");
 
         showLoginMode(type);
-
-        ActivityUtil.getActivityManager().addActivity(this);
     }
 
     private void showLoginMode(int mode) {

@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorFont3"
             android:textSize="@dimen/font_size_14"
-            android:text="@string/zccount_closure"/>
+            android:text="@string/account_closure"/>
 
         <TextView
             android:id="@+id/tv_phone"

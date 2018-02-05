@@ -1,6 +1,5 @@
 package cn.zhaocaiapp.zc_app_android;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -15,13 +14,9 @@ import java.util.Map;
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragmentActivity;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
-import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.AppUtil;
-import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
-import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.views.home.HomeFragment;
-import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.views.member.MemberFragment;
 import cn.zhaocaiapp.zc_app_android.views.my.MyFragment;
 
@@ -44,13 +39,15 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main_activity);
+        ActivityUtil.addActivity(this);
+        ActivityUtil.finishAllActivity(this.getClass());
+
         currentPosition = getIntent().getIntExtra("position", -1);
 
         initView();
         //判断定位服务
         isLocation();
 
-        ActivityUtil.getActivityManager().finishAllActivity();
     }
 
     private void initView() {

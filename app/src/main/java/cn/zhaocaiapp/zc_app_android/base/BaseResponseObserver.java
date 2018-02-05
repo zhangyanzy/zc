@@ -2,6 +2,7 @@ package cn.zhaocaiapp.zc_app_android.base;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,6 +22,7 @@ import java.util.Date;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.refer.BusinessEnum;
 import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import io.reactivex.Observer;
@@ -107,8 +109,8 @@ public abstract class BaseResponseObserver<T> implements Observer<JsonObject> {
     }
 
     private void turnToLogin() {
-        Activity activity = ActivityUtil.getActivityManager().currentActivity();
-        ToastUtil.makeText(activity, "用户登录已失效");
+        SpUtils.clear();
+        Activity activity = ActivityUtil.currentActivity();
         activity.startActivity(new Intent(activity, LoginActivity.class));
     }
 }
