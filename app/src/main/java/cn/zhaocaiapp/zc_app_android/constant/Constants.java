@@ -61,7 +61,7 @@ public interface Constants {
         //开发环境
         String SERVER = "http://appapi.zhaocaiapp.local/"; // 必须以／结尾否则初始化会报错
         //生产环境
-        //String SERVER = "https://appapi.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
+//        String SERVER = "https://appapi.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
 
         /**
          * H5页面地址
@@ -179,6 +179,11 @@ public interface Constants {
          * 解除账户绑定
          */
         String REMOVE_ACCOUNT_BIND = "userinfo/abolish/account";
+        /**
+         * 提现
+         * */
+        String DO_WITHDRAW = "userinfo/witdraw";
+
 
 
         /**

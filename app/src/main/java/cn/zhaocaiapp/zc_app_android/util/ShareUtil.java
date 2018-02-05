@@ -95,7 +95,7 @@ public class ShareUtil {
 
     //初始化分享内容
     private static void initMedia() {
-        String server = Constants.URL.SERVER;
+        String server = Constants.URL.H5_URL;
         StringBuilder sb = new StringBuilder();
         sb.append(server).append(webUrl);
         umWeb = new UMWeb(sb.toString());

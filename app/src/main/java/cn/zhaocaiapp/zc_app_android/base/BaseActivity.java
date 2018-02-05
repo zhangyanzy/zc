@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.umeng.message.PushAgent;
+
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -43,6 +45,9 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
 
         //初始化工程
         init(savedInstanceState);
+
+        //初始化友盟推送
+        PushAgent.getInstance(this).onAppStart();
     }
 
     /**

@@ -86,7 +86,7 @@ public abstract class BaseResponseObserver<T> implements Observer<JsonObject> {
                 T t = (T) gson.fromJson(data.getAsJsonPrimitive(), cls);
                 this.success(t);
             }
-        } else if (response.getCode().equals(BusinessEnum.NO_AVAIL)) {
+        } else if (response.getCode().equals(BusinessEnum.NO_AVAIL.getCode())) {
             turnToLogin();
         } else {
             error(response);

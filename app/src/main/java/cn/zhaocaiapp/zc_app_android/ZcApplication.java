@@ -3,11 +3,13 @@ package cn.zhaocaiapp.zc_app_android;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.nfc.Tag;
 
 import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.AccessToken;
+import com.mcxtzhang.indexlib.IndexBar.bean.BaseIndexPinyinBean;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
@@ -17,9 +19,12 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +43,12 @@ import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 
 public class ZcApplication extends Application {
 
-    //配置三方appkey
-    {
+    static {
+        //配置三方appkey
         PlatformConfig.setWeixin("wx8401993fc69cc0ce", "18c4c38288be5935ce1a5b4455f125bd");
         PlatformConfig.setQQZone("1106660590", "mh54ewnGH5QCRwPN");
         PlatformConfig.setSinaWeibo("2998825649", "9251f8e40b6ab489d56dbfd18f545297", "https://api.weibo.com/oauth2/default.html");
+
         //设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater() {
             @Override
@@ -65,6 +71,10 @@ public class ZcApplication extends Application {
     private static UMShareAPI umShareAPI;
     private static List<LocationResp> provinces = new ArrayList<>();
     private static String OCRToken;
+    private static String umPushToken;
+
+
+    private static final String TAG = "找财app";
 
     @Override
     public void onCreate() {
@@ -82,6 +92,8 @@ public class ZcApplication extends Application {
 
         //初始化友盟社会化组件
         umShareAPI = UMShareAPI.get(this);
+        //初始化友盟分享
+        initUMPush();
         Config.DEBUG = true;
 
         //SharedPreferences存储全局设置
@@ -113,6 +125,7 @@ public class ZcApplication extends Application {
             @Override
             public void onResult(AccessToken accessToken) {
                 OCRToken = accessToken.getAccessToken();
+                EBLog.i(TAG, "百度ocr---"+OCRToken);
             }
 
             @Override
@@ -120,6 +133,25 @@ public class ZcApplication extends Application {
                 EBLog.e("百度身份证识别licence授权失败", error.getMessage());
             }
         }, context);
+    }
+
+    private void initUMPush() {
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+        //注册推送服务，每次调用register方法都会回调该接口
+        mPushAgent.register(new IUmengRegisterCallback() {
+
+            @Override
+            public void onSuccess(String deviceToken) {
+                //注册成功会返回device token
+                umPushToken = deviceToken;
+                EBLog.i(TAG, "友盟token---"+umPushToken);
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+
+            }
+        });
     }
 
     /**
@@ -153,6 +185,10 @@ public class ZcApplication extends Application {
 
     public static String getLicenceToken() {
         return OCRToken;
+    }
+
+    public static String getUmPushToken(){
+        return umPushToken;
     }
 
 }

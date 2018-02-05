@@ -21,6 +21,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.umeng.message.PushAgent;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -41,7 +43,8 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
     private MyViewPagerAdapter myViewPagerAdapter;
     private TextView[] dots;
     private int[] layouts;
-    private String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+    private String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE};
 
 
     @Override
@@ -66,6 +69,9 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
         ButterKnife.bind(this);
 
         init();
+
+        //初始化友盟推送
+        PushAgent.getInstance(this).onAppStart();
     }
 
     private void init() {

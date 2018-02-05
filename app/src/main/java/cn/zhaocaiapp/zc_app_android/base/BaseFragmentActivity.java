@@ -6,6 +6,8 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
+import com.umeng.message.PushAgent;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -24,6 +26,9 @@ public class BaseFragmentActivity extends FragmentActivity {
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         ButterKnife.bind(this);
+
+        //初始化友盟推送
+        PushAgent.getInstance(this).onAppStart();
     }
 
     /**

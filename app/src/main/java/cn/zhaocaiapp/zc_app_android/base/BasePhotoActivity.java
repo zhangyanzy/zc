@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.jph.takephoto.app.TakePhotoActivity;
+import com.umeng.message.PushAgent;
 
 import butterknife.ButterKnife;
 import cn.zhaocaiapp.zc_app_android.widget.LoadingDialog;
@@ -23,6 +24,9 @@ public abstract class BasePhotoActivity extends TakePhotoActivity {
 
         //初始化工程
         init(savedInstanceState);
+
+        //初始化友盟推送
+        PushAgent.getInstance(this).onAppStart();
     }
 
     /**

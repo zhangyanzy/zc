@@ -1,7 +1,9 @@
 package cn.zhaocaiapp.zc_app_android.views.common;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -15,11 +17,13 @@ import android.widget.TextView;
 
 
 import com.jph.takephoto.model.TResult;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -35,14 +39,16 @@ import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.FileUtil;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.PermissionUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
+import pub.devrel.easypermissions.EasyPermissions;
 
 import static com.darsh.multipleimageselect.helpers.Constants.REQUEST_CODE;
 
-public class ActivityDetailActivity extends BasePhotoActivity {
+public class ActivityDetailActivity extends BasePhotoActivity implements EasyPermissions.PermissionCallbacks {
     @BindView(R.id.iv_top_back)
     ImageView iv_back;
     @BindView(R.id.tv_top_title)
@@ -57,6 +63,7 @@ public class ActivityDetailActivity extends BasePhotoActivity {
     private String zxResult; //二维码扫描解析结果
 
     private static final String TAG = "H5详情页";
+    private static final int REQUEST_CODE = 2001;
 
     @Override
     public int getContentViewResId() {
@@ -146,7 +153,12 @@ public class ActivityDetailActivity extends BasePhotoActivity {
                 goBack();
                 break;
             case R.id.iv_top_menu:
-
+                if (EasyPermissions.hasPermissions(ActivityDetailActivity.this, Manifest.permission.CAMERA)) {
+                    Intent intent = new Intent(ActivityDetailActivity.this, CaptureActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE);
+                } else {
+                    EasyPermissions.requestPermissions(ActivityDetailActivity.this, null, REQUEST_CODE, new String[]{Manifest.permission.CAMERA});
+                }
                 break;
         }
     }
@@ -234,5 +246,25 @@ public class ActivityDetailActivity extends BasePhotoActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // EasyPermissions handles the request result.
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        if (requestCode == REQUEST_CODE && perms.contains(Manifest.permission.CAMERA)){
+            Intent intent = new Intent(ActivityDetailActivity.this, CaptureActivity.class);
+            startActivityForResult(intent, REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+
     }
 }
