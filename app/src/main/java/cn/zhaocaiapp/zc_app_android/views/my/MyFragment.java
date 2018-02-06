@@ -12,12 +12,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
@@ -26,6 +31,7 @@ import cn.zhaocaiapp.zc_app_android.bean.response.my.MyResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.TrembleBasesOsDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.AppUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
@@ -105,6 +111,7 @@ public class MyFragment extends BaseFragment {
     private TrembleBasesOsDialog trembleBasesOsDialog;
 
     private MyResp userInfo;
+    private UMShareAPI shareAPI;
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -119,6 +126,7 @@ public class MyFragment extends BaseFragment {
         trembleBasesOsDialog = new TrembleBasesOsDialog(getActivity());
         trembleBasesOsDialog.setOnDialogClickListener(trembleListener);
 
+        shareAPI = ZcApplication.getUMShareAPI();
     }
 
     @Override
@@ -181,7 +189,7 @@ public class MyFragment extends BaseFragment {
                 break;
             case R.id.tv_apply_cash: // 申请提现
                 bundle.clear();
-                bundle.putString("balance", userInfo.getAccountBalanceAmount()+"");
+                bundle.putString("balance", userInfo.getAccountBalanceAmount() + "");
                 openActivity(ApplyCashActivity.class, bundle);
                 break;
             case R.id.layout_invite: // 邀请好友
@@ -230,8 +238,8 @@ public class MyFragment extends BaseFragment {
                 openActivity(MyActivity.class, bundle);
                 break;
             case R.id.layout_email: // 发送邮件
-                Uri uri = Uri.parse ("mailto: xxx@abc.com");
-                intent = new Intent (Intent.ACTION_SENDTO, uri);
+                Uri uri = Uri.parse("mailto: xxx@abc.com");
+                intent = new Intent(Intent.ACTION_SENDTO, uri);
                 startActivity(intent);
                 break;
         }
@@ -245,6 +253,8 @@ public class MyFragment extends BaseFragment {
             @Override
             public void success(CommonResp result) {
                 EBLog.i(TAG, result.toString());
+
+                AppUtil.cancelAuth(getActivity());
                 SpUtils.clear();
                 openActivity(LoginActivity.class);
                 getActivity().finish();
@@ -256,6 +266,14 @@ public class MyFragment extends BaseFragment {
                 EBLog.i(TAG, response.getCode() + "");
             }
         });
+    }
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        shareAPI.onActivityResult(requestCode, resultCode, data);
     }
 
     private TrembleBasesOsDialog.OnDialogClickListener trembleListener = new TrembleBasesOsDialog.OnDialogClickListener() {

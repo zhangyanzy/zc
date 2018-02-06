@@ -19,21 +19,11 @@ public class LoginResp {
      */
     private String token;
     private String avatar;
-    private String desc;
     private String nickname;
     private String phone;
-    private String result;
-    private String type;
+    private int type;
     private long kid;
     private String uid;
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
 
     public long getKid() {
         return kid;
@@ -67,14 +57,6 @@ public class LoginResp {
         this.avatar = avatar;
     }
 
-    public String getDescription() {
-        return desc;
-    }
-
-    public void setDescription(String description) {
-        this.desc = description;
-    }
-
     public String getNickname() {
         return nickname;
     }
@@ -91,19 +73,11 @@ public class LoginResp {
         this.phone = phone;
     }
 
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
-    }
-
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 
@@ -112,10 +86,8 @@ public class LoginResp {
         return "LoginResp{" +
                 "token='" + token + '\'' +
                 ", avatar='" + avatar + '\'' +
-                ", desc='" + desc + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", phone='" + phone + '\'' +
-                ", result='" + result + '\'' +
                 ", type='" + type + '\'' +
                 ", kid=" + kid +
                 ", uid='" + uid + '\'' +

@@ -178,6 +178,7 @@ public class CheckPhoneActivity extends BaseActivity {
     private void saveUserData(VerifyCodeResp verifyCodeResp) {
         SpUtils.put(Constants.SPREF.TOKEN, verifyCodeResp.getToken());
         SpUtils.put(Constants.SPREF.IS_LOGIN, true);
+        SpUtils.put(Constants.SPREF.LOGIN_MODE, type);
         SpUtils.put(Constants.SPREF.USER_ID, verifyCodeResp.getKid());
         SpUtils.put(Constants.SPREF.NICK_NAME, verifyCodeResp.getNickname());
         SpUtils.put(Constants.SPREF.USER_PHONE, verifyCodeResp.getPhone());

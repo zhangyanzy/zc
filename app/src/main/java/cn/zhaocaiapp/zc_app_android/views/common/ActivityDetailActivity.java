@@ -83,7 +83,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         activityTitle = getIntent().getStringExtra("title");
         isNeedQRCode = getIntent().getIntExtra("isNeedQRCode", -1);
 
-        tv_title.setText("活动详情");
+        tv_title.setText(activityTitle);
 
         activity_detail_webView.loadUrl("file:///android_asset/h5-assets/index.html");
         //webView.loadUrl("http://192.168.1.189:8080");
@@ -161,15 +161,16 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
                 goBack();
                 break;
             case R.id.iv_top_menu:
-                if (isNeedQRCode == 0) { // 不检查二维码
-
-                } else if (isNeedQRCode == 1) { // 需要校验二维码
-                    if (EasyPermissions.hasPermissions(ActivityDetailActivity.this, Manifest.permission.CAMERA)) {
-                        Intent intent = new Intent(ActivityDetailActivity.this, CaptureActivity.class);
-                        startActivityForResult(intent, REQUEST_CODE);
-                    } else {
-                        EasyPermissions.requestPermissions(ActivityDetailActivity.this, null, REQUEST_CODE, new String[]{Manifest.permission.CAMERA});
-                    }
+//                if (isNeedQRCode == 0) { // 不检查二维码
+//
+//                } else  { // 需要校验二维码
+//
+//                }
+                if (EasyPermissions.hasPermissions(ActivityDetailActivity.this, Manifest.permission.CAMERA)) {
+                    Intent intent = new Intent(ActivityDetailActivity.this, CaptureActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE);
+                } else {
+                    EasyPermissions.requestPermissions(ActivityDetailActivity.this, null, REQUEST_CODE, new String[]{Manifest.permission.CAMERA});
                 }
                 break;
         }
@@ -254,9 +255,9 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
                     //返回解析结果字符串
                     zxResult = bundle.getString(CodeUtils.RESULT_STRING);
                     photoHelper.onClick(0, getTakePhoto());
-                    ToastUtil.makeText(this, "解析结果:" + zxResult);
+                    ToastUtil.makeText(ActivityDetailActivity.this, "解析结果:" + zxResult);
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    ToastUtil.makeText(this, "二维码解析失败");
+                    ToastUtil.makeText(ActivityDetailActivity.this, "二维码解析失败");
                 }
             }
         }

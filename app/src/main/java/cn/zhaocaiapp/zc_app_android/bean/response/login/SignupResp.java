@@ -20,6 +20,14 @@ public class SignupResp {
     private String phone;
     private String token;
 
+    public long getKid() {
+        return kid;
+    }
+
+    public void setKid(long kid) {
+        this.kid = kid;
+    }
+
     public String getAvatar() {
         return avatar;
     }
@@ -34,14 +42,6 @@ public class SignupResp {
 
     public void setDesc(String desc) {
         this.desc = desc;
-    }
-
-    public long getId() {
-        return kid;
-    }
-
-    public void setId(long id) {
-        this.kid = id;
     }
 
     public String getNickname() {

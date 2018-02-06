@@ -1,6 +1,8 @@
 package cn.zhaocaiapp.zc_app_android.util;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -8,11 +10,22 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.Map;
+
+import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.ZcApplication;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.TrembleBasesOsDialog;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
 
 
 /**
@@ -171,5 +184,69 @@ public class AppUtil {
         return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()
                 + "TB";
     }
+
+
+    private static UMShareAPI shareAPI = ZcApplication.getUMShareAPI();
+
+    // 取消三方授权
+    public static void cancelAuth(Activity activity) {
+        if ((int) SpUtils.get(Constants.SPREF.LOGIN_MODE, -1) == Constants.SPREF.TYPE_WECHAT)
+            if (isGetAuth(activity, SHARE_MEDIA.WEIXIN))
+                shareAPI.deleteOauth(activity, SHARE_MEDIA.WEIXIN, authListener);
+        if ((int) SpUtils.get(Constants.SPREF.LOGIN_MODE, -1) == Constants.SPREF.TYPE_QQ)
+            if (isGetAuth(activity, SHARE_MEDIA.QQ))
+                shareAPI.deleteOauth(activity, SHARE_MEDIA.QQ, authListener);
+        if ((int) SpUtils.get(Constants.SPREF.LOGIN_MODE, -1) == Constants.SPREF.TYPE_SINA)
+            if (isGetAuth(activity, SHARE_MEDIA.SINA))
+                shareAPI.deleteOauth(activity, SHARE_MEDIA.SINA, authListener);
+    }
+
+    public static boolean isGetAuth(Activity activity, SHARE_MEDIA platform) {
+        return shareAPI.isAuthorize(activity, platform);
+    }
+
+    private static UMAuthListener authListener = new UMAuthListener() {
+        /**
+         * @desc 授权开始的回调
+         * @param platform 平台名称
+         */
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+
+        }
+
+        /**
+         * @desc 授权成功的回调
+         * @param platform 平台名称
+         * @param action 行为序号，开发者用不上
+         * @param data 用户资料返回
+         */
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+
+        }
+
+        /**
+         * @desc 授权失败的回调
+         * @param platform 平台名称
+         * @param action 行为序号，开发者用不上
+         * @param t 错误原因
+         */
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+
+        }
+
+        /**
+         * @desc 授权取消的回调
+         * @param platform 平台名称
+         * @param action 行为序号，开发者用不上
+         */
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+
+        }
+    };
+
 
 }

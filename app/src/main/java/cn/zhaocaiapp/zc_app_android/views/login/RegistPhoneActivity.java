@@ -118,10 +118,11 @@ public class RegistPhoneActivity extends BaseActivity {
     private void saveUserData(SignupResp result) {
         SpUtils.put(Constants.SPREF.TOKEN, result.getToken());
         SpUtils.put(Constants.SPREF.IS_LOGIN, true);
+        SpUtils.put(Constants.SPREF.LOGIN_MODE, type);
         SpUtils.put(Constants.SPREF.USER_PHOTO, result.getAvatar());
         SpUtils.put(Constants.SPREF.NICK_NAME, result.getNickname());
         SpUtils.put(Constants.SPREF.USER_PHONE, result.getPhone());
-        SpUtils.put(Constants.SPREF.USER_ID, result.getId());
+        SpUtils.put(Constants.SPREF.USER_ID, result.getKid());
     }
 
     @Override

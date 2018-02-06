@@ -26,6 +26,7 @@ import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.AccountResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.AppUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
@@ -155,43 +156,38 @@ public class ManageAccountActivity extends BaseActivity {
         }
     }
 
-    // 判断是否已获取三方授权
-    private void isGetAuth(SHARE_MEDIA platform, Class<?> mClass) {
-        Bundle bundle = new Bundle();
-        bundle.putInt(WITHDRAW_TYPE, Constants.SPREF.TYPE_WECHAT);
-        if (umShareAPI.isAuthorize(this, platform))
-            openActivity(mClass, bundle);
-        else getWechatAuth(platform);
-    }
-
     //获取微信授权
     private void getWechatAuth(SHARE_MEDIA platform) {
-        umShareAPI.getPlatformInfo(this, platform, new UMAuthListener() {
-            @Override
-            public void onStart(SHARE_MEDIA share_media) {
-
-            }
-
-            @Override
-            public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-                Log.i("UMENG", map.toString());
-                ToastUtil.makeText(ManageAccountActivity.this, "授权成功");
-            }
-
-            @Override
-            public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
-
-            }
-
-            @Override
-            public void onCancel(SHARE_MEDIA share_media, int i) {
-
-            }
-        });
+        if (AppUtil.isGetAuth(this, platform))
+            umShareAPI.deleteOauth(this, platform, authListener);
+        umShareAPI.doOauthVerify(this, platform, authListener);
     }
 
     //获取阿里授权
     private void getAliAuth() {
 
     }
+
+    private UMAuthListener authListener = new UMAuthListener() {
+        @Override
+        public void onStart(SHARE_MEDIA share_media) {
+
+        }
+
+        @Override
+        public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
+            Log.i("UMENG", map.toString());
+            ToastUtil.makeText(ManageAccountActivity.this, "授权成功");
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
+
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA share_media, int i) {
+            ToastUtil.makeText(ManageAccountActivity.this, "取消授权");
+        }
+    };
 }

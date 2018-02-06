@@ -37,7 +37,8 @@
             android:drawableRight="@mipmap/logo_money"
             android:gravity="center_vertical"
             android:textColor="@color/colorFont3"
-            android:textSize="@dimen/font_size_14" />
+            android:textSize="@dimen/font_size_14"
+            android:text="去绑定"/>
     </RelativeLayout>
 
     <View
@@ -75,7 +76,8 @@
             android:drawableRight="@mipmap/logo_money"
             android:gravity="center_vertical"
             android:textColor="@color/colorFont3"
-            android:textSize="@dimen/font_size_14" />
+            android:textSize="@dimen/font_size_14"
+            android:text="去绑定"/>
 
     </RelativeLayout>
 
@@ -113,7 +115,8 @@
             android:drawableRight="@mipmap/logo_money"
             android:gravity="center_vertical"
             android:textColor="@color/colorFont3"
-            android:textSize="@dimen/font_size_14" />
+            android:textSize="@dimen/font_size_14"
+            android:text="去绑定"/>
 
     </RelativeLayout>
 

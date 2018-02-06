@@ -30,6 +30,7 @@ import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.AccountResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.DialogUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
@@ -130,37 +131,6 @@ public class ApplyCashActivity extends BaseActivity {
         });
     }
 
-    //获取微信授权
-    private void getWechatAuth(SHARE_MEDIA platform) {
-        umShareAPI.getPlatformInfo(this, platform, new UMAuthListener() {
-            @Override
-            public void onStart(SHARE_MEDIA share_media) {
-
-            }
-
-            @Override
-            public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-                Log.i("UMENG", map.toString());
-                ToastUtil.makeText(ApplyCashActivity.this, "授权成功");
-            }
-
-            @Override
-            public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
-
-            }
-
-            @Override
-            public void onCancel(SHARE_MEDIA share_media, int i) {
-
-            }
-        });
-    }
-
-    //获取阿里授权
-    private void getAliAuth() {
-
-    }
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         KeyBoardUtils.closeKeybord(tv_submit, this);
@@ -224,6 +194,10 @@ public class ApplyCashActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+    private void setDialog(){
+        DialogUtil.showDialogTwoBut(this, )
     }
 
 }

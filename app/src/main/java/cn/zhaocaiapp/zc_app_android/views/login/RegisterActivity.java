@@ -163,7 +163,9 @@ public class RegisterActivity extends BaseActivity {
     private void saveUserData(SignupResp result) {
         SpUtils.put(Constants.SPREF.TOKEN, result.getToken());
         SpUtils.put(Constants.SPREF.IS_LOGIN, true);
+        SpUtils.put(Constants.SPREF.LOGIN_MODE, 0);
         SpUtils.put(Constants.SPREF.USER_PHONE, result.getPhone());
+        SpUtils.put(Constants.SPREF.USER_ID, result.getKid());
     }
 
 }

@@ -144,7 +144,6 @@ public class LoginActivity extends BaseFragmentActivity {
             @Override
             public void success(LoginResp result) {
                 EBLog.i(TAG, result.toString());
-                ToastUtil.makeText(LoginActivity.this, result.getDescription());
 
                 saveUserData(result);
                 Bundle bundle = new Bundle();
@@ -170,10 +169,12 @@ public class LoginActivity extends BaseFragmentActivity {
     private void saveUserData(LoginResp loginResp) {
         SpUtils.put(Constants.SPREF.TOKEN, loginResp.getToken());
         SpUtils.put(Constants.SPREF.IS_LOGIN, true);
+        SpUtils.put(Constants.SPREF.LOGIN_MODE, loginResp.getType());
         SpUtils.put(Constants.SPREF.USER_PHOTO, loginResp.getAvatar());
         SpUtils.put(Constants.SPREF.NICK_NAME, loginResp.getNickname());
         SpUtils.put(Constants.SPREF.USER_PHONE, loginResp.getPhone());
         SpUtils.put(Constants.SPREF.USER_ID, loginResp.getKid());
+
     }
 
     //检测是否安装三方应用
@@ -181,7 +182,6 @@ public class LoginActivity extends BaseFragmentActivity {
         if (!umShareAPI.isInstall(this, platform))
             ToastUtil.makeText(this, "请先安装应用");
         else doOauth();
-
     }
 
     //获取三方授权

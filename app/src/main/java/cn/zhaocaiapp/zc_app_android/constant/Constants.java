@@ -69,7 +69,7 @@ public interface Constants {
          * H5页面地址
          */
         String H5_URL = "http://m.zhaocaiapp.local"; //开发环境
-        //String H5_URL = "https://m.zhaocaiapp.cn"; //生产环境
+//        String H5_URL = "https://m.zhaocaiapp.cn"; //生产环境
 
 
         /**
@@ -267,6 +267,7 @@ public interface Constants {
          * 是否显示引导页
          */
         String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
+
         //保存到sharedPreferenced的数据的key
         String IS_LOGIN = "isLogin";                //登录状态
         String LOGIN_MODE = "loginMode";            //登录方式
@@ -277,13 +278,12 @@ public interface Constants {
         String NICK_NAME = "nickName";              //用户昵称
         String GENDER = "gender";                   //性别
         String AGE = "age";                         //年龄
-        String TOKEN = "token";
+        String TOKEN = "token";                     //用户登录返回的唯一识别码
 
         int TYPE_PHONE = 0;    //手机登录
         int TYPE_WECHAT = 1;   //微信登录
         int TYPE_QQ = 2;       //qq登陆
         int TYPE_SINA = 3;     //新浪微博登录
-
         int TYPE_ALI = 4;      //支付宝账户
         int TYPE_BANK = 5;     //银行卡账户
 
