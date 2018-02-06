@@ -191,11 +191,11 @@ public interface Constants {
         String ABOUT_US = "about_us/%s";
         /**
          * 取消活动报名
-         * */
+         */
         String CANCEL_ACTIVITY = "my/activity/%s/cancel";
         /**
          * 领取活动奖励
-         * */
+         */
         String REWARD_AVTIVITY = "my/activity/money/%s";
 
 
@@ -241,6 +241,11 @@ public interface Constants {
          * 商家列表
          */
         String GET_MEMBER_QUERY = "member/query";
+
+        /**
+         * 商家搜索联想
+         */
+        String GET_MEMBER_ASSOCIATE = "member/associate";
 
         /**
          * 商家活动列表
