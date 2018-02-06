@@ -95,15 +95,37 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
         });
     }
 
+    private void cancelActivity(long kid){
+         HttpUtil.put(String.format(Constants.URL.CANCEL_ACTIVITY, kid)).subscribe(new BaseResponseObserver<String>() {
+
+             @Override
+             public void success(String s) {
+                 ToastUtil.makeText(getActivity(), s);
+             }
+
+             @Override
+             public void error(Response<String> response) {
+                 EBLog.e(TAG, response.getCode()+"");
+                 ToastUtil.makeText(getActivity(), response.getDesc());
+             }
+         });
+    }
+
     private MyActivityAdapter.OnItemClickListener listener = new MyActivityAdapter.OnItemClickListener() {
         @Override
         public void onItemClick(int position, int viewId) {
             Bundle bundle = new Bundle();
+            long kid = activitys.get(position).getKid();
             switch (viewId){
-                case R.id.activity_item_img_i:
+                case R.id.activity_item_img_i: //跳转活动详情，提交活动，领取活动奖励
+                case R.id.tv_submit:
+                case R.id.tv_reward:
                     bundle.clear();
-                    bundle.putLong("id", activitys.get(position).getKid());
+                    bundle.putLong("id", kid);
                     openActivity(ActivityDetailActivity.class, bundle);
+                    break;
+                case R.id.tv_cancel: // 取消活动报名
+                    cancelActivity(kid);
                     break;
             }
         }

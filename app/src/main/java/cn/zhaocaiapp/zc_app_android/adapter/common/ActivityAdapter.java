@@ -1,6 +1,5 @@
 package cn.zhaocaiapp.zc_app_android.adapter.common;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -33,7 +32,6 @@ import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
-import cn.zhaocaiapp.zc_app_android.bean.response.home.Gps;
 import cn.zhaocaiapp.zc_app_android.bean.response.member.MemberResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
@@ -296,6 +294,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 public void onClick(View v) {
                     Intent intent = new Intent(context, ActivityDetailActivity.class);
                     intent.putExtra("id", list.get(k).getKid());
+                    intent.putExtra("title", list.get(position).getName());
+                    intent.putExtra("isNeedQRCode", list.get(position).getIfCheck());
                     context.startActivity(intent);
                 }
             });

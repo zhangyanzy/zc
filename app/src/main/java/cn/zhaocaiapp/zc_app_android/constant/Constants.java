@@ -189,6 +189,14 @@ public interface Constants {
          * 关于我们
          */
         String ABOUT_US = "about_us/%s";
+        /**
+         * 取消活动报名
+         * */
+        String CANCEL_ACTIVITY = "my/activity/%s/cancel";
+        /**
+         * 领取活动奖励
+         * */
+        String REWARD_AVTIVITY = "my/activity/money/%s";
 
 
         /**

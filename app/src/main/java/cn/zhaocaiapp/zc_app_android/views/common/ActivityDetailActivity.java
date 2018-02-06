@@ -66,6 +66,8 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     private static final int REQUEST_CODE = 2001;
 
     private long activityId; // 活动id
+    private String activityTitle; // 活动名称
+    private int isNeedQRCode; // 是否需要扫描二维码
 
     @Override
     public int getContentViewResId() {
@@ -78,6 +80,8 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         ActivityUtil.addActivity(this);
 
         activityId = getIntent().getLongExtra("id", 0l);
+        activityTitle = getIntent().getStringExtra("title");
+        isNeedQRCode = getIntent().getIntExtra("isNeedQRCode", -1);
 
         tv_title.setText("活动详情");
 
@@ -157,11 +161,15 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
                 goBack();
                 break;
             case R.id.iv_top_menu:
-                if (EasyPermissions.hasPermissions(ActivityDetailActivity.this, Manifest.permission.CAMERA)) {
-                    Intent intent = new Intent(ActivityDetailActivity.this, CaptureActivity.class);
-                    startActivityForResult(intent, REQUEST_CODE);
-                } else {
-                    EasyPermissions.requestPermissions(ActivityDetailActivity.this, null, REQUEST_CODE, new String[]{Manifest.permission.CAMERA});
+                if (isNeedQRCode == 0) { // 不检查二维码
+
+                } else if (isNeedQRCode == 1) { // 需要校验二维码
+                    if (EasyPermissions.hasPermissions(ActivityDetailActivity.this, Manifest.permission.CAMERA)) {
+                        Intent intent = new Intent(ActivityDetailActivity.this, CaptureActivity.class);
+                        startActivityForResult(intent, REQUEST_CODE);
+                    } else {
+                        EasyPermissions.requestPermissions(ActivityDetailActivity.this, null, REQUEST_CODE, new String[]{Manifest.permission.CAMERA});
+                    }
                 }
                 break;
         }
@@ -239,14 +247,16 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             if (null != data) {
                 Bundle bundle = data.getExtras();
                 if (bundle == null) {
+                    ToastUtil.makeText(this, "二维码解析失败");
                     return;
                 }
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     //返回解析结果字符串
                     zxResult = bundle.getString(CodeUtils.RESULT_STRING);
+                    photoHelper.onClick(0, getTakePhoto());
                     ToastUtil.makeText(this, "解析结果:" + zxResult);
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    ToastUtil.makeText(this, "解析二维码失败");
+                    ToastUtil.makeText(this, "二维码解析失败");
                 }
             }
         }
