@@ -168,7 +168,7 @@ public class ApplyCashActivity extends BaseActivity {
                     withdraw_ali.setChecked(false);
                     withdraw_bank.setChecked(false);
                 } else {
-                    getWechatAuth(SHARE_MEDIA.WEIXIN);
+
                 }
                 break;
             case R.id.withdraw_ali:
@@ -179,7 +179,7 @@ public class ApplyCashActivity extends BaseActivity {
                     withdraw_wechat.setChecked(false);
                     withdraw_bank.setChecked(false);
                 } else {
-                    getAliAuth();
+
                 }
                 break;
             case R.id.withdraw_bank:
@@ -197,7 +197,7 @@ public class ApplyCashActivity extends BaseActivity {
     }
 
     private void setDialog(){
-        DialogUtil.showDialogTwoBut(this, )
+//        DialogUtil.showDialogTwoBut(this, )
     }
 
 }
