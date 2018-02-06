@@ -22,6 +22,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -143,30 +145,38 @@ public class HomeFragment extends BaseFragment {
         NotificationManagerCompat manager = NotificationManagerCompat.from(this.getActivity());
         boolean isOpened = manager.areNotificationsEnabled();
         EBLog.i("tag", "消息推送通知开关：" + isOpened);
-        if (isOpened) {
+        if (!SpUtils.contains(Constants.SPREF.MESSAGE_PUSH)) {
+            SpUtils.put(Constants.SPREF.MESSAGE_PUSH, new Date().getTime());
+        }
+        if (!isOpened) {
+            Date messagePush = new Date((Long) SpUtils.get(Constants.SPREF.MESSAGE_PUSH, new Date().getTime()));
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(messagePush);
+            cal.add(Calendar.DAY_OF_YEAR, 15);
 
-        } else {
-            NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "提示", "您的通知没有打开，无法收到最近消息。", "取消", "去设置");
-            normalDialog.setOnBtnClickL(new OnBtnClickL() {
-                @Override
-                public void onBtnClick() {
-                    EBLog.i("tag", "您点击了取消");
-                    normalDialog.cancel();
-                }
-            }, new OnBtnClickL() {
-                @Override
-                public void onBtnClick() {
-                    EBLog.i("tag", "您点击了确认");
-                    // 根据isOpened结果，判断是否需要提醒用户跳转AppInfo页面，去打开App通知权限
-                    Intent intent = new Intent();
-                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    Uri uri = Uri.fromParts("package", HomeFragment.this.getActivity().getPackageName(), null);
-                    intent.setData(uri);
-                    startActivity(intent);
-                    normalDialog.dismiss();
-                }
-            });
-
+            if (new Date().after(cal.getTime())) {
+                SpUtils.put(Constants.SPREF.MESSAGE_PUSH, new Date().getTime());
+                NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "提示", "您的通知没有打开，无法收到最近消息。", "取消", "去设置");
+                normalDialog.setOnBtnClickL(new OnBtnClickL() {
+                    @Override
+                    public void onBtnClick() {
+                        EBLog.i("tag", "您点击了取消");
+                        normalDialog.cancel();
+                    }
+                }, new OnBtnClickL() {
+                    @Override
+                    public void onBtnClick() {
+                        EBLog.i("tag", "您点击了确认");
+                        // 根据isOpened结果，判断是否需要提醒用户跳转AppInfo页面，去打开App通知权限
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", HomeFragment.this.getActivity().getPackageName(), null);
+                        intent.setData(uri);
+                        startActivity(intent);
+                        normalDialog.dismiss();
+                    }
+                });
+            }
         }
 
 
