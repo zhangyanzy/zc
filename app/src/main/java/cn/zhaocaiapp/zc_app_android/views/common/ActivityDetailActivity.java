@@ -129,6 +129,9 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             params.put("id", activityId + "");
             //token
             params.put("token", (String) SpUtils.get(Constants.SPREF.TOKEN, ""));
+
+            params.put("type","0");
+
             //授权码
             params.put("code", "");
             //经度
