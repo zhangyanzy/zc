@@ -3,6 +3,7 @@ package cn.zhaocaiapp.zc_app_android.views.member;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,10 +25,12 @@ import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.adapter.member.MemberAdapter;
 import cn.zhaocaiapp.zc_app_android.adapter.member.MemberDecoration;
+import cn.zhaocaiapp.zc_app_android.adapter.member.MemberSearchAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.member.MemberResp;
+import cn.zhaocaiapp.zc_app_android.bean.response.member.MemberSearchResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
@@ -51,8 +54,9 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
 
     private List<MemberResp> memberRespList = new ArrayList<>(); //商家数据
     private MemberAdapter memberAdapter;
+    private MemberSearchAdapter memberSearchAdapter;
     private String name = "";
-    private List<SearchAssociation> searchAssociationList = new ArrayList<>();//商家搜索联想
+    private List<MemberSearchResp> searchAssociationList = new ArrayList<>();//商家搜索联想
 
     @Nullable
     @Override
@@ -74,6 +78,10 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
 
         member_refresh_layout.setOnRefreshListener(this);
         member_refresh_layout.setEnableLoadmore(false);
+
+        member_search_association.setLayoutManager(new LinearLayoutManager(getActivity()));
+        memberSearchAdapter = new MemberSearchAdapter(getActivity(), searchAssociationList);
+        member_search_association.setAdapter(memberSearchAdapter);
 
         /**
          * 输入框
@@ -102,15 +110,16 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
                     params.put("pageSize", "6");
                     params.put("currentResult", "0");
 
-                    HttpUtil.get(Constants.URL.GET_MEMBER_ASSOCIATE, params).subscribe(new BaseResponseObserver<List<SearchAssociation>>() {
+                    HttpUtil.get(Constants.URL.GET_MEMBER_ASSOCIATE, params).subscribe(new BaseResponseObserver<List<MemberSearchResp>>() {
                         @Override
-                        public void success(List<SearchAssociation> result) {
+                        public void success(List<MemberSearchResp> result) {
                             searchAssociationList = result;
+                            memberSearchAdapter.updata(searchAssociationList);
                             EBLog.i("tag", result.toString());
                         }
 
                         @Override
-                        public void error(Response<List<SearchAssociation>> response) {
+                        public void error(Response<List<MemberSearchResp>> response) {
 
                         }
 
@@ -152,6 +161,12 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
             EBLog.i("tag", "您点击了第" + position + "条");
         }
     };
+    private MemberSearchAdapter.OnItemCliclkListener listener2 = new MemberSearchAdapter.OnItemCliclkListener() {
+        @Override
+        public void onItemCliclk(int position) {
+            EBLog.i("tag", "您点击了第" + position + "条");
+        }
+    };
 
     /**
      * 刷新操作
@@ -163,15 +178,4 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
         loadData();
     }
 
-    static class SearchAssociation {
-        private String name;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
 }

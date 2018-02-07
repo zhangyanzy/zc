@@ -51,6 +51,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <!-- 首页 -->
         <activity
@@ -75,7 +76,16 @@
         <!--活动详情-->
         <activity
             android:name=".views.common.ActivityDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="com.zc.zcapp" />
+            </intent-filter>
+        </activity>
 
 
         <!--登录-->
@@ -155,10 +165,9 @@
             android:name=".views.my.BindCardActivity"
             android:screenOrientation="portrait" />
         <!--封禁账号-->
-        <activity android:name=".views.login.ClosureActivity"
-            android:screenOrientation="portrait"/>
-
-
+        <activity
+            android:name=".views.login.ClosureActivity"
+            android:screenOrientation="portrait" />
 
 
         <!--商家详情-->
