@@ -86,4 +86,55 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_weight="0"
+            android:text="首页活动显示"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_14" />
+
+        <RadioGroup
+            android:id="@+id/layout_setting_activity_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/layout_setting_activity_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="全部活动"
+                android:textColor="@color/colorFont6"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:id="@+id/layout_setting_activity_current"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当前城市活动"
+                android:textColor="@color/colorFont6"
+                android:textSize="14sp" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <View
+        style="@style/horizontal_C9_line"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp" />
+
 </LinearLayout>

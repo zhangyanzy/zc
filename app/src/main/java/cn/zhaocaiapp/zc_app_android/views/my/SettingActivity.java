@@ -4,12 +4,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.util.AppUtil;
 
 /**
@@ -31,6 +34,12 @@ public class SettingActivity extends BaseActivity {
     TextView tv_about_us;
     @BindView(R.id.layout_clear_cache)
     LinearLayout layout_clear_cache;
+    @BindView(R.id.layout_setting_activity_all)
+    RadioButton layout_setting_activity_all;
+    @BindView(R.id.layout_setting_activity_current)
+    RadioButton layout_setting_activity_current;
+    @BindView(R.id.layout_setting_activity_group)
+    RadioGroup layout_setting_activity_group;
 
     @Override
     public int getContentViewResId() {
@@ -46,6 +55,20 @@ public class SettingActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        layout_setting_activity_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.layout_setting_activity_all:
+                        EBLog.e("tag", "全国");
+                        break;
+                    case R.id.layout_setting_activity_current:
+                        EBLog.e("tag", "当前城市");
+                        break;
+                }
+            }
+        });
 
     }
 
