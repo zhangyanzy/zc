@@ -2,6 +2,7 @@ package cn.zhaocaiapp.zc_app_android.views.common;
 
 import android.Manifest;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -17,11 +18,13 @@ import android.widget.TextView;
 
 
 import com.jph.takephoto.model.TResult;
+import com.umeng.socialize.UMShareAPI;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import java.io.File;
+import java.security.cert.Certificate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +32,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BasePhotoActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
@@ -38,8 +42,10 @@ import cn.zhaocaiapp.zc_app_android.capabilities.takephoto.PhotoHelper;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.FileUtil;
+import cn.zhaocaiapp.zc_app_android.util.GsonUtil;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.PermissionUtil;
+import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
@@ -61,14 +67,21 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     private View rootView;
     private PhotoHelper photoHelper;
     private String zxResult; //二维码扫描解析结果
+    private UMShareAPI shareAPI;
 
     private static final String TAG = "H5详情页";
     private static final int REQUEST_CODE = 2001;
 
-    private long activityId; // 活动id
+
+    private String activityUrl = "/#/activity/detail?id=%s"; // 分享活動url
+    private String inviteUrl = "/#/activity/detail?id=%s&code=%s"; //邀請好友協同活動
+
+    private String shareTitle = "一个可以赚钱的APP";
+    private String shareDesc = "你看广告，我发钱";
+
+    private long activityId;  // 活动id
+    private String inviteCode = "0";  //活動邀請碼
     private String activityTitle; // 活动名称
-    private int isNeedQRCode; // 是否需要扫描二维码
-    private String activityUrl = "#/activity/detail?id=%s";
 
     @Override
     public int getContentViewResId() {
@@ -79,12 +92,18 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     @Override
     public void init(Bundle savedInstanceState) {
         ActivityUtil.addActivity(this);
+        shareAPI = ZcApplication.getUMShareAPI();
 
-        activityId = getIntent().getLongExtra("id", 0l);
+        activityId = getIntent().getLongExtra("id", -1);
         activityTitle = getIntent().getStringExtra("title");
-        isNeedQRCode = getIntent().getIntExtra("isNeedQRCode", -1);
-
         tv_title.setText(activityTitle);
+
+        Uri uri = getIntent().getData();
+        if (uri != null) {
+            activityId = Long.valueOf(uri.getQueryParameter("id"));
+            inviteCode = uri.getQueryParameter("code");
+            activityTitle = uri.getQueryParameter("name");
+        }
 
         activity_detail_webView.loadUrl("file:///android_asset/h5-assets/index.html");
         //webView.loadUrl("http://192.168.1.189:8080");
@@ -128,13 +147,16 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             Map<String, String> params = new HashMap<>();
             //活动详情id
             params.put("id", activityId + "");
-            //token
+            //用戶token
             params.put("token", (String) SpUtils.get(Constants.SPREF.TOKEN, ""));
 
-            params.put("type","0");
+            params.put("type", "0");
 
-            //授权码
-            params.put("code", "");
+            //邀請码
+            if (!inviteCode.equals("0")){
+                params.put("code", inviteCode);
+            }
+
             //经度
             params.put("longitude", String.valueOf(LocationUtil.getGps().getLongitude()));
             //经度
@@ -145,15 +167,38 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             return GsonHelper.toJson(params);
         }
 
+        //掃二維碼及拍照
         @JavascriptInterface
-        public void takePhoto() {
-            photoHelper.onClick(0, getTakePhoto());
+        public void takePhoto(String code) {
+            if (code.equals("-1")) { // 不检查二维码
+                photoHelper.onClick(0, getTakePhoto());
+            } else { // 需要校验二维码
+                if (EasyPermissions.hasPermissions(ActivityDetailActivity.this, Manifest.permission.CAMERA)) {
+                    Intent intent = new Intent(ActivityDetailActivity.this, CaptureActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE);
+                } else {
+                    EasyPermissions.requestPermissions(ActivityDetailActivity.this, null, REQUEST_CODE, new String[]{Manifest.permission.CAMERA});
+                }
+            }
         }
 
+        //跳轉登錄
         @JavascriptInterface
         public void goLogin() {
             if (!(boolean) SpUtils.get(Constants.SPREF.IS_LOGIN, false))
                 openActivity(LoginActivity.class);
+        }
+
+        //邀請好友協同任務
+        @JavascriptInterface
+        public void inviteFriend(String code) {
+            String webUrl = String.format(inviteUrl, activityId, code);
+            ShareUtil.init(ActivityDetailActivity.this)
+                    .setUrl(webUrl)
+                    .setSourceId(R.mipmap.logo)
+                    .setTitle(shareTitle)
+                    .setDesc(shareDesc);
+            ShareUtil.openShare();
         }
 
     }
@@ -165,21 +210,12 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
                 goBack();
                 break;
             case R.id.iv_top_menu:
-//                if (isNeedQRCode == 0) { // 不检查二维码
-//
-//                } else  { // 需要校验二维码
-//
-//                }
-                if (EasyPermissions.hasPermissions(ActivityDetailActivity.this, Manifest.permission.CAMERA)) {
-                    Intent intent = new Intent(ActivityDetailActivity.this, CaptureActivity.class);
-                    startActivityForResult(intent, REQUEST_CODE);
-                } else {
-                    EasyPermissions.requestPermissions(ActivityDetailActivity.this, null, REQUEST_CODE, new String[]{Manifest.permission.CAMERA});
-                }
+
                 break;
         }
     }
 
+    //上傳圖片至圖片服務器
     private void uploadImage(File file) {
         Map<String, String> map = new HashMap<>();
         map.put("postfix", ".jpg");
@@ -190,7 +226,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             @Override
             public void success(String s) {
                 EBLog.i(TAG, s);
-                getPicture(s);
+                getPicture(s, zxResult);
             }
 
             @Override
@@ -201,6 +237,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         });
     }
 
+    //H5中點擊返回按鈕
     public void goBack() {
         activity_detail_webView.evaluateJavascript("javascript:goBack()", new ValueCallback<String>() {
 
@@ -213,8 +250,13 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         });
     }
 
-    private void getPicture(String imgUrl) {
-        activity_detail_webView.evaluateJavascript("javascript:getPicture('" + imgUrl + "')", new ValueCallback<String>() {
+    //交付任務，提交二維碼解析結果及圖片地址
+    private void getPicture(String imgUrl, String code) {
+        Map<String, String>map = new HashMap<>();
+        map.put("pictureUrl", imgUrl);
+        map.put("qrCode", code);
+        String s = GsonUtil.GsonString(map);
+        activity_detail_webView.evaluateJavascript("javascript:getPicture('" + s + "')", new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
                 EBLog.i("H5回调", value);
@@ -222,6 +264,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         });
     }
 
+    //拍照成功返回
     @Override
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
@@ -244,6 +287,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        shareAPI.onActivityResult(requestCode, resultCode, data);
         /**
          * 处理二维码扫描结果
          */

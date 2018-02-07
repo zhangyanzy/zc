@@ -273,7 +273,7 @@ public class MyFragment extends BaseFragment {
         });
     }
 
-
+//    private void
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

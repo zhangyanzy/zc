@@ -11,6 +11,7 @@ import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
 
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.widget.LoadingDialog;
 
@@ -98,6 +99,7 @@ public class ShareUtil {
         String server = Constants.URL.H5_URL;
         StringBuilder sb = new StringBuilder();
         sb.append(server).append(webUrl);
+        EBLog.i("TAG", sb.toString());
         umWeb = new UMWeb(sb.toString());
         umWeb.setTitle(title);
         umWeb.setThumb(umImage);

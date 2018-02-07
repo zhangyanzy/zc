@@ -1,12 +1,16 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.autonavi.rtbt.IFrameForRTBT;
 import com.umeng.socialize.UMShareAPI;
 
 import butterknife.BindView;
@@ -14,6 +18,7 @@ import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 
@@ -31,7 +36,7 @@ public class InviteActivity extends BaseActivity {
     @BindView(R.id.web)
     WebView web;
 
-    private String inviteUrl = "#/invite/user?code=%s";
+    private String inviteUrl = "/#/invite/user?code=%s";
     private String shareTitle = "一个可以赚钱的APP";
     private String shareDesc = "你看广告，我发钱";
 
@@ -52,8 +57,27 @@ public class InviteActivity extends BaseActivity {
         umShareAPI = ZcApplication.getUMShareAPI();
         inviteCode = getIntent().getStringExtra("code");
 
+        WebSettings webSettings = web.getSettings();
+        //设置自适应屏幕，两者合用
+        webSettings.setUseWideViewPort(true); //将图片调整到适合webview的大小
+        webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);   //不使用缓存
+        webSettings.setAllowUniversalAccessFromFileURLs(true); //跨域
+        webSettings.setJavaScriptEnabled(true);    //js支持
+        if (Build.VERSION.SDK_INT >= 21) {
+            webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+
         webUrl = String.format(inviteUrl, inviteCode);
         web.loadUrl(Constants.URL.H5_URL + webUrl);
+        EBLog.i("TAG", Constants.URL.H5_URL + webUrl);
+        web.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+        });
     }
 
     @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
