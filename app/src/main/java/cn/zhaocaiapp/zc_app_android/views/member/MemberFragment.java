@@ -82,6 +82,7 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
         member_search_association.setLayoutManager(new LinearLayoutManager(getActivity()));
         memberSearchAdapter = new MemberSearchAdapter(getActivity(), searchAssociationList);
         member_search_association.setAdapter(memberSearchAdapter);
+        memberSearchAdapter.setOnItemCliclkListener(listener2);
 
         /**
          * 输入框
@@ -164,6 +165,7 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
     private MemberSearchAdapter.OnItemCliclkListener listener2 = new MemberSearchAdapter.OnItemCliclkListener() {
         @Override
         public void onItemCliclk(int position) {
+            iv_top_edit.setText(searchAssociationList.get(position).getName());
             EBLog.i("tag", "您点击了第" + position + "条");
         }
     };
