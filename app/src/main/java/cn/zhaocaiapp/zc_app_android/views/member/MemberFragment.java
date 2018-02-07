@@ -109,6 +109,7 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
             public void afterTextChanged(Editable s) {
                 EBLog.i("tag", "内容改变后");
                 if (GeneralUtils.isNotNullOrZeroLenght(s.toString())) {
+                    member_search_association.setVisibility(View.VISIBLE);
                     Map<String, String> params = new HashMap<>();
                     params.put("name", s.toString());
                     params.put("pageSize", "6");
@@ -128,6 +129,8 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
                         }
 
                     });
+                } else {
+                    member_search_association.setVisibility(View.INVISIBLE);
                 }
 
             }
@@ -147,6 +150,8 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
 
     @Override
     public void loadData() {
+        member_recycler_view.scrollToPosition(0);//回到顶部
+        member_refresh_layout.autoRefresh();//自动刷新
         Map<String, String> params = new HashMap<>();
         params.put("name", name);
 
