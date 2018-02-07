@@ -13,6 +13,7 @@ public class VerifyCodeResp {
      * "nickname": String      昵称
      * "phone":    String      手机号
      * "token":     String      token
+     * alias
      */
     private String desc;
     private boolean result;
@@ -21,6 +22,15 @@ public class VerifyCodeResp {
     private String nickname;
     private String phone;
     private String token;
+    private String alias;
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 
     public boolean isResult() {
         return result;
@@ -88,6 +98,7 @@ public class VerifyCodeResp {
                 ", nickname='" + nickname + '\'' +
                 ", phone='" + phone + '\'' +
                 ", token='" + token + '\'' +
+                ", alias='" + alias + '\'' +
                 '}';
     }
 }

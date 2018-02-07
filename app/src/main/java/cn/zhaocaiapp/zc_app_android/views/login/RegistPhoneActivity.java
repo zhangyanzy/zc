@@ -123,6 +123,7 @@ public class RegistPhoneActivity extends BaseActivity {
         SpUtils.put(Constants.SPREF.NICK_NAME, result.getNickname());
         SpUtils.put(Constants.SPREF.USER_PHONE, result.getPhone());
         SpUtils.put(Constants.SPREF.USER_ID, result.getKid());
+        SpUtils.put(Constants.SPREF.ALIAS, result.getAlias());
     }
 
     @Override

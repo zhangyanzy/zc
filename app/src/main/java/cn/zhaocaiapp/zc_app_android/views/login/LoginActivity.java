@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.umeng.message.PushAgent;
+import com.umeng.message.UTrack;
+import com.umeng.message.entity.Alias;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -137,14 +140,13 @@ public class LoginActivity extends BaseFragmentActivity {
         }
         params.put("type", type + "");
 
-        EBLog.i(TAG, params.toString());
-
         HttpUtil.post(Constants.URL.USER_LOGIN, params).subscribe(new BaseResponseObserver<LoginResp>() {
 
             @Override
             public void success(LoginResp result) {
                 EBLog.i(TAG, result.toString());
 
+                setAlias(result);
                 saveUserData(result);
                 Bundle bundle = new Bundle();
                 bundle.putInt("position", 0);
@@ -165,6 +167,16 @@ public class LoginActivity extends BaseFragmentActivity {
         });
     }
 
+    private void setAlias(LoginResp result){
+        PushAgent pushAgent =PushAgent.getInstance(this);
+        pushAgent.addAlias(result.getAlias(), "alias", new UTrack.ICallBack() {
+            @Override
+            public void onMessage(boolean b, String s) {
+               EBLog.i(TAG, s);
+            }
+        });
+    }
+
     //保存用户数据
     private void saveUserData(LoginResp loginResp) {
         SpUtils.put(Constants.SPREF.TOKEN, loginResp.getToken());
@@ -174,7 +186,7 @@ public class LoginActivity extends BaseFragmentActivity {
         SpUtils.put(Constants.SPREF.NICK_NAME, loginResp.getNickname());
         SpUtils.put(Constants.SPREF.USER_PHONE, loginResp.getPhone());
         SpUtils.put(Constants.SPREF.USER_ID, loginResp.getKid());
-
+        SpUtils.put(Constants.SPREF.ALIAS, loginResp.getAlias());
     }
 
     //检测是否安装三方应用
@@ -194,10 +206,9 @@ public class LoginActivity extends BaseFragmentActivity {
 
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-                Log.i("UMENG", map.toString());
-                ToastUtil.makeText(LoginActivity.this, "授权成功");
+                EBLog.i("友盟---", map.toString());
 
-                getAuthInfo(map);
+                getUserInfo(map);
                 doLogin();
             }
 
@@ -214,15 +225,12 @@ public class LoginActivity extends BaseFragmentActivity {
     }
 
     //获取三方账号信息
-    private void getAuthInfo(Map<String, String> map) {
-        EBLog.i(TAG, map.toString());
-
+    private void getUserInfo(Map<String, String> map) {
         if (map.get("gender").equals("男") || map.get("gender").equals("1"))
             sex = 0;
         else sex = 1;
         uid = map.get("uid");
         avatar = map.get("iconurl");
-
     }
 
     //跳转绑定手机页面

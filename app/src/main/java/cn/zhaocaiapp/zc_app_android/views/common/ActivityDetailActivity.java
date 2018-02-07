@@ -68,6 +68,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     private long activityId; // 活动id
     private String activityTitle; // 活动名称
     private int isNeedQRCode; // 是否需要扫描二维码
+    private String activityUrl = "#/activity/detail?id=%s";
 
     @Override
     public int getContentViewResId() {

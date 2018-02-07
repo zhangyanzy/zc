@@ -1,6 +1,5 @@
 package cn.zhaocaiapp.zc_app_android.constant;
 
-import java.util.Date;
 
 /**
  * 全局常量
@@ -284,6 +283,9 @@ public interface Constants {
         String GENDER = "gender";                   //性别
         String AGE = "age";                         //年龄
         String TOKEN = "token";                     //用户登录返回的唯一识别码
+        String DEVICE_TOKEN = "deviceToken";        //友盟推送的设备识别号
+        String ALIAS = "alias";                     // 友盟推送的用户别名
+        String INVITE_CODE = "inviteCode";          // 邀請碼
 
         int TYPE_PHONE = 0;    //手机登录
         int TYPE_WECHAT = 1;   //微信登录

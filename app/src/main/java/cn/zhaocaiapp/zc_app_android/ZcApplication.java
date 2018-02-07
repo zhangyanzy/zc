@@ -36,6 +36,7 @@ import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.AreaUtil;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 
 /**
  * Created by jinxunmediapty.ltd on 2018/1/3.
@@ -144,6 +145,7 @@ public class ZcApplication extends Application {
             public void onSuccess(String deviceToken) {
                 //注册成功会返回device token
                 umPushToken = deviceToken;
+                SpUtils.put(Constants.SPREF.DEVICE_TOKEN, umPushToken);
                 EBLog.i(TAG, "友盟token---"+umPushToken);
             }
 

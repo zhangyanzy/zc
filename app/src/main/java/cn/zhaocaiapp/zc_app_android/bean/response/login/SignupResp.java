@@ -6,19 +6,29 @@ package cn.zhaocaiapp.zc_app_android.bean.response.login;
 
 public class SignupResp {
     /**
-     *"avatar": String    头像
-     "desc":  String    接口描述
-     "kid":     Integer   主键
-     "nickname": String  昵称
-     "phone": String    手机
-     "token": String    token
-     * */
+     * "avatar": String    头像
+     * "desc":  String    接口描述
+     * "kid":     Integer   主键
+     * "nickname": String  昵称
+     * "phone": String    手机
+     * "token": String    token
+     * alias
+     */
     private String avatar;
     private String desc;
     private long kid;
     private String nickname;
     private String phone;
     private String token;
+    private String alias;
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 
     public long getKid() {
         return kid;
@@ -77,6 +87,7 @@ public class SignupResp {
                 ", nickname='" + nickname + '\'' +
                 ", phone='" + phone + '\'' +
                 ", token='" + token + '\'' +
+                ", alias='" + alias + '\'' +
                 '}';
     }
 }

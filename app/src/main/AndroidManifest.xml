@@ -91,6 +91,7 @@
         <!--登录-->
         <activity
             android:name=".views.login.LoginActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!--忘记密码-->
         <activity

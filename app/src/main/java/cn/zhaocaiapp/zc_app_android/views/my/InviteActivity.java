@@ -1,35 +1,21 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.ShareContent;
 import com.umeng.socialize.UMShareAPI;
-import com.umeng.socialize.UMShareListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.media.UMWeb;
-import com.umeng.socialize.shareboard.SnsPlatform;
-import com.umeng.socialize.utils.ShareBoardlistener;
-import com.umeng.socialize.utils.SocializeUtils;
-
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
-import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
-import cn.zhaocaiapp.zc_app_android.widget.LoadingDialog;
 
 /**
  * Created by Administrator on 2018/1/11.
@@ -42,15 +28,16 @@ public class InviteActivity extends BaseActivity {
     TextView tv_top_titlel;
     @BindView(R.id.iv_top_menu)
     ImageView iv_top_menu;
-    @BindView(R.id.tv_copy)
-    TextView tv_copy;
+    @BindView(R.id.web)
+    WebView web;
 
-    private String webUrl = "#/activity/detail?id=1";
+    private String inviteUrl = "#/invite/user?code=%s";
     private String shareTitle = "一个可以赚钱的APP";
     private String shareDesc = "你看广告，我发钱";
 
-//    private ProgressDialog dialog;
     private UMShareAPI umShareAPI;
+    private String inviteCode;
+    private String webUrl;
 
     @Override
     public int getContentViewResId() {
@@ -63,10 +50,13 @@ public class InviteActivity extends BaseActivity {
         tv_top_titlel.setText("邀请好友");
 
         umShareAPI = ZcApplication.getUMShareAPI();
-//        dialog = new ProgressDialog(this);
+        inviteCode = getIntent().getStringExtra("code");
+
+        webUrl = String.format(inviteUrl, inviteCode);
+        web.loadUrl(Constants.URL.H5_URL + webUrl);
     }
 
-    @OnClick({R.id.iv_top_back, R.id.iv_top_menu, R.id.tv_copy})
+    @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_top_back:
@@ -79,9 +69,6 @@ public class InviteActivity extends BaseActivity {
                         .setTitle(shareTitle)
                         .setDesc(shareDesc);
                 ShareUtil.openShare();
-                break;
-            case R.id.tv_copy:
-
                 break;
         }
     }

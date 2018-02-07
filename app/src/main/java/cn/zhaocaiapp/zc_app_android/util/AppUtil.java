@@ -188,22 +188,35 @@ public class AppUtil {
 
     private static UMShareAPI shareAPI = ZcApplication.getUMShareAPI();
 
-    // 取消三方授权
-    public static void cancelAuth(Activity activity) {
-        if ((int) SpUtils.get(Constants.SPREF.LOGIN_MODE, -1) == Constants.SPREF.TYPE_WECHAT)
-            if (isGetAuth(activity, SHARE_MEDIA.WEIXIN))
-                shareAPI.deleteOauth(activity, SHARE_MEDIA.WEIXIN, authListener);
-        if ((int) SpUtils.get(Constants.SPREF.LOGIN_MODE, -1) == Constants.SPREF.TYPE_QQ)
-            if (isGetAuth(activity, SHARE_MEDIA.QQ))
-                shareAPI.deleteOauth(activity, SHARE_MEDIA.QQ, authListener);
-        if ((int) SpUtils.get(Constants.SPREF.LOGIN_MODE, -1) == Constants.SPREF.TYPE_SINA)
-            if (isGetAuth(activity, SHARE_MEDIA.SINA))
-                shareAPI.deleteOauth(activity, SHARE_MEDIA.SINA, authListener);
+    /**
+     * 取消指定三方授权
+     */
+    public static void cancelAuth(Activity activity, SHARE_MEDIA platform) {
+        if (isGetAuth(activity, platform))
+            shareAPI.deleteOauth(activity, platform, authListener);
     }
 
+    /**
+     * 校验是否获取到指定三方授权
+     */
     public static boolean isGetAuth(Activity activity, SHARE_MEDIA platform) {
         return shareAPI.isAuthorize(activity, platform);
     }
+
+    /**
+     * 取消所有三方授权
+     */
+    public static void cancelAllAuth(Activity activity) {
+        if (isGetAuth(activity, SHARE_MEDIA.WEIXIN))
+            shareAPI.deleteOauth(activity, SHARE_MEDIA.WEIXIN, authListener);
+
+        if (isGetAuth(activity, SHARE_MEDIA.QQ))
+            shareAPI.deleteOauth(activity, SHARE_MEDIA.QQ, authListener);
+
+        if (isGetAuth(activity, SHARE_MEDIA.SINA))
+            shareAPI.deleteOauth(activity, SHARE_MEDIA.SINA, authListener);
+    }
+
 
     private static UMAuthListener authListener = new UMAuthListener() {
         /**

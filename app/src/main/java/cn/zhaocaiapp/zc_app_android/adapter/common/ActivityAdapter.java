@@ -33,12 +33,15 @@ import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.member.MemberResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.DialogUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
+import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.views.common.ActivityDetailActivity;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
@@ -360,6 +363,14 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
                             });
                         }
+                        // 分享
+                        viewHolderActivity.activity_item_text_share.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        });
+
                     }
                     //登录
                     else {
@@ -495,6 +506,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         @BindView(R.id.member_detail_follow_text)
         TextView member_detail_follow_text;
 
+
         View itemView;
 
         public ViewHolderMember(View itemView) {
@@ -562,8 +574,9 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         ImageView activity_item_text_collection;
         @BindView(R.id.activity_item_text_reward)
         TextView activity_item_text_reward;
-
-
+        //分享
+        @BindView(R.id.activity_item_text_share)
+        ImageView activity_item_text_share;
         View itemView;
 
         public ViewHolderActivity(View itemView) {

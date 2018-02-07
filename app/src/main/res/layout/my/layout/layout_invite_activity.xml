@@ -8,52 +8,59 @@
 
     <View style="@style/C9_8dp_divider"/>
 
-    <LinearLayout
+    <WebView
+        android:id="@+id/web"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_18"
-            android:text="邀请码"
-            android:layout_marginTop="14dp"/>
+    </WebView>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal">
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical"-->
+        <!--android:gravity="center_horizontal">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorFont6"
-                android:textSize="@dimen/font_size_14"
-                android:text="234FKR"
-                android:layout_marginTop="30dp"/>
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/colorFont6"-->
+            <!--android:textSize="@dimen/font_size_18"-->
+            <!--android:text="邀请码"-->
+            <!--android:layout_marginTop="14dp"/>-->
 
-            <TextView
-                android:id="@+id/tv_copy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorFont6"
-                android:textSize="@dimen/font_size_14"
-                android:text="复制邀请码"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="30dp"/>
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_gravity="center_horizontal">-->
 
-        </LinearLayout>
-        
-        <ImageView
-            android:layout_width="260dp"
-            android:layout_height="170dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/edit_shape_border"/>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="@color/colorFont6"-->
+                <!--android:textSize="@dimen/font_size_14"-->
+                <!--android:text="234FKR"-->
+                <!--android:layout_marginTop="30dp"/>-->
 
-    </LinearLayout>
+            <!--<TextView-->
+                <!--android:id="@+id/tv_copy"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="@color/colorFont6"-->
+                <!--android:textSize="@dimen/font_size_14"-->
+                <!--android:text="复制邀请码"-->
+                <!--android:layout_marginLeft="50dp"-->
+                <!--android:layout_marginTop="30dp"/>-->
+
+        <!--</LinearLayout>-->
+        <!---->
+        <!--<ImageView-->
+            <!--android:layout_width="260dp"-->
+            <!--android:layout_height="170dp"-->
+            <!--android:layout_marginTop="24dp"-->
+            <!--android:background="@drawable/edit_shape_border"/>-->
+
+    <!--</LinearLayout>-->
 
 </LinearLayout>

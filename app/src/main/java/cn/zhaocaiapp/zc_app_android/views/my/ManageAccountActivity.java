@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -190,4 +191,10 @@ public class ManageAccountActivity extends BaseActivity {
             ToastUtil.makeText(ManageAccountActivity.this, "取消授权");
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        umShareAPI.onActivityResult(requestCode, resultCode, data);
+    }
 }

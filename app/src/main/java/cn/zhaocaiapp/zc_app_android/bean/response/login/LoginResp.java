@@ -16,6 +16,7 @@ public class LoginResp {
      * "token": token
      * "type":  登录类型
      * "uid": 第三方登录唯一标识
+     * alias
      */
     private String token;
     private String avatar;
@@ -24,6 +25,15 @@ public class LoginResp {
     private int type;
     private long kid;
     private String uid;
+    private String alias;
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 
     public long getKid() {
         return kid;
@@ -88,9 +98,10 @@ public class LoginResp {
                 ", avatar='" + avatar + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", phone='" + phone + '\'' +
-                ", type='" + type + '\'' +
+                ", type=" + type +
                 ", kid=" + kid +
                 ", uid='" + uid + '\'' +
+                ", alias='" + alias + '\'' +
                 '}';
     }
 }

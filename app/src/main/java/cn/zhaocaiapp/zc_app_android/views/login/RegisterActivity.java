@@ -166,6 +166,7 @@ public class RegisterActivity extends BaseActivity {
         SpUtils.put(Constants.SPREF.LOGIN_MODE, 0);
         SpUtils.put(Constants.SPREF.USER_PHONE, result.getPhone());
         SpUtils.put(Constants.SPREF.USER_ID, result.getKid());
+        SpUtils.put(Constants.SPREF.ALIAS, result.getAlias());
     }
 
 }

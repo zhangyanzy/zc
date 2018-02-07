@@ -182,6 +182,7 @@ public class CheckPhoneActivity extends BaseActivity {
         SpUtils.put(Constants.SPREF.USER_ID, verifyCodeResp.getKid());
         SpUtils.put(Constants.SPREF.NICK_NAME, verifyCodeResp.getNickname());
         SpUtils.put(Constants.SPREF.USER_PHONE, verifyCodeResp.getPhone());
+        SpUtils.put(Constants.SPREF.ALIAS, verifyCodeResp.getAlias());
     }
 
 }

@@ -28,8 +28,11 @@ import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.AccountResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.listener.OnBtnClickL;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.AppUtil;
 import cn.zhaocaiapp.zc_app_android.util.DialogUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
@@ -77,6 +80,8 @@ public class ApplyCashActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        AppUtil.cancelAllAuth(this);
+
         umShareAPI = ZcApplication.getUMShareAPI();
         balance = getIntent().getStringExtra("balance");
         getAccount();
@@ -168,7 +173,7 @@ public class ApplyCashActivity extends BaseActivity {
                     withdraw_ali.setChecked(false);
                     withdraw_bank.setChecked(false);
                 } else {
-
+                    showDialog();
                 }
                 break;
             case R.id.withdraw_ali:
@@ -179,7 +184,7 @@ public class ApplyCashActivity extends BaseActivity {
                     withdraw_wechat.setChecked(false);
                     withdraw_bank.setChecked(false);
                 } else {
-
+                    showDialog();
                 }
                 break;
             case R.id.withdraw_bank:
@@ -190,14 +195,30 @@ public class ApplyCashActivity extends BaseActivity {
                     withdraw_wechat.setChecked(false);
                     withdraw_ali.setChecked(false);
                 } else {
-                    openActivity(BindCardActivity.class);
+                    showDialog();
                 }
                 break;
         }
     }
 
-    private void setDialog(){
-//        DialogUtil.showDialogTwoBut(this, )
+    private void showDialog() {
+        NormalDialog dialog = DialogUtil.showDialogTwoBut(this, null,
+                "该账号还未绑定， 请先绑定", "取消", "确定");
+        dialog.setOnBtnClickL(
+                new OnBtnClickL() {
+                    @Override
+                    public void onBtnClick() {
+                        dialog.dismiss();
+                    }
+                },
+                new OnBtnClickL() {
+                    @Override
+                    public void onBtnClick() {
+                        openActivity(ManageAccountActivity.class);
+                        dialog.dismiss();
+                    }
+                });
+
     }
 
 }
