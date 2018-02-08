@@ -90,6 +90,7 @@ public class LocationUtil {
             } else {
                 gps.setOpen(false); //定位失败
             }
+            EBLog.i("tag", gps.toString());
             setGps(gps);
         }
     };

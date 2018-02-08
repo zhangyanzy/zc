@@ -106,6 +106,11 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
 
         home_refresh.setOnRefreshListener(this);
         home_refresh.setOnLoadmoreListener(this);
+        Gps gps = LocationUtil.getGps();
+        if (gps.getOpen()) {
+            longitude = String.valueOf(gps.getLongitude());
+            latitude = String.valueOf(gps.getLatitude());
+        }
     }
 
     @Override
@@ -219,6 +224,7 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
                 Gps gps = LocationUtil.getGps();
                 if (gps.getOpen()) {
                     sortType = 3;
+                    sortRule = 1;
                     setSort();
                     loadData();
                 } else {
