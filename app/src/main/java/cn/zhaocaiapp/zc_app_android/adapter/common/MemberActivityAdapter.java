@@ -54,19 +54,12 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
     private List<ActivityResp> list;
     private Context context;
     private OnItemCliclkListener listene;
-    private int type; //1首页默认列表 2商家详情列表
     private MemberResp memberResp; //商家详情
 
-    public MemberActivityAdapter(Context context, List<ActivityResp> list) {
-        this.list = list;
-        this.context = context;
-        this.type = 1;
-    }
 
     public MemberActivityAdapter(Context context, List<ActivityResp> list, MemberResp memberResp) {
         this.list = list;
         this.context = context;
-        this.type = 2;
         this.memberResp = memberResp;
     }
 
@@ -75,7 +68,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
         EBLog.i("tag", String.valueOf(viewType));
         View view;
         ViewHolder viewHolder;
-        if (type == 2 && viewType == 0) {
+        if (viewType == 0) {
             view = LayoutInflater.from(context).inflate(R.layout.member_detail_header, parent, false);
             viewHolder = new ViewHolderMember(view);
         } else {
@@ -386,7 +379,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
 
     @Override
     public int getItemCount() {
-        return list != null ? list.size() : 0;
+        return list != null ? list.size() + 1 : 1;
     }
 
 

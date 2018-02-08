@@ -87,6 +87,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
                 memberResp = result;
                 activityAdapter.updataMember(memberResp);
                 EBLog.i("tag", result.toString());
+                member_detail_refresh.finishRefresh();
             }
 
             @Override
