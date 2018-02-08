@@ -124,15 +124,21 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         if (GeneralUtils.isNotNull(list.get(position).getUserList()) && list.get(position).getUserList().size() > 0) {
             if (list.get(position).getUserList().size() >= 1) {
                 viewHolderActivity.activity_item_text_user0.setVisibility(View.VISIBLE);
-                PictureLoadUtil.loadPicture(context, list.get(position).getUserList().get(0).getAvatar(), viewHolderActivity.activity_item_text_user0);
+                if (GeneralUtils.isNotNullOrZeroLenght(list.get(position).getUserList().get(0).getAvatar())) {
+                    PictureLoadUtil.loadPicture(context, list.get(position).getUserList().get(0).getAvatar(), viewHolderActivity.activity_item_text_user0);
+                }
             }
             if (list.get(position).getUserList().size() >= 2) {
                 viewHolderActivity.activity_item_text_user1.setVisibility(View.VISIBLE);
-                PictureLoadUtil.loadPicture(context, list.get(position).getUserList().get(1).getAvatar(), viewHolderActivity.activity_item_text_user1);
+                if (GeneralUtils.isNotNullOrZeroLenght(list.get(position).getUserList().get(1).getAvatar())) {
+                    PictureLoadUtil.loadPicture(context, list.get(position).getUserList().get(1).getAvatar(), viewHolderActivity.activity_item_text_user1);
+                }
             }
             if (list.get(position).getUserList().size() == 3) {
                 viewHolderActivity.activity_item_text_user2.setVisibility(View.VISIBLE);
-                PictureLoadUtil.loadPicture(context, list.get(position).getUserList().get(2).getAvatar(), viewHolderActivity.activity_item_text_user2);
+                if (GeneralUtils.isNotNullOrZeroLenght(list.get(position).getUserList().get(2).getAvatar())) {
+                    PictureLoadUtil.loadPicture(context, list.get(position).getUserList().get(2).getAvatar(), viewHolderActivity.activity_item_text_user2);
+                }
             }
         }
         //剩余额度
