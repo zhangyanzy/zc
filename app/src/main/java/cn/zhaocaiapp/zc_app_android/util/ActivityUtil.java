@@ -4,7 +4,6 @@ import android.app.Activity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 
@@ -25,14 +24,14 @@ public class ActivityUtil {
      */
     public static void addActivity(Activity activity) {
         activityStack.add(activity);
-        EBLog.i(TAG, activityStack.size() + "");
+        EBLog.i(TAG, activityStack.toString());
     }
 
     /**
      * 获取当前Activity（堆栈中最后一个压入的）
      */
     public static Activity currentActivity() {
-        EBLog.i(TAG, activityStack.size() + "");
+        EBLog.i(TAG, activityStack.toString());
         Activity activity = activityStack.get(activityStack.size() - 1);
         return activity;
     }
@@ -53,7 +52,7 @@ public class ActivityUtil {
             activity.finish();
             activityStack.remove(activity);
         }
-        EBLog.i(TAG, activityStack.size() + "");
+        EBLog.i(TAG, activityStack.toString());
     }
 
     /**
@@ -65,7 +64,7 @@ public class ActivityUtil {
                 finishActivity(activity);
             }
         }
-        EBLog.i(TAG, activityStack.size() + "");
+        EBLog.i(TAG, activityStack.toString());
     }
 
     /**
@@ -78,7 +77,7 @@ public class ActivityUtil {
                 activityStack.remove(i);
             }
         }
-        EBLog.i(TAG, activityStack.size() + "");
+        EBLog.i(TAG, activityStack.toString());
     }
 
     /**
@@ -91,7 +90,7 @@ public class ActivityUtil {
             }
         }
         activityStack.clear();
-        EBLog.i(TAG, activityStack.size() + "");
+        EBLog.i(TAG, activityStack.toString());
     }
 
 }

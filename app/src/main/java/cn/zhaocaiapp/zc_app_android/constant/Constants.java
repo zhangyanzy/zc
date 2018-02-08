@@ -64,6 +64,9 @@ public interface Constants {
         //生产环境
 //        String SERVER = "https://appapi.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
 
+        //测试环境
+//        String SERVER = "http://192.168.1.165:8083/";
+
         /**
          * H5页面地址
          */

@@ -159,38 +159,13 @@ public class ManageAccountActivity extends BaseActivity {
 
     //获取微信授权
     private void getWechatAuth(SHARE_MEDIA platform) {
-        if (AppUtil.isGetAuth(this, platform))
-            umShareAPI.deleteOauth(this, platform, authListener);
-        umShareAPI.doOauthVerify(this, platform, authListener);
+        umShareAPI.doOauthVerify(this, platform, AppUtil.authListener);
     }
 
     //获取阿里授权
     private void getAliAuth() {
 
     }
-
-    private UMAuthListener authListener = new UMAuthListener() {
-        @Override
-        public void onStart(SHARE_MEDIA share_media) {
-
-        }
-
-        @Override
-        public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-            Log.i("UMENG", map.toString());
-            ToastUtil.makeText(ManageAccountActivity.this, "授权成功");
-        }
-
-        @Override
-        public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
-
-        }
-
-        @Override
-        public void onCancel(SHARE_MEDIA share_media, int i) {
-            ToastUtil.makeText(ManageAccountActivity.this, "取消授权");
-        }
-    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

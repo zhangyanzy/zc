@@ -80,8 +80,6 @@ public class ApplyCashActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        AppUtil.cancelAllAuth(this);
-
         umShareAPI = ZcApplication.getUMShareAPI();
         balance = getIntent().getStringExtra("balance");
         getAccount();

@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.umeng.message.PushAgent;
+import com.umeng.message.UTrack;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -31,6 +33,7 @@ import cn.zhaocaiapp.zc_app_android.bean.response.my.MyResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.TrembleBasesOsDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.AppUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
@@ -107,11 +110,10 @@ public class MyFragment extends BaseFragment {
     TextView tv_failed_msg;
 
 
-    private static String TAG = "个人中心";
+    private static final String TAG = "个人中心";
     private TrembleBasesOsDialog trembleBasesOsDialog;
 
     private MyResp userInfo;
-    private UMShareAPI shareAPI;
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -126,7 +128,6 @@ public class MyFragment extends BaseFragment {
         trembleBasesOsDialog = new TrembleBasesOsDialog(getActivity());
         trembleBasesOsDialog.setOnDialogClickListener(trembleListener);
 
-        shareAPI = ZcApplication.getUMShareAPI();
     }
 
     @Override
@@ -258,11 +259,11 @@ public class MyFragment extends BaseFragment {
             public void success(CommonResp result) {
                 EBLog.i(TAG, result.toString());
 
-                AppUtil.cancelAllAuth(getActivity());
+                deleteAlias();
                 SpUtils.clear();
+                ActivityUtil.finishAllActivity(getActivity().getClass());
 
                 openActivity(LoginActivity.class);
-                getActivity().finish();
             }
 
             @Override
@@ -273,12 +274,14 @@ public class MyFragment extends BaseFragment {
         });
     }
 
-//    private void
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        shareAPI.onActivityResult(requestCode, resultCode, data);
+    private void deleteAlias() {
+        PushAgent pushAgent = PushAgent.getInstance(getActivity());
+        pushAgent.deleteAlias((String) SpUtils.get(Constants.SPREF.ALIAS, ""), "alias", new UTrack.ICallBack() {
+            @Override
+            public void onMessage(boolean b, String s) {
+                EBLog.i(TAG, s);
+            }
+        });
     }
 
     private TrembleBasesOsDialog.OnDialogClickListener trembleListener = new TrembleBasesOsDialog.OnDialogClickListener() {

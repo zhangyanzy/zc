@@ -15,6 +15,7 @@ import com.umeng.message.UTrack;
 import com.umeng.message.entity.Alias;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareConfig;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.HashMap;
@@ -88,7 +89,6 @@ public class LoginActivity extends BaseFragmentActivity {
         ActivityUtil.finishAllActivity(this.getClass());
 
         umShareAPI = ZcApplication.getUMShareAPI();
-
     }
 
     @OnClick({R.id.tv_skip_login, R.id.tv_register, R.id.tv_forget_pass, R.id.tv_login,
@@ -113,18 +113,18 @@ public class LoginActivity extends BaseFragmentActivity {
                 break;
             case R.id.login_wechat:
                 type = 1;
-                platform = SHARE_MEDIA.WEIXIN;
-                isPlatformExist(platform);
+                umShareAPI = ZcApplication.getUMShareAPI();
+                isPlatformExist(SHARE_MEDIA.WEIXIN);
                 break;
             case R.id.login_qq:
                 type = 2;
-                platform = SHARE_MEDIA.QQ;
-                isPlatformExist(platform);
+                umShareAPI = ZcApplication.getUMShareAPI();
+                isPlatformExist(SHARE_MEDIA.QQ);
                 break;
             case R.id.login_sina:
                 type = 3;
-                platform = SHARE_MEDIA.SINA;
-                isPlatformExist(platform);
+                umShareAPI = ZcApplication.getUMShareAPI();
+                isPlatformExist(SHARE_MEDIA.SINA);
                 break;
         }
     }
@@ -148,6 +148,7 @@ public class LoginActivity extends BaseFragmentActivity {
 
                 setAlias(result);
                 saveUserData(result);
+
                 Bundle bundle = new Bundle();
                 bundle.putInt("position", 0);
                 openActivity(MainActivity.class, bundle);
@@ -193,17 +194,26 @@ public class LoginActivity extends BaseFragmentActivity {
     private void isPlatformExist(SHARE_MEDIA platform){
         if (!umShareAPI.isInstall(this, platform))
             ToastUtil.makeText(this, "请先安装应用");
-        else doOauth();
+        else doOauth(platform);
     }
 
     //获取三方授权
-    private void doOauth() {
+    private void doOauth(SHARE_MEDIA platform) {
         umShareAPI.getPlatformInfo(this, platform, new UMAuthListener() {
+            /**
+             * @desc 授权开始的回调
+             * @param share_media 授权平台
+             */
             @Override
             public void onStart(SHARE_MEDIA share_media) {
-
+                EBLog.i("友盟---","授权开始的回调");
             }
 
+            /**
+             * @desc 授权成功的回调
+             * @param share_media 授权平台
+             * @param map 用户资料返回
+             */
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                 EBLog.i("友盟---", map.toString());
@@ -212,14 +222,23 @@ public class LoginActivity extends BaseFragmentActivity {
                 doLogin();
             }
 
+            /**
+             * @desc 授权失败的回调
+             * @param share_media 授权平台
+             * @param throwable 错误原因
+             */
             @Override
             public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
-
+                EBLog.e(TAG, throwable.getMessage());
             }
 
+            /**
+             * @desc 授权取消的回调
+             * @param share_media 授权平台
+             */
             @Override
             public void onCancel(SHARE_MEDIA share_media, int i) {
-
+                EBLog.e(TAG, "授权取消的回调");
             }
         });
     }

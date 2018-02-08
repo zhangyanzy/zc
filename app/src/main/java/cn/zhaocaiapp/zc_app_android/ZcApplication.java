@@ -1,15 +1,13 @@
 package cn.zhaocaiapp.zc_app_android;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.nfc.Tag;
+import android.support.multidex.MultiDexApplication;
 
 import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.AccessToken;
-import com.mcxtzhang.indexlib.IndexBar.bean.BaseIndexPinyinBean;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
@@ -42,7 +40,7 @@ import cn.zhaocaiapp.zc_app_android.util.SpUtils;
  * Created by jinxunmediapty.ltd on 2018/1/3.
  */
 
-public class ZcApplication extends Application {
+public class ZcApplication extends MultiDexApplication {
 
     static {
         //配置三方appkey
@@ -70,6 +68,7 @@ public class ZcApplication extends Application {
 
     private static SharedPreferences sp;
     private static UMShareAPI umShareAPI;
+    private static UMShareConfig config;
     private static List<LocationResp> provinces = new ArrayList<>();
     private static String OCRToken;
     private static String umPushToken;
@@ -91,10 +90,8 @@ public class ZcApplication extends Application {
                 .setHttpMessage("message")//网络请求返回的message字段名称，默认为message
                 .setHttpResult("response"));//网络请求返回的result字段名称，默认为result
 
-        //初始化友盟社会化组件
-        umShareAPI = UMShareAPI.get(this);
-        //初始化友盟分享
-        initUMPush();
+        //初始化友盟组件
+        initUM();
         Config.DEBUG = true;
 
         //SharedPreferences存储全局设置
@@ -126,7 +123,7 @@ public class ZcApplication extends Application {
             @Override
             public void onResult(AccessToken accessToken) {
                 OCRToken = accessToken.getAccessToken();
-                EBLog.i(TAG, "百度ocr---"+OCRToken);
+                EBLog.i(TAG, "百度ocr---" + OCRToken);
             }
 
             @Override
@@ -136,7 +133,13 @@ public class ZcApplication extends Application {
         }, context);
     }
 
-    private void initUMPush() {
+    private void initUM() {
+        umShareAPI = UMShareAPI.get(this);
+        config = new UMShareConfig();
+        config.isNeedAuthOnGetUserInfo(true);
+        config.setSinaAuthType(UMShareConfig.AUTH_TYPE_SSO);
+        umShareAPI.setShareConfig(config);
+
         PushAgent mPushAgent = PushAgent.getInstance(this);
         //注册推送服务，每次调用register方法都会回调该接口
         mPushAgent.register(new IUmengRegisterCallback() {
@@ -146,7 +149,7 @@ public class ZcApplication extends Application {
                 //注册成功会返回device token
                 umPushToken = deviceToken;
                 SpUtils.put(Constants.SPREF.DEVICE_TOKEN, umPushToken);
-                EBLog.i(TAG, "友盟token---"+umPushToken);
+                EBLog.i(TAG, "友盟token---" + umPushToken);
             }
 
             @Override
@@ -189,7 +192,7 @@ public class ZcApplication extends Application {
         return OCRToken;
     }
 
-    public static String getUmPushToken(){
+    public static String getUmPushToken() {
         return umPushToken;
     }
 

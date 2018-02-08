@@ -25,6 +25,7 @@ import java.util.Map;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.TrembleBasesOsDialog;
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 
 
@@ -203,22 +204,7 @@ public class AppUtil {
         return shareAPI.isAuthorize(activity, platform);
     }
 
-    /**
-     * 取消所有三方授权
-     */
-    public static void cancelAllAuth(Activity activity) {
-        if (isGetAuth(activity, SHARE_MEDIA.WEIXIN))
-            shareAPI.deleteOauth(activity, SHARE_MEDIA.WEIXIN, authListener);
-
-        if (isGetAuth(activity, SHARE_MEDIA.QQ))
-            shareAPI.deleteOauth(activity, SHARE_MEDIA.QQ, authListener);
-
-        if (isGetAuth(activity, SHARE_MEDIA.SINA))
-            shareAPI.deleteOauth(activity, SHARE_MEDIA.SINA, authListener);
-    }
-
-
-    private static UMAuthListener authListener = new UMAuthListener() {
+    public static UMAuthListener authListener = new UMAuthListener() {
         /**
          * @desc 授权开始的回调
          * @param platform 平台名称
@@ -236,7 +222,7 @@ public class AppUtil {
          */
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
-
+            EBLog.i("友盟---", "授权成功的回调");
         }
 
         /**
@@ -247,7 +233,7 @@ public class AppUtil {
          */
         @Override
         public void onError(SHARE_MEDIA platform, int action, Throwable t) {
-
+            EBLog.i("友盟---", "授权失败的回调");
         }
 
         /**
@@ -257,7 +243,7 @@ public class AppUtil {
          */
         @Override
         public void onCancel(SHARE_MEDIA platform, int action) {
-
+            EBLog.i("友盟---", "授权取消的回调");
         }
     };
 
