@@ -303,6 +303,8 @@ public interface Constants {
         String AREA_CODE = "areaCode"; //用户定位城市Code
         String MESSAGE_PUSH = "messagePush"; //消息推送时间
         String ACTIVITY_RANGE = "activityRange"; //首页获取线下活动范围
+        String SHOW_NEWER_ACTIVITY = "isShowNewerActivity";   //是否弹窗提示新手任务
+
     }
 
     interface ASSETS {

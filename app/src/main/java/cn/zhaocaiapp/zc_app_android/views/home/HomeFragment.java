@@ -133,6 +133,7 @@ public class HomeFragment extends BaseFragment {
 
         //注册EventBus消息订阅者
         EventBus.getDefault().register(this);
+
     }
 
 
@@ -241,10 +242,13 @@ public class HomeFragment extends BaseFragment {
                     //判断用户是否做新手任务
                     if (userResp.getIsFinishActivity() == 0) {
                         NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "新手奖励", "完成新手任务即可领取奖励金", "取消", "任务详情");
+                        //点击空白处,弹窗是否消失
+                        normalDialog.setCanceledOnTouchOutside(false);
                         normalDialog.setOnBtnClickL(new OnBtnClickL() {
                             @Override
                             public void onBtnClick() {
                                 EBLog.i("tag", "您点击了取消");
+                                SpUtils.put(Constants.SPREF.SHOW_NEWER_ACTIVITY, false);
                                 normalDialog.cancel();
                             }
                         }, new OnBtnClickL() {
@@ -257,6 +261,8 @@ public class HomeFragment extends BaseFragment {
                                 normalDialog.dismiss();
                             }
                         });
+                        if ((boolean)SpUtils.get(Constants.SPREF.SHOW_NEWER_ACTIVITY, true))
+                            normalDialog.show();
                     }
                     EBLog.i("tag", result.toString());
                 }

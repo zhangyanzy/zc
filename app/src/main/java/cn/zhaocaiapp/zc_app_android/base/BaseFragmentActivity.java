@@ -12,6 +12,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.ButterKnife;
+import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.widget.LoadingDialog;
 
@@ -91,7 +92,7 @@ public class BaseFragmentActivity extends FragmentActivity {
                 }
             }, 2000);
         } else {
-            finish();
+            ActivityUtil.finishAllActivity();
             System.exit(0);
         }
     }

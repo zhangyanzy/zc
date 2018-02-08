@@ -62,7 +62,7 @@ public class DialogUtil {
                 .btnText(leftText, rightText)
                 .btnTextColor(Color.parseColor("#3B70E3"))
                 .btnTextSize(18)
-                .show();
+                .setCancelable(false);
 
         return dialog;
     }

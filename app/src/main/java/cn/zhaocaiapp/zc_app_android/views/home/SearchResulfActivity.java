@@ -28,6 +28,7 @@ import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 
 /**
@@ -67,6 +68,8 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
 
     @Override
     public void init(Bundle savedInstanceState) {
+        ActivityUtil.addActivity(this);
+
         Bundle bd = this.getIntent().getExtras();
         name = bd != null ? bd.getString("name", "") : "";
         activityForm = bd != null ? bd.getString("activityForm", "") : "";
@@ -159,6 +162,7 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
                 break;
             case R.id.iv_top_back:
                 openActivity(MainActivity.class);
+                finish();
                 break;
         }
     }
@@ -178,4 +182,10 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        openActivity(MainActivity.class);
+        finish();
+    }
 }
