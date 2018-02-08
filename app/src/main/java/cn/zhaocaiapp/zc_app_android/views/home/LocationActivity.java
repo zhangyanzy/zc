@@ -168,9 +168,11 @@ public class LocationActivity extends BaseActivity {
         String areaName = (String) SpUtils.get(Constants.SPREF.AREA_NAME, Constants.CONFIG.AREA_NAME);
         String areaCode = (String) SpUtils.get(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE);
         if (gps.getOpen()) {
-            if (!areaName.equals(gps.getCity())) {
-                home_location_switch.setVisibility(View.VISIBLE);
+            if (areaName.equals(gps.getCity())) {
+                home_location_switch.setVisibility(View.INVISIBLE);
+                home_location_area_text.setText(gps.getCity());
             } else {
+                home_location_switch.setVisibility(View.VISIBLE);
                 home_location_area_text.setText(gps.getCity());
             }
         } else {
