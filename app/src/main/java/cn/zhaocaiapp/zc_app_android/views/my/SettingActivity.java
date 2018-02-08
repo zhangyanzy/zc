@@ -13,7 +13,9 @@ import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.AppUtil;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 
 /**
  * Created by Administrator on 2018/1/11.
@@ -55,15 +57,25 @@ public class SettingActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        /**
+         * 设置首页线下活动范围
+         */
+        int t = (int) SpUtils.get(Constants.SPREF.ACTIVITY_RANGE, 0);// 0代表全国 1代表当前城市
+        if (t == 0) {
+            layout_setting_activity_all.setChecked(true);
+        } else {
+            layout_setting_activity_current.setChecked(true);
+        }
         layout_setting_activity_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.layout_setting_activity_all:
+                        SpUtils.put(Constants.SPREF.ACTIVITY_RANGE, 0);
                         EBLog.e("tag", "全国");
                         break;
                     case R.id.layout_setting_activity_current:
+                        SpUtils.put(Constants.SPREF.ACTIVITY_RANGE, 1);
                         EBLog.e("tag", "当前城市");
                         break;
                 }

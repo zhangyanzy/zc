@@ -299,6 +299,7 @@ public interface Constants {
         String AREA_NAME = "areaName"; //用户定位城市名称
         String AREA_CODE = "areaCode"; //用户定位城市Code
         String MESSAGE_PUSH = "messagePush"; //消息推送时间
+        String ACTIVITY_RANGE = "activityRange"; //首页获取线下活动范围
     }
 
     interface ASSETS {

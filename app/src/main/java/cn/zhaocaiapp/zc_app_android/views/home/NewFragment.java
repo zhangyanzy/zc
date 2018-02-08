@@ -37,6 +37,7 @@ import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 
 /**
  * @author 林子
@@ -113,6 +114,11 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
         params.put("sortType", String.valueOf(sortType));
         params.put("longitude", longitude);
         params.put("latitude", latitude);
+        if ((int) SpUtils.get(Constants.SPREF.ACTIVITY_RANGE, 0) == 0) {
+            params.put("areaCode", "");
+        } else {
+            params.put("areaCode", (String) SpUtils.get(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE));
+        }
         EBLog.i("tag", params.toString());
 
         HttpUtil.get(Constants.URL.GET_ACTIVITY_LIST, params).subscribe(new BaseResponseObserver<List<ActivityResp>>() {
