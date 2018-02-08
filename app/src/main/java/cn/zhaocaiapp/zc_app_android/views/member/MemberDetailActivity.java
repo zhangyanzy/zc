@@ -3,6 +3,9 @@ package cn.zhaocaiapp.zc_app_android.views.member;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -14,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.adapter.common.ActivityAdapter;
 import cn.zhaocaiapp.zc_app_android.adapter.common.MemberActivityAdapter;
@@ -36,6 +40,12 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
     RefreshLayout member_detail_refresh;
     @BindView(R.id.member_detail_recycler)
     RecyclerView member_detail_recycler;
+    @BindView(R.id.iv_top_back)
+    ImageView iv_top_back;
+    @BindView(R.id.tv_top_title)
+    TextView tv_top_title;
+
+    private static final String TAG = "商家活动";
 
     private long memberId;//商家
     private int pageNumber = 1;//分页
@@ -55,6 +65,8 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
         Bundle bd = this.getIntent().getExtras();
         memberId = bd.getLong("memberId");
         EBLog.i("tag", "接受到商家Id：" + memberId);
+
+        tv_top_title.setText(TAG);
 
         member_detail_recycler.setLayoutManager(new LinearLayoutManager(this));
 
@@ -130,5 +142,10 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
         EBLog.i("tag", "loadmore -- pageNumber：" + pageNumber);
         initData();
 
+    }
+
+    @OnClick({R.id.iv_top_back})
+    public void onClicl(View view) {
+        finish();
     }
 }

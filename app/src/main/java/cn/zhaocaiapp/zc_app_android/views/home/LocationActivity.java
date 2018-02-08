@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -76,6 +77,12 @@ public class LocationActivity extends BaseActivity {
     TextView home_location_area_text;
     @BindView(R.id.home_location_switch)
     Button home_location_switch;
+    @BindView(R.id.iv_top_back)
+    ImageView iv_top_back;
+    @BindView(R.id.tv_top_title)
+    TextView tv_top_title;
+
+    private static final String TAG = "城市列表";
 
     private Context mContext;
     private LinearLayoutManager linearLayoutManager;
@@ -112,6 +119,9 @@ public class LocationActivity extends BaseActivity {
 
 
     private void initView() {
+
+        tv_top_title.setText(TAG);
+
         mContext = this;
 
         linearLayoutManager = new LinearLayoutManager(this);
@@ -196,7 +206,8 @@ public class LocationActivity extends BaseActivity {
     };
 
     @OnClick({
-            R.id.home_location_switch
+            R.id.home_location_switch,
+            R.id.iv_top_back
     })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -206,6 +217,9 @@ public class LocationActivity extends BaseActivity {
                 SpUtils.put(Constants.SPREF.AREA_CODE, gps.getCityCode());
                 EventBus.getDefault().post(new MessageEvent<String>("home_location"));
                 LocationActivity.this.finish();
+                break;
+            case R.id.iv_top_back:
+                finish();
                 break;
         }
     }
