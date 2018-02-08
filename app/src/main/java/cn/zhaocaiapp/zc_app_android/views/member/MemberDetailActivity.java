@@ -16,6 +16,7 @@ import java.util.Map;
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.adapter.common.ActivityAdapter;
+import cn.zhaocaiapp.zc_app_android.adapter.common.MemberActivityAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
@@ -41,7 +42,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
     private MemberResp memberResp = new MemberResp(); //商家详情
     private List<ActivityResp> activityRespList = new ArrayList<>();//活动列表
 
-    private ActivityAdapter activityAdapter;
+    private MemberActivityAdapter activityAdapter;
 
 
     @Override
@@ -57,7 +58,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
 
         member_detail_recycler.setLayoutManager(new LinearLayoutManager(this));
 
-        activityAdapter = new ActivityAdapter(this, activityRespList, memberResp);
+        activityAdapter = new MemberActivityAdapter(this, activityRespList, memberResp);
         member_detail_recycler.setAdapter(activityAdapter);
 
         member_detail_refresh.setOnRefreshListener(this);
