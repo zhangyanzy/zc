@@ -202,7 +202,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
             //商家第一条空出
             if (type == 2) {
-                k = k - 1;
+                k = position - 1;
             }
             ViewHolderActivity viewHolderActivity = (ViewHolderActivity) holder;
             //商家图片
