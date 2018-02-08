@@ -65,6 +65,8 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
     TextView home_sort_money_text;
     @BindView(R.id.home_sort_area_text)
     TextView home_sort_area_text;
+    @BindView(R.id.list_null)
+    LinearLayout list_null;
 
     private int listType = 3;//最新活动 1最新活动 2线下活动 3线上活动 4历史活动
     private int pageNumber = 1;//分页
@@ -113,16 +115,16 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
         params.put("sortType", String.valueOf(sortType));
         params.put("longitude", longitude);
         params.put("latitude", latitude);
-        if ((int) SpUtils.get(Constants.SPREF.ACTIVITY_RANGE, 0) == 0) {
-            params.put("areaCode", "");
-        } else {
-            params.put("areaCode", (String) SpUtils.get(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE));
-        }
         EBLog.i("tag", params.toString());
 
         HttpUtil.get(Constants.URL.GET_ACTIVITY_LIST, params).subscribe(new BaseResponseObserver<List<ActivityResp>>() {
             @Override
             public void success(List<ActivityResp> result) {
+                if (result.size() == 0) {
+                    list_null.setVisibility(View.VISIBLE);
+                } else {
+                    list_null.setVisibility(View.GONE);
+                }
                 if (pageNumber == 1) {
                     activityRespList = result;
                     //恢复没有更多数据的原始状态

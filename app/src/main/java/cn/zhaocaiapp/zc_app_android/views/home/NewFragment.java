@@ -66,6 +66,8 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
     TextView home_sort_money_text;
     @BindView(R.id.home_sort_area_text)
     TextView home_sort_area_text;
+    @BindView(R.id.list_null)
+    LinearLayout list_null;
 
     private int listType = 1;//最新活动 1最新活动 2线下活动 3线上活动 4历史活动
     private int pageNumber = 1;//分页
@@ -124,6 +126,11 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
         HttpUtil.get(Constants.URL.GET_ACTIVITY_LIST, params).subscribe(new BaseResponseObserver<List<ActivityResp>>() {
             @Override
             public void success(List<ActivityResp> result) {
+                if (result.size() == 0) {
+                    list_null.setVisibility(View.VISIBLE);
+                } else {
+                    list_null.setVisibility(View.GONE);
+                }
                 if (pageNumber == 1) {
                     activityRespList = result;
                     //恢复没有更多数据的原始状态

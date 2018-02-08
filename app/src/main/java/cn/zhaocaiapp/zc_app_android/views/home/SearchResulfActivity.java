@@ -47,6 +47,8 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
     LinearLayout iv_top_layout;
     @BindView(R.id.iv_top_edit)
     EditText iv_top_edit;
+    @BindView(R.id.list_null)
+    LinearLayout list_null;
 
     private String name = ""; //活动名称
     private String activityForm = "";//活动类型 0线下活动 1视频活动 2问卷活动
@@ -109,6 +111,11 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
         HttpUtil.get(Constants.URL.GET_ACTIVITY_FIND, params).subscribe(new BaseResponseObserver<List<ActivityResp>>() {
             @Override
             public void success(List<ActivityResp> result) {
+                if (result.size() == 0) {
+                    list_null.setVisibility(View.VISIBLE);
+                } else {
+                    list_null.setVisibility(View.GONE);
+                }
                 if (pageNumber == 1) {
                     activityRespList = result;
                     //恢复没有更多数据的原始状态

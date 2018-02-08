@@ -7,6 +7,20 @@
 
     <include layout="@layout/layout_top_title_search" />
 
+    <LinearLayout
+        android:id="@+id/list_null"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/list_null" />
+    </LinearLayout>
+
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/search_refresh"
         android:layout_width="match_parent"

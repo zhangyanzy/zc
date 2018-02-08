@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -54,6 +55,8 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
     RecyclerView member_search_association;
     @BindView(R.id.iv_top_edit)
     EditText iv_top_edit;
+    @BindView(R.id.list_null)
+    LinearLayout list_null;
 
     private List<MemberResp> memberRespList = new ArrayList<>(); //商家数据
     private MemberAdapter memberAdapter;
@@ -109,7 +112,6 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
             public void afterTextChanged(Editable s) {
                 EBLog.i("tag", "内容改变后");
                 if (GeneralUtils.isNotNullOrZeroLenght(s.toString())) {
-                    member_search_association.setVisibility(View.VISIBLE);
                     Map<String, String> params = new HashMap<>();
                     params.put("name", s.toString());
                     params.put("pageSize", "6");
@@ -118,6 +120,11 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
                     HttpUtil.get(Constants.URL.GET_MEMBER_ASSOCIATE, params).subscribe(new BaseResponseObserver<List<MemberSearchResp>>() {
                         @Override
                         public void success(List<MemberSearchResp> result) {
+                            if (result.size() > 0) {
+                                member_search_association.setVisibility(View.VISIBLE);
+                            } else {
+
+                            }
                             searchAssociationList = result;
                             memberSearchAdapter.updata(searchAssociationList);
                             EBLog.i("tag", result.toString());
@@ -158,6 +165,11 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
         HttpUtil.get(Constants.URL.GET_MEMBER_QUERY, params).subscribe(new BaseResponseObserver<List<MemberResp>>() {
             @Override
             public void success(List<MemberResp> result) {
+                if (result.size() == 0) {
+                    list_null.setVisibility(View.VISIBLE);
+                } else {
+                    list_null.setVisibility(View.GONE);
+                }
                 memberRespList = result;
                 memberAdapter.updata(memberRespList);
                 EBLog.i("tag", result.toString());
