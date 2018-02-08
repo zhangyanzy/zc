@@ -35,18 +35,21 @@
                 android:id="@+id/activity_item_text_user0"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:src="@mipmap/user_default"
                 android:visibility="invisible" />
 
             <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
                 android:id="@+id/activity_item_text_user1"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:src="@mipmap/user_default"
                 android:visibility="invisible" />
 
             <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
                 android:id="@+id/activity_item_text_user2"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:src="@mipmap/user_default"
                 android:visibility="invisible" />
         </LinearLayout>
 
@@ -89,8 +92,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"

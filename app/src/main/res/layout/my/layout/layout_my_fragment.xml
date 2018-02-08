@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_top_title"/>
+    <include layout="@layout/layout_top_title" />
 
     <cn.zhaocaiapp.zc_app_android.widget.ZoomInScrollView
         android:layout_width="match_parent"
@@ -23,36 +23,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingStart="16dp"
+                android:paddingBottom="16dp"
                 android:paddingEnd="16dp"
-                android:paddingTop="20dp"
-                android:paddingBottom="16dp">
+                android:paddingStart="16dp"
+                android:paddingTop="20dp">
 
                 <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
                     android:id="@+id/iv_user_photo"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/user_girl"
-                    app:civ_border_width="6dp"
-                    app:civ_border_color="@color/colorLine"/>
+                    android:src="@mipmap/user_default"
+                    app:civ_border_color="@color/colorLine"
+                    app:civ_border_width="6dp" />
 
                 <TextView
                     android:id="@+id/tv_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/iv_user_photo"
                     android:layout_alignStart="@+id/iv_user_photo"
+                    android:layout_below="@id/iv_user_photo"
                     android:layout_marginTop="8dp"
                     android:ellipsize="end"
                     android:gravity="center"
+                    android:maxWidth="130dp"
+                    android:minWidth="72dp"
                     android:singleLine="true"
                     android:text="找财"
                     android:textColor="@color/colorFont6"
                     android:textSize="@dimen/font_size_15"
-                    android:textStyle="bold"
-                    android:minWidth="72dp"
-                    android:maxWidth="130dp"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_user_identify"
@@ -337,10 +337,10 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@mipmap/invite"
                     android:drawablePadding="10dp"
+                    android:gravity="center_vertical"
                     android:text="邀请好友"
                     android:textColor="@color/colorFont6"
-                    android:textSize="14sp"
-                    android:gravity="center_vertical"/>
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv_invite"
@@ -404,10 +404,10 @@
                     android:layout_centerVertical="true"
                     android:drawableLeft="@mipmap/servise"
                     android:drawablePadding="10dp"
+                    android:gravity="center_vertical"
                     android:text="联系客服"
                     android:textColor="@color/colorFont6"
-                    android:textSize="14sp"
-                    android:gravity="center_vertical"/>
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv_contact_phone"
@@ -435,10 +435,10 @@
                     android:layout_centerVertical="true"
                     android:drawableLeft="@mipmap/email"
                     android:drawablePadding="10dp"
+                    android:gravity="center_vertical"
                     android:text="企业邮箱"
                     android:textColor="@color/colorFont6"
-                    android:textSize="14sp"
-                    android:gravity="center_vertical"/>
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv_email"
@@ -474,8 +474,8 @@
                 android:id="@+id/tv_exit"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginStart="@dimen/window_padding_32"
                 android:layout_marginEnd="@dimen/window_padding_32"
+                android:layout_marginStart="@dimen/window_padding_32"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/button_shape_white_round"
                 android:gravity="center"
