@@ -153,6 +153,7 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
 
         iv_top_edit.setFocusable(false);
         iv_top_edit.setHint("搜索所有活动");
+        iv_top_edit.setText(name);
 
 
     }

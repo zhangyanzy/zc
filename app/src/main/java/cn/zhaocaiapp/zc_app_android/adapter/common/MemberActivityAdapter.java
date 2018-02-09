@@ -232,7 +232,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
             //剩余额度
             viewHolderActivity.activity_item_text_amount.setText(GeneralUtils.getBigDecimalToTwo(list.get(position - 1).getLeftAmount()));
             //已领取人数
-            viewHolderActivity.activity_item_text_number.setText(String.valueOf(list.get(position - 1).getActualUser()));
+            viewHolderActivity.activity_item_text_number.setText(String.valueOf(list.get(position - 1).getFinishCount()));
             //剩余额度进度条
             double amount = list.get(position - 1).getLeftAmount().divide(list.get(position - 1).getTotalAmount(), BigDecimal.ROUND_UP).doubleValue();
             viewHolderActivity.activity_item_text_amount_progress.setProgress((int) amount);

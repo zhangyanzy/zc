@@ -144,7 +144,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         //剩余额度
         viewHolderActivity.activity_item_text_amount.setText(GeneralUtils.getBigDecimalToTwo(list.get(position).getLeftAmount()));
         //已领取人数
-        viewHolderActivity.activity_item_text_number.setText(String.valueOf(list.get(position).getActualUser()));
+        viewHolderActivity.activity_item_text_number.setText(String.valueOf(list.get(position).getFinishCount()));
         //剩余额度进度条
         double amount = list.get(position).getLeftAmount().divide(list.get(position).getTotalAmount(), BigDecimal.ROUND_UP).doubleValue();
         viewHolderActivity.activity_item_text_amount_progress.setProgress((int) amount);
