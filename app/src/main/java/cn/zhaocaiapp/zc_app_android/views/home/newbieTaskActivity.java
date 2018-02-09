@@ -3,6 +3,7 @@ package cn.zhaocaiapp.zc_app_android.views.home;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -22,6 +23,12 @@ public class newbieTaskActivity extends BaseActivity {
     TextView newbie_task_text;
     @BindView(R.id.newbie_task_btn)
     Button newbie_task_btn;
+    @BindView(R.id.iv_top_back)
+    ImageView iv_top_back;
+    @BindView(R.id.tv_top_title)
+    TextView tv_top_title;
+
+    private static final String TAG = "新手任务";
 
     private String newbieAmount = "";
 
@@ -35,6 +42,8 @@ public class newbieTaskActivity extends BaseActivity {
         Bundle bd = this.getIntent().getExtras();
         newbieAmount = bd.getString("newbieAmount");
         newbie_task_text.setText(newbieAmount + "元");
+
+        tv_top_title.setText(TAG);
     }
 
     @OnClick({
@@ -44,6 +53,9 @@ public class newbieTaskActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.newbie_task_btn:
                 openActivity(UserInfoActivity.class);
+                break;
+            case R.id.iv_top_back:
+                finish();
                 break;
         }
     }
