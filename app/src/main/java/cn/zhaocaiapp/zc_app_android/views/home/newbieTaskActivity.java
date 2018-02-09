@@ -47,7 +47,8 @@ public class newbieTaskActivity extends BaseActivity {
     }
 
     @OnClick({
-            R.id.newbie_task_btn
+            R.id.newbie_task_btn,
+            R.id.iv_top_back
     })
     public void onClick(View view) {
         switch (view.getId()) {
