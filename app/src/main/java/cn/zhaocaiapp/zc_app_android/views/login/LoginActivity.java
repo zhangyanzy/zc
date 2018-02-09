@@ -3,7 +3,6 @@ package cn.zhaocaiapp.zc_app_android.views.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -12,10 +11,8 @@ import android.widget.TextView;
 
 import com.umeng.message.PushAgent;
 import com.umeng.message.UTrack;
-import com.umeng.message.entity.Alias;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
-import com.umeng.socialize.UMShareConfig;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.HashMap;
@@ -26,7 +23,6 @@ import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.MainActivity;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
-import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragmentActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
@@ -113,17 +109,14 @@ public class LoginActivity extends BaseFragmentActivity {
                 break;
             case R.id.login_wechat:
                 type = 1;
-                umShareAPI = ZcApplication.getUMShareAPI();
                 isPlatformExist(SHARE_MEDIA.WEIXIN);
                 break;
             case R.id.login_qq:
                 type = 2;
-                umShareAPI = ZcApplication.getUMShareAPI();
                 isPlatformExist(SHARE_MEDIA.QQ);
                 break;
             case R.id.login_sina:
                 type = 3;
-                umShareAPI = ZcApplication.getUMShareAPI();
                 isPlatformExist(SHARE_MEDIA.SINA);
                 break;
         }
