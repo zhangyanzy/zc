@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.adapter.member.MemberAdapter;
 import cn.zhaocaiapp.zc_app_android.adapter.member.MemberDecoration;
@@ -57,6 +59,8 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
     EditText iv_top_edit;
     @BindView(R.id.list_null)
     LinearLayout list_null;
+    @BindView(R.id.search_clear)
+    ImageView search_clear;
 
     private List<MemberResp> memberRespList = new ArrayList<>(); //商家数据
     private MemberAdapter memberAdapter;
@@ -112,6 +116,7 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
             public void afterTextChanged(Editable s) {
                 EBLog.i("tag", "内容改变后");
                 if (GeneralUtils.isNotNullOrZeroLenght(s.toString())) {
+                    search_clear.setVisibility(View.VISIBLE);
                     Map<String, String> params = new HashMap<>();
                     params.put("name", s.toString());
                     params.put("pageSize", "6");
@@ -137,6 +142,7 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
 
                     });
                 } else {
+                    search_clear.setVisibility(View.INVISIBLE);
                     member_search_association.setVisibility(View.INVISIBLE);
                 }
 
@@ -209,6 +215,20 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         loadData();
+    }
+
+    @OnClick({
+            R.id.search_clear
+
+    })
+    public void onClick(View view) {
+        switch (view.getId()) {
+            //清空
+            case R.id.search_clear:
+                iv_top_edit.setText("");
+                break;
+
+        }
     }
 
 }
