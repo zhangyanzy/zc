@@ -2,6 +2,7 @@ package cn.zhaocaiapp.zc_app_android.views.common;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -269,6 +270,8 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
         String imgUrl = result.getImage().getCompressPath();
+
+//        Bitmap bitmap = new Bitmap();
 
         uploadImage(new File(imgUrl));
     }
