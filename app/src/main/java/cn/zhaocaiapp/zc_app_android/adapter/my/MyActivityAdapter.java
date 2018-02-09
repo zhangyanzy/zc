@@ -90,7 +90,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         //已领取人数
         holder.item_text_number.setText(activity.getFinishCount() + "");
         //已领取人数进度条
-        int acount = activity.getActualUser() / activity.getMaxUser();
+        int acount = activity.getFinishCount() / activity.getMaxUser();
         holder.item_text_number_progress.setProgress(acount);
         //活动奖励金额
         holder.item_text_reward.setText(GeneralUtils.getBigDecimalToTwo(activity.getRewardAmount()));
