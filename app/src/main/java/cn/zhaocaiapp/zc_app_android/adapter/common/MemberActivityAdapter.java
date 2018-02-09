@@ -228,6 +228,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
                         PictureLoadUtil.loadPicture(context, list.get(position - 1).getUserList().get(2).getAvatar(), viewHolderActivity.activity_item_text_user2);
                     }
                 }
+
             }
             //剩余额度
             viewHolderActivity.activity_item_text_amount.setText(GeneralUtils.getBigDecimalToTwo(list.get(position - 1).getLeftAmount()));

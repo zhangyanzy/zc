@@ -88,7 +88,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         int amount = activity.getLeftAmount().divide(activity.getTotalAmount(), BigDecimal.ROUND_UP).intValue();
         holder.item_text_amount_progress.setProgress(amount);
         //已领取人数
-        holder.item_text_number.setText(activity.getActualUser() + "");
+        holder.item_text_number.setText(activity.getFinishCount() + "");
         //已领取人数进度条
         int acount = activity.getActualUser() / activity.getMaxUser();
         holder.item_text_number_progress.setProgress(acount);
@@ -144,9 +144,11 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
 
     private void showUserPhoto(Context context, List<FinishUserResp> userList, ViewHolder holder) {
         for (int i = 0; i < userList.size(); i++) {
-           ImageView imageView = (ImageView) holder.layout_user.getChildAt(i);
-           imageView.setVisibility(View.VISIBLE);
-           PictureLoadUtil.loadPicture(context, userList.get(i).getAvatar(), imageView);
+            ImageView imageView = (ImageView) holder.layout_user.getChildAt(i);
+            imageView.setVisibility(View.VISIBLE);
+            if (GeneralUtils.isNotNullOrZeroLenght(userList.get(i).getAvatar())) {
+                PictureLoadUtil.loadPicture(context, userList.get(i).getAvatar(), imageView);
+            }
         }
     }
 
@@ -219,65 +221,65 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         return type;
     }
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(int position, int viewId);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_logo)//商家logo
-        CircleImageView iv_logo;
+                CircleImageView iv_logo;
         @BindView(R.id.tv_name)//商家名称
-        TextView tv_name;
+                TextView tv_name;
         @BindView(R.id.tv_state)//用户活动交付状态
-        TextView tv_state;
+                TextView tv_state;
         @BindView(R.id.activity_item_img_i)//活动广告图
-        SelectableRoundedImageView activity_item_img;
+                SelectableRoundedImageView activity_item_img;
         @BindView(R.id.activity_item_img_state)//活动进行状态
-        TextView item_img_state;
+                TextView item_img_state;
         @BindView(R.id.activity_item_img_type)//活动类型
-        TextView item_img_type;
+                TextView item_img_type;
         @BindView(R.id.activity_item_img_vide)//视频活动播放按钮
-        ImageView item_img_vide;
+                ImageView item_img_vide;
         @BindView(R.id.activity_item_text_title)//活动名称
-        TextView item_text_title;
+                TextView item_text_title;
         @BindView(R.id.layout_user)//参与用户
-        LinearLayout layout_user;
+                LinearLayout layout_user;
         @BindView(R.id.activity_item_text_user0)//参与用户头像
-        CircleImageView item_text_user0;
+                CircleImageView item_text_user0;
         @BindView(R.id.activity_item_text_user1)//参与用户头像
-        CircleImageView item_text_user1;
+                CircleImageView item_text_user1;
         @BindView(R.id.activity_item_text_user2)//参与用户头像
-        CircleImageView item_text_user2;
+                CircleImageView item_text_user2;
         @BindView(R.id.activity_item_text_area_logo)//活动定位标识
-        ImageView item_text_area_logo;
+                ImageView item_text_area_logo;
         @BindView(R.id.activity_item_text_area_text)//活动地点距当前距离
-        TextView item_text_area_text;
+                TextView item_text_area_text;
         @BindView(R.id.activity_item_text_collection)//关注
-        ImageView item_text_collection;
+                ImageView item_text_collection;
         @BindView(R.id.activity_item_text_share)//分享
-        ImageView item_text_share;
+                ImageView item_text_share;
         @BindView(R.id.activity_item_text_amount)//活动剩余额度
-        TextView item_text_amount;
+                TextView item_text_amount;
         @BindView(R.id.activity_item_text_amount_progress)//剩余额度进度条
-        ProgressBar item_text_amount_progress;
+                ProgressBar item_text_amount_progress;
         @BindView(R.id.activity_item_text_number)//已领取活动人数
-        TextView item_text_number;
+                TextView item_text_number;
         @BindView(R.id.activity_item_text_number_progress)//已领取人数进度条
-        ProgressBar item_text_number_progress;
+                ProgressBar item_text_number_progress;
         @BindView(R.id.activity_item_text_reward)//活动奖励金额
-        TextView item_text_reward;
+                TextView item_text_reward;
         @BindView(R.id.count_down_time)//活动截止倒计时
-        CountdownView count_down_time;
+                CountdownView count_down_time;
         @BindView(R.id.tv_submit)//提交
-        TextView tv_submit;
+                TextView tv_submit;
         @BindView(R.id.tv_cancel)//取消
-        TextView tv_cancel;
+                TextView tv_cancel;
         @BindView(R.id.tv_reward)//领钱
-        TextView tv_reward;
+                TextView tv_reward;
 
         View itemView;
 
