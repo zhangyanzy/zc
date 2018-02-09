@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/layout_top_title" />
+        <include layout="@layout/layout_top_title_content" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,8 +68,10 @@
     <com.mcxtzhang.indexlib.IndexBar.widget.IndexBar
         android:id="@+id/indexBar"
         android:layout_width="15dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="right|center_vertical"
+        android:layout_marginBottom="100dp"
+        android:layout_marginTop="100dp"
         android:gravity="center_vertical"
         app:indexBarPressBackground="@color/colorFont9"
         app:indexBarTextSize="12sp" />
