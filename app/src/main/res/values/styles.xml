@@ -88,5 +88,9 @@
         <item name="android:singleLine">true</item>
     </style>
 
+    <!--tabs 默认选中样式-->
+    <style name="tabs_selector">
+        <item name="android:background">@drawable/tabs_selector</item>
+    </style>
 
 </resources>

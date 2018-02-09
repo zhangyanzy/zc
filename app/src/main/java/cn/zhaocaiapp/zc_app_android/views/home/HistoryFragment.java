@@ -246,7 +246,7 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
             home_sort_time_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
             home_sort_money_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
         }
-        home_sort_area_text.setTextColor(getActivity().getResources().getColor(R.color.colorHeadLine));
+        home_sort_area_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont9));
     }
 
 
