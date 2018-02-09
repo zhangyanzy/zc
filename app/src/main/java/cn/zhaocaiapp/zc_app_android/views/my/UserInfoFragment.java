@@ -342,6 +342,7 @@ public class UserInfoFragment extends BaseFragment {
                 EBLog.i(TAG, s);
                 if (!imgUrl.equals(s))
                     params.put("avatar", s);
+                PictureLoadUtil.loadPicture(getActivity(), s, iv_user_photo);
                 isCanUpdate = true;
             }
 
@@ -357,8 +358,6 @@ public class UserInfoFragment extends BaseFragment {
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
         String imgUrl = result.getImage().getCompressPath();
-        PictureLoadUtil.loadPicture(getActivity(), imgUrl, iv_user_photo);
-
         File file = new File(imgUrl);
         uploadImage(file);
     }

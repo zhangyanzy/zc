@@ -169,6 +169,16 @@
         <activity
             android:name=".views.login.ClosureActivity"
             android:screenOrientation="portrait" />
+        <!--用户协议-->
+        <activity
+            android:name=".views.common.UserAgreementActivity"
+            android:screenOrientation="portrait" />
+        <!--隐私条款-->
+        <activity
+            android:name=".views.common.PrivacyActivity"
+            android:screenOrientation="portrait" />
+
+
 
 
         <!--商家详情-->
@@ -212,8 +222,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
         <activity
             android:name="com.sina.weibo.sdk.share.WbShareTransActivity"
             android:launchMode="singleTask"
@@ -243,6 +252,10 @@
             android:name="com.amap.api.v2.apikey"
             android:value="aa4f768ae0c3930cafc268720afec5d7" />
         <service android:name="com.amap.api.location.APSService" />
+        <!--注册蒲公英-->
+        <meta-data
+            android:name="PGYER_APPID"
+            android:value="7c10df58102b007d320b5a63cda7f74f" />
 
     </application>
 

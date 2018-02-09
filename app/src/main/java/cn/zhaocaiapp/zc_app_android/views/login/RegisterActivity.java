@@ -3,6 +3,7 @@ package cn.zhaocaiapp.zc_app_android.views.login;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -28,6 +29,7 @@ import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.views.common.UserAgreementActivity;
 
 /**
  * Created by ASUS on 2017/11/6.
@@ -54,6 +56,10 @@ public class RegisterActivity extends BaseActivity {
     TextView send_identify_code;
     @BindView(R.id.edit_invite_code)
     EditText edit_invite_code;
+    @BindView(R.id.check_agreement)
+    CheckBox check_agreement;
+    @BindView(R.id.tv_agreement)
+    TextView tv_agreement;
 
     private String phone;
     private String pass;
@@ -82,7 +88,7 @@ public class RegisterActivity extends BaseActivity {
         return super.onTouchEvent(event);
     }
 
-    @OnClick({R.id.iv_top_back, R.id.tv_register, R.id.send_identify_code})
+    @OnClick({R.id.iv_top_back, R.id.tv_register, R.id.send_identify_code, R.id.tv_agreement})
     public void onClick(View view) {
         phone = edit_phone_number.getText().toString();
         switch (view.getId()) {
@@ -95,6 +101,9 @@ public class RegisterActivity extends BaseActivity {
                     requestIdentifyCode();
                 }
                 break;
+            case R.id.tv_agreement:
+                openActivity(UserAgreementActivity.class);
+                break;
             case R.id.tv_register:
                 pass = edit_pass_word.getText().toString();
                 identifyCcode = edit_identify_code.getText().toString();
@@ -102,6 +111,8 @@ public class RegisterActivity extends BaseActivity {
                 if (judgePhone(phone) && judgePass(pass)) {
                     if (GeneralUtils.isNullOrZeroLenght(identifyCcode))
                         ToastUtil.makeText(RegisterActivity.this, getString(R.string.input_identify_code));
+                    else if (!check_agreement.isChecked())
+                        ToastUtil.makeText(RegisterActivity.this, getString(R.string.check_agreement));
                     else doRegister();
                 }
                 break;

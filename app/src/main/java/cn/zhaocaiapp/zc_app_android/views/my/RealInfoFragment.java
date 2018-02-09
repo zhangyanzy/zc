@@ -90,7 +90,6 @@ public class RealInfoFragment extends BaseFragment {
     private String birthDay;
     private String idNumber;
     private String cardPath;
-    private File idFile;
     private Map<String, String> params = new HashMap<>();
     private boolean isCanUpdate;
 
@@ -101,8 +100,7 @@ public class RealInfoFragment extends BaseFragment {
     private String path;
 
     private static final String TAG = "用户实名信息";
-    private static final int REQUEST_CODE_PICK_IMAGE_FRONT = 101;
-    private static final int REQUEST_CODE_CAMERA = 102;
+    private static final int REQUEST_CODE_CAMERA = 101;
 
     @Override
     public void onStart() {
@@ -216,7 +214,8 @@ public class RealInfoFragment extends BaseFragment {
     }
 
     @Override
-    public void loadData() {}
+    public void loadData() {
+    }
 
     //接收EventBus发送的消息，并处理
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -241,7 +240,7 @@ public class RealInfoFragment extends BaseFragment {
                 break;
             case R.id.iv_scan_icture:
                 if (GeneralUtils.isNullOrZeroLenght(ZcApplication.getLicenceToken())) {
-                    ToastUtil.makeText(getActivity(), "未获取百度身份证识别LICENCE授权");
+                    ToastUtil.makeText(getActivity(), "获取百度身份证识别LICENCE授权失败");
                 } else {
                     Intent intent = new Intent(getActivity(), CameraActivity.class);
                     intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
@@ -324,11 +323,14 @@ public class RealInfoFragment extends BaseFragment {
             public void onResult(IDCardResult result) {
                 EBLog.i(TAG, result.toString());
                 if (result != null) {
-                    edit_user_name.setText(result.getName().toString());
-                    tv_user_gender.setText(result.getGender().toString());
-                    tv_birth_day.setText(GeneralUtils.splitTodate(result.getBirthday().toString()));
-                    edit_id_number.setText(result.getIdNumber().toString());
-                    iv_scan_icture.setImageURI(Uri.parse(filePath));
+                    if (GeneralUtils.isNotNull(result.getName()))
+                        edit_user_name.setText(result.getName().toString());
+                    if (GeneralUtils.isNotNull(result.getGender()))
+                        tv_user_gender.setText(result.getGender().toString());
+                    if (GeneralUtils.isNotNull(result.getBirthday()))
+                        tv_birth_day.setText(GeneralUtils.splitTodate(result.getBirthday().toString()));
+                    if (GeneralUtils.isNotNull(result.getIdNumber()))
+                        edit_id_number.setText(result.getIdNumber().toString());
 
                     uploadImage(new File(filePath));
                 }
@@ -337,6 +339,28 @@ public class RealInfoFragment extends BaseFragment {
             @Override
             public void onError(OCRError error) {
                 EBLog.e(TAG, error.getMessage());
+            }
+        });
+    }
+
+    private void uploadImage(File file) {
+        Map<String, String> map = new HashMap<>();
+        map.put("postfix", ".jpg");
+        map.put("base64Str", FileUtil.fileToStream(file));
+
+        HttpUtil.post(Constants.URL.UPLOAD_IMAGE, map).subscribe(new BaseResponseObserver<String>() {
+
+            @Override
+            public void success(String s) {
+                EBLog.i(TAG, s);
+                cardPath = s;
+                PictureLoadUtil.loadPicture(getActivity(), cardPath, iv_scan_icture);
+            }
+
+            @Override
+            public void error(Response<String> response) {
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(getActivity(), response.getDesc());
             }
         });
     }
@@ -356,27 +380,6 @@ public class RealInfoFragment extends BaseFragment {
                 }
             }
         }
-    }
-
-    private void uploadImage(File file) {
-        Map<String, String> map = new HashMap<>();
-        map.put("postfix", ".jpg");
-        map.put("base64Str", FileUtil.fileToStream(file));
-
-        HttpUtil.post(Constants.URL.UPLOAD_IMAGE, map).subscribe(new BaseResponseObserver<String>() {
-
-            @Override
-            public void success(String s) {
-                EBLog.i(TAG, s);
-                cardPath = s;
-            }
-
-            @Override
-            public void error(Response<String> response) {
-                EBLog.e(TAG, response.getCode() + "");
-                ToastUtil.makeText(getActivity(), response.getDesc());
-            }
-        });
     }
 
     @Override

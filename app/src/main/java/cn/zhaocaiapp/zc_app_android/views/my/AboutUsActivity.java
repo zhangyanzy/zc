@@ -20,6 +20,7 @@ import cn.zhaocaiapp.zc_app_android.util.AppUtil;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.views.common.PrivacyActivity;
 import cn.zhaocaiapp.zc_app_android.views.login.ClosureActivity;
 
 /**
@@ -87,7 +88,7 @@ public class AboutUsActivity extends BaseActivity {
         tv_address.setText(aboutAUsResp.getAddress());
     }
 
-    @OnClick({R.id.iv_top_back, R.id.tv_phone, R.id.tv_email})
+    @OnClick({R.id.iv_top_back, R.id.tv_phone, R.id.tv_email, R.id.tv_privacy})
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -103,6 +104,9 @@ public class AboutUsActivity extends BaseActivity {
                 Uri uri = Uri.parse("mailto: xxx@abc.com");
                 intent = new Intent(Intent.ACTION_SENDTO, uri);
                 startActivity(intent);
+                break;
+            case R.id.tv_privacy:
+                openActivity(PrivacyActivity.class);
                 break;
         }
     }

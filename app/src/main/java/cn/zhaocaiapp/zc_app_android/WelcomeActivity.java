@@ -51,19 +51,20 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //设置activity全屏显示，且状态栏隐藏
+        requestWindowFeature(Window.FEATURE_NO_TITLE);  //无title
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);  //全屏
+
         //动态申请权限
         PermissionUtil.checkPermission(this, perms, null);
 
+        //存储应用是否首次启动的信息
         SharedPreferences sp = getSharedPreferences("first_start", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         boolean isFirstStart = sp.getBoolean("is_first_start", true);
         //不是第一次启动
         if (!isFirstStart) launchHomeScreen();
         else editor.putBoolean("is_first_start", false).apply();
-
-        //设置activity全屏显示，且状态栏隐藏
-        requestWindowFeature(Window.FEATURE_NO_TITLE);  //无title
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);  //全屏
 
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);

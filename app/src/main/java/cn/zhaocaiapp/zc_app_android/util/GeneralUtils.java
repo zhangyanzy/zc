@@ -140,9 +140,22 @@ public final class GeneralUtils {
     }
 
     /**
-     * <获取当前时间 格式yyyyMMddHHmmss> <功能详细描述>
+     * <获取当前日期 格式 yyyy-MM-dd HH:mm:ss> <功能详细描述>
      *
      * @return String
+     * @see [类、类#方法、类#成员]
+     */
+    public static String getNowDateString() {
+        Calendar calendar = Calendar.getInstance(Locale.CHINA);
+        Date date = calendar.getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(date);
+    }
+
+    /**
+     * <获取当前时间 格式yyyyMMddHHmmss> <功能详细描述>
+     *
+     * @return Date
      * @see [类、类#方法、类#成员]
      */
     public static Date getRightNowDateTime() {

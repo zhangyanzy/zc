@@ -63,7 +63,7 @@ public class DialogUtil {
                 .btnTextColor(Color.parseColor("#3B70E3"))
                 .btnTextSize(18)
                 .show();
-
+        dialog.setCancelable(false);
         return dialog;
     }
 }

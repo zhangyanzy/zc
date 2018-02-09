@@ -6,12 +6,15 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.util.Base64;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 
 import cn.zhaocaiapp.zc_app_android.base.BaseAndroid;
 import cn.zhaocaiapp.zc_app_android.capabilities.glide.GlideCircleTransform;
@@ -389,6 +392,45 @@ public class PictureLoadUtil {
 
         canvas.drawText(text, paddingLeft, paddingTop, paint);
         return bitmap;
+    }
+
+    /**
+     * @param @param bitmap 要处理的资源
+     * @return String    返回类型
+     * @throws
+     * @Description: TODO(Bitmap 转换为字符串)
+     */
+    public static String bitmapToBase64(Bitmap bitmap) {
+        // 要返回的字符串
+        String reslut = null;
+
+        ByteArrayOutputStream baos = null;
+        try {
+            if (bitmap != null) {
+                baos = new ByteArrayOutputStream();
+                //压缩只对保存有效果bitmap还是原来的大小
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
+                baos.flush();
+                baos.close();
+                // 转换为字节数组
+                byte[] byteArray = baos.toByteArray();
+                // 转换为字符串
+                reslut = Base64.encodeToString(byteArray, Base64.DEFAULT);
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (baos != null) {
+                    baos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return reslut;
     }
 
 }

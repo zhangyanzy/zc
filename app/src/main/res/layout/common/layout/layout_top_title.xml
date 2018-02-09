@@ -11,7 +11,7 @@
         android:layout_height="@dimen/height_nav"
         android:layout_centerVertical="true"
         android:paddingBottom="12dp"
-        android:paddingLeft="@dimen/window_padding_15"
+        android:paddingLeft="12dp"
         android:paddingTop="12dp"
         android:src="@mipmap/point_left" />
 
@@ -35,9 +35,9 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:paddingBottom="12dp"
-        android:paddingRight="@dimen/window_padding_15"
+        android:paddingRight="12dp"
         android:paddingTop="12dp"
-        android:src="@mipmap/add" />
+        android:src="@mipmap/message" />
 
     <TextView
         android:id="@+id/tv_msg"

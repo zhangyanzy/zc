@@ -3,6 +3,8 @@ package cn.zhaocaiapp.zc_app_android.views.common;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.google.gson.Gson;
 import com.jph.takephoto.model.TResult;
 import com.umeng.socialize.UMShareAPI;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
@@ -25,7 +28,6 @@ import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import java.io.File;
-import java.security.cert.Certificate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,9 +45,9 @@ import cn.zhaocaiapp.zc_app_android.capabilities.takephoto.PhotoHelper;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.FileUtil;
-import cn.zhaocaiapp.zc_app_android.util.GsonUtil;
+import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
-import cn.zhaocaiapp.zc_app_android.util.PermissionUtil;
+import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
 import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
@@ -53,7 +55,6 @@ import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import pub.devrel.easypermissions.EasyPermissions;
 
-import static com.darsh.multipleimageselect.helpers.Constants.REQUEST_CODE;
 
 public class ActivityDetailActivity extends BasePhotoActivity implements EasyPermissions.PermissionCallbacks {
     @BindView(R.id.iv_top_back)
@@ -68,11 +69,11 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     private View rootView;
     private PhotoHelper photoHelper;
     private String zxResult; //二维码扫描解析结果
+
     private UMShareAPI shareAPI;
 
     private static final String TAG = "H5详情页";
     private static final int REQUEST_CODE = 2001;
-
 
     private String activityUrl = "/#/activity/detail?id=%s"; // 分享活動url
     private String inviteUrl = "/#/activity/detail?id=%s&code=%s"; //邀請好友協同活動
@@ -154,7 +155,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             params.put("type", "0");
 
             //邀請码
-            if (!inviteCode.equals("0")){
+            if (!inviteCode.equals("0")) {
                 params.put("code", inviteCode);
             }
 
@@ -217,10 +218,10 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     }
 
     //上傳圖片至圖片服務器
-    private void uploadImage(File file) {
+    private void uploadImage(Bitmap bitmap) {
         Map<String, String> map = new HashMap<>();
         map.put("postfix", ".jpg");
-        map.put("base64Str", FileUtil.fileToStream(file));
+        map.put("base64Str", PictureLoadUtil.bitmapToBase64(bitmap));
 
         HttpUtil.post(Constants.URL.UPLOAD_IMAGE, map).subscribe(new BaseResponseObserver<String>() {
 
@@ -253,10 +254,10 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
     //交付任務，提交二維碼解析結果及圖片地址
     private void getPicture(String imgUrl, String code) {
-        Map<String, String>map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map.put("pictureUrl", imgUrl);
         map.put("qrCode", code);
-        String s = GsonUtil.GsonString(map);
+        String s = new Gson().toJson(map);
         activity_detail_webView.evaluateJavascript("javascript:getPicture('" + s + "')", new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
@@ -265,15 +266,27 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         });
     }
 
+    //设置图片长宽压缩的比例
+    private BitmapFactory.Options getBitmapOption(int inSampleSize) {
+        System.gc();
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPurgeable = true;
+        options.inSampleSize = inSampleSize;
+        return options;
+    }
+
     //拍照成功返回
     @Override
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
         String imgUrl = result.getImage().getCompressPath();
 
-//        Bitmap bitmap = new Bitmap();
-
-        uploadImage(new File(imgUrl));
+        //将图片长宽缩小为原来的 1/2，并返回bitmap
+        Bitmap bitmap = BitmapFactory.decodeFile(imgUrl, getBitmapOption(2));
+        //给图片添加水印
+        String curTime = GeneralUtils.getNowDateString();
+        Bitmap pic = PictureLoadUtil.drawTextToRightBottom(this, bitmap, curTime, 12, Color.YELLOW, 6, 6);
+        uploadImage(pic);
     }
 
     @Override
@@ -285,7 +298,6 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     public void takeFail(TResult result, String msg) {
         super.takeFail(result, msg);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

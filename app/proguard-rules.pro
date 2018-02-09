@@ -149,3 +149,7 @@
  -keep class com.linkedin.** { *; }
  -keep class com.android.dingtalk.share.ddsharemodule.** { *; }
  -keepattributes Signature
+
+ -libraryjars libs/pgyer_sdk_x.x.jar
+ -dontwarn com.pgyersdk.**
+ -keep class com.pgyersdk.** { *; }

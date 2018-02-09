@@ -1,5 +1,7 @@
 package cn.zhaocaiapp.zc_app_android;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -7,6 +9,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
+
+import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.javabean.AppBean;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,20 +41,28 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
     private final String[] tags = {"task", "partner", "personal"};
     private int currentIndex = -1;
     private Map<Integer, Fragment> fragmentMap = new HashMap<>();
+    private boolean isGrantPermissison; //是否获取必需权限；
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main_activity);
+        //注册蒲公英Crash反馈
+        PgyCrashManager.register(getApplicationContext());
+
         ActivityUtil.addActivity(this);
         ActivityUtil.finishAllActivity(this.getClass());
 
         currentPosition = getIntent().getIntExtra("position", -1);
 
+        //注册蒲公英版本更新
+        PgyUpdateManager.setIsForced(true); //设置是否强制更新。true为强制更新；false为不强制更新（默认值）。
+        PgyUpdateManager.register(this, updateListener);
+
         initView();
         //判断定位服务
         isLocation();
-
     }
 
     private void initView() {
@@ -139,6 +154,30 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
     private void isLocation() {
         Boolean isLocation = AppUtil.isLocation(this);
         EBLog.i("tag", "定位服务是否开启，" + isLocation.toString());
-
     }
+
+    //蒲公英版本更新监听器
+    private UpdateManagerListener updateListener = new UpdateManagerListener() {
+        @Override
+        public void onNoUpdateAvailable() { //不更新
+
+        }
+
+        @Override
+        public void onUpdateAvailable(String result) { //更新
+            // 将新版本信息封装到AppBean中
+            final AppBean appBean = getAppBeanFromString(result);
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("更新")
+                    .setMessage(appBean.getReleaseNote())
+                    .setNegativeButton("确定",
+                            new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startDownloadTask(MainActivity.this, appBean.getDownloadURL());
+                                }
+                            }).show();
+        }
+    };
 }
