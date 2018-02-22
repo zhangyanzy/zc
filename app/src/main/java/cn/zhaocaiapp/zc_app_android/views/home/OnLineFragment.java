@@ -120,7 +120,7 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
         HttpUtil.get(Constants.URL.GET_ACTIVITY_LIST, params).subscribe(new BaseResponseObserver<List<ActivityResp>>() {
             @Override
             public void success(List<ActivityResp> result) {
-                if (result.size() == 0) {
+                if (result.size() == 0 && pageNumber == 1) {
                     list_null.setVisibility(View.VISIBLE);
                 } else {
                     list_null.setVisibility(View.GONE);
