@@ -148,29 +148,9 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void success(List<SearchRecommendResp> result) {
                 EBLog.i("tag", result.toString());
-                searchRecommendRespList = result;
-                final LayoutInflater mInflater = LayoutInflater.from(SearchActivity.this);
-                tagAdapter = new TagAdapter<SearchRecommendResp>(searchRecommendRespList) {
-
-                    @Override
-                    public View getView(FlowLayout parent, int position, SearchRecommendResp searchRecommendResp) {
-                        View view = mInflater.inflate(R.layout.search_item, search_recommend_list, false);
-                        ViewHolder holder = new ViewHolder(view);
-                        holder.search_item_text.setText(searchRecommendResp.getName());
-                        EBLog.i("tag", searchRecommendResp.toString());
-                        return view;
-                    }
-                };
-                search_recommend_list.setAdapter(tagAdapter);
-                search_recommend_list.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
-                    @Override
-                    public boolean onTagClick(View view, int position, FlowLayout parent) {
-                        search_edit.setText(searchRecommendRespList.get(position).getName());
-                        EBLog.i("tag", searchRecommendRespList.get(position).toString());
-                        return true;
-                    }
-                });
-                EBLog.i("tag", result.toString());
+                searchRecommendRespList.clear();
+                searchRecommendRespList.addAll(result);
+                tagAdapter.notifyDataChanged();
             }
 
             @Override
@@ -179,6 +159,11 @@ public class SearchActivity extends BaseActivity {
             }
 
         });
+
+
+    }
+
+    private void initView() {
 
         /**
          * 获取搜索历史
@@ -206,10 +191,32 @@ public class SearchActivity extends BaseActivity {
             }
         });
 
+        /**
+         * 获取热门推荐
+         */
+        final LayoutInflater mInflater = LayoutInflater.from(SearchActivity.this);
+        tagAdapter = new TagAdapter<SearchRecommendResp>(searchRecommendRespList) {
 
-    }
+            @Override
+            public View getView(FlowLayout parent, int position, SearchRecommendResp searchRecommendResp) {
+                View view = mInflater.inflate(R.layout.search_item, search_recommend_list, false);
+                ViewHolder holder = new ViewHolder(view);
+                holder.search_item_text.setText(searchRecommendResp.getName());
+                EBLog.i("tag", searchRecommendResp.toString());
+                return view;
+            }
+        };
+        search_recommend_list.setAdapter(tagAdapter);
+        search_recommend_list.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+            @Override
+            public boolean onTagClick(View view, int position, FlowLayout parent) {
+                search_edit.setText(searchRecommendRespList.get(position).getName());
+                EBLog.i("tag", searchRecommendRespList.get(position).toString());
+                return true;
+            }
+        });
 
-    private void initView() {
+
         search_edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
