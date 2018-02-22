@@ -220,6 +220,18 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 context.startActivity(intent);
             }
         });
+        //进度条 点击
+        viewHolderActivity.activity_item_text_centent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ActivityDetailActivity.class);
+                intent.putExtra("id", list.get(position).getKid());
+                intent.putExtra("title", list.get(position).getName());
+                intent.putExtra("isNeedQRCode", list.get(position).getIfCheck());
+
+                context.startActivity(intent);
+            }
+        });
         //收藏 点击
         viewHolderActivity.activity_item_text_collection.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -484,7 +496,13 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         //分享
         @BindView(R.id.activity_item_text_share)
         ImageView activity_item_text_share;
+        //进度条
+        @BindView(R.id.activity_item_text_centent)
+        LinearLayout activity_item_text_centent;
+
+
         View itemView;
+
 
         public ViewHolderActivity(View itemView) {
             super(itemView);

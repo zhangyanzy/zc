@@ -90,6 +90,7 @@
         style="@style/horizontal_F0_line" />
 
     <LinearLayout
+        android:id="@+id/activity_item_text_centent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"

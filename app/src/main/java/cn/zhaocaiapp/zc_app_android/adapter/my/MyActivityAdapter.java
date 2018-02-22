@@ -130,6 +130,13 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
                 listener.onItemClick(holder.getLayoutPosition(), v.getId());
             }
         });
+
+        holder.activity_item_text_centent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(holder.getLayoutPosition(), v.getId());
+            }
+        });
     }
 
     @Override
@@ -280,6 +287,9 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
                 TextView tv_cancel;
         @BindView(R.id.tv_reward)//领钱
                 TextView tv_reward;
+        //进度条
+        @BindView(R.id.activity_item_text_centent)
+        LinearLayout activity_item_text_centent;
 
         View itemView;
 
