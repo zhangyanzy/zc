@@ -67,6 +67,7 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
     private MemberSearchAdapter memberSearchAdapter;
     private String name = "";
     private List<MemberSearchResp> searchAssociationList = new ArrayList<>();//商家搜索联想
+    private boolean isOnChanage = false;//是否是点击联想列表
 
     @Nullable
     @Override
@@ -125,10 +126,8 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
                     HttpUtil.get(Constants.URL.GET_MEMBER_ASSOCIATE, params).subscribe(new BaseResponseObserver<List<MemberSearchResp>>() {
                         @Override
                         public void success(List<MemberSearchResp> result) {
-                            if (result.size() > 0) {
+                            if (result.size() > 0 && !isOnChanage) {
                                 member_search_association.setVisibility(View.VISIBLE);
-                            } else {
-
                             }
                             searchAssociationList = result;
                             memberSearchAdapter.updata(searchAssociationList);
@@ -145,7 +144,7 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
                     search_clear.setVisibility(View.INVISIBLE);
                     member_search_association.setVisibility(View.INVISIBLE);
                 }
-
+                isOnChanage = false;
             }
         });
         iv_top_edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -154,6 +153,8 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {//EditorInfo.IME_ACTION_SEARCH、EditorInfo.IME_ACTION_SEND等分别对应EditText的imeOptions属性
                     //TODO回车键按下时要执行的操作
                     name = String.valueOf(v.getText());
+                    isOnChanage = true;
+                    member_search_association.setVisibility(View.INVISIBLE);//关闭联系下拉菜单
                     loadData();
                 }
                 return false;
@@ -165,6 +166,7 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
     public void loadData() {
         member_recycler_view.scrollToPosition(0);//回到顶部
         member_refresh_layout.autoRefresh();//自动刷新
+
         Map<String, String> params = new HashMap<>();
         params.put("name", name);
 
@@ -202,7 +204,11 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
     private MemberSearchAdapter.OnItemCliclkListener listener2 = new MemberSearchAdapter.OnItemCliclkListener() {
         @Override
         public void onItemCliclk(int position) {
+            isOnChanage = true;
+            member_search_association.setVisibility(View.INVISIBLE);//关闭联系下拉菜单
             iv_top_edit.setText(searchAssociationList.get(position).getName());
+            name = String.valueOf(searchAssociationList.get(position).getName());
+            loadData();
             EBLog.i("tag", "您点击了第" + position + "条");
         }
     };
