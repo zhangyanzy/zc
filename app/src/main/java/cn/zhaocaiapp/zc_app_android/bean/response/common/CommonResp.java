@@ -5,11 +5,11 @@ package cn.zhaocaiapp.zc_app_android.bean.response.common;
  * @filename CommonResp.java
  * @data 2018-01-03 11:42
  */
-public class CommonResp  {
+public class CommonResp {
     /**
      * "desc": "更新成功",
-     "result": "success"
-     * */
+     * "result": "success"
+     */
     private String desc;
     private boolean result;
 

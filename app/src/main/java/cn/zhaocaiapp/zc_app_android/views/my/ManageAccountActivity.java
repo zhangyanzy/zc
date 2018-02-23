@@ -1,7 +1,12 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alipay.sdk.app.AuthTask;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -22,6 +28,7 @@ import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.AuthResult;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.AccountResp;
@@ -61,7 +68,31 @@ public class ManageAccountActivity extends BaseActivity {
     private AccountResp accountResp;
     private int type; //0 支付宝  1 微信   2 银行卡
 
+    private static String authInfo = "";
+
     private static final String TAG = "管理账户";
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @SuppressWarnings("unused")
+        public void handleMessage(Message msg) {
+            @SuppressWarnings("unchecked")
+            AuthResult authResult = new AuthResult((Map<String, String>) msg.obj, true);
+            String resultStatus = authResult.getResultStatus();
+
+            // 判断resultStatus 为“9000”且result_code为“200”则代表授权成功
+            if (TextUtils.equals(resultStatus, "9000") && TextUtils.equals(authResult.getResultCode(), "200")) {
+                // 获取alipay_open_id，调支付时作为参数extern_token 的value
+                // 传入，则支付账户为该授权账户
+                ToastUtil.makeText(ManageAccountActivity.this,
+                        "授权成功\n" + String.format("authCode:%s", authResult.getAuthCode()));
+            } else {
+                // 其他状态值则为授权失败
+                ToastUtil.makeText(ManageAccountActivity.this,
+                        "授权失败" + String.format("authCode:%s", authResult.getAuthCode()));
+            }
+        }
+    };
 
     @Override
     public int getContentViewResId() {
@@ -146,8 +177,11 @@ public class ManageAccountActivity extends BaseActivity {
                 break;
             case R.id.layout_ali:// 支付宝账户
                 type = 0;
-                if (accountResp.getAlipayIs()) removeBind();
-                else getAliAuth();
+                if (accountResp.getAlipayIs()) {
+                    removeBind();
+                } else {
+                    getAliUserInfo();
+                }
                 break;
             case R.id.layout_bank://银行卡账户
                 type = 2;
@@ -157,14 +191,49 @@ public class ManageAccountActivity extends BaseActivity {
         }
     }
 
+    private void getAliUserInfo() {
+        HttpUtil.get(Constants.URL.ALIPAY_OTHUR).subscribe(new BaseResponseObserver<String>() {
+
+            @Override
+            public void success(String s) {
+                EBLog.i(TAG, s);
+                authInfo = s;
+                getAliAuth();
+            }
+
+            @Override
+            public void error(Response<String> response) {
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(ManageAccountActivity.this, response.getDesc());
+            }
+        });
+    }
+
     //获取微信授权
     private void getWechatAuth(SHARE_MEDIA platform) {
         umShareAPI.doOauthVerify(this, platform, AppUtil.authListener);
     }
 
-    //获取阿里授权
+    //支付宝账户授权业务
     private void getAliAuth() {
+        Runnable authRunnable = new Runnable() {
 
+            @Override
+            public void run() {
+                // 构造AuthTask 对象
+                AuthTask authTask = new AuthTask(ManageAccountActivity.this);
+                // 调用授权接口，获取授权结果
+                Map<String, String> result = authTask.authV2(authInfo, true);
+
+                Message msg = new Message();
+                msg.obj = result;
+                mHandler.sendMessage(msg);
+            }
+        };
+
+        // 必须异步调用
+        Thread authThread = new Thread(authRunnable);
+        authThread.start();
     }
 
     @Override

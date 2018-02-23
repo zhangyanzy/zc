@@ -199,6 +199,10 @@ public interface Constants {
          * 领取活动奖励
          */
         String REWARD_AVTIVITY = "my/activity/money/%s";
+        /**
+         * 支付宝授权
+         * */
+        String ALIPAY_OTHUR = "userinfo/orderinfo";
 
 
         /**

@@ -67,11 +67,10 @@ public class LoginActivity extends BaseFragmentActivity {
 
     private String phone;
     private String pass;
-    private int type = 0;
+    private int type = Constants.SPREF.TYPE_PHONE; //用户登录方式
     private String uid = "";
 
     private UMShareAPI umShareAPI;
-    private SHARE_MEDIA platform;
     private String avatar;
     private int sex;
 
@@ -108,15 +107,15 @@ public class LoginActivity extends BaseFragmentActivity {
                     doLogin();
                 break;
             case R.id.login_wechat:
-                type = 1;
+                type = Constants.SPREF.TYPE_WECHAT;
                 isPlatformExist(SHARE_MEDIA.WEIXIN);
                 break;
             case R.id.login_qq:
-                type = 2;
+                type = Constants.SPREF.TYPE_QQ;
                 isPlatformExist(SHARE_MEDIA.QQ);
                 break;
             case R.id.login_sina:
-                type = 3;
+                type = Constants.SPREF.TYPE_SINA;
                 isPlatformExist(SHARE_MEDIA.SINA);
                 break;
         }
@@ -125,7 +124,7 @@ public class LoginActivity extends BaseFragmentActivity {
     //发送登录请求
     private void doLogin() {
         Map<String, String> params = new HashMap<>();
-        if (type == 0) {
+        if (type == Constants.SPREF.TYPE_PHONE) {
             params.put("account", phone);
             params.put("password", pass);
         } else {
@@ -152,7 +151,7 @@ public class LoginActivity extends BaseFragmentActivity {
                 ToastUtil.makeText(LoginActivity.this, response.getDesc());
                 EBLog.i(TAG, response.getCode() + "");
                 if (type != 0 && response.getCode() == 5000) { //此三方账号未绑定
-                    turnToCheckPhone(platform);
+                    turnToCheckPhone();
                 }
                 if ( response.getCode() == 5005) { // 此账号已被封禁
                     openActivity(ClosureActivity.class);
@@ -246,17 +245,9 @@ public class LoginActivity extends BaseFragmentActivity {
     }
 
     //跳转绑定手机页面
-    private void turnToCheckPhone(SHARE_MEDIA share_media) {
+    private void turnToCheckPhone() {
         Bundle bundle = new Bundle();
-
-        if (share_media == SHARE_MEDIA.WEIXIN) {
-            bundle.putInt(Constants.SPREF.LOGIN_MODE, Constants.SPREF.TYPE_WECHAT);
-        } else if (share_media == SHARE_MEDIA.QQ) {
-            bundle.putInt(Constants.SPREF.LOGIN_MODE, Constants.SPREF.TYPE_QQ);
-        } else if (share_media == SHARE_MEDIA.SINA) {
-            bundle.putInt(Constants.SPREF.LOGIN_MODE, Constants.SPREF.TYPE_SINA);
-        }
-
+        bundle.putInt(Constants.SPREF.LOGIN_MODE, type);
         bundle.putInt("gender", sex);
         bundle.putString("uid", uid);
         bundle.putString("avatar", avatar);

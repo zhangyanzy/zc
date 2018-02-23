@@ -125,6 +125,7 @@ public class MyFragment extends BaseFragment {
         iv_top_back.setVisibility(View.GONE);
         tv_top_title.setText("个人中心");
 
+        //初始化退出登录弹窗
         trembleBasesOsDialog = new TrembleBasesOsDialog(getActivity());
         trembleBasesOsDialog.setOnDialogClickListener(trembleListener);
 
@@ -149,6 +150,7 @@ public class MyFragment extends BaseFragment {
         });
     }
 
+    //展示个人中心首页信息
     private void showUserInfo() {
         tv_user_name.setText(userInfo.getNickname());
         tv_user_identify.setText(userInfo.getRealInfoAudit());
@@ -191,7 +193,7 @@ public class MyFragment extends BaseFragment {
         // 用户未登录，跳转到登陆界面
         if (!(boolean) SpUtils.get(Constants.SPREF.IS_LOGIN, false)) {
             openActivity(LoginActivity.class);
-            getActivity().finish();
+//            getActivity().finish();
             return;
         }
 
