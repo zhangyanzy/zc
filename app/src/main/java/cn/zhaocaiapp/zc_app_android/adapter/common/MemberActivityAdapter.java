@@ -258,7 +258,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
                 stopGps.setLongitude(list.get(position - 1).getLongitude().doubleValue());
                 //两点距离
                 float areaText = CoordinateConverter.calculateLineDistance(startGps, stopGps);
-                viewHolderActivity.activity_item_text_area_text.setText(areaText > 1000 ? String.format("%.2f", (areaText / 1000)) + "KM" : String.format("%.2f", (areaText)) + "M");
+                viewHolderActivity.activity_item_text_area_text.setText(areaText > 1000 ? String.format("%.1f", (areaText / 1000)) + "KM" : String.format("%.1f", (areaText)) + "M");
             }
             //收藏
             if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, "")) && list.get(position - 1).getFollow()) {
