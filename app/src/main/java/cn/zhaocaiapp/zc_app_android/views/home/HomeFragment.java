@@ -76,6 +76,8 @@ public class HomeFragment extends BaseFragment {
     LinearLayout home_title_user_cart;
     @BindView(R.id.home_title_area_text)
     TextView home_title_area_text;
+    @BindView(R.id.home_title_area_layout)
+    LinearLayout home_title_area_layout;
 
     private String[] tabTitles = new String[]{"最新活动", "线上活动", "线下活动", "历史活动"};
     private Map<Integer, Fragment> fragments = new HashMap<>();
@@ -347,14 +349,15 @@ public class HomeFragment extends BaseFragment {
             R.id.home_title_search,
             R.id.home_title_area,
             R.id.home_title_user_cart,
-            R.id.home_title_area_text
+            R.id.home_title_area_text,
+            R.id.home_title_area_layout
     })
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.home_title_search:
                 openActivity(SearchActivity.class);
                 break;
-            case R.id.home_title_area:
+            case R.id.home_title_area_layout:
                 openActivity(LocationActivity.class);
                 break;
             case R.id.home_title_user_cart:
