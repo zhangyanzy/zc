@@ -362,7 +362,7 @@ public class HomeFragment extends BaseFragment {
                 break;
             case R.id.home_title_user_cart:
                 //已登录
-                if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
+                if (GeneralUtils.isNotNullOrZeroLenght((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
                     ((MainActivity) getActivity()).setCheckButton(2);
                 }
                 //未登录
