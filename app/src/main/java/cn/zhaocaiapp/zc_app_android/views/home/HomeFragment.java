@@ -198,6 +198,8 @@ public class HomeFragment extends BaseFragment {
                 public void onBtnClick() {
                     EBLog.i("tag", "您点击了取消");
                     normalDialog.cancel();
+                    //获取新手任务
+                    userinfoFristpage();
                 }
             }, new OnBtnClickL() {
                 @Override
@@ -208,8 +210,13 @@ public class HomeFragment extends BaseFragment {
                     SpUtils.put(Constants.SPREF.AREA_CODE, gps.getCityCode());
                     EventBus.getDefault().post(new MessageEvent<String>("home_tab_0"));
                     normalDialog.dismiss();
+                    //获取新手任务
+                    userinfoFristpage();
                 }
             });
+        }else{
+            //获取新手任务
+            userinfoFristpage();
         }
 
 
@@ -235,7 +242,30 @@ public class HomeFragment extends BaseFragment {
                 public void error(Response<UserInfoResp> response) {
                 }
             });
+        }
 
+    }
+
+    //接收EventBus发送的消息，并处理
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(MessageEvent<String> event) {
+        if (event.getMessage() instanceof String) {
+            if (event.getMessage().equals("home_location")) {
+                home_view.setCurrentItem(0);
+                EventBus.getDefault().post(new MessageEvent<String>("home_tab_0"));
+                home_title_area_text.setText((String) SpUtils.get(Constants.SPREF.AREA_NAME, Constants.CONFIG.AREA_NAME));
+                EBLog.i("tag", "接受到了");
+            }
+        }
+
+    }
+
+    /**
+     * 新手任务判断 USERINFO_FRISTPAGE
+     */
+    private void userinfoFristpage() {
+        //判断登录
+        if (GeneralUtils.isNotNullOrZeroLenght((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
             //获取新手任务
             HttpUtil.get(String.format(Constants.URL.GET_USERINFO_FRISTPAGE)).subscribe(new BaseResponseObserver<UserResp>() {
                 @Override
@@ -275,21 +305,6 @@ public class HomeFragment extends BaseFragment {
                 }
             });
         }
-
-    }
-
-    //接收EventBus发送的消息，并处理
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(MessageEvent<String> event) {
-        if (event.getMessage() instanceof String) {
-            if (event.getMessage().equals("home_location")) {
-                home_view.setCurrentItem(0);
-                EventBus.getDefault().post(new MessageEvent<String>("home_tab_0"));
-                home_title_area_text.setText((String) SpUtils.get(Constants.SPREF.AREA_NAME, Constants.CONFIG.AREA_NAME));
-                EBLog.i("tag", "接受到了");
-            }
-        }
-
     }
 
     /**
