@@ -23,7 +23,7 @@ public class DialogUtil {
      * @param content 弹窗提示内容
      * @param btnText 按钮文字
      */
-    public static NormalDialog showDialogOneBut(Context context, @Nullable String title, String content, String btnText) {
+    public static NormalDialog showDialogOneBut(Context context, @Nullable String title, String content, @Nullable String btnText) {
         NormalDialog dialog = new NormalDialog(context);
         dialog.btnNum(1)
                 .title(title)
@@ -49,13 +49,12 @@ public class DialogUtil {
      * @param leftText  左侧按钮文字
      * @param rightText 右侧按钮文字
      */
-    public static NormalDialog showDialogTwoBut(Context context, @Nullable String title, String content, String leftText, String rightText) {
+    public static NormalDialog showDialogTwoBut(Context context, @Nullable String title, String content, @Nullable String leftText, @Nullable String rightText) {
         NormalDialog dialog = new NormalDialog(context);
         dialog.style(NormalDialog.STYLE_TWO)
                 .title(title)
                 .titleLineColor(Color.parseColor("#333333"))
                 .titleTextSize(18)
-                .isTitleShow(true)
                 .content(content)
                 .contentTextColor(Color.parseColor("#333333"))
                 .contentTextSize(16)
@@ -63,7 +62,6 @@ public class DialogUtil {
                 .btnTextColor(Color.parseColor("#3B70E3"))
                 .btnTextSize(18)
                 .show();
-        dialog.setCancelable(false);
         return dialog;
     }
 }

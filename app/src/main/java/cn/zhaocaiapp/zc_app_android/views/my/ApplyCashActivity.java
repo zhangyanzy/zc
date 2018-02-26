@@ -59,17 +59,18 @@ public class ApplyCashActivity extends BaseActivity {
     @BindView(R.id.tv_submit)
     TextView tv_submit;
     @BindView(R.id.withdraw_wechat)
-    RadioButton withdraw_wechat;
+    TextView withdraw_wechat;
     @BindView(R.id.withdraw_ali)
-    RadioButton withdraw_ali;
+    TextView withdraw_ali;
     @BindView(R.id.withdraw_bank)
-    RadioButton withdraw_bank;
+    TextView withdraw_bank;
 
     private String balance;
     private int type = -1;//提现方式    0 支付宝  1 微信   2 银行卡
     private AccountResp accountResp;
     private String amount; // 提现金额
     private UMShareAPI umShareAPI;
+    private boolean isChecked; //是否选择提现方式
 
     private static final String TAG = "申请提现";
 
@@ -105,13 +106,18 @@ public class ApplyCashActivity extends BaseActivity {
 
     private void showInfo() {
         tv_balance.setText(balance);
-
         if (accountResp.getWechatIs())
-            withdraw_wechat.setText(accountResp.getWechatNo());
+            withdraw_wechat.setText("已绑定");
+        else
+            withdraw_wechat.setText("去绑定");
         if (accountResp.getAlipayIs())
-            withdraw_ali.setText(accountResp.getAlipayNo());
+            withdraw_ali.setText("已绑定");
+        else
+            withdraw_ali.setText("去绑定");
         if (accountResp.getBankIs())
-            withdraw_bank.setText(accountResp.getBankCard());
+            withdraw_bank.setText("已绑定");
+        else
+            withdraw_bank.setText("去绑定");
     }
 
     private void doWithdraw() {
@@ -164,39 +170,40 @@ public class ApplyCashActivity extends BaseActivity {
                 }
                 break;
             case R.id.withdraw_wechat:
+                type = 1;
                 if (accountResp.getWechatIs()) {
-                    type = 1;
-                    withdraw_wechat.setChecked(true);
+                    withdraw_wechat.setBackground(getResources().getDrawable(R.mipmap.selected));
                     ToastUtil.makeText(ApplyCashActivity.this, "微信提现");
-                    withdraw_ali.setChecked(false);
-                    withdraw_bank.setChecked(false);
                 } else {
                     showDialog();
                 }
                 break;
             case R.id.withdraw_ali:
+                type = 0;
                 if (accountResp.getAlipayIs()) {
-                    type = 0;
-                    withdraw_ali.setChecked(true);
+                    withdraw_ali.setBackground(getResources().getDrawable(R.mipmap.selected));
                     ToastUtil.makeText(ApplyCashActivity.this, "支付宝提现");
-                    withdraw_wechat.setChecked(false);
-                    withdraw_bank.setChecked(false);
                 } else {
                     showDialog();
                 }
                 break;
             case R.id.withdraw_bank:
+                type = 2;
                 if (accountResp.getBankIs()) {
-                    type = 2;
-                    withdraw_bank.setChecked(true);
+                    setDrawable(withdraw_bank, type);
                     ToastUtil.makeText(ApplyCashActivity.this, "银行卡提现");
-                    withdraw_wechat.setChecked(false);
-                    withdraw_ali.setChecked(false);
+
                 } else {
                     showDialog();
                 }
                 break;
         }
+    }
+
+    private void setDrawable(TextView view, int type){
+        if (type == 0)
+            view.setCompoundDrawables(null, null, getResources().getDrawable(R.mipmap.selected), null);
+
     }
 
     private void showDialog() {

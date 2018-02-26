@@ -71,6 +71,7 @@
     <string name="withdraw_type">请选择提现方式</string>
     <string name="account_closure">此账号已被封禁</string>
     <string name="check_agreement">请点击接受用户协议</string>
+    <string name="remove_bind">确定解除该账户的绑定吗？</string>
 
 
 </resources>

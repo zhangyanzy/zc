@@ -203,6 +203,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             ShareUtil.openShare();
         }
 
+
     }
 
     @OnClick({R.id.iv_top_back, R.id.iv_top_menu})

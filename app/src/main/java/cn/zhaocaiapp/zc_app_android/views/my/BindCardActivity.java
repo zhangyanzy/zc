@@ -89,7 +89,7 @@ public class BindCardActivity extends BaseActivity {
     }
 
     private void doBindCard() {
-        HttpUtil.put(Constants.URL.BIND_CARD, bindCardReq).subscribe(new BaseResponseObserver<CommonResp>() {
+        HttpUtil.put(Constants.URL.BIND_ACCOUNT, bindCardReq).subscribe(new BaseResponseObserver<CommonResp>() {
 
             @Override
             public void success(CommonResp commonResp) {

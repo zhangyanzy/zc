@@ -279,6 +279,8 @@ public class HomeFragment extends BaseFragment {
                             NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "新手奖励", "完成新手任务即可领取奖励金", "取消", "任务详情");
                             //点击空白处,弹窗是否消失
                             normalDialog.setCanceledOnTouchOutside(false);
+                            //点击后退键，弹窗是否消失
+                            normalDialog.setCancelable(false);
                             normalDialog.setOnBtnClickL(new OnBtnClickL() {
                                 @Override
                                 public void onBtnClick() {

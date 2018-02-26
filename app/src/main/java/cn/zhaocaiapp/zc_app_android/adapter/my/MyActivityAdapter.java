@@ -171,7 +171,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         stopGps.setLongitude(activity.getLongitude().doubleValue());
         //两点距离
         float areaText = CoordinateConverter.calculateLineDistance(startGps, stopGps);
-        return (areaText > 1000 ? String.format("%.1f", (areaText / 1000)) + "KM" : String.format("%.1f", (areaText)) + "M");
+        return (areaText > 1000 ? String.format("%.1f", (areaText / 1000)) + "km" : String.format("%.1f", (areaText)) + "m");
     }
 
     //根据活动类型判断控件内容是否显示

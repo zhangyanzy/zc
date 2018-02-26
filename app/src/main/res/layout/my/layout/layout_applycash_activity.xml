@@ -89,125 +89,120 @@
         android:textColor="@color/colorFont6"
         android:textSize="@dimen/font_size_14" />
 
-    <RadioGroup
-        android:id="@+id/withdraw_group"
+    <RelativeLayout
+        android:id="@+id/layout_wechat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_withdraw_limit"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="40dp"
-        android:orientation="vertical">
+        android:layout_marginTop="40dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/logo_money"
+            android:drawablePadding="10dp"
+            android:text="微信"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_14" />
 
-            <TextView
-                android:id="@+id/tv_wechat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/logo_money"
-                android:drawablePadding="10dp"
-                android:text="微信"
-                android:textColor="@color/colorFont3"
-                android:textSize="@dimen/font_size_14" />
-
-            <RadioButton
-                android:id="@+id/withdraw_wechat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/tv_wechat"
-                android:button="@null"
-                android:checked="false"
-                android:drawablePadding="10dp"
-                android:drawableRight="@drawable/checkbox_selector_agreement"
-                android:gravity="end"
-                android:text="去绑定"
-                android:textColor="@color/colorFont6"
-                android:textSize="@dimen/font_size_14" />
-        </RelativeLayout>
-
-        <View
-            style="@style/horizontal_C9_line"
-            android:layout_marginTop="8dp" />
-
-        <RelativeLayout
+        <TextView
+            android:id="@+id/withdraw_wechat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp">
+            android:layout_toEndOf="@+id/tv_wechat"
+            android:drawablePadding="10dp"
+            android:drawableRight="@mipmap/unselected"
+            android:gravity="end"
+            android:text="去绑定"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_14" />
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/tv_ali"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/logo_money"
-                android:drawablePadding="10dp"
-                android:text="支付宝"
-                android:textColor="@color/colorFont3"
-                android:textSize="@dimen/font_size_14" />
+    <View
+        style="@style/horizontal_C9_line"
+        android:layout_marginTop="8dp" />
 
-            <RadioButton
-                android:id="@+id/withdraw_ali"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/tv_ali"
-                android:button="@null"
-                android:checked="false"
-                android:drawablePadding="10dp"
-                android:drawableRight="@drawable/checkbox_selector_agreement"
-                android:gravity="end"
-                android:text="去绑定"
-                android:textColor="@color/colorFont6"
-                android:textSize="@dimen/font_size_14" />
-        </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/layout_ali"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_wechat"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="12dp">
 
-        <View
-            style="@style/horizontal_C9_line"
-            android:layout_marginTop="8dp" />
+        <TextView
+            android:id="@+id/tv_ali"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/logo_money"
+            android:drawablePadding="10dp"
+            android:text="支付宝"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_14" />
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/withdraw_ali"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp">
+            android:layout_toEndOf="@+id/tv_ali"
+            android:drawablePadding="10dp"
+            android:drawableRight="@mipmap/unselected"
+            android:gravity="end"
+            android:text="去绑定"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_14" />
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/tv_bank"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/logo_money"
-                android:drawablePadding="10dp"
-                android:text="银行卡"
-                android:textColor="@color/colorFont3"
-                android:textSize="@dimen/font_size_14" />
+    <View
+        style="@style/horizontal_C9_line"
+        android:layout_marginTop="8dp" />
 
-            <RadioButton
-                android:id="@+id/withdraw_bank"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/tv_bank"
-                android:button="@null"
-                android:checked="false"
-                android:drawablePadding="10dp"
-                android:drawableRight="@drawable/checkbox_selector_agreement"
-                android:gravity="end"
-                android:text="去绑定"
-                android:textColor="@color/colorFont6"
-                android:textSize="@dimen/font_size_14" />
-        </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_ali"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="12dp">
 
-        <View
-            style="@style/horizontal_C9_line"
-            android:layout_marginTop="8dp" />
-    </RadioGroup>
+        <TextView
+            android:id="@+id/tv_bank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/logo_money"
+            android:drawablePadding="10dp"
+            android:text="银行卡"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_14" />
+
+        <TextView
+            android:id="@+id/withdraw_bank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv_bank"
+            android:drawablePadding="10dp"
+            android:drawableRight="@mipmap/unselected"
+            android:gravity="end"
+            android:text="去绑定"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_14" />
+    </RelativeLayout>
+
+    <View
+        style="@style/horizontal_C9_line"
+        android:layout_marginTop="8dp" />
 
     <TextView
         android:id="@+id/tv_submit"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginStart="@dimen/window_padding_32"
-        android:layout_marginEnd="@dimen/window_padding_32"
         android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/window_padding_32"
+        android:layout_marginStart="@dimen/window_padding_32"
         android:background="@drawable/button_shape_orange_round"
         android:gravity="center"
         android:text="提交"
