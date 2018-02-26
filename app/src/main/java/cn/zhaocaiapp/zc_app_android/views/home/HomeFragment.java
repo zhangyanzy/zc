@@ -191,7 +191,7 @@ public class HomeFragment extends BaseFragment {
         //显示当前用户定位城市
         home_title_area_text.setText(areaName);
         Gps gps = LocationUtil.getGps();
-        if (gps.getOpen() && !areaName.equals(gps.getCity())) {
+        if (gps.getOpen() && !areaName.equals(gps.getCity()) && (boolean) SpUtils.get(Constants.SPREF.SHOW_NEWER_ACTIVITY, true)) {
             NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "提示", "定位到您在" + gps.getCity() + "，是否切换？！", "取消", "切换");
             normalDialog.setOnBtnClickL(new OnBtnClickL() {
                 @Override
@@ -214,7 +214,7 @@ public class HomeFragment extends BaseFragment {
                     userinfoFristpage();
                 }
             });
-        }else{
+        } else {
             //获取新手任务
             userinfoFristpage();
         }
