@@ -69,7 +69,8 @@
         <!--搜索-->
         <activity
             android:name=".views.home.SearchActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
         <!--搜索结果页-->
         <activity
             android:name=".views.home.SearchResulfActivity"

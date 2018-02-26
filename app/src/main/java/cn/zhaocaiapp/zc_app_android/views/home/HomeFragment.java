@@ -76,6 +76,8 @@ public class HomeFragment extends BaseFragment {
     LinearLayout home_title_user_cart;
     @BindView(R.id.home_title_area_text)
     TextView home_title_area_text;
+    @BindView(R.id.home_title_area_layout)
+    LinearLayout home_title_area_layout;
 
     private String[] tabTitles = new String[]{"最新活动", "线上活动", "线下活动", "历史活动"};
     private Map<Integer, Fragment> fragments = new HashMap<>();
@@ -189,13 +191,15 @@ public class HomeFragment extends BaseFragment {
         //显示当前用户定位城市
         home_title_area_text.setText(areaName);
         Gps gps = LocationUtil.getGps();
-        if (gps.getOpen() && !areaName.equals(gps.getCity())) {
+        if (gps.getOpen() && !areaName.equals(gps.getCity()) && (boolean) SpUtils.get(Constants.SPREF.SHOW_NEWER_ACTIVITY, true)) {
             NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "提示", "定位到您在" + gps.getCity() + "，是否切换？！", "取消", "切换");
             normalDialog.setOnBtnClickL(new OnBtnClickL() {
                 @Override
                 public void onBtnClick() {
                     EBLog.i("tag", "您点击了取消");
                     normalDialog.cancel();
+                    //获取新手任务
+                    userinfoFristpage();
                 }
             }, new OnBtnClickL() {
                 @Override
@@ -206,8 +210,13 @@ public class HomeFragment extends BaseFragment {
                     SpUtils.put(Constants.SPREF.AREA_CODE, gps.getCityCode());
                     EventBus.getDefault().post(new MessageEvent<String>("home_tab_0"));
                     normalDialog.dismiss();
+                    //获取新手任务
+                    userinfoFristpage();
                 }
             });
+        } else {
+            //获取新手任务
+            userinfoFristpage();
         }
 
 
@@ -233,7 +242,30 @@ public class HomeFragment extends BaseFragment {
                 public void error(Response<UserInfoResp> response) {
                 }
             });
+        }
 
+    }
+
+    //接收EventBus发送的消息，并处理
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(MessageEvent<String> event) {
+        if (event.getMessage() instanceof String) {
+            if (event.getMessage().equals("home_location")) {
+                home_view.setCurrentItem(0);
+                EventBus.getDefault().post(new MessageEvent<String>("home_tab_0"));
+                home_title_area_text.setText((String) SpUtils.get(Constants.SPREF.AREA_NAME, Constants.CONFIG.AREA_NAME));
+                EBLog.i("tag", "接受到了");
+            }
+        }
+
+    }
+
+    /**
+     * 新手任务判断 USERINFO_FRISTPAGE
+     */
+    private void userinfoFristpage() {
+        //判断登录
+        if (GeneralUtils.isNotNullOrZeroLenght((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
             //获取新手任务
             HttpUtil.get(String.format(Constants.URL.GET_USERINFO_FRISTPAGE)).subscribe(new BaseResponseObserver<UserResp>() {
                 @Override
@@ -273,21 +305,6 @@ public class HomeFragment extends BaseFragment {
                 }
             });
         }
-
-    }
-
-    //接收EventBus发送的消息，并处理
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(MessageEvent<String> event) {
-        if (event.getMessage() instanceof String) {
-            if (event.getMessage().equals("home_location")) {
-                home_view.setCurrentItem(0);
-                EventBus.getDefault().post(new MessageEvent<String>("home_tab_0"));
-                home_title_area_text.setText((String) SpUtils.get(Constants.SPREF.AREA_NAME, Constants.CONFIG.AREA_NAME));
-                EBLog.i("tag", "接受到了");
-            }
-        }
-
     }
 
     /**
@@ -347,19 +364,20 @@ public class HomeFragment extends BaseFragment {
             R.id.home_title_search,
             R.id.home_title_area,
             R.id.home_title_user_cart,
-            R.id.home_title_area_text
+            R.id.home_title_area_text,
+            R.id.home_title_area_layout
     })
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.home_title_search:
                 openActivity(SearchActivity.class);
                 break;
-            case R.id.home_title_area:
+            case R.id.home_title_area_layout:
                 openActivity(LocationActivity.class);
                 break;
             case R.id.home_title_user_cart:
                 //已登录
-                if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
+                if (GeneralUtils.isNotNullOrZeroLenght((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
                     ((MainActivity) getActivity()).setCheckButton(2);
                 }
                 //未登录
