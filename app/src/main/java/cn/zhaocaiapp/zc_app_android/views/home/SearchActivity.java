@@ -580,8 +580,8 @@ public class SearchActivity extends BaseActivity {
                 break;
             case 4:
                 activityMoney = activityMoney.equals("4") ? "" : "4";
-                topLimit = "20";
-                limit = "";
+                topLimit = "";
+                limit = "20";
                 break;
             case 5:
                 activityMoney = "";
