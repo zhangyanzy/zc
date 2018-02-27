@@ -104,7 +104,6 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
     @Override
     public void loadData() {
         setSort();
-        home_recycler.scrollToPosition(0);//回到顶部
         home_refresh.autoRefresh();//自动刷新
         Map<String, String> params = new HashMap<>();
         params.put("listType", String.valueOf(listType));
@@ -174,6 +173,7 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
             if (event.getMessage().equals("home_tab_3")) {
                 initData();
                 setSort();
+                home_recycler.scrollToPosition(0);//回到顶部
                 loadData();
                 EBLog.i("tag", "接受到了");
             }
@@ -196,6 +196,7 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
                     sortRule = 2;
                 }
                 setSort();
+                home_recycler.scrollToPosition(0);//回到顶部
                 loadData();
                 break;
             case R.id.home_sort_money_layout:
@@ -206,6 +207,7 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
                     sortRule = 2;
                 }
                 setSort();
+                home_recycler.scrollToPosition(0);//回到顶部
                 loadData();
                 break;
         }
@@ -253,6 +255,7 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         pageNumber = 1;
+        home_recycler.scrollToPosition(0);//回到顶部
         loadData();
     }
 
