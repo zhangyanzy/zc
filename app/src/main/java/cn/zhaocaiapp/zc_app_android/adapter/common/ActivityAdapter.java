@@ -174,6 +174,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         //收藏
         if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, "")) && list.get(position).getFollow()) {
             viewHolderActivity.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
+        } else {
+            viewHolderActivity.activity_item_text_collection.setImageResource(R.mipmap.collection_off);
         }
         //奖励金额
         viewHolderActivity.activity_item_text_reward.setText(GeneralUtils.getBigDecimalToTwo(list.get(position).getRewardAmount()));
