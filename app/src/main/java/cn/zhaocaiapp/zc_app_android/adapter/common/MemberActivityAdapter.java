@@ -209,6 +209,9 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
                 viewHolderActivity.activity_item_img_vide.setVisibility(View.VISIBLE);
             }
             //参与人头像
+            viewHolderActivity.activity_item_text_user0.setVisibility(View.INVISIBLE);
+            viewHolderActivity.activity_item_text_user1.setVisibility(View.INVISIBLE);
+            viewHolderActivity.activity_item_text_user2.setVisibility(View.INVISIBLE);
             if (GeneralUtils.isNotNull(list.get(position - 1).getUserList()) && list.get(position - 1).getUserList().size() > 0) {
                 if (list.get(position - 1).getUserList().size() >= 1) {
                     viewHolderActivity.activity_item_text_user0.setVisibility(View.VISIBLE);
