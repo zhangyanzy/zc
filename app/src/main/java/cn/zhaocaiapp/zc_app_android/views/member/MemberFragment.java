@@ -131,6 +131,7 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
                             }
                             searchAssociationList = result;
                             memberSearchAdapter.updata(searchAssociationList);
+                            isOnChanage = false;
                             EBLog.i("tag", result.toString());
                         }
 
@@ -144,7 +145,6 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
                     search_clear.setVisibility(View.INVISIBLE);
                     member_search_association.setVisibility(View.INVISIBLE);
                 }
-                isOnChanage = false;
             }
         });
         iv_top_edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
