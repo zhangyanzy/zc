@@ -221,10 +221,10 @@ public class SearchActivity extends BaseActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {//EditorInfo.IME_ACTION_SEARCH、EditorInfo.IME_ACTION_SEND等分别对应EditText的imeOptions属性
-                    //TODO回车键按下时要执行的操作
-                    goSearch();
                     //保存搜索历史
                     saveHistory(search_edit.getText().toString());
+                    //TODO回车键按下时要执行的操作
+                    goSearch();
                 }
                 return false;
             }
@@ -457,6 +457,9 @@ public class SearchActivity extends BaseActivity {
                 break;
             //完成
             case R.id.search_btn_on:
+                //保存搜索历史
+                saveHistory(search_edit.getText().toString());
+                //TODO回车键按下时要执行的操作
                 goSearch();
                 break;
             //重置
