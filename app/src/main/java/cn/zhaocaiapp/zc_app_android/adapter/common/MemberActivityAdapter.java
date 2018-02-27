@@ -108,7 +108,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
             //判断登录
             if (GeneralUtils.isNotNullOrZeroLenght((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
                 //已关注
-                if (memberResp.getIsFollow() == 1) {
+                if (GeneralUtils.isNotNull(memberResp.getIsFollow()) && memberResp.getIsFollow() == 1) {
                     //商家关注 按钮
                     viewHolderMember.member_detail_follow_layout.setBackground(context.getResources().getDrawable(R.drawable.member_follow_on));
                     //商家关注 图片
