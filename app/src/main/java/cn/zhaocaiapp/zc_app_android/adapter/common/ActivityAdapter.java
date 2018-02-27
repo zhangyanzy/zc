@@ -121,6 +121,9 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             viewHolderActivity.activity_item_img_vide.setVisibility(View.VISIBLE);
         }
         //参与人头像
+        viewHolderActivity.activity_item_text_user0.setVisibility(View.INVISIBLE);
+        viewHolderActivity.activity_item_text_user1.setVisibility(View.INVISIBLE);
+        viewHolderActivity.activity_item_text_user2.setVisibility(View.INVISIBLE);
         if (GeneralUtils.isNotNull(list.get(position).getUserList()) && list.get(position).getUserList().size() > 0) {
             if (list.get(position).getUserList().size() >= 1) {
                 viewHolderActivity.activity_item_text_user0.setVisibility(View.VISIBLE);
@@ -141,6 +144,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 }
             }
         }
+
         //剩余额度
         viewHolderActivity.activity_item_text_amount.setText(GeneralUtils.getBigDecimalToTwo(list.get(position).getLeftAmount()));
         //已领取人数
@@ -174,6 +178,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         //收藏
         if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, "")) && list.get(position).getFollow()) {
             viewHolderActivity.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
+        } else {
+            viewHolderActivity.activity_item_text_collection.setImageResource(R.mipmap.collection_off);
         }
         //奖励金额
         viewHolderActivity.activity_item_text_reward.setText(GeneralUtils.getBigDecimalToTwo(list.get(position).getRewardAmount()));

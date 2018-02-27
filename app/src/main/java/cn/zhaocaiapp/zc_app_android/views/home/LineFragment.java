@@ -111,7 +111,6 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
     @Override
     public void loadData() {
         setSort();
-        home_recycler.scrollToPosition(0);//回到顶部
         home_refresh.autoRefresh();//自动刷新
         Map<String, String> params = new HashMap<>();
         params.put("listType", String.valueOf(listType));
@@ -186,6 +185,7 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
             if (event.getMessage().equals("home_tab_2")) {
                 initData();
                 setSort();
+                home_recycler.scrollToPosition(0);//回到顶部
                 loadData();
                 EBLog.i("tag", "接受到了");
             }
@@ -208,6 +208,7 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
                     sortRule = 2;
                 }
                 setSort();
+                home_recycler.scrollToPosition(0);//回到顶部
                 loadData();
                 break;
             case R.id.home_sort_money_layout:
@@ -218,6 +219,7 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
                     sortRule = 2;
                 }
                 setSort();
+                home_recycler.scrollToPosition(0);//回到顶部
                 loadData();
                 break;
             case R.id.home_sort_area_layout:
@@ -226,6 +228,7 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
                     sortType = 3;
                     sortRule = 1;
                     setSort();
+                    home_recycler.scrollToPosition(0);//回到顶部
                     loadData();
                 } else {
                     NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "提示", "请在系统设置中开启定位服务！", "取消", "确认");
@@ -293,6 +296,7 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         pageNumber = 1;
+        home_recycler.scrollToPosition(0);//回到顶部
         loadData();
     }
 

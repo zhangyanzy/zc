@@ -108,7 +108,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
             //判断登录
             if (GeneralUtils.isNotNullOrZeroLenght((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
                 //已关注
-                if (memberResp.getIsFollow() == 1) {
+                if (GeneralUtils.isNotNull(memberResp.getIsFollow()) && memberResp.getIsFollow() == 1) {
                     //商家关注 按钮
                     viewHolderMember.member_detail_follow_layout.setBackground(context.getResources().getDrawable(R.drawable.member_follow_on));
                     //商家关注 图片
@@ -209,6 +209,9 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
                 viewHolderActivity.activity_item_img_vide.setVisibility(View.VISIBLE);
             }
             //参与人头像
+            viewHolderActivity.activity_item_text_user0.setVisibility(View.INVISIBLE);
+            viewHolderActivity.activity_item_text_user1.setVisibility(View.INVISIBLE);
+            viewHolderActivity.activity_item_text_user2.setVisibility(View.INVISIBLE);
             if (GeneralUtils.isNotNull(list.get(position - 1).getUserList()) && list.get(position - 1).getUserList().size() > 0) {
                 if (list.get(position - 1).getUserList().size() >= 1) {
                     viewHolderActivity.activity_item_text_user0.setVisibility(View.VISIBLE);
@@ -263,6 +266,8 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
             //收藏
             if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, "")) && list.get(position - 1).getFollow()) {
                 viewHolderActivity.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
+            } else {
+                viewHolderActivity.activity_item_text_collection.setImageResource(R.mipmap.collection_off);
             }
             //奖励金额
             viewHolderActivity.activity_item_text_reward.setText(GeneralUtils.getBigDecimalToTwo(list.get(position - 1).getRewardAmount()));

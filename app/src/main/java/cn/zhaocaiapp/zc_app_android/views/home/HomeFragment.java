@@ -228,7 +228,9 @@ public class HomeFragment extends BaseFragment {
                 public void success(UserInfoResp result) {
                     userInfoResp = result;
                     //用户头像
-                    PictureLoadUtil.loadPicture(getActivity(), userInfoResp.getAvatar(), home_title_user_img);
+                    if (GeneralUtils.isNotNullOrZeroLenght(userInfoResp.getAvatar())) {
+                        PictureLoadUtil.loadPicture(getActivity(), userInfoResp.getAvatar(), home_title_user_img);
+                    }
                     //用户昵称
                     home_title_user_name.setText(userInfoResp.getNickname());
                     //用户总收入
