@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.meizu.cloud.pushsdk.notification.PushNotificationBuilder;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -50,6 +51,7 @@ public class AddLabelActivity extends BaseActivity {
 
     private TagAdapter tagAdapter;
     private List<LabelResp> labels;
+    public static final int RESULT_CODE = 2011;
 
     private static final String TAG = "添加个人标签";
 
@@ -95,7 +97,7 @@ public class AddLabelActivity extends BaseActivity {
                 holder.tv_label_name.setText(LabelResp.getName());
                 holder.tv_label_number.setVisibility(View.GONE);
                 if (LabelResp.getIsSelected() == 1)
-                    holder.layout_label.setBackground(getResources().getDrawable(R.drawable.button_shape_orange_alpha6));
+                    holder.layout_label.setBackground(getResources().getDrawable(R.drawable.button_shape_orange_alpha));
                 return view;
             }
         });
@@ -132,6 +134,7 @@ public class AddLabelActivity extends BaseActivity {
             public void success(CommonResp commonResp) {
                 EBLog.i(TAG, commonResp.getDesc());
                 ToastUtil.makeText(AddLabelActivity.this, commonResp.getDesc());
+                setResult(RESULT_CODE);
                 finish();
             }
 

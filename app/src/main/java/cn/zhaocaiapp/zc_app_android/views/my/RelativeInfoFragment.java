@@ -85,6 +85,7 @@ public class RelativeInfoFragment extends BaseFragment {
         names = new ArrayList<>();
     }
 
+    //获取职业和学历列表
     @Override
     public void loadData() {
         HttpUtil.get(Constants.URL.GET_RELATION_LIST).subscribe(new BaseResponseObserver<RelationListResp>() {
@@ -114,6 +115,7 @@ public class RelativeInfoFragment extends BaseFragment {
         }
     }
 
+    //展示用户学历和职业
     private void showInfo() {
         profession = activityInfoBean.getJob();
         education = activityInfoBean.getEducational();
@@ -123,6 +125,7 @@ public class RelativeInfoFragment extends BaseFragment {
             tv_profession.setText(profession);
     }
 
+    //提交修改活动相关信息
     private void revise() {
         HttpUtil.put(Constants.URL.REVISE_ACTIVITY_INFO, params).subscribe(new BaseResponseObserver<CommonResp>() {
 
@@ -138,7 +141,6 @@ public class RelativeInfoFragment extends BaseFragment {
                 ToastUtil.makeText(getActivity(), response.getDesc());
             }
         });
-
     }
 
     private void verify() {

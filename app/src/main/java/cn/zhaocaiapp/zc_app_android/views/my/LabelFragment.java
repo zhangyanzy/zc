@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -52,6 +53,8 @@ public class LabelFragment extends BaseFragment {
     private boolean isShowDel = false;
     private TagAdapter tagAdapter;
     private List<Integer> positions = new ArrayList<>();
+
+    private static final int ADD_LABEL_CODE = 2001;
 
     private static final String TAG = "个人标签";
 
@@ -147,7 +150,7 @@ public class LabelFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_add:
-                openActivity(AddLabelActivity.class);
+                openActivityForResult(AddLabelActivity.class, ADD_LABEL_CODE);
                 break;
             case R.id.iv_delete:
                 if (isShowDel) isShowDel = false;
@@ -186,6 +189,14 @@ public class LabelFragment extends BaseFragment {
                 ToastUtil.makeText(getActivity(), response.getDesc());
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_LABEL_CODE && resultCode == AddLabelActivity.RESULT_CODE){
+            loadData();
+        }
     }
 
     public static class ViewHolder {
