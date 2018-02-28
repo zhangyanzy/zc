@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -162,13 +163,16 @@ public class CheckPhoneActivity extends BaseActivity {
             public void error(Response<VerifyCodeResp> response) {
                 ToastUtil.makeText(CheckPhoneActivity.this, response.getDesc());
                 EBLog.i(TAG, response.getCode() + "");
-                if (response.getCode() == 5555){
+                if (response.getCode() == 5555) {
                     VerifyCodeResp verifyCodeResp = response.getData();
                     saveUserData(verifyCodeResp);
 
                     Bundle bundle = new Bundle();
                     bundle.putInt("position", 0);
                     openActivity(MainActivity.class, bundle);
+                }
+                if (response.getCode() == 1) {
+
                 }
             }
         });

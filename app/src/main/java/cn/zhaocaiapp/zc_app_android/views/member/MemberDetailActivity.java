@@ -47,7 +47,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
 
     private static final String TAG = "商家活动";
 
-    private long memberId;//商家
+    private long memberId;//商家id
     private int pageNumber = 1;//分页
     private MemberResp memberResp = new MemberResp(); //商家详情
     private List<ActivityResp> activityRespList = new ArrayList<>();//活动列表
@@ -126,7 +126,6 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
             public void error(Response<List<ActivityResp>> response) {
 
             }
-
         });
     }
 

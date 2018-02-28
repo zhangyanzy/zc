@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.bean.response.member.MemberResp;
+import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
 
 /**
  * Created by Administrator on 2018/1/11.
@@ -47,6 +48,7 @@ public class MyFollowBusinerAdapter extends RecyclerView.Adapter<MyFollowBusiner
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.tv_businer_name.setText(members.get(position).getName());
         holder.tv_activity_count.setText("共" + members.get(position).getTotal() + "个活动");
+        PictureLoadUtil.loadPicture(context, members.get(position).getLogo(), holder.iv_logo);
         if (members.get(position).getIsFollow() == 1){ // 已关注
 
         }
@@ -54,10 +56,19 @@ public class MyFollowBusinerAdapter extends RecyclerView.Adapter<MyFollowBusiner
 
         }
 
+        //点击item，跳转商家详情
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listene.onItemCliclk(holder.getLayoutPosition());
+                listene.onItemCliclk(holder.getLayoutPosition(), holder.itemView);
+            }
+        });
+
+        //点击已关注按钮，取消关注
+        holder.tv_followed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listene.onItemCliclk(holder.getLayoutPosition(), holder.tv_followed);
             }
         });
 
@@ -69,7 +80,7 @@ public class MyFollowBusinerAdapter extends RecyclerView.Adapter<MyFollowBusiner
     }
 
     public interface OnItemCliclkListener {
-        void onItemCliclk(int position);
+        void onItemCliclk(int position, View view);
     }
 
     public void setOnItemCliclkListener(OnItemCliclkListener listener) {
