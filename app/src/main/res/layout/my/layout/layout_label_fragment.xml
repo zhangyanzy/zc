@@ -55,7 +55,8 @@
             android:textColor="@color/colorWhite"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button_shape_orange_round"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:visibility="gone"/>
     </LinearLayout>
 </ScrollView>
 

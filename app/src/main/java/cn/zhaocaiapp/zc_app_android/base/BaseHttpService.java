@@ -172,7 +172,7 @@ public interface BaseHttpService {
      */
     @Headers({"Content-Type: application/json", "Accept: application/json", "x-requested-with:XMLHttpRequest"})
     @DELETE
-    Observable<JsonObject> delete(@Url String url, @Query("token") String token, @Body Map params);
+    Observable<JsonObject> delete(@Url String url, @Query("token") String token, @QueryMap Map<String, String> params);
 
 
 }

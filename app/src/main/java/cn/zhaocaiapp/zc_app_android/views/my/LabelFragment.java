@@ -52,7 +52,7 @@ public class LabelFragment extends BaseFragment {
     private List<UserLabelResp> labels;
     private boolean isShowDel = false;
     private TagAdapter tagAdapter;
-    private List<Integer> positions = new ArrayList<>();
+//    private List<Integer> positions = new ArrayList<>();
 
     private static final int ADD_LABEL_CODE = 2001;
 
@@ -113,9 +113,10 @@ public class LabelFragment extends BaseFragment {
                 @Override
                 public boolean onTagClick(View view, int position, FlowLayout parent) {
                     if (isShowDel) {
-                        positions.add(position);
-                        view.setVisibility(View.GONE);
-                        labels.remove(position);
+//                        positions.add(position);
+//                        view.setVisibility(View.GONE);
+//                        labels.remove(position);
+                        deleteLabel(view, position);
                     }
                     return false;
                 }
@@ -157,23 +158,24 @@ public class LabelFragment extends BaseFragment {
                 else isShowDel = true;
                 tagAdapter.notifyDataChanged();
                 break;
-            case R.id.tv_submit:
-                getSelectedLabel();
-                break;
+//            case R.id.tv_submit:
+//                getSelectedLabel();
+//                break;
         }
     }
 
-    private void getSelectedLabel() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < positions.size(); i++) {
-            if (i == 0)
-                sb.append(labels.get(i).getTagId());
-            else sb.append(",").append(labels.get(i).getTagId());
-        }
-        deleteLabel(sb.toString());
-    }
+//    private void getSelectedLabel() {
+//        StringBuilder sb = new StringBuilder();
+//        for (int i = 0; i < positions.size(); i++) {
+//            if (i == 0)
+//                sb.append(labels.get(i).getTagId());
+//            else sb.append(",").append(labels.get(i).getTagId());
+//        }
+//        deleteLabel(sb.toString());
+//    }
 
-    private void deleteLabel(String ids) {
+    private void deleteLabel(View view, int position) {
+        String ids = String.valueOf(labels.get(position).getTagId());
         Map<String, String> params = new HashMap<>();
         params.put("ids", ids);
         HttpUtil.delete(Constants.URL.DELETE_LABEL, params).subscribe(new BaseResponseObserver<CommonResp>() {
@@ -181,6 +183,8 @@ public class LabelFragment extends BaseFragment {
             @Override
             public void success(CommonResp commonResp) {
                 ToastUtil.makeText(getActivity(), commonResp.getDesc());
+                view.setVisibility(View.GONE);
+                labels.remove(position);
             }
 
             @Override
@@ -194,7 +198,7 @@ public class LabelFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ADD_LABEL_CODE && resultCode == AddLabelActivity.RESULT_CODE){
+        if (requestCode == ADD_LABEL_CODE && resultCode == AddLabelActivity.RESULT_CODE) {
             loadData();
         }
     }
