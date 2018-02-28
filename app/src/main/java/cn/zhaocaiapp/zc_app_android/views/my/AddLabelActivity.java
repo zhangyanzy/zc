@@ -51,6 +51,7 @@ public class AddLabelActivity extends BaseActivity {
 
     private TagAdapter tagAdapter;
     private List<LabelResp> labels;
+    List<UserLabelResp> ids = new ArrayList<>();
     public static final int RESULT_CODE = 2011;
 
     private static final String TAG = "添加个人标签";
@@ -74,7 +75,7 @@ public class AddLabelActivity extends BaseActivity {
             public void success(List<LabelResp> LabelResps) {
                 EBLog.i(TAG, LabelResps.toString());
                 labels = LabelResps;
-                initLabelTag(labels);
+                initLabelTag();
             }
 
             @Override
@@ -85,7 +86,7 @@ public class AddLabelActivity extends BaseActivity {
         });
     }
 
-    private void initLabelTag(List<LabelResp> labels) {
+    private void initLabelTag() {
         LayoutInflater mInflater = LayoutInflater.from(this);
         label_list.setAdapter(tagAdapter = new TagAdapter<LabelResp>(labels) {
 
@@ -96,8 +97,10 @@ public class AddLabelActivity extends BaseActivity {
 
                 holder.tv_label_name.setText(LabelResp.getName());
                 holder.tv_label_number.setVisibility(View.GONE);
-                if (LabelResp.getIsSelected() == 1)
+                if (LabelResp.getIsSelected() == 1) { //已添加
                     holder.layout_label.setBackground(getResources().getDrawable(R.drawable.button_shape_orange_alpha));
+                    holder.itemView.setEnabled(false);
+                }
                 return view;
             }
         });
@@ -106,12 +109,17 @@ public class AddLabelActivity extends BaseActivity {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
                 LabelResp label = labels.get(position);
-                if (label.getIsSelected() != 1) {
-                    view.findViewById(R.id.layout_label).setBackground(getResources().getDrawable(R.drawable.button_shape_orange_alpha6));
-                    label.setIsSelected(1);
-                }else {
-                    view.findViewById(R.id.layout_label).setBackground(getResources().getDrawable(R.drawable.button_shape_orange_alpha1));
-                    label.setIsSelected(0);
+                if (label.getIsSelected() == 0) { // 未添加
+                    View labelView = view.findViewById(R.id.layout_label);
+                    if (label.isChecked()){ // 已选中
+                        labelView.setBackground(getResources().getDrawable(R.drawable.button_shape_orange_alpha1));
+                        label.setChecked(false);
+                        ids.remove(label);
+                    }else { // 未选中
+                        labelView.setBackground(getResources().getDrawable(R.drawable.button_shape_orange_alpha6));
+                        label.setChecked(true);
+                        ids.add(new UserLabelResp(label.getKid()));
+                    }
                 }
                 return false;
             }
@@ -125,9 +133,9 @@ public class AddLabelActivity extends BaseActivity {
         });
     }
 
-    private void addLabel(Object[] ids) {
+    private void addLabel(List<UserLabelResp> ids) {
         Map<String, Object[]> map = new HashMap<>();
-        map.put("tagids", ids);
+        map.put("tagids", ids.toArray());
         HttpUtil.put(Constants.URL.ADD_LABEL, map).subscribe(new BaseResponseObserver<CommonResp>() {
 
             @Override
@@ -140,7 +148,7 @@ public class AddLabelActivity extends BaseActivity {
 
             @Override
             public void error(Response<CommonResp> response) {
-                EBLog.i(TAG, response.getCode()+"");
+                EBLog.i(TAG, response.getCode() + "");
                 ToastUtil.makeText(AddLabelActivity.this, response.getDesc());
             }
         });
@@ -153,20 +161,20 @@ public class AddLabelActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_submit:
-                getSelectedLabel();
+                addLabel(ids);
                 break;
         }
     }
 
-    private void getSelectedLabel(){
-        Set<Integer> posSet = label_list.getSelectedList();
-        List<UserLabelResp>ids = new ArrayList<>();
-        for (int i:posSet) {
-            UserLabelResp label = new UserLabelResp(labels.get(i).getKid());
-            ids.add(label);
-        }
-        addLabel(ids.toArray());
-    }
+//    private void getSelectedLabel() {
+//        Set<Integer> posSet = label_list.getSelectedList();
+//        List<UserLabelResp> ids = new ArrayList<>();
+//        for (int i : posSet) {
+//            UserLabelResp label = new UserLabelResp(labels.get(i).getKid());
+//            ids.add(label);
+//        }
+//        addLabel(ids.toArray());
+//    }
 
     public static class ViewHolder {
         @BindView(R.id.tv_label_name)

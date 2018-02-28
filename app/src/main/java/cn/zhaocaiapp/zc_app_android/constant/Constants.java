@@ -61,7 +61,7 @@ public interface Constants {
          */
         //开发环境
         String SERVER = "http://appapi.zhaocaiapp.local/"; // 必须以／结尾否则初始化会报错
-        //生产环境
+//        生产环境
 //        String SERVER = "https://appapi.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
 
         //测试环境

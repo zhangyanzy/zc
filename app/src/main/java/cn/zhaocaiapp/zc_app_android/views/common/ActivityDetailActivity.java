@@ -99,6 +99,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         activityId = getIntent().getLongExtra("id", -1);
         activityTitle = getIntent().getStringExtra("title");
         tv_title.setText(activityTitle);
+        iv_menu.setImageResource(R.mipmap.share);
 
         Uri uri = getIntent().getData();
         if (uri != null) {
@@ -195,15 +196,18 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         @JavascriptInterface
         public void inviteFriend(String code) {
             String webUrl = String.format(inviteUrl, activityId, code);
-            ShareUtil.init(ActivityDetailActivity.this)
-                    .setUrl(webUrl)
-                    .setSourceId(R.mipmap.logo)
-                    .setTitle(shareTitle)
-                    .setDesc(shareDesc);
-            ShareUtil.openShare();
+            shareActivity(webUrl);
         }
+    }
 
-
+    //分享活动
+    private void shareActivity(String webUrl){
+        ShareUtil.init(this)
+                .setUrl(webUrl)
+                .setSourceId(R.mipmap.logo)
+                .setTitle(shareTitle)
+                .setDesc(shareDesc);
+        ShareUtil.openShare();
     }
 
     @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
@@ -213,7 +217,8 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
                 goBack();
                 break;
             case R.id.iv_top_menu:
-
+                String webUrl = String.format(activityUrl, activityId);
+                shareActivity(webUrl);
                 break;
         }
     }

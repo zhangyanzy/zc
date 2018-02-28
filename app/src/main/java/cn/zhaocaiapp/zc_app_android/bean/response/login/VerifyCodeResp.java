@@ -4,7 +4,7 @@ package cn.zhaocaiapp.zc_app_android.bean.response.login;
  * Created by Administrator on 2018/1/16.
  */
 
-public class VerifyCodeResp {
+public class VerifyCodeResp{
     /**
      * "desc": "验证码超时无效",
      * "result": "success",
@@ -23,6 +23,15 @@ public class VerifyCodeResp {
     private String phone;
     private String token;
     private String alias;
+    private String avatar;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avater) {
+        this.avatar = avater;
+    }
 
     public String getAlias() {
         return alias;
@@ -99,6 +108,7 @@ public class VerifyCodeResp {
                 ", phone='" + phone + '\'' +
                 ", token='" + token + '\'' +
                 ", alias='" + alias + '\'' +
+                ", avatar='" + avatar + '\'' +
                 '}';
     }
 }

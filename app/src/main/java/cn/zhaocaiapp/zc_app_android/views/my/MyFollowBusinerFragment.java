@@ -112,7 +112,7 @@ public class MyFollowBusinerFragment extends BaseFragment implements OnRefreshLi
                     ((TextView)view).setTextColor(getResources().getColor(R.color.colorWhite));
                     ((TextView)view).setText("关注");
                     Drawable drawable = getResources().getDrawable(R.mipmap.add);
-                    drawable.setBounds(0, 0, 32, 32);
+                    drawable.setBounds(0, 0, 35, 35);
                     ((TextView)view).setCompoundDrawables(drawable, null, null, null);
                 } else {
                     memberResp.setIsFollow(1);

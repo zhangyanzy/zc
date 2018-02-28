@@ -23,6 +23,16 @@ public class LabelResp {
     private String name;
     private Date updateTime;
 
+    private boolean isChecked;// 是否选中
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -80,6 +90,7 @@ public class LabelResp {
                 ", isSelected=" + isSelected +
                 ", name='" + name + '\'' +
                 ", updateTime=" + updateTime +
+                ", isChecked=" + isChecked +
                 '}';
     }
 }

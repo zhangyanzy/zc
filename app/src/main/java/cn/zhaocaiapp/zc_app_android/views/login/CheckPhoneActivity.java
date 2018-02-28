@@ -7,6 +7,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.idst.nls.NlsClient;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -139,7 +141,6 @@ public class CheckPhoneActivity extends BaseActivity {
                 EBLog.i(TAG, response.getCode() + "");
             }
         });
-
     }
 
     //校验手机号是否存在
@@ -160,33 +161,35 @@ public class CheckPhoneActivity extends BaseActivity {
             }
 
             @Override
-            public void error(Response<VerifyCodeResp> response) {
+            public void error(Response response) {
+                EBLog.e(TAG, response.toString());
                 ToastUtil.makeText(CheckPhoneActivity.this, response.getDesc());
-                EBLog.i(TAG, response.getCode() + "");
+
                 if (response.getCode() == 5555) {
-                    VerifyCodeResp verifyCodeResp = response.getData();
-                    saveUserData(verifyCodeResp);
+//                    ToastUtil.makeText(CheckPhoneActivity.this, getString(R.string.account_merge));
+                    if (response.getData() != null)
+                        saveUserData((Map<String, String>) response.getData());
 
                     Bundle bundle = new Bundle();
                     bundle.putInt("position", 0);
                     openActivity(MainActivity.class, bundle);
-                }
-                if (response.getCode() == 1) {
-
                 }
             }
         });
     }
 
     //保存用户数据
-    private void saveUserData(VerifyCodeResp verifyCodeResp) {
-        SpUtils.put(Constants.SPREF.TOKEN, verifyCodeResp.getToken());
+    private void saveUserData(Map<String, String> verifyCodeResp) {
+        SpUtils.put(Constants.SPREF.TOKEN, verifyCodeResp.get("token"));
         SpUtils.put(Constants.SPREF.IS_LOGIN, true);
         SpUtils.put(Constants.SPREF.LOGIN_MODE, type);
-        SpUtils.put(Constants.SPREF.USER_ID, verifyCodeResp.getKid());
-        SpUtils.put(Constants.SPREF.NICK_NAME, verifyCodeResp.getNickname());
-        SpUtils.put(Constants.SPREF.USER_PHONE, verifyCodeResp.getPhone());
-        SpUtils.put(Constants.SPREF.ALIAS, verifyCodeResp.getAlias());
+        SpUtils.put(Constants.SPREF.NICK_NAME, verifyCodeResp.get("nickname"));
+        SpUtils.put(Constants.SPREF.USER_PHONE, verifyCodeResp.get("phone"));
+        SpUtils.put(Constants.SPREF.USER_PHOTO, verifyCodeResp.get("avatar"));
+        if (GeneralUtils.isNotNull(verifyCodeResp.get("kid")))
+            SpUtils.put(Constants.SPREF.USER_ID, verifyCodeResp.get("kid"));
+        if (GeneralUtils.isNotNullOrZeroLenght(verifyCodeResp.get("alias")))
+            SpUtils.put(Constants.SPREF.ALIAS, verifyCodeResp.get("alias"));
     }
 
 }
