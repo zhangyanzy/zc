@@ -183,8 +183,8 @@ public class LabelFragment extends BaseFragment {
             @Override
             public void success(CommonResp commonResp) {
                 ToastUtil.makeText(getActivity(), commonResp.getDesc());
-                view.setVisibility(View.GONE);
                 labels.remove(position);
+                tagAdapter.notifyDataChanged();
             }
 
             @Override

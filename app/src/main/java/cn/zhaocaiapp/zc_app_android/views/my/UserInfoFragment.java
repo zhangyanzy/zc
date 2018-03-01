@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.autonavi.rtbt.IFrameForRTBT;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.jph.takephoto.model.TResult;
 
@@ -33,6 +35,7 @@ import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.LocationResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.UserDetailResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalInputDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.capabilities.takephoto.PhotoHelper;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
@@ -99,6 +102,9 @@ public class UserInfoFragment extends BaseFragment {
     private int addressType; // 0-家庭住址  1-公司地址
     private Map<String, String> params = new HashMap<>();
 
+    private NormalInputDialog inputDialog;
+    private static final int REQUEST_CODE = 3001;
+
     private static final String TAG = "个人资料";
 
     @Override
@@ -126,6 +132,10 @@ public class UserInfoFragment extends BaseFragment {
 
         //监听点击空白处，隐藏软键盘
         rootView.setOnTouchListener(onTouchListener);
+
+        //初始化输入框弹窗
+        inputDialog = new NormalInputDialog(getActivity());
+        inputDialog.setOnDialogClickListener(inputListener);
     }
 
     //城市选择器初始化和设置
@@ -219,7 +229,7 @@ public class UserInfoFragment extends BaseFragment {
                 //弹出获取照片选择框
                 PhotoPickerUtil.init(getActivity());
                 PhotoPickerUtil.setContent("选择照片", new String[]{"拍照", "从相册选择"}, null);
-                PhotoPickerUtil.show(listener);
+                PhotoPickerUtil.show(photoListener);
                 break;
             case R.id.edit_user_address: //选择地址
                 addressType = 0;
@@ -230,7 +240,7 @@ public class UserInfoFragment extends BaseFragment {
                 optionsPickerView.show();
                 break;
             case R.id.tv_revise_phone: // 更换手机号
-                openActivity(ChangePhoneActivity.class);
+                inputDialog.show();
                 break;
             case R.id.tv_submit:
                 isCanUpdate();
@@ -306,7 +316,7 @@ public class UserInfoFragment extends BaseFragment {
         }
     }
 
-    private PhotoPickerUtil.OnItemClickListener listener = new PhotoPickerUtil.OnItemClickListener() {
+    private PhotoPickerUtil.OnItemClickListener photoListener = new PhotoPickerUtil.OnItemClickListener() {
         @Override
         public void onItemClick(int position) {
             photoHelper.onClick(position, getTakePhoto());
@@ -354,6 +364,40 @@ public class UserInfoFragment extends BaseFragment {
         });
     }
 
+    private NormalInputDialog.OnDialogClickListener inputListener = new NormalInputDialog.OnDialogClickListener() {
+        @Override
+        public void onDialogClick(int resId, @Nullable String content) {
+            if (resId == R.id.tv_submit)
+                if (GeneralUtils.isNullOrZeroLenght(content)) {
+                    ToastUtil.makeText(getActivity(), getString(R.string.input_pass_word));
+                } else {
+                    verifyPass(content);
+                }
+            else inputDialog.dismiss();
+        }
+    };
+
+    private void verifyPass(String content) {
+        Map<String, String> params = new HashMap<>();
+        params.put("phone", baseInfoBean.getPhone());
+        params.put("password", content);
+        HttpUtil.post(Constants.URL.VERIFY_PASS, params).subscribe(new BaseResponseObserver<CommonResp>() {
+
+            @Override
+            public void success(CommonResp commonResp) {
+                EBLog.i(TAG, commonResp.getDesc());
+                inputDialog.dismiss();
+                openActivityForResult(ChangePhoneActivity.class, REQUEST_CODE);
+            }
+
+            @Override
+            public void error(Response<CommonResp> response) {
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(getActivity(), response.getDesc());
+            }
+        });
+    }
+
     @Override
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
@@ -370,6 +414,15 @@ public class UserInfoFragment extends BaseFragment {
     @Override
     public void takeFail(TResult result, String msg) {
         super.takeFail(result, msg);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == ChangePhoneActivity.RESULT_CODE) {
+            String phone = data.getStringExtra("phone");
+            edit_user_phone.setText(phone);
+        }
     }
 
     @Override

@@ -46,7 +46,7 @@
         android:background="@drawable/button_shape_white_round"
         android:gravity="center"
         android:text="已关注"
-        android:textColor="@color/colorFont9"
+        android:textColor="@color/colorLine"
         android:textSize="@dimen/font_size_12"
         android:layout_marginEnd="@dimen/window_padding_15"/>
 

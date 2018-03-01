@@ -148,13 +148,15 @@ public class LoginActivity extends BaseFragmentActivity {
 
             @Override
             public void error(Response response) {
-                ToastUtil.makeText(LoginActivity.this, response.getDesc());
                 EBLog.i(TAG, response.getCode() + "");
                 if (type != 0 && response.getCode() == 5000) { //此三方账号未绑定
                     turnToCheckPhone();
                 }
-                if ( response.getCode() == 5005) { // 此账号已被封禁
+                else if ( response.getCode() == 5005) { // 此账号已被封禁
                     openActivity(ClosureActivity.class);
+                }
+                else {
+                    ToastUtil.makeText(LoginActivity.this, response.getDesc());
                 }
             }
         });

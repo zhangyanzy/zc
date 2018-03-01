@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -52,6 +53,7 @@ public class ChangePhoneActivity extends BaseActivity {
 
     private String phone;
     private String code;
+    public static final int RESULT_CODE = 3010;
 
     @Override
     public int getContentViewResId() {
@@ -73,7 +75,7 @@ public class ChangePhoneActivity extends BaseActivity {
             @Override
             public void success(CommonResp commonResp) {
                 EBLog.i(TAG, commonResp.getDesc());
-                EventBus.getDefault().post(phone);
+                setResult(RESULT_CODE, new Intent().putExtra("phone", phone));
                 finish();
             }
 
@@ -103,7 +105,6 @@ public class ChangePhoneActivity extends BaseActivity {
                 EBLog.i(TAG, response.getCode() + "");
             }
         });
-
     }
 
     @Override
@@ -121,8 +122,10 @@ public class ChangePhoneActivity extends BaseActivity {
                 break;
             case R.id.tv_get_idntify_code:
                 phone = edit_phone_number.getText().toString();
-                if(judgePhone(phone))
+                if(judgePhone(phone)){
+                    waitTimer(tv_get_idntify_code);
                     requestIdentifyCode();
+                }
                 break;
             case R.id.tv_reset_phone:
                 code = edit_identify_code.getText().toString();

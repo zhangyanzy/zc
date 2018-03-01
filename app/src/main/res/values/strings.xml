@@ -73,6 +73,8 @@
     <string name="check_agreement">请点击接受用户协议</string>
     <string name="remove_bind">确定解除该账户的绑定吗？</string>
     <string name="account_merge">您已经注册过，已将账户合并</string>
+    <string name="input">请输入</string>
+    <string name="revise_pass_success">重置密码成功</string>
 
 
 </resources>

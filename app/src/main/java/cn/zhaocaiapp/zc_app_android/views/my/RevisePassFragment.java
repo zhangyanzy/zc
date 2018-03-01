@@ -84,7 +84,7 @@ public class RevisePassFragment extends BaseFragment {
 
             @Override
             public void success(CommonResp commonResp) {
-                ToastUtil.makeText(getActivity(), commonResp.getDesc());
+                ToastUtil.makeText(getActivity(), getString(R.string.revise_pass_success));
                 openActivity(LoginActivity.class);
                 getActivity().finish();
             }
