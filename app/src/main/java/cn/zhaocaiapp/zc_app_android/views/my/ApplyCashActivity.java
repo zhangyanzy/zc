@@ -1,5 +1,8 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.media.MediaExtractor;
 import android.os.Bundle;
 import android.text.BoringLayout;
 import android.util.Log;
@@ -67,10 +70,10 @@ public class ApplyCashActivity extends BaseActivity {
 
     private String balance;
     private int type = -1;//提现方式    0 支付宝  1 微信   2 银行卡
-    private AccountResp accountResp;
+    private AccountResp account;
     private String amount; // 提现金额
     private UMShareAPI umShareAPI;
-    private boolean isChecked; //是否选择提现方式
+    private static final int REQUEST_CODE = 4001;
 
     private static final String TAG = "申请提现";
 
@@ -82,6 +85,9 @@ public class ApplyCashActivity extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         umShareAPI = ZcApplication.getUMShareAPI();
+
+        tv_top_title.setText("体现");
+
         balance = getIntent().getStringExtra("balance");
         getAccount();
     }
@@ -92,7 +98,7 @@ public class ApplyCashActivity extends BaseActivity {
             @Override
             public void success(AccountResp accountResp) {
                 EBLog.i(TAG, accountResp.toString());
-                ApplyCashActivity.this.accountResp = accountResp;
+                account = accountResp;
                 showInfo();
             }
 
@@ -106,20 +112,22 @@ public class ApplyCashActivity extends BaseActivity {
 
     private void showInfo() {
         tv_balance.setText(balance);
-        if (accountResp.getWechatIs())
+        if (account.getWechatIs())
             withdraw_wechat.setText("已绑定");
         else
-            withdraw_wechat.setText("去绑定");
-        if (accountResp.getAlipayIs())
+            withdraw_wechat.setText("未绑定");
+        if (account.getAlipayIs())
             withdraw_ali.setText("已绑定");
         else
-            withdraw_ali.setText("去绑定");
-        if (accountResp.getBankIs())
+            withdraw_ali.setText("未绑定");
+        if (account.getBankIs())
             withdraw_bank.setText("已绑定");
         else
-            withdraw_bank.setText("去绑定");
+            withdraw_bank.setText("未绑定");
+        setDrawable();
     }
 
+    //申请提现
     private void doWithdraw() {
         Map<String, String> map = new HashMap<>();
         map.put("type", type + "");
@@ -160,7 +168,7 @@ public class ApplyCashActivity extends BaseActivity {
                 break;
             case R.id.tv_submit:
                 BigDecimal money = new BigDecimal(edit_apply_cash.getText().toString());
-                if (money.compareTo(new BigDecimal(20)) == -1) {
+                if (money.compareTo(new BigDecimal(0)) == -1) {
                     ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_limit));
                 } else if (type == -1) {
                     ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_type));
@@ -171,28 +179,24 @@ public class ApplyCashActivity extends BaseActivity {
                 break;
             case R.id.withdraw_wechat:
                 type = 1;
-                if (accountResp.getWechatIs()) {
-                    withdraw_wechat.setBackground(getResources().getDrawable(R.mipmap.selected));
-                    ToastUtil.makeText(ApplyCashActivity.this, "微信提现");
+                if (account.getWechatIs()) {
+                    setDrawable();
                 } else {
                     showDialog();
                 }
                 break;
             case R.id.withdraw_ali:
                 type = 0;
-                if (accountResp.getAlipayIs()) {
-                    withdraw_ali.setBackground(getResources().getDrawable(R.mipmap.selected));
-                    ToastUtil.makeText(ApplyCashActivity.this, "支付宝提现");
+                if (account.getAlipayIs()) {
+                    setDrawable();
                 } else {
                     showDialog();
                 }
                 break;
             case R.id.withdraw_bank:
                 type = 2;
-                if (accountResp.getBankIs()) {
-                    setDrawable(withdraw_bank, type);
-                    ToastUtil.makeText(ApplyCashActivity.this, "银行卡提现");
-
+                if (account.getBankIs()) {
+                    setDrawable();
                 } else {
                     showDialog();
                 }
@@ -200,10 +204,38 @@ public class ApplyCashActivity extends BaseActivity {
         }
     }
 
-    private void setDrawable(TextView view, int type){
-        if (type == 0)
-            view.setCompoundDrawables(null, null, getResources().getDrawable(R.mipmap.selected), null);
-
+    //设置支付方式的选中状态
+    private void setDrawable() {
+        Drawable selDrawable = getResources().getDrawable(R.mipmap.selected);
+        Drawable unDrawable = getResources().getDrawable(R.mipmap.unselected);
+        selDrawable.setBounds(0, 0, 48, 48);
+        unDrawable.setBounds(0, 0, 48, 48);
+        switch (type) {
+            case 0:
+                if (account.getAlipayIs())
+                    withdraw_ali.setCompoundDrawables(null, null, selDrawable, null);
+                else
+                    withdraw_ali.setCompoundDrawables(null, null, unDrawable, null);
+                withdraw_wechat.setCompoundDrawables(null, null, unDrawable, null);
+                withdraw_bank.setCompoundDrawables(null, null, unDrawable, null);
+                break;
+            case 1:
+                if (account.getWechatIs())
+                    withdraw_wechat.setCompoundDrawables(null, null, selDrawable, null);
+                else
+                    withdraw_wechat.setCompoundDrawables(null, null, unDrawable, null);
+                withdraw_ali.setCompoundDrawables(null, null, unDrawable, null);
+                withdraw_bank.setCompoundDrawables(null, null, unDrawable, null);
+                break;
+            case 2:
+                if (account.getBankIs())
+                    withdraw_bank.setCompoundDrawables(null, null, selDrawable, null);
+                else
+                    withdraw_bank.setCompoundDrawables(null, null, unDrawable, null);
+                withdraw_wechat.setCompoundDrawables(null, null, unDrawable, null);
+                withdraw_ali.setCompoundDrawables(null, null, unDrawable, null);
+                break;
+        }
     }
 
     private void showDialog() {
@@ -219,11 +251,17 @@ public class ApplyCashActivity extends BaseActivity {
                 new OnBtnClickL() {
                     @Override
                     public void onBtnClick() {
-                        openActivity(ManageAccountActivity.class);
+                        openActivityForResult(ManageAccountActivity.class, REQUEST_CODE);
                         dialog.dismiss();
                     }
                 });
-
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            getAccount();
+        }
+    }
 }

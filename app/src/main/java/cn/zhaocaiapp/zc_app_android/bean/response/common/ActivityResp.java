@@ -31,7 +31,7 @@ public class ActivityResp {
     private List<SeriesActivityResp> seriesActivity;
 
     /**
-     * 提交用户
+     *  提交用户
      */
     private List<FinishUserResp> userList;
 
@@ -46,7 +46,7 @@ public class ActivityResp {
     private Integer online;
 
     /**
-     * 分页信息 起始条数(不包含)
+     *  分页信息 起始条数(不包含)
      */
     private Integer currentResult;
 
@@ -75,6 +75,9 @@ public class ActivityResp {
      */
     private Integer activityForm;
 
+    /**
+     * 活动类型
+     */
     private String activityFormName;
 
     /**
@@ -83,10 +86,14 @@ public class ActivityResp {
     private String name;
 
     /**
+     * 活动标签
+     */
+    private String activityLabel;
+
+    /**
      * 活动二维码
      */
     private String activityCode;
-
 
     /**
      * 是否检查二维码
@@ -243,6 +250,12 @@ public class ActivityResp {
      */
     private Integer questionType;
 
+
+    /**
+     * 问卷是否必填
+     */
+    private Integer questionRequest;
+
     /**
      * 问卷奖励金额 每人元
      */
@@ -304,6 +317,11 @@ public class ActivityResp {
      * 活动发布状态 0未发布 1已发布
      */
     private Integer releaseStatus;
+
+    /**
+     * 发布时间
+     */
+    private Date releaseTime;
     /**
      * 财务审核备注
      */
@@ -354,6 +372,20 @@ public class ActivityResp {
      */
     private String statusName;
 
+    /**
+     * 现在时间
+     */
+    private Date nowDate;
+
+    /**
+     * 是否关闭
+     */
+    private Integer closed;
+
+    /**
+     * 交付截止时间
+     */
+    private Date deadLine;
 
     public Long getKid() {
         return kid;
@@ -643,6 +675,14 @@ public class ActivityResp {
         this.questionStatus = questionStatus;
     }
 
+    public Integer getQuestionRequest() {
+        return questionRequest;
+    }
+
+    public void setQuestionRequest(Integer questionRequest) {
+        this.questionRequest = questionRequest;
+    }
+
     public String getActivityVedio() {
         return activityVedio;
     }
@@ -907,6 +947,46 @@ public class ActivityResp {
         this.statusName = statusName;
     }
 
+    public String getActivityLabel() {
+        return activityLabel;
+    }
+
+    public void setActivityLabel(String activityLabel) {
+        this.activityLabel = activityLabel;
+    }
+
+    public Date getNowDate() {
+        return nowDate;
+    }
+
+    public void setNowDate(Date nowDate) {
+        this.nowDate = nowDate;
+    }
+
+    public Date getDeadLine() {
+        return deadLine;
+    }
+
+    public void setDeadLine(Date deadLine) {
+        this.deadLine = deadLine;
+    }
+
+    public Integer getClosed() {
+        return closed;
+    }
+
+    public void setClosed(Integer closed) {
+        this.closed = closed;
+    }
+
+    public Date getReleaseTime() {
+        return releaseTime;
+    }
+
+    public void setReleaseTime(Date releaseTime) {
+        this.releaseTime = releaseTime;
+    }
+
     @Override
     public String toString() {
         return "ActivityResp{" +
@@ -925,6 +1005,7 @@ public class ActivityResp {
                 ", activityForm=" + activityForm +
                 ", activityFormName='" + activityFormName + '\'' +
                 ", name='" + name + '\'' +
+                ", activityLabel='" + activityLabel + '\'' +
                 ", activityCode='" + activityCode + '\'' +
                 ", ifCheck=" + ifCheck +
                 ", startTime=" + startTime +
@@ -957,6 +1038,7 @@ public class ActivityResp {
                 ", referImage1='" + referImage1 + '\'' +
                 ", questionId=" + questionId +
                 ", questionType=" + questionType +
+                ", questionRequest=" + questionRequest +
                 ", questionRewardAmount=" + questionRewardAmount +
                 ", questionStatus=" + questionStatus +
                 ", activityStatus=" + activityStatus +
@@ -969,6 +1051,7 @@ public class ActivityResp {
                 ", financeAuditStatus=" + financeAuditStatus +
                 ", financeAuditStatusName='" + financeAuditStatusName + '\'' +
                 ", releaseStatus=" + releaseStatus +
+                ", releaseTime=" + releaseTime +
                 ", financeAuditMemo='" + financeAuditMemo + '\'' +
                 ", createId=" + createId +
                 ", createTime=" + createTime +
@@ -979,6 +1062,9 @@ public class ActivityResp {
                 ", stickName='" + stickName + '\'' +
                 ", actName='" + actName + '\'' +
                 ", statusName='" + statusName + '\'' +
+                ", nowDate=" + nowDate +
+                ", closed=" + closed +
+                ", deadLine=" + deadLine +
                 '}';
     }
 }

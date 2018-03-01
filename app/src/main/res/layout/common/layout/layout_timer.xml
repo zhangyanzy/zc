@@ -11,7 +11,8 @@
         android:layout_centerVertical="true"
         android:text="距活动结束："
         android:textColor="@color/colorFont3"
-        android:textSize="@dimen/font_size_14" />
+        android:textSize="@dimen/font_size_14"
+        android:visibility="gone"/>
 
     <cn.iwgang.countdownview.CountdownView
         android:id="@+id/count_down_time"
@@ -28,7 +29,8 @@
         app:suffixTextColor="@color/colorFont6"
         app:suffixTextSize="@dimen/font_size_12"
         app:timeTextColor="@color/colorPrimary"
-        app:timeTextSize="@dimen/font_size_16" />
+        app:timeTextSize="@dimen/font_size_16"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="wrap_content"

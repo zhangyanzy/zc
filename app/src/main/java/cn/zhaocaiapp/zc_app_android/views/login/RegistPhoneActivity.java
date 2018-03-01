@@ -3,6 +3,7 @@ package cn.zhaocaiapp.zc_app_android.views.login;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.views.common.UserAgreementActivity;
 
 /**
  * Created by Administrator on 2018/1/16.
@@ -42,6 +44,10 @@ public class RegistPhoneActivity extends BaseActivity {
     EditText input_invite_code;
     @BindView(R.id.tv_submit)
     TextView tv_submit;
+    @BindView(R.id.check_agreement)
+    CheckBox check_agreement;
+    @BindView(R.id.tv_agreement)
+    TextView tv_agreement;
 
     private String pass;
     private String inviteCode;
@@ -67,7 +73,7 @@ public class RegistPhoneActivity extends BaseActivity {
         sex = getIntent().getIntExtra("gender", 0);
     }
 
-    @OnClick({R.id.iv_top_back, R.id.tv_submit})
+    @OnClick({R.id.iv_top_back, R.id.tv_submit, R.id.tv_agreement})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_top_back:
@@ -76,8 +82,14 @@ public class RegistPhoneActivity extends BaseActivity {
             case R.id.tv_submit:
                 pass = input_pass.getText().toString();
                 inviteCode = input_invite_code.getText().toString();
-                if (judgePass(pass))
+                if (judgePass(pass)) {
+                    if (!check_agreement.isChecked())
+                        ToastUtil.makeText(RegistPhoneActivity.this, getString(R.string.check_agreement));
                     doRegister();
+                }
+                break;
+            case R.id.tv_agreement:
+                openActivity(UserAgreementActivity.class);
                 break;
         }
     }

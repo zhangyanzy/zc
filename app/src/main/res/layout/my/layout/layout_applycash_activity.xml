@@ -102,8 +102,9 @@
             android:id="@+id/tv_wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/logo_money"
+            android:drawableLeft="@mipmap/withdraw_wechat"
             android:drawablePadding="10dp"
+            android:gravity="center_vertical"
             android:text="微信"
             android:textColor="@color/colorFont3"
             android:textSize="@dimen/font_size_14" />
@@ -116,13 +117,16 @@
             android:drawablePadding="10dp"
             android:drawableRight="@mipmap/unselected"
             android:gravity="end"
-            android:text="去绑定"
+            android:text="未绑定"
             android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_14" />
     </RelativeLayout>
 
     <View
         style="@style/horizontal_C9_line"
+        android:layout_below="@+id/layout_wechat"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_marginTop="8dp" />
 
     <RelativeLayout
@@ -132,14 +136,15 @@
         android:layout_below="@+id/layout_wechat"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="12dp">
+        android:layout_marginTop="20dp">
 
         <TextView
             android:id="@+id/tv_ali"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/logo_money"
+            android:drawableLeft="@mipmap/withdraw_ali"
             android:drawablePadding="10dp"
+            android:gravity="center_vertical"
             android:text="支付宝"
             android:textColor="@color/colorFont3"
             android:textSize="@dimen/font_size_14" />
@@ -159,22 +164,27 @@
 
     <View
         style="@style/horizontal_C9_line"
+        android:layout_below="@+id/layout_ali"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_marginTop="8dp" />
 
     <RelativeLayout
+        android:id="@+id/layout_bank"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layout_ali"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="12dp">
+        android:layout_marginTop="20dp">
 
         <TextView
             android:id="@+id/tv_bank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/logo_money"
+            android:drawableLeft="@mipmap/withdraw_bank"
             android:drawablePadding="10dp"
+            android:gravity="center_vertical"
             android:text="银行卡"
             android:textColor="@color/colorFont3"
             android:textSize="@dimen/font_size_14" />
@@ -194,6 +204,9 @@
 
     <View
         style="@style/horizontal_C9_line"
+        android:layout_below="@+id/layout_bank"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_marginTop="8dp" />
 
     <TextView

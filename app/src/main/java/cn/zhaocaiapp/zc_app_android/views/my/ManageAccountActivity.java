@@ -103,6 +103,9 @@ public class ManageAccountActivity extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         umShareAPI = ZcApplication.getUMShareAPI();
 
+        tv_top_titlel.setText("管理提现账户");
+        iv_top_menu.setVisibility(View.GONE);
+
         getAccount();
     }
 
@@ -127,11 +130,11 @@ public class ManageAccountActivity extends BaseActivity {
 
     private void showInfo() {
         if (account.getAlipayIs()) ali_name.setText("已绑定");
-        else ali_name.setText("去绑定");
+        else ali_name.setText("未绑定");
         if (account.getWechatIs()) wechat_name.setText("已绑定");
-        else wechat_name.setText("去绑定");
+        else wechat_name.setText("未绑定");
         if (account.getBankIs()) bank_name.setText("已绑定");
-        else bank_name.setText("去绑定");
+        else bank_name.setText("未绑定");
     }
 
     //绑定三方账户

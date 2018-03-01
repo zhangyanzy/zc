@@ -16,10 +16,10 @@ import android.widget.TextView;
 
 import com.amap.api.location.CoordinateConverter;
 import com.amap.api.location.DPoint;
+import com.google.zxing.client.result.VCardResultParser;
 import com.joooonho.SelectableRoundedImageView;
 
 import java.math.BigDecimal;
-import java.text.BreakIterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -34,6 +34,7 @@ import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
+import cn.iwgang.countdownview.CountdownView.OnCountdownEndListener;
 
 /**
  * Created by Administrator on 2018/2/2.
@@ -48,13 +49,13 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
 
     private Context context;
     private List<ActivityResp> items;
-    private int type;
+    private int state; //活动状态
     private OnItemClickListener listener;
 
-    public MyActivityAdapter(Context context, List<ActivityResp> items, int type) {
+    public MyActivityAdapter(Context context, List<ActivityResp> items, int state) {
         this.context = context;
         this.items = items;
-        this.type = type;
+        this.state = state;
     }
 
     @Override
@@ -101,6 +102,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
                 holder.item_text_collection.setImageResource(R.mipmap.collection_off);
         }
         isContentVisible(activity.getActivityForm(), holder);
+        setActivityButton(activity.getActivityStatus(), position, holder);
         showUserPhoto(context, activity.getUserList(), holder);
 
         holder.activity_item_img.setOnClickListener(new View.OnClickListener() {
@@ -174,9 +176,9 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         return (areaText > 1000 ? String.format("%.1f", (areaText / 1000)) + "km" : String.format("%.1f", (areaText)) + "m");
     }
 
-    //根据活动类型判断控件内容是否显示
-    private void isContentVisible(int type, ViewHolder holder) {
-        switch (type) {
+    //根据活动类型和状态判断控件内容是否显示
+    private void isContentVisible(int activityType, ViewHolder holder) {
+        switch (activityType) {
             case 0: //线下活动
                 holder.item_text_area_logo.setVisibility(View.VISIBLE);
                 holder.item_text_area_text.setVisibility(View.VISIBLE);
@@ -189,6 +191,49 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
                 break;
         }
     }
+
+    //设置活动列表中按钮是否显示
+    private void setActivityButton(int activityStatus, int position, ViewHolder holder) {
+        switch (activityStatus) { //0待交付 1待审核 2待领钱 3未通过 4已完成 5已关闭
+            case 0:
+                holder.tv_reward.setVisibility(View.GONE);
+
+                //启动倒计时
+                long countdownTime = items.get(position).getStartTime().getTime() - items.get(position).getDeadLine().getTime();
+                if (countdownTime > 0) {
+                    holder.tv_subscrib.setVisibility(View.VISIBLE);
+                    holder.count_down_time.setVisibility(View.VISIBLE);
+                    holder.count_down_time.setTag(holder.count_down_time.getId(), position);
+                    holder.count_down_time.start(countdownTime);
+                }
+                holder.count_down_time.setOnCountdownEndListener(countdownEndListener);
+                break;
+            case 1:
+                holder.tv_cancel.setVisibility(View.GONE);
+                holder.tv_submit.setVisibility(View.GONE);
+                break;
+            case 2:
+                holder.tv_cancel.setVisibility(View.GONE);
+                holder.tv_submit.setVisibility(View.GONE);
+                holder.tv_reward.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                holder.tv_cancel.setVisibility(View.GONE);
+                break;
+            default:
+                holder.tv_cancel.setVisibility(View.GONE);
+                holder.tv_submit.setVisibility(View.GONE);
+        }
+    }
+
+    private OnCountdownEndListener countdownEndListener = new OnCountdownEndListener() {
+        @Override
+        public void onEnd(CountdownView cv) {
+            if (null != cv.getTag(R.id.count_down_time)){
+
+            }
+        }
+    };
 
     //返回活动进行状态
     private String getOnlineState(int i) {
@@ -279,6 +324,8 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
                 ProgressBar item_text_number_progress;
         @BindView(R.id.activity_item_text_reward)//活动奖励金额
                 TextView item_text_reward;
+        @BindView(R.id.tv_subscrib)
+        TextView tv_subscrib;
         @BindView(R.id.count_down_time)//活动截止倒计时
                 CountdownView count_down_time;
         @BindView(R.id.tv_submit)//提交

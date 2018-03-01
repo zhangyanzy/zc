@@ -107,7 +107,7 @@ public class ZcApplication extends MultiDexApplication {
         getAreasList();
 
         //初始化OCR单例
-        initAccessToken(this);
+        initAccessToken(getApplicationContext());
 
         //首次进入，设置新手任务弹窗显示
         SpUtils.put(Constants.SPREF.SHOW_NEWER_ACTIVITY, true);

@@ -103,6 +103,7 @@ public class LoginActivity extends BaseFragmentActivity {
                 openActivity(ForgetPassActivity.class);
                 break;
             case R.id.tv_login:
+                type = Constants.SPREF.TYPE_PHONE;
                 if (judgePhone(phone) && judgePass(pass))
                     doLogin();
                 break;

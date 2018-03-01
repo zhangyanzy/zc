@@ -100,7 +100,7 @@ public class UserInfoFragment extends BaseFragment {
     private boolean isCanUpdate;
 
     private int addressType; // 0-家庭住址  1-公司地址
-    private Map<String, String> params = new HashMap<>();
+    private Map<String, Object> params = new HashMap<>();
 
     private NormalInputDialog inputDialog;
     private static final int REQUEST_CODE = 3001;
@@ -271,19 +271,19 @@ public class UserInfoFragment extends BaseFragment {
             return;
         } else if (!homeAddressDetail.equals(hDetail)) {
             if (!homeAddress.equals(hAddress)) {
-                params.put("homeProvinceCode", province.getAreaCode() + "");
+                params.put("homeProvinceCode", province.getAreaCode());
                 params.put("homeProvinceName", province.getAreaName());
-                params.put("homeCityCode", city.getAreaCode() + "");
+                params.put("homeCityCode", city.getAreaCode());
                 params.put("homeCityName", city.getAreaName());
-                params.put("homeAreaCode", town.getAreaCode() + "");
+                params.put("homeAreaCode", town.getAreaCode());
                 params.put("homeAreaName", town.getAreaName());
                 params.put("homeAddressDetail", homeAddressDetail);
             } else {
-                params.put("homeProvinceCode", baseInfoBean.getHomeProvinceCode() + "");
+                params.put("homeProvinceCode", baseInfoBean.getHomeProvinceCode());
                 params.put("homeProvinceName", baseInfoBean.getHomeProvinceName());
-                params.put("homeCityCode", baseInfoBean.getHomeCityCode() + "");
+                params.put("homeCityCode", baseInfoBean.getHomeCityCode());
                 params.put("homeCityName", baseInfoBean.getHomeCityName());
-                params.put("homeAreaCode", baseInfoBean.getHomeAreaCode() + "");
+                params.put("homeAreaCode", baseInfoBean.getHomeAreaCode());
                 params.put("homeAreaName", baseInfoBean.getHomeAreaName());
                 params.put("homeAddressDetail", homeAddressDetail);
             }
@@ -295,20 +295,20 @@ public class UserInfoFragment extends BaseFragment {
             return;
         } else if (!companyAddressDetail.equals(cDetail)) {
             if (!companyAddress.equals(cAddress)) {
-                params.put("companyProvinceCode", province.getAreaCode() + "");
+                params.put("companyProvinceCode", province.getAreaCode());
                 params.put("companyProvinceName", province.getAreaName());
-                params.put("companyCityCode", city.getAreaCode() + "");
+                params.put("companyCityCode", city.getAreaCode());
                 params.put("companyCityName", city.getAreaName());
-                params.put("companyAreaCode", town.getAreaCode() + "");
+                params.put("companyAreaCode", town.getAreaCode());
                 params.put("companyAreaName", town.getAreaName());
                 params.put("companyAddressDetail", companyAddressDetail);
 
             } else {
-                params.put("companyProvinceCode", baseInfoBean.getCompanyProvinceCode() + "");
+                params.put("companyProvinceCode", baseInfoBean.getCompanyProvinceCode());
                 params.put("companyProvinceName", baseInfoBean.getCompanyProvinceName());
-                params.put("companyCityCode", baseInfoBean.getCompanyCityCode() + "");
+                params.put("companyCityCode", baseInfoBean.getCompanyCityCode());
                 params.put("companyCityName", baseInfoBean.getCompanyCityName());
-                params.put("companyAreaCode", baseInfoBean.getCompanyAreaCode() + "");
+                params.put("companyAreaCode", baseInfoBean.getCompanyAreaCode());
                 params.put("companyAreaName", baseInfoBean.getCompanyAreaName());
                 params.put("companyAddressDetail", companyAddressDetail);
             }
@@ -377,6 +377,7 @@ public class UserInfoFragment extends BaseFragment {
         }
     };
 
+    //校验密码
     private void verifyPass(String content) {
         Map<String, String> params = new HashMap<>();
         params.put("phone", baseInfoBean.getPhone());

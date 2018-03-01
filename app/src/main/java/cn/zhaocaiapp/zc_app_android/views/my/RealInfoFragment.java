@@ -67,8 +67,8 @@ public class RealInfoFragment extends BaseFragment {
     TextView tv_birth_day;
     @BindView(R.id.tv_submit)
     TextView tv_submit;
-    @BindView(R.id.iv_scan_icture)
-    ImageView iv_scan_icture;
+    @BindView(R.id.iv_scan_picture)
+    ImageView iv_scan_picture;
     @BindView(R.id.edit_user_name)
     EditText edit_user_name;
     @BindView(R.id.edit_id_number)
@@ -158,7 +158,7 @@ public class RealInfoFragment extends BaseFragment {
             edit_id_number.setText(number);
         tv_user_gender.setText(gender);
         if (GeneralUtils.isNotNullOrZeroLenght(path))
-            PictureLoadUtil.loadPicture(getActivity(), path, iv_scan_icture);
+            PictureLoadUtil.loadPicture(getActivity(), path, iv_scan_picture);
     }
 
     //性别选择器初始化设置
@@ -227,7 +227,7 @@ public class RealInfoFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.tv_user_gender, R.id.tv_birth_day, R.id.iv_scan_icture, R.id.tv_submit})
+    @OnClick({R.id.tv_user_gender, R.id.tv_birth_day, R.id.iv_scan_picture, R.id.tv_submit})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_user_gender:
@@ -238,7 +238,7 @@ public class RealInfoFragment extends BaseFragment {
                 manageKeyBord(tv_submit, getActivity());
                 timePickerView.show();
                 break;
-            case R.id.iv_scan_icture:
+            case R.id.iv_scan_picture:
                 if (GeneralUtils.isNullOrZeroLenght(ZcApplication.getLicenceToken())) {
                     ToastUtil.makeText(getActivity(), "获取百度身份证识别LICENCE授权失败");
                 } else {
@@ -354,7 +354,7 @@ public class RealInfoFragment extends BaseFragment {
             public void success(String s) {
                 EBLog.i(TAG, s);
                 cardPath = s;
-                PictureLoadUtil.loadPicture(getActivity(), cardPath, iv_scan_icture);
+                PictureLoadUtil.loadPicture(getActivity(), cardPath, iv_scan_picture);
             }
 
             @Override

@@ -24,6 +24,7 @@
         android:layout_marginRight="60dp"
         android:gravity="center"
         android:maxLines="1"
+        android:ellipsize="end"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/font_size_16"
         android:visibility="visible" />

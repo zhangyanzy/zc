@@ -147,7 +147,8 @@ public class RegisterActivity extends BaseActivity {
         params.put("phone", phone);
         params.put("password", pass);
         params.put("code", identifyCcode);
-        params.put("inviteCode", inviteCode);
+        if (GeneralUtils.isNotNullOrZeroLenght(inviteCode))
+            params.put("inviteCode", inviteCode);
 
         HttpUtil.post(Constants.URL.REGISTER, params).subscribe(new BaseResponseObserver<SignupResp>() {
             @Override

@@ -65,7 +65,7 @@ public class ChangePhoneActivity extends BaseActivity {
         tv_top_title.setText("更换手机号");
     }
 
-    private void doRevisePass() {
+    private void doRevisePhone() {
         Map<String, String>params = new HashMap<>();
         params.put("phone", phone);
         params.put("code", code);
@@ -131,7 +131,7 @@ public class ChangePhoneActivity extends BaseActivity {
                 code = edit_identify_code.getText().toString();
                 if (GeneralUtils.isNullOrZeroLenght(code))
                     ToastUtil.makeText(this, getString(R.string.input_identify_code));
-                else doRevisePass();
+                else doRevisePhone();
                 break;
         }
     }

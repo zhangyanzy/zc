@@ -30,6 +30,7 @@ import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.views.common.ActivityDetailActivity;
 
 /**
  * Created by Administrator on 2018/1/29.
@@ -65,6 +66,7 @@ public class RewardActivityFragment extends BaseFragment implements OnRefreshLis
 
         adapter = new MyActivityAdapter(getActivity(), activitys, MyActivityAdapter.MYACTIVITY_REWARD);
         list.setAdapter(adapter);
+        adapter.setOnItemClickListener(listener);
     }
 
     @Override
@@ -93,6 +95,25 @@ public class RewardActivityFragment extends BaseFragment implements OnRefreshLis
             }
         });
     }
+
+    private MyActivityAdapter.OnItemClickListener listener = new MyActivityAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(int position, int viewId) {
+            Bundle bundle = new Bundle();
+            long kid = activitys.get(position).getKid();
+            String activityTitle = activitys.get(position).getName();
+            switch (viewId) {
+                case R.id.activity_item_img_i: //跳转活动详情，提交活动，领取活动奖励
+                case R.id.activity_item_text_centent:
+                case R.id.tv_reward:
+                    bundle.clear();
+                    bundle.putLong("id", kid);
+                    bundle.putString("title", activityTitle);
+                    openActivity(ActivityDetailActivity.class, bundle);
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onLoadmore(RefreshLayout refreshlayout) {

@@ -38,7 +38,7 @@ public class CheckPhoneActivity extends BaseActivity {
     @BindView(R.id.iv_top_back)
     ImageView iv_top_back;
     @BindView(R.id.tv_top_title)
-    TextView tv_top_titlel;
+    TextView tv_top_title;
     @BindView(R.id.iv_top_menu)
     ImageView iv_top_menu;
     @BindView(R.id.input_phone)
@@ -68,6 +68,9 @@ public class CheckPhoneActivity extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         ActivityUtil.addActivity(this);
+
+        tv_top_title.setText("绑定手机号");
+        iv_top_menu.setVisibility(View.GONE);
 
         bundle = getIntent().getExtras();
         type = bundle.getInt(Constants.SPREF.LOGIN_MODE, -1);
@@ -163,16 +166,17 @@ public class CheckPhoneActivity extends BaseActivity {
             @Override
             public void error(Response response) {
                 EBLog.e(TAG, response.toString());
-                ToastUtil.makeText(CheckPhoneActivity.this, response.getDesc());
 
                 if (response.getCode() == 5555) {
-//                    ToastUtil.makeText(CheckPhoneActivity.this, getString(R.string.account_merge));
+                    ToastUtil.makeText(CheckPhoneActivity.this, getString(R.string.account_merge));
                     if (response.getData() != null)
                         saveUserData((Map<String, String>) response.getData());
 
                     Bundle bundle = new Bundle();
                     bundle.putInt("position", 0);
                     openActivity(MainActivity.class, bundle);
+                }else{
+                    ToastUtil.makeText(CheckPhoneActivity.this, response.getDesc());
                 }
             }
         });

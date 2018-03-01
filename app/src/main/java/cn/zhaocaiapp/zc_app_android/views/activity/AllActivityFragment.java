@@ -116,6 +116,7 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
         public void onItemClick(int position, int viewId) {
             Bundle bundle = new Bundle();
             long kid = activitys.get(position).getKid();
+            String activityTitle = activitys.get(position).getName();
             switch (viewId) {
                 case R.id.activity_item_img_i: //跳转活动详情，提交活动，领取活动奖励
                 case R.id.activity_item_text_centent:
@@ -123,6 +124,7 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
                 case R.id.tv_reward:
                     bundle.clear();
                     bundle.putLong("id", kid);
+                    bundle.putString("title", activityTitle);
                     openActivity(ActivityDetailActivity.class, bundle);
                     break;
                 case R.id.tv_cancel: // 取消活动报名
