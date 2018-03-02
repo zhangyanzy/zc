@@ -58,7 +58,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
     private List<ActivityResp> list;
     private Context context;
-    private OnItemCliclkListener listene;
+    private OnItemCliclkListener listener;
     private int type; //1首页默认列表 2商家详情列表
     private MemberResp memberResp; //商家详情
 
@@ -287,17 +287,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                             public void error(Response<String> response) {
 
                             }
-
                         });
                     }
-                    // 分享
-                    viewHolderActivity.activity_item_text_share.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                        }
-                    });
-
                 }
                 //登录
                 else {
@@ -307,6 +298,13 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             }
         });
 
+        // 分享
+        viewHolderActivity.activity_item_text_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemCliclk(holder.getLayoutPosition());
+            }
+        });
 
     }
 
@@ -331,7 +329,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     }
 
     public void setOnItemCliclkListener(OnItemCliclkListener listener) {
-        this.listene = listener;
+        this.listener = listener;
     }
 
     /**

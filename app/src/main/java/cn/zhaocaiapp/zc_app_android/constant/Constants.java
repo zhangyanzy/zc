@@ -212,6 +212,11 @@ public interface Constants {
          * 校验密码
          * */
         String VERIFY_PASS = "userinfo/ckeckpassword";
+        /**
+         * 分享活动
+         * */
+        String SHARE_ACTIVITY_URL = "/#/activity/detail?id=%s";
+
 
 
         /**

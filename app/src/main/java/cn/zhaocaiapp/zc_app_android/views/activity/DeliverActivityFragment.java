@@ -98,15 +98,14 @@ public class DeliverActivityFragment extends BaseFragment implements OnRefreshLi
 
     //取消活动报名
     private void cancelActivity(long kid) {
-        HttpUtil.put(String.format(Constants.URL.CANCEL_ACTIVITY, kid)).subscribe(new BaseResponseObserver<String>() {
+        HttpUtil.put(String.format(Constants.URL.CANCEL_ACTIVITY, kid)).subscribe(new BaseResponseObserver<Boolean>() {
 
             @Override
-            public void success(String s) {
-                ToastUtil.makeText(getActivity(), s);
+            public void success(Boolean s) {
             }
 
             @Override
-            public void error(Response<String> response) {
+            public void error(Response<Boolean> response) {
                 EBLog.e(TAG, response.getCode() + "");
                 ToastUtil.makeText(getActivity(), response.getDesc());
             }
