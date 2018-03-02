@@ -18,6 +18,10 @@ import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,9 +31,11 @@ import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.MessageEvent;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.MyResp;
+import cn.zhaocaiapp.zc_app_android.bean.response.my.UserDetailResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.TrembleBasesOsDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
@@ -115,6 +121,16 @@ public class MyFragment extends BaseFragment {
 
     private MyResp userInfo;
 
+    private static final int REQUEST_CODE = 5001;
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //注册EventBus消息订阅者
+        EventBus.getDefault().register(this);
+    }
+
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.layout_my_fragment, container, false);
@@ -186,6 +202,12 @@ public class MyFragment extends BaseFragment {
         SpUtils.put(Constants.SPREF.INVITE_CODE, userInfo.getInviteCode());
     }
 
+    //接收EventBus发送的消息，并处理
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(MessageEvent event) {
+
+    }
+
     @OnClick({R.id.iv_top_menu, R.id.iv_user_photo, R.id.tv_user_identify, R.id.tv_apply_cash, R.id.layout_all_task, R.id.layout_deliver_task,
             R.id.layout_verify_task, R.id.layout_reward_task, R.id.layout_failed_task, R.id.layout_invite, R.id.tv_account_manager,
             R.id.tv_follow, R.id.layout_contact, R.id.layout_email, R.id.tv_setting, R.id.tv_exit})
@@ -193,7 +215,6 @@ public class MyFragment extends BaseFragment {
         // 用户未登录，跳转到登陆界面
         if (!(boolean) SpUtils.get(Constants.SPREF.IS_LOGIN, false)) {
             openActivity(LoginActivity.class);
-//            getActivity().finish();
             return;
         }
 

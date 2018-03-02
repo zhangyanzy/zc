@@ -44,6 +44,7 @@ import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.PhotoPickerUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
 
@@ -197,8 +198,6 @@ public class UserInfoFragment extends BaseFragment {
             baseInfoBean = (UserDetailResp.BaseInfoBean) event.getMessage();
             showUserInfo();
             EBLog.i(TAG, baseInfoBean.toString());
-        } else if (event.getMessage() instanceof String) {
-            edit_user_phone.setText((String) event.getMessage());
         }
     }
 
@@ -353,6 +352,7 @@ public class UserInfoFragment extends BaseFragment {
                 if (!imgUrl.equals(s))
                     params.put("avatar", s);
                 PictureLoadUtil.loadPicture(getActivity(), s, iv_user_photo);
+                SpUtils.put(Constants.SPREF.USER_PHOTO, s);
                 isCanUpdate = true;
             }
 
