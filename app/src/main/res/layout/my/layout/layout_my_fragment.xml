@@ -359,7 +359,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:drawableEnd="@mipmap/turn_right"
-                    android:text="邀请好友立奖10元"
                     android:textColor="@color/colorPrimary"
                     android:textSize="14sp" />
 

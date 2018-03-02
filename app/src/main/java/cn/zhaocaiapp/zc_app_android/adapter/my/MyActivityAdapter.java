@@ -220,9 +220,6 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
             case 3:
                 holder.tv_cancel.setVisibility(View.GONE);
                 break;
-            default:
-                holder.tv_cancel.setVisibility(View.GONE);
-                holder.tv_submit.setVisibility(View.GONE);
         }
     }
 

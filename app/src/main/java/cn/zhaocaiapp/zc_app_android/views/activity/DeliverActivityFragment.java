@@ -66,6 +66,7 @@ public class DeliverActivityFragment extends BaseFragment implements OnRefreshLi
 
         adapter = new MyActivityAdapter(getActivity(), activitys, MyActivityAdapter.MYACTIVITY_DELIVER);
         list.setAdapter(adapter);
+        adapter.setOnItemClickListener(listener);
     }
 
     @Override
@@ -94,6 +95,45 @@ public class DeliverActivityFragment extends BaseFragment implements OnRefreshLi
             }
         });
     }
+
+    //取消活动报名
+    private void cancelActivity(long kid) {
+        HttpUtil.put(String.format(Constants.URL.CANCEL_ACTIVITY, kid)).subscribe(new BaseResponseObserver<String>() {
+
+            @Override
+            public void success(String s) {
+                ToastUtil.makeText(getActivity(), s);
+            }
+
+            @Override
+            public void error(Response<String> response) {
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(getActivity(), response.getDesc());
+            }
+        });
+    }
+
+    private MyActivityAdapter.OnItemClickListener listener = new MyActivityAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(int position, int viewId) {
+            Bundle bundle = new Bundle();
+            long kid = activitys.get(position).getKid();
+            String activityTitle = activitys.get(position).getName();
+            switch (viewId) {
+                case R.id.activity_item_img_i: //跳转活动详情，提交活动，领取活动奖励
+                case R.id.activity_item_text_centent:
+                case R.id.tv_submit:
+                    bundle.clear();
+                    bundle.putLong("id", kid);
+                    bundle.putString("title", activityTitle);
+                    openActivity(ActivityDetailActivity.class, bundle);
+                    break;
+                case R.id.tv_cancel: // 取消活动报名
+                    cancelActivity(kid);
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onLoadmore(RefreshLayout refreshlayout) {
