@@ -83,13 +83,13 @@ public class ManageAccountActivity extends BaseActivity {
             if (TextUtils.equals(resultStatus, "9000") && TextUtils.equals(authResult.getResultCode(), "200")) {
                 // 获取alipay_open_id，调支付时作为参数extern_token 的value传入，则支付账户为该授权账户
                 ToastUtil.makeText(ManageAccountActivity.this,
-                        "授权成功\n" + String.format("authCode:%s", authResult.getAuthCode()));
+                        "授权成功");
 
                 bindAccount(authResult.getUserId());
             } else {
                 // 其他状态值则为授权失败
                 ToastUtil.makeText(ManageAccountActivity.this,
-                        "授权失败" + String.format("authCode:%s", authResult.getAuthCode()));
+                        "授权失败");
             }
         }
     };
