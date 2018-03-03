@@ -207,6 +207,8 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
             //视频活动播放
             if (list.get(position - 1).getActivityForm() == 1) {
                 viewHolderActivity.activity_item_img_vide.setVisibility(View.VISIBLE);
+            } else {
+                viewHolderActivity.activity_item_img_vide.setVisibility(View.INVISIBLE);
             }
             //参与人头像
             viewHolderActivity.activity_item_text_user0.setVisibility(View.INVISIBLE);

@@ -119,6 +119,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         //视频活动播放
         if (list.get(position).getActivityForm() == 1) {
             viewHolderActivity.activity_item_img_vide.setVisibility(View.VISIBLE);
+        } else {
+            viewHolderActivity.activity_item_img_vide.setVisibility(View.INVISIBLE);
         }
         //参与人头像
         viewHolderActivity.activity_item_text_user0.setVisibility(View.INVISIBLE);
