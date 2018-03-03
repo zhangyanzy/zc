@@ -6,6 +6,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.OptionsPickerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
@@ -43,6 +48,8 @@ public class BindCardActivity extends BaseActivity {
     TextView tv_submit;
 
     private BindCardReq bindCardReq;
+    private OptionsPickerView optionsPickerView;
+    private List<String>bankNames = new ArrayList<>();
 
     private static final String TAG = "绑定银行卡";
 
@@ -55,6 +62,25 @@ public class BindCardActivity extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         iv_menu.setVisibility(View.GONE);
         tv_title.setText("绑定银行卡");
+
+        bankNames.add("工商银行");
+        bankNames.add("农业银行");
+        bankNames.add("中国银行");
+        bankNames.add("建设银行");
+        bankNames.add("交通银行");
+        bankNames.add("邮储银行");
+        bankNames.add("招商银行");
+        bankNames.add("光大银行");
+        bankNames.add("中信银行");
+        bankNames.add("华夏银行");
+        bankNames.add("浦发银行");
+        bankNames.add("民生银行");
+        bankNames.add("平安银行");
+        bankNames.add("广发银行");
+        bankNames.add("兴业银行");
+        bankNames.add("北京银行");
+        bankNames.add("上海银行");
+        setPickView();
     }
 
     private boolean verify() {
@@ -88,6 +114,16 @@ public class BindCardActivity extends BaseActivity {
         return true;
     }
 
+    private void setPickView(){
+        optionsPickerView = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                bank_name.setText(bankNames.get(options1));
+            }
+        }).setTitleText("城市选择").build();
+        optionsPickerView.setPicker(bankNames);
+    }
+
     private void doBindCard() {
         HttpUtil.put(Constants.URL.BIND_ACCOUNT, bindCardReq).subscribe(new BaseResponseObserver<CommonResp>() {
 
@@ -112,7 +148,7 @@ public class BindCardActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.bank_name:
-
+                optionsPickerView.show();
                 break;
             case R.id.tv_submit:
                 if (verify())
