@@ -346,16 +346,16 @@ public class HomeFragment extends BaseFragment {
         Fragment fragment = fragments.get(position);
         if (fragment == null) {
             switch (position) {
-                case 0: // 个人资料
+                case 0: // 最新活动
                     fragment = new NewFragment();
                     break;
-                case 1: // 实名信息
+                case 1: // 线上活动
                     fragment = new OnLineFragment();
                     break;
-                case 2: // 活动相关信息
+                case 2: // 线下活动
                     fragment = new LineFragment();
                     break;
-                case 3: // 标签信息
+                case 3: // 历史活动
                     fragment = new HistoryFragment();
                     break;
             }
