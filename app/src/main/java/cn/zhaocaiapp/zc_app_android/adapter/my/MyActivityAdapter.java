@@ -82,7 +82,9 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.item_text_title.setText(spannableString);
         //活动地点距当前距离
-        holder.item_text_area_text.setText(getDistance(activity));
+        if (activity.getActivityForm() != 1 && activity.getActivityForm() != 2){
+            holder.item_text_area_text.setText(getDistance(activity));
+        }
         //活动剩余额度
         holder.item_text_amount.setText(GeneralUtils.getBigDecimalToTwo(activity.getLeftAmount()));
         //剩余额度进度条
@@ -182,12 +184,17 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
             case 0: //线下活动
                 holder.item_text_area_logo.setVisibility(View.VISIBLE);
                 holder.item_text_area_text.setVisibility(View.VISIBLE);
+                holder.item_img_vide.setVisibility(View.GONE);
                 break;
-            case 1: //视频活动，显示播放按钮
+            case 1: //视频活动
+                holder.item_text_area_logo.setVisibility(View.GONE);
+                holder.item_text_area_text.setVisibility(View.GONE);
                 holder.item_img_vide.setVisibility(View.VISIBLE);
                 break;
             case 2: //问卷活动
-
+                holder.item_text_area_logo.setVisibility(View.GONE);
+                holder.item_text_area_text.setVisibility(View.GONE);
+                holder.item_img_vide.setVisibility(View.GONE);
                 break;
         }
     }
@@ -196,7 +203,10 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
     private void setActivityButton(int activityStatus, int position, ViewHolder holder) {
         switch (activityStatus) { //0待交付 1待审核 2待领钱 3未通过 4已完成 5已关闭
             case 0:
+                holder.tv_state.setText("待交付");
                 holder.tv_reward.setVisibility(View.GONE);
+                holder.tv_submit.setVisibility(View.VISIBLE);
+                holder.tv_cancel.setVisibility(View.VISIBLE);
 
                 //启动倒计时
                 long countdownTime = items.get(position).getStartTime().getTime() - items.get(position).getDeadLine().getTime();
@@ -209,16 +219,34 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
                 holder.count_down_time.setOnCountdownEndListener(countdownEndListener);
                 break;
             case 1:
+                holder.tv_state.setText("待审核");
                 holder.tv_cancel.setVisibility(View.GONE);
                 holder.tv_submit.setVisibility(View.GONE);
+                holder.tv_reward.setVisibility(View.GONE);
                 break;
             case 2:
+                holder.tv_state.setText("待领钱");
                 holder.tv_cancel.setVisibility(View.GONE);
                 holder.tv_submit.setVisibility(View.GONE);
                 holder.tv_reward.setVisibility(View.VISIBLE);
                 break;
             case 3:
+                holder.tv_state.setText("未通过");
                 holder.tv_cancel.setVisibility(View.GONE);
+                holder.tv_submit.setVisibility(View.VISIBLE);
+                holder.tv_reward.setVisibility(View.GONE);
+                break;
+            case 4:
+                holder.tv_state.setText("已完成");
+                holder.tv_cancel.setVisibility(View.GONE);
+                holder.tv_submit.setVisibility(View.GONE);
+                holder.tv_reward.setVisibility(View.GONE);
+                break;
+            case 5:
+                holder.tv_state.setText("已结束");
+                holder.tv_cancel.setVisibility(View.GONE);
+                holder.tv_submit.setVisibility(View.GONE);
+                holder.tv_reward.setVisibility(View.GONE);
                 break;
         }
     }

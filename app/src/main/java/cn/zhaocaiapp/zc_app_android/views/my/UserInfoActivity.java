@@ -56,6 +56,7 @@ public class UserInfoActivity extends BaseActivity {
     private UserDetailResp.ActivityInfoBean activityInfoBean;
     private UserDetailResp.BaseInfoBean baseInfoBean;
     private UserDetailResp.RealInfoBean realInfoBean;
+    private int curPosition = 0;//当前显示的fragment
 
     @Override
     public int getContentViewResId() {
@@ -66,6 +67,8 @@ public class UserInfoActivity extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         iv_top_menu.setVisibility(View.GONE);
 
+        curPosition = getIntent().getIntExtra("curPosition", 0);
+
         fragments.add(new UserInfoFragment());
         fragments.add(new RealInfoFragment());
         fragments.add(new RelativeInfoFragment());
@@ -75,7 +78,7 @@ public class UserInfoActivity extends BaseActivity {
         pager_user_info.setOffscreenPageLimit(tabTitles.length);
         pager_user_info.setAdapter(new UserinfoFragmentPagerAdapter(getSupportFragmentManager()));
         tab_user_info.setupWithViewPager(pager_user_info);
-        pager_user_info.setCurrentItem(0);
+        pager_user_info.setCurrentItem(curPosition);
         pager_user_info.addOnPageChangeListener(pageChangeListener);
 
         initData();

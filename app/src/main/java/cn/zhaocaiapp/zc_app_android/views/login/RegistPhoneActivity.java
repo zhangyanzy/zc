@@ -66,6 +66,9 @@ public class RegistPhoneActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        iv_top_menu.setVisibility(View.GONE);
+        tv_top_titlel.setText(getString(R.string.input_pass_word));
+
         phone = getIntent().getStringExtra("phone");
         type = getIntent().getIntExtra(Constants.SPREF.LOGIN_MODE, -1);
         uid = getIntent().getStringExtra("uid");
@@ -85,7 +88,7 @@ public class RegistPhoneActivity extends BaseActivity {
                 if (judgePass(pass)) {
                     if (!check_agreement.isChecked())
                         ToastUtil.makeText(RegistPhoneActivity.this, getString(R.string.check_agreement));
-                    doRegister();
+                    else doRegister();
                 }
                 break;
             case R.id.tv_agreement:

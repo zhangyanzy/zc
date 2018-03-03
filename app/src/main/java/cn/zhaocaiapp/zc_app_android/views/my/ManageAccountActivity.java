@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,6 +37,7 @@ import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.DialogUtil;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
@@ -205,24 +207,29 @@ public class ManageAccountActivity extends BaseActivity {
                 break;
             case R.id.layout_wechat://微信账户
                 type = 1;
-                if (account.getWechatIs()) showDialog();
+                if (account.getWechatIs()) showDialog(false);
                 else getWechatAuth(SHARE_MEDIA.WEIXIN);
                 break;
             case R.id.layout_ali:// 支付宝账户
                 type = 0;
-                if (account.getAlipayIs()) showDialog();
+                if (account.getAlipayIs()) showDialog(false);
                 else getAliAuthInfo();
                 break;
             case R.id.layout_bank://银行卡账户
                 type = 2;
-                if (account.getBankIs()) showDialog();
+                if (account.getBankIs()) showDialog(false);
+                else if (!(boolean) SpUtils.get(Constants.SPREF.IS_CERTIFICATION, false))
+                    showDialog(true);
                 else openActivity(BindCardActivity.class);
                 break;
         }
     }
 
-    private void showDialog() {
-        dialog = DialogUtil.showDialogTwoBut(this, null, getString(R.string.remove_bind), "取消", "确定 ");
+    private void showDialog(boolean isTurn) {
+        String content = "";
+        if (isTurn) content = getString(R.string.not_certification);
+        else content = getString(R.string.remove_bind);
+        dialog = DialogUtil.showDialogTwoBut(this, null, content, "取消", "确定 ");
         dialog.setOnBtnClickL(new OnBtnClickL() {
             @Override
             public void onBtnClick() {
@@ -231,7 +238,11 @@ public class ManageAccountActivity extends BaseActivity {
         }, new OnBtnClickL() {
             @Override
             public void onBtnClick() {
-                removeBind();
+                if (isTurn) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("curPosition", 1);
+                    openActivity(UserInfoActivity.class, bundle);
+                } else removeBind();
                 dialog.dismiss();
             }
         });

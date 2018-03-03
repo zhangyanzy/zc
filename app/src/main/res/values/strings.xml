@@ -75,6 +75,7 @@
     <string name="account_merge">您已经注册过，已将账户合并</string>
     <string name="input">请输入</string>
     <string name="revise_pass_success">重置密码成功</string>
+    <string name="not_certification">您还未实名认证，请前往个人资料中进行实名认证！</string>
 
 
 </resources>

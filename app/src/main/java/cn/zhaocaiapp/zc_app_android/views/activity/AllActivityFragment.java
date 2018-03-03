@@ -96,15 +96,14 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
     }
 
     private void cancelActivity(long kid) {
-        HttpUtil.put(String.format(Constants.URL.CANCEL_ACTIVITY, kid)).subscribe(new BaseResponseObserver<String>() {
+        HttpUtil.put(String.format(Constants.URL.CANCEL_ACTIVITY, kid)).subscribe(new BaseResponseObserver<Boolean>() {
 
             @Override
-            public void success(String s) {
-                ToastUtil.makeText(getActivity(), s);
+            public void success(Boolean b) {
             }
 
             @Override
-            public void error(Response<String> response) {
+            public void error(Response<Boolean> response) {
                 EBLog.e(TAG, response.getCode() + "");
                 ToastUtil.makeText(getActivity(), response.getDesc());
             }

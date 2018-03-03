@@ -60,13 +60,13 @@ public interface Constants {
          * 服务器地址
          */
         //开发环境
-        String SERVER = "http://appapi.zhaocaiapp.local/"; // 必须以／结尾否则初始化会报错
+//        String SERVER = "http://appapi.zhaocaiapp.local/"; // 必须以／结尾否则初始化会报错
 
         //生产环境
         //String SERVER = "https://appapi.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
 
         //预生产环境
-//        String SERVER = "https://appapi-pre.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
+        String SERVER = "https://appapi-pre.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
 
         //测试环境
 //        String SERVER = "http://192.168.1.159:8083/";
@@ -74,10 +74,9 @@ public interface Constants {
         /**
          * H5页面地址
          */
-        String H5_URL = "http://m.zhaocaiapp.local"; //开发环境
+//        String H5_URL = "http://m.zhaocaiapp.local"; //开发环境
         //String H5_URL = "https://m.zhaocaiapp.cn"; //生产环境
-//        String H5_URL = "https://m-pre.zhaocaiapp.cn"; //预生产环境
-
+        String H5_URL = "https://m-pre.zhaocaiapp.cn"; //预生产环境
 
         /**
          * 注册
@@ -307,6 +306,7 @@ public interface Constants {
         String DEVICE_TOKEN = "deviceToken";        //友盟推送的设备识别号
         String ALIAS = "alias";                     // 友盟推送的用户别名
         String INVITE_CODE = "inviteCode";          // 邀請碼
+        String IS_CERTIFICATION = "realInfoAuditStatus"; //是否通过实名认证
 
         int TYPE_PHONE = 0;    //手机登录
         int TYPE_WECHAT = 1;   //微信登录

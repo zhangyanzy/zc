@@ -6,15 +6,16 @@
 
     <include layout="@layout/layout_top_title" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/window_padding_32"
-        android:layout_marginRight="@dimen/window_padding_32"
-        android:layout_marginTop="20dp"
-        android:text="请设置您的登录密码："
-        android:textColor="@color/colorFont3"
-        android:textSize="@dimen/font_size_14" />
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="@dimen/window_padding_32"-->
+        <!--android:layout_marginRight="@dimen/window_padding_32"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:text="请设置您的登录密码："-->
+        <!--android:textColor="@color/colorFont3"-->
+        <!--android:textSize="@dimen/font_size_14"-->
+        <!--android:visibility="gone"/>-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="密码"
+            android:text="密    码"
             android:textColor="@color/colorFont3"
             android:textSize="@dimen/font_size_15" />
 
