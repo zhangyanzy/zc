@@ -14,7 +14,7 @@
     <string name="input_identify_code">请输入验证码</string>
     <string name="get_identify_code">获取验证码</string>
     <string name="input_new_pass">请输入新密码</string>
-    <string name="reset_pass">重置密码</string>
+    <string name="reset_pass">找回密码</string>
     <!--字符串中包含的第一个参数为整数d-->
     <string name="delay_time">%1$d秒</string>
     <string name="input_edit_invite_code">请输入邀请码</string>

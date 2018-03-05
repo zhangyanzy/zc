@@ -165,7 +165,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/edit_margin"
             android:hint="@string/input_edit_invite_code"
-            android:inputType="textPassword"
+            android:inputType="text"
             android:maxLines="1"
             android:textColor="@color/colorFont6"
             android:textColorHint="@color/colorFont9"

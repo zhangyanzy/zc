@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/window_padding_32"
         android:paddingStart="@dimen/window_padding_32">
@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="账号"
+            android:text="手机号"
             android:textColor="@color/colorFont3"
             android:textSize="@dimen/font_size_15" />
 
@@ -104,7 +104,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/font_size_14"
+            android:textSize="@dimen/font_size_15"
             android:textColor="@color/colorFont3"
             android:text="新密码"
             android:layout_gravity="center_vertical"/>

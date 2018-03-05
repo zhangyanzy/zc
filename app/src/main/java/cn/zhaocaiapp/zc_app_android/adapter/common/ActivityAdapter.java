@@ -97,8 +97,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
-
         ViewHolderActivity viewHolderActivity = (ViewHolderActivity) holder;
         //商家图片
         PictureLoadUtil.loadPicture(context, list.get(position).getMemberImg(), viewHolderActivity.activity_item_member_logo);
@@ -119,8 +117,10 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         //视频活动播放
         if (list.get(position).getActivityForm() == 1) {
             viewHolderActivity.activity_item_img_vide.setVisibility(View.VISIBLE);
+            viewHolderActivity.tv_member_area_logo.setVisibility(View.GONE);
         } else {
             viewHolderActivity.activity_item_img_vide.setVisibility(View.INVISIBLE);
+            viewHolderActivity.tv_member_area_logo.setVisibility(View.VISIBLE);
         }
         //参与人头像
         viewHolderActivity.activity_item_text_user0.setVisibility(View.INVISIBLE);
@@ -175,7 +175,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             stopGps.setLongitude(list.get(position).getLongitude().doubleValue());
             //两点距离
             float areaText = CoordinateConverter.calculateLineDistance(startGps, stopGps);
-            viewHolderActivity.activity_item_text_area_text.setText(areaText > 1000 ? String.format("%.1f", (areaText / 1000)) + "KM" : String.format("%.1f", (areaText)) + "M");
+            viewHolderActivity.activity_item_text_area_text.setText(areaText > 1000 ? String.format("%.1f", (areaText / 1000)) + "km" : String.format("%.1f", (areaText)) + "m");
         }
         //收藏
         if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, "")) && list.get(position).getFollow()) {
@@ -216,8 +216,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 context.startActivity(intent);
             }
         });
-        //活动名称 点击
-        viewHolderActivity.activity_item_text_title.setOnClickListener(new View.OnClickListener() {
+        //活动内容 点击
+        viewHolderActivity.layout_activity_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ActivityDetailActivity.class);
@@ -228,18 +228,18 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 context.startActivity(intent);
             }
         });
-        //进度条 点击
-        viewHolderActivity.activity_item_text_centent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ActivityDetailActivity.class);
-                intent.putExtra("id", list.get(position).getKid());
-                intent.putExtra("title", list.get(position).getName());
-                intent.putExtra("isNeedQRCode", list.get(position).getIfCheck());
-
-                context.startActivity(intent);
-            }
-        });
+//        //进度条 点击
+//        viewHolderActivity.activity_item_text_centent.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, ActivityDetailActivity.class);
+//                intent.putExtra("id", list.get(position).getKid());
+//                intent.putExtra("title", list.get(position).getName());
+//                intent.putExtra("isNeedQRCode", list.get(position).getIfCheck());
+//
+//                context.startActivity(intent);
+//            }
+//        });
         //收藏 点击
         viewHolderActivity.activity_item_text_collection.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -505,6 +505,12 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         //进度条
         @BindView(R.id.activity_item_text_centent)
         LinearLayout activity_item_text_centent;
+        //活动地区
+        @BindView(R.id.tv_member_area_logo)
+        TextView tv_member_area_logo;
+        //活动内容
+        @BindView(R.id.layout_activity_content)
+        LinearLayout layout_activity_content;
 
 
         View itemView;

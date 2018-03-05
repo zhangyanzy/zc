@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -29,7 +30,10 @@ import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.views.common.ActivityDetailActivity;
+import cn.zhaocaiapp.zc_app_android.views.member.MemberDetailActivity;
 
 /**
  * Created by Administrator on 2018/1/29.
@@ -47,6 +51,8 @@ public class VerifyActivityFragment extends BaseFragment implements OnRefreshLis
 
     private MyActivityAdapter adapter;
     private List<ActivityResp> activitys = new ArrayList<>();
+    private String shareTitle = "一个可以赚钱的APP";
+    private String shareDesc = "你看广告，我发钱";
 
     private static final String TAG = "待审核活动";
 
@@ -93,6 +99,75 @@ public class VerifyActivityFragment extends BaseFragment implements OnRefreshLis
             }
         });
     }
+
+    //关注活动、取消关注
+    private void doFollow(int position, View view) {
+        ActivityResp activity = activitys.get(position);
+        Map<String, Integer> params = new HashMap<>();
+        if (activity.getFollow()) { //已关注，点击取消关注
+            params.put("follow", 0);
+        } else { // 未关注， 点击关注
+            params.put("follow", 1);
+        }
+        HttpUtil.post(String.format(Constants.URL.POST_ACTIVITY_FOLLOW, activitys.get(position).getKid()), params).subscribe(new BaseResponseObserver<String>() {
+
+            @Override
+            public void success(String s) {
+                if (activity.getFollow()){ //已关注
+                    activity.setFollow(false);
+                    ((ImageView)view).setImageResource(R.mipmap.collection_off);
+                }else { //未关注
+                    activity.setFollow(true);
+                    ((ImageView)view).setImageResource(R.mipmap.collection_on);
+                }
+            }
+
+            @Override
+            public void error(Response<String> response) {
+                EBLog.e(TAG, response.getCode()+"");
+                ToastUtil.makeText(getActivity(), response.getDesc());
+            }
+        });
+    }
+
+    private MyActivityAdapter.OnItemClickListener listener = new MyActivityAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(int position, View view) {
+            Bundle bundle = new Bundle();
+            long activityId = activitys.get(position).getKid();
+
+            switch (view.getId()) {
+                case R.id.activity_item_img_i: //跳转活动详情
+                case R.id.layout_activity_content:
+                    String activityTitle = activitys.get(position).getName();
+
+                    bundle.clear();
+                    bundle.putLong("id", activityId);
+                    bundle.putString("title", activityTitle);
+                    openActivity(ActivityDetailActivity.class, bundle);
+                    break;
+                case R.id.iv_logo: // 跳转商家详情
+                case R.id.tv_name:
+                    long memberId = activitys.get(position).getMemberId();
+                    bundle.clear();
+                    bundle.putLong("memberId", memberId);
+                    openActivity(MemberDetailActivity.class, bundle);
+                    break;
+                case R.id.activity_item_text_collection: //活动关注
+                    doFollow(position, view);
+                    break;
+                case R.id.activity_item_text_share: //活动分享
+                    String webUrl = String.format(Constants.URL.SHARE_ACTIVITY_URL, activityId);
+                    ShareUtil.init(getActivity())
+                            .setUrl(webUrl)
+                            .setSourceId(R.mipmap.logo)
+                            .setTitle(shareTitle)
+                            .setDesc(shareDesc);
+                    ShareUtil.openShare();
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onLoadmore(RefreshLayout refreshlayout) {

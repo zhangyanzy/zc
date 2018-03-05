@@ -36,6 +36,7 @@ import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 
 /**
@@ -79,6 +80,9 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
 
     private ActivityAdapter activityAdapter;
 
+    private String shareTitle = "一个可以赚钱的APP";
+    private String shareDesc = "你看广告，我发钱";
+
     @Override
     public void onStart() {
         super.onStart();
@@ -97,6 +101,7 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
 
         activityAdapter = new ActivityAdapter(this.getActivity(), activityRespList);
         home_recycler.setAdapter(activityAdapter);
+        activityAdapter.setOnItemCliclkListener(listener);
 
         home_refresh.setOnRefreshListener(this);
         home_refresh.setOnLoadmoreListener(this);
@@ -176,6 +181,19 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
         }
 
     }
+
+    private ActivityAdapter.OnItemCliclkListener listener = new ActivityAdapter.OnItemCliclkListener() {
+        @Override
+        public void onItemCliclk(int position) {
+            String webUrl = String.format(Constants.URL.SHARE_ACTIVITY_URL, activityRespList.get(position).getKid());
+            ShareUtil.init(getActivity())
+                    .setUrl(webUrl)
+                    .setSourceId(R.mipmap.logo)
+                    .setTitle(shareTitle)
+                    .setDesc(shareDesc);
+            ShareUtil.openShare();
+        }
+    };
 
     @OnClick({
             R.id.home_sort_time_layout,

@@ -93,15 +93,15 @@ public class SettingActivity extends BaseActivity {
             case R.id.iv_top_menu:
 
                 break;
-            case R.id.layout_clear_cache:
-                AppUtil.cleanInternalCache(this);
+            case R.id.layout_clear_cache: //清楚缓存
                 try {
+                    AppUtil.cleanInternalCache(this);
                     tv_clear_cache.setText(AppUtil.getCacheSize(getCacheDir()));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
-            case R.id.tv_about_us:
+            case R.id.tv_about_us: //关于我们
                 openActivity(AboutUsActivity.class);
                 break;
         }
