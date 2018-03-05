@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.widget.FrameLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.pgyersdk.crash.PgyCrashManager;
@@ -21,9 +22,12 @@ import java.util.Map;
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragmentActivity;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.AppUtil;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.views.home.HomeFragment;
+import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.views.member.MemberFragment;
 import cn.zhaocaiapp.zc_app_android.views.my.MyFragment;
 
@@ -52,7 +56,6 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         PgyCrashManager.register(getApplicationContext());
 
         ActivityUtil.addActivity(this);
-        ActivityUtil.finishAllActivity(this.getClass());
 
         currentPosition = getIntent().getIntExtra("position", -1);
 
@@ -88,31 +91,41 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
 
     @Override
     public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-        int index = 0;
         switch (checkedId) {
             case R.id.group_button_task:
-                index = 0;
+                currentPosition = 0;
                 break;
             case R.id.group_button_partner:
-                index = 1;
+                currentPosition = 1;
                 break;
             case R.id.group_button_personal:
-                index = 2;
+                if (!(boolean) SpUtils.get(Constants.SPREF.IS_LOGIN, false)) {
+                    RadioButton radioButton = null;
+                    if (currentPosition == 0)
+                        radioButton = findViewById(R.id.group_button_task);
+                    if (currentPosition == 1)
+                        radioButton = findViewById(R.id.group_button_partner);
+                    radioButton.setChecked(true);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("currentPosition", 2);
+                    openActivity(LoginActivity.class, bundle);
+                    return;
+                } else currentPosition = 2;
                 break;
         }
-        selectFragment(index);
+        selectFragment();
     }
 
     //根据点击位置，设置当前显示的fragment
-    private void selectFragment(int index) {
-        if (index == currentIndex) {
+    private void selectFragment() {
+        if (currentPosition == currentIndex) {
             return;
         }
-        currentIndex = index;
-        String tag = tags[index];
+        currentIndex = currentPosition;
+        String tag = tags[currentPosition];
         FragmentManager manager = getSupportFragmentManager();
         for (int i = 0; i < tags.length; i++) {
-            if (i != index && manager.findFragmentByTag(tags[i]) != null) {
+            if (i != currentPosition && manager.findFragmentByTag(tags[i]) != null) {
                 //if the other fragment is visible, hide it.
                 manager.beginTransaction().hide(manager.findFragmentByTag(tags[i])).commit();
             }
@@ -122,7 +135,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
             manager.beginTransaction().show(manager.findFragmentByTag(tag)).commit();
         } else {
             //if the fragment does not exist, add it to fragment manager.
-            manager.beginTransaction().add(R.id.layout_container, getFragment(index), tag).commit();
+            manager.beginTransaction().add(R.id.layout_container, getFragment(currentPosition), tag).commit();
         }
     }
 

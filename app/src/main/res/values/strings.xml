@@ -76,6 +76,7 @@
     <string name="input">请输入</string>
     <string name="revise_pass_success">重置密码成功</string>
     <string name="not_certification">您还未实名认证，请前往个人资料中进行实名认证！</string>
+    <string name="confirm_clean_cache">确认清除缓存吗？</string>
 
 
 </resources>

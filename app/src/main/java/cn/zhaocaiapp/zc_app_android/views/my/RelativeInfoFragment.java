@@ -1,9 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
-import android.app.MediaRouteActionProvider;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +45,8 @@ public class RelativeInfoFragment extends BaseFragment {
     TextView tv_profession;
     @BindView(R.id.tv_submit)
     TextView tv_submit;
+    @BindView(R.id.tv_infoAlterCount)
+    TextView tv_infoAlterCount;
 
     private View rootView;
 
@@ -123,6 +123,24 @@ public class RelativeInfoFragment extends BaseFragment {
             tv_educational.setText(education);
         if (GeneralUtils.isNotNullOrZeroLenght(profession))
             tv_profession.setText(profession);
+        switch (activityInfoBean.getActivtiyInfoAudit()) {
+            case 0:
+                tv_infoAlterCount.setText("未变动");
+                break;
+            case 1:
+            case 2:
+                tv_infoAlterCount.setText("变动" + activityInfoBean.getActivityInfoAlterCount() + "次");
+                break;
+            case 3:
+                tv_infoAlterCount.setText("待审核");
+                break;
+            case 4:
+                tv_infoAlterCount.setText("审核通过");
+                break;
+            case 5:
+                tv_infoAlterCount.setText("审核未通过");
+                break;
+        }
     }
 
     //提交修改活动相关信息
@@ -133,6 +151,12 @@ public class RelativeInfoFragment extends BaseFragment {
             public void success(CommonResp commonResp) {
                 EBLog.i(TAG, commonResp.toString());
                 ToastUtil.makeText(getActivity(), commonResp.getDesc());
+
+                if (activityInfoBean.getActivityInfoAlterCount() < 3) {
+                    activityInfoBean.setActivityInfoAlterCount(activityInfoBean.getActivityInfoAlterCount() + 1);
+                    activityInfoBean.setActivtiyInfoAudit(activityInfoBean.getActivtiyInfoAudit() + 1);
+                    showInfo();
+                }
             }
 
             @Override

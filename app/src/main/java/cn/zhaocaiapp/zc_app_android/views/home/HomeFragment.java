@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sina.weibo.sdk.api.VoiceObject;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -86,6 +88,11 @@ public class HomeFragment extends BaseFragment {
     private String areaCode;//用户定位城市Code
     private UserResp userResp;//用户
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUserInfo();
+    }
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -219,7 +226,14 @@ public class HomeFragment extends BaseFragment {
             userinfoFristpage();
         }
 
+        /**
+         * 首页头部用户信息
+         * */
+        getUserInfo();
+    }
 
+    //首页获取用户信息
+    private void getUserInfo(){
         //判断登录
         if (GeneralUtils.isNotNullOrZeroLenght((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
             //获取用户信息
@@ -245,7 +259,6 @@ public class HomeFragment extends BaseFragment {
                 }
             });
         }
-
     }
 
     //接收EventBus发送的消息，并处理

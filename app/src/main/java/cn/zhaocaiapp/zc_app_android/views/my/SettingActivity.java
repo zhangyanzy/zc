@@ -12,9 +12,12 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.listener.OnBtnClickL;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.AppUtil;
+import cn.zhaocaiapp.zc_app_android.util.DialogUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 
 /**
@@ -53,7 +56,7 @@ public class SettingActivity extends BaseActivity {
         tv_top_titlel.setText("设置");
         tv_version.setText("V" + AppUtil.getAppVersionName(this));
         try {
-            tv_clear_cache.setText(AppUtil.getCacheSize(getCacheDir()));
+            tv_clear_cache.setText(AppUtil.getCacheSize(this));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,17 +96,32 @@ public class SettingActivity extends BaseActivity {
             case R.id.iv_top_menu:
 
                 break;
-            case R.id.layout_clear_cache: //清楚缓存
-                try {
-                    AppUtil.cleanInternalCache(this);
-                    tv_clear_cache.setText(AppUtil.getCacheSize(getCacheDir()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            case R.id.layout_clear_cache: //清除缓存
+                String content = getString(R.string.confirm_clean_cache);
+                NormalDialog dialog = DialogUtil.showDialogTwoBut(SettingActivity.this, null, content, "取消", "确认");
+                dialog.setOnBtnClickL(new OnBtnClickL() {
+                    @Override
+                    public void onBtnClick() {
+                       dialog.dismiss();
+                    }
+                }, new OnBtnClickL() {
+                    @Override
+                    public void onBtnClick() {
+                        try {
+                            dialog.dismiss();
+                            AppUtil.cleanInternalCache(SettingActivity.this);
+                            tv_clear_cache.setText(AppUtil.getCacheSize(SettingActivity.this));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
                 break;
             case R.id.tv_about_us: //关于我们
                 openActivity(AboutUsActivity.class);
                 break;
         }
     }
+
+
 }

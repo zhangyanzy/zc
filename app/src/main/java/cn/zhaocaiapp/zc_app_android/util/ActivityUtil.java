@@ -93,5 +93,12 @@ public class ActivityUtil {
         EBLog.i(TAG, activityStack.toString());
     }
 
+    /**
+     * 获取activityStack的容量
+     * */
+    public static int getActivityStackSize(){
+        return activityStack.size();
+    }
+
 }
 

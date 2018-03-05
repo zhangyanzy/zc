@@ -125,6 +125,13 @@ public class MyFragment extends BaseFragment {
 
 
     @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+        EBLog.i(TAG, "---onResume---");
+    }
+
+    @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.layout_my_fragment, container, false);
     }
@@ -291,9 +298,10 @@ public class MyFragment extends BaseFragment {
 
                 deleteAlias();
                 SpUtils.clear();
-                ActivityUtil.finishAllActivity(getActivity().getClass());
 
-                openActivity(LoginActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("signOut", true);
+                openActivity(LoginActivity.class, bundle);
             }
 
             @Override

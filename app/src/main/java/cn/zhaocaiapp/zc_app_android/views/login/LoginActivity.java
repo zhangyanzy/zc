@@ -1,5 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.views.login;
 
+import android.app.Activity;
+import android.app.ExpandableListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -35,6 +37,7 @@ import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.views.common.ActivityDetailActivity;
 import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
 
 
@@ -74,14 +77,20 @@ public class LoginActivity extends BaseFragmentActivity {
     private String avatar;
     private int sex;
 
+    private Activity lastActivity;//当前activity的上一个activity
+
     private static final String TAG = "登录";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_login_main);
+        if (getIntent().getBooleanExtra("signOut", false))
+            ActivityUtil.finishAllActivity();
+        if (ActivityUtil.getActivityStackSize() != 0)
+            lastActivity = ActivityUtil.currentActivity();
+
         ActivityUtil.addActivity(this);
-        ActivityUtil.finishAllActivity(this.getClass());
 
         umShareAPI = ZcApplication.getUMShareAPI();
     }
@@ -92,30 +101,31 @@ public class LoginActivity extends BaseFragmentActivity {
         phone = edit_phone_number.getText().toString();
         pass = edit_pass_word.getText().toString();
         switch (view.getId()) {
-            case R.id.tv_skip_login:
-                openActivity(MainActivity.class);
-                finish();
+            case R.id.tv_skip_login: //跳过登陆
+                if (lastActivity != null) {
+                    ActivityUtil.finishActivity(LoginActivity.this);
+                } else openActivity(MainActivity.class);
                 break;
-            case R.id.tv_register:
+            case R.id.tv_register: //注册
                 openActivity(RegisterActivity.class);
                 break;
-            case R.id.tv_forget_pass:
+            case R.id.tv_forget_pass: //忘记密码
                 openActivity(ForgetPassActivity.class);
                 break;
-            case R.id.tv_login:
+            case R.id.tv_login: //登陆
                 type = Constants.SPREF.TYPE_PHONE;
                 if (judgePhone(phone) && judgePass(pass))
                     doLogin();
                 break;
-            case R.id.login_wechat:
+            case R.id.login_wechat: //微信登陆
                 type = Constants.SPREF.TYPE_WECHAT;
                 isPlatformExist(SHARE_MEDIA.WEIXIN);
                 break;
-            case R.id.login_qq:
+            case R.id.login_qq: //qq登陆
                 type = Constants.SPREF.TYPE_QQ;
                 isPlatformExist(SHARE_MEDIA.QQ);
                 break;
-            case R.id.login_sina:
+            case R.id.login_sina: //微博登陆
                 type = Constants.SPREF.TYPE_SINA;
                 isPlatformExist(SHARE_MEDIA.SINA);
                 break;
@@ -142,9 +152,15 @@ public class LoginActivity extends BaseFragmentActivity {
                 setAlias(result);
                 saveUserData(result);
 
-                Bundle bundle = new Bundle();
-                bundle.putInt("position", 0);
-                openActivity(MainActivity.class, bundle);
+                if (lastActivity != null && lastActivity instanceof ActivityDetailActivity) {
+                    openActivity(ActivityDetailActivity.class, getIntent().getExtras());
+                } else {
+                    int position = getIntent().getIntExtra("currentPosition", 0);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("position", position);
+                    openActivity(MainActivity.class, bundle);
+                }
+                finish();
             }
 
             @Override
@@ -152,23 +168,21 @@ public class LoginActivity extends BaseFragmentActivity {
                 EBLog.i(TAG, response.getCode() + "");
                 if (type != 0 && response.getCode() == 5000) { //此三方账号未绑定
                     turnToCheckPhone();
-                }
-                else if ( response.getCode() == 5005) { // 此账号已被封禁
+                } else if (response.getCode() == 5005) { // 此账号已被封禁
                     openActivity(ClosureActivity.class);
-                }
-                else {
+                } else {
                     ToastUtil.makeText(LoginActivity.this, response.getDesc());
                 }
             }
         });
     }
 
-    private void setAlias(LoginResp result){
-        PushAgent pushAgent =PushAgent.getInstance(this);
+    private void setAlias(LoginResp result) {
+        PushAgent pushAgent = PushAgent.getInstance(this);
         pushAgent.addAlias(result.getAlias(), "alias", new UTrack.ICallBack() {
             @Override
             public void onMessage(boolean b, String s) {
-               EBLog.i(TAG, s);
+                EBLog.i(TAG, s);
             }
         });
     }
@@ -186,7 +200,7 @@ public class LoginActivity extends BaseFragmentActivity {
     }
 
     //检测是否安装三方应用
-    private void isPlatformExist(SHARE_MEDIA platform){
+    private void isPlatformExist(SHARE_MEDIA platform) {
         if (!umShareAPI.isInstall(this, platform))
             ToastUtil.makeText(this, "请先安装应用");
         else doOauth(platform);
@@ -201,7 +215,7 @@ public class LoginActivity extends BaseFragmentActivity {
              */
             @Override
             public void onStart(SHARE_MEDIA share_media) {
-                EBLog.i("友盟---","授权开始的回调");
+                EBLog.i("友盟---", "授权开始的回调");
             }
 
             /**

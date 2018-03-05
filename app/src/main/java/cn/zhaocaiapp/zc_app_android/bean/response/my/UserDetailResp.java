@@ -43,6 +43,7 @@ public class UserDetailResp {
          * "educational”:  String  学历
          * “activityInfoAlterCount”: Integer  更改次数
          * “UpdateIs”:   Boolean  true 可更改，false 不可
+         * "activtiyInfoAudit": Integer 0-未变动 1-变动1次 2-变动2次 3-待审核 4-审核通过 5-审核未通过
          */
         private long educationalCode;
         private int jobCode;
@@ -50,6 +51,15 @@ public class UserDetailResp {
         private String educational;
         private int activityInfoAlterCount;
         private boolean UpdateIs;
+        private Integer activtiyInfoAudit;
+
+        public Integer getActivtiyInfoAudit() {
+            return activtiyInfoAudit;
+        }
+
+        public void setActivtiyInfoAudit(Integer activtiyInfoAudit) {
+            this.activtiyInfoAudit = activtiyInfoAudit;
+        }
 
         public long getEducationalCode() {
             return educationalCode;
@@ -108,6 +118,7 @@ public class UserDetailResp {
                     ", educational='" + educational + '\'' +
                     ", activityInfoAlterCount=" + activityInfoAlterCount +
                     ", UpdateIs=" + UpdateIs +
+                    ", activtiyInfoAudit=" + activtiyInfoAudit +
                     '}';
         }
     }

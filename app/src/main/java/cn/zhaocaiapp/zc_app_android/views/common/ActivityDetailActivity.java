@@ -44,6 +44,7 @@ import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.capabilities.takephoto.PhotoHelper;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
+import cn.zhaocaiapp.zc_app_android.util.DeviceUtil;
 import cn.zhaocaiapp.zc_app_android.util.FileUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
@@ -152,8 +153,9 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             params.put("id", activityId + "");
             //用戶token
             params.put("token", (String) SpUtils.get(Constants.SPREF.TOKEN, ""));
-
             params.put("type", "0");
+            //手机唯一识别码
+            params.put("deviceUUID", DeviceUtil.getDeviceModel());
 
             //邀請码
             if (!inviteCode.equals("0")) {
@@ -189,7 +191,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         @JavascriptInterface
         public void goLogin() {
             if (!(boolean) SpUtils.get(Constants.SPREF.IS_LOGIN, false))
-                openActivity(LoginActivity.class);
+                turoToLogin();
         }
 
         //邀請好友協同任務
@@ -197,6 +199,12 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         public void inviteFriend(String code) {
             String webUrl = String.format(inviteUrl, activityId, code);
             shareActivity(webUrl);
+        }
+
+        //领取活动奖励
+        @JavascriptInterface
+        public void getAward(){
+
         }
     }
 
@@ -221,6 +229,14 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
                 shareActivity(webUrl);
                 break;
         }
+    }
+
+    //未登录，跳转至登录页
+    private void turoToLogin(){
+        Bundle bundle = new Bundle();
+        bundle.putLong("id", activityId);
+        bundle.putString("title", activityTitle);
+        openActivity(LoginActivity.class, bundle);
     }
 
     //上傳圖片至圖片服務器
@@ -252,7 +268,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             @Override
             public void onReceiveValue(String value) {
                 if (value.equals("false")) {
-                    finish();
+                    ActivityUtil.finishActivity(ActivityDetailActivity.this);
                 }
             }
         });

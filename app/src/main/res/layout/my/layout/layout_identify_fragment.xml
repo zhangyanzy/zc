@@ -150,7 +150,7 @@
             android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_14"
             android:paddingLeft="15dp"
-            android:inputType="number"/>
+            android:inputType="text"/>
     </LinearLayout>
 
     <View style="@style/horizontal_C9_line"

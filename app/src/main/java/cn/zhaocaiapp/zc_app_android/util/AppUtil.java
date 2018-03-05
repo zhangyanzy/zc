@@ -96,8 +96,13 @@ public class AppUtil {
     /**
      * 获取缓存大小
      */
-    public static String getCacheSize(File file) throws Exception {
-        return getFormatSize(getFolderSize(file));
+    public static String getCacheSize(Context context) throws Exception {
+        long cacheSize = getFolderSize(context.getCacheDir());
+        if (Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED)) {
+            cacheSize += getFolderSize(context.getExternalCacheDir());
+        }
+        return getFormatSize(cacheSize);
     }
 
     /**
@@ -106,22 +111,33 @@ public class AppUtil {
      * @param context
      */
     public static void cleanInternalCache(Context context) {
-        deleteFilesByDirectory(context.getCacheDir());
+        deleteDir(context.getCacheDir());
     }
 
     /**
      * 删除方法 删除某个文件夹下的文件，如果传入的directory是个文件，将不做处理
      *
-     * @param directory
+     * @param dir
      */
-    private static void deleteFilesByDirectory(File directory) {
-        if (directory != null && directory.exists()) {
-            if (directory.isFile()) directory.delete();
-            else if (directory.isDirectory()) {
-                for (File item : directory.listFiles()) {
-                    item.delete();
+    private static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            int size = 0;
+            if (children != null) {
+                size = children.length;
+                for (int i = 0; i < size; i++) {
+                    boolean success = deleteDir(new File(dir, children[i]));
+                    if (!success) {
+                        return false;
+                    }
                 }
             }
+
+        }
+        if (dir == null) {
+            return true;
+        } else {
+            return dir.delete();
         }
     }
 
@@ -156,9 +172,9 @@ public class AppUtil {
      * @return
      */
     private static String getFormatSize(double size) {
-        double kiloByte = size / 1024;
+        int kiloByte = (int) (size / 1024);
         if (kiloByte < 1) {
-            return size + "Byte";
+            return size + "KB";
         }
 
         double megaByte = kiloByte / 1024;
