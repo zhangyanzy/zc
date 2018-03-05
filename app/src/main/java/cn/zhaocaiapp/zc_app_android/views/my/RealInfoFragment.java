@@ -89,15 +89,13 @@ public class RealInfoFragment extends BaseFragment {
     private String userGender;
     private String birthDay;
     private String idNumber;
-    private String cardPath = "";
+    private String cardPath;
     private Map<String, String> params = new HashMap<>();
-    private boolean isCanUpdate;
 
     private String name;
     private String gender;
     private String date;
     private String number;
-    private String path;
 
     private static final String TAG = "用户实名信息";
     private static final int REQUEST_CODE_CAMERA = 101;
@@ -148,7 +146,7 @@ public class RealInfoFragment extends BaseFragment {
             gender = "女";
         date = realInfoBean.getBirthdayStr();
         number = realInfoBean.getIdCard();
-        path = realInfoBean.getIdCardPath();
+        cardPath = realInfoBean.getIdCardPath();
 
         if (GeneralUtils.isNotNullOrZeroLenght(name))
             edit_user_name.setText(name);
@@ -156,9 +154,9 @@ public class RealInfoFragment extends BaseFragment {
             tv_birth_day.setText(date);
         if (GeneralUtils.isNotNullOrZeroLenght(number))
             edit_id_number.setText(number);
+        if (GeneralUtils.isNotNullOrZeroLenght(cardPath))
+            PictureLoadUtil.loadPicture(getActivity(), cardPath, iv_scan_picture);
         tv_user_gender.setText(gender);
-        if (GeneralUtils.isNotNullOrZeroLenght(path))
-            PictureLoadUtil.loadPicture(getActivity(), path, iv_scan_picture);
     }
 
     //性别选择器初始化设置
@@ -168,8 +166,7 @@ public class RealInfoFragment extends BaseFragment {
         optionsPickerView = new OptionsPickerView.Builder(getActivity(), new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                userGender = genders.get(options1);
-                tv_user_gender.setText(userGender);
+                tv_user_gender.setText(genders.get(options1));
             }
         }).setTitleText("性别选择")
                 .setSelectOptions(0)
@@ -199,11 +196,22 @@ public class RealInfoFragment extends BaseFragment {
 
     //提交实名信息
     private void reviseRealInfo() {
+        params.put("name", realName);
+        if (userGender.equals("男"))
+            params.put("sex", "0");
+        if (userGender.equals("女"))
+            params.put("sex", "1");
+        params.put("birthdayStr", birthDay);
+        params.put("idCard", idNumber);
+        params.put("idCardPath", cardPath);
+
         HttpUtil.put(Constants.URL.REVISE_REAL_INFO, params).subscribe(new BaseResponseObserver<CommonResp>() {
 
             @Override
             public void success(CommonResp commonResp) {
                 ToastUtil.makeText(getActivity(), commonResp.getDesc());
+                realInfoBean.setRealInfoAuditStatus(1);
+                tv_identify_state.setText("待审核");
             }
 
             @Override
@@ -241,7 +249,7 @@ public class RealInfoFragment extends BaseFragment {
                 break;
             case R.id.iv_scan_picture:
                 if (GeneralUtils.isNullOrZeroLenght(ZcApplication.getLicenceToken())) {
-                    ToastUtil.makeText(getActivity(), "获取百度身份证识别LICENCE授权失败");
+                    ToastUtil.makeText(getActivity(), getString(R.string.getting_licence));
                 } else {
                     Intent intent = new Intent(getActivity(), CameraActivity.class);
                     intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
@@ -251,57 +259,52 @@ public class RealInfoFragment extends BaseFragment {
                 }
                 break;
             case R.id.tv_submit:
-                verify();
-                if (isCanUpdate) reviseRealInfo();
+                if (isNotEmpty() && isCanUpdate()) {
+                    if (realInfoBean.getRealInfoAuditStatus() != 1) {
+                        if (realInfoBean.getRealInfoAlterCount() <= 2)
+                            reviseRealInfo();
+                        else ToastUtil.makeText(getActivity(), getString(R.string.contact_kefu));
+                    } else ToastUtil.makeText(getActivity(), getString(R.string.wait_verify));
+                }
                 break;
         }
     }
 
-    private void verify() {
+    //校验信息是否为空
+    private boolean isNotEmpty() {
         realName = edit_user_name.getText().toString();
         idNumber = edit_id_number.getText().toString();
         birthDay = tv_birth_day.getText().toString();
         userGender = tv_user_gender.getText().toString();
 
         if (GeneralUtils.isNullOrZeroLenght(realName)) {
-            ToastUtil.makeText(getActivity(), "用户姓名不能为空");
-            isCanUpdate = false;
-            return;
-        } else if (!realName.equals(name)) {
-            params.put("name", realName);
-            isCanUpdate = true;
+            ToastUtil.makeText(getActivity(), getString(R.string.username_not_empty));
+            return false;
         }
-        if (!userGender.equals(gender)) {
-            if (userGender.equals("男"))
-                params.put("sex", "0");
-            if (userGender.equals("女"))
-                params.put("sex", "1");
-            isCanUpdate = true;
+        if (GeneralUtils.isNullOrZeroLenght(userGender)) {
+            ToastUtil.makeText(getActivity(), getString(R.string.usergender_not_empty));
         }
         if (GeneralUtils.isNullOrZeroLenght(birthDay)) {
-            ToastUtil.makeText(getActivity(), "用户出生年月不能为空");
-            isCanUpdate = false;
-            return;
-        } else if (!birthDay.equals(date)) {
-            params.put("birthdayStr", birthDay);
-            isCanUpdate = true;
+            ToastUtil.makeText(getActivity(), getString(R.string.userbirthday_not_empty));
+            return false;
         }
         if (GeneralUtils.isNullOrZeroLenght(idNumber)) {
-            ToastUtil.makeText(getActivity(), "用户身份证号不能为空");
-            isCanUpdate = false;
-            return;
-        } else if (!idNumber.equals(number)) {
-            params.put("idCard", idNumber);
-            isCanUpdate = true;
+            ToastUtil.makeText(getActivity(), getString(R.string.useridnumber_not_empty));
+            return false;
         }
         if (GeneralUtils.isNullOrZeroLenght(cardPath)) {
-            ToastUtil.makeText(getActivity(), "身份证上传失败");
-            isCanUpdate = false;
-            return;
-        } else if (!cardPath.equals(path)) {
-            params.put("idCardPath", cardPath);
-            isCanUpdate = true;
+            ToastUtil.makeText(getActivity(), getString(R.string.upload_idcard));
+            return false;
         }
+        return true;
+    }
+
+    private boolean isCanUpdate() {
+        if (realName.equals(name) && userGender.equals(gender) && birthDay.equals(date) && idNumber.equals(number)) {
+            ToastUtil.makeText(getActivity(), getString(R.string.not_revise));
+            return false;
+        }
+        return true;
     }
 
     private String getBirthTime(Date date) {

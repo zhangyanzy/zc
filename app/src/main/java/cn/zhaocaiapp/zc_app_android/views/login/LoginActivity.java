@@ -179,7 +179,7 @@ public class LoginActivity extends BaseFragmentActivity {
 
     private void setAlias(LoginResp result) {
         PushAgent pushAgent = PushAgent.getInstance(this);
-        pushAgent.addAlias(result.getAlias(), "alias", new UTrack.ICallBack() {
+        pushAgent.addAlias(result.getAlias(), "alias_user", new UTrack.ICallBack() {
             @Override
             public void onMessage(boolean b, String s) {
                 EBLog.i(TAG, s);

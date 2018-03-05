@@ -197,7 +197,7 @@ public class MyFragment extends BaseFragment {
         }
         if (GeneralUtils.isNotNullOrZeroLenght(userInfo.getAvatar()))
             PictureLoadUtil.loadPicture(getActivity(), userInfo.getAvatar(), iv_user_photo);
-        if (userInfo.getRealInfoAuditStatus() == 1)//通过实名认证
+        if (userInfo.getRealInfoAuditStatus() == 2)//通过实名认证
             SpUtils.put(Constants.SPREF.IS_CERTIFICATION, true);
 
         SpUtils.put(Constants.SPREF.INVITE_CODE, userInfo.getInviteCode());
@@ -314,7 +314,7 @@ public class MyFragment extends BaseFragment {
 
     private void deleteAlias() {
         PushAgent pushAgent = PushAgent.getInstance(getActivity());
-        pushAgent.deleteAlias((String) SpUtils.get(Constants.SPREF.ALIAS, ""), "alias", new UTrack.ICallBack() {
+        pushAgent.deleteAlias((String) SpUtils.get(Constants.SPREF.ALIAS, ""), "alias_user", new UTrack.ICallBack() {
             @Override
             public void onMessage(boolean b, String s) {
                 EBLog.i(TAG, s);

@@ -78,6 +78,16 @@
     <string name="not_certification">您还未实名认证，请前往个人资料中进行实名认证！</string>
     <string name="confirm_clean_cache">确认清除缓存吗？</string>
     <string name="idcard_upload_failure">身份证上传失败</string>
+    <string name="avater_upload_failure">用户头像上传失败</string>
+    <string name="not_revise">未作任何修改</string>
+    <string name="getting_licence">正在获取百度身份证识别LICENCE授权...</string>
+    <string name="username_not_empty">用户姓名不能为空</string>
+    <string name="usergender_not_empty">用户性别不能为空</string>
+    <string name="userbirthday_not_empty">用户出生年月不能为空</string>
+    <string name="useridnumber_not_empty">用户身份证号不能为空</string>
+    <string name="wait_verify">请等待审核</string>
+    <string name="upload_idcard">请上传身份证照片</string>
+    <string name="contact_kefu">请联系客服</string>
 
 
 </resources>

@@ -153,10 +153,10 @@ public class RelativeInfoFragment extends BaseFragment {
                 ToastUtil.makeText(getActivity(), commonResp.getDesc());
 
                 if (activityInfoBean.getActivityInfoAlterCount() < 3) {
-                    activityInfoBean.setActivityInfoAlterCount(activityInfoBean.getActivityInfoAlterCount() + 1);
                     activityInfoBean.setActivtiyInfoAudit(activityInfoBean.getActivtiyInfoAudit() + 1);
-                    showInfo();
-                }
+                } else activityInfoBean.setActivtiyInfoAudit(3);
+                activityInfoBean.setActivityInfoAlterCount(activityInfoBean.getActivityInfoAlterCount() + 1);
+                showInfo();
             }
 
             @Override
@@ -202,7 +202,11 @@ public class RelativeInfoFragment extends BaseFragment {
                 break;
             case R.id.tv_submit:
                 verify();
-                if (isCanUpdate) revise();
+                if (isCanUpdate) {
+                    if (activityInfoBean.getActivtiyInfoAudit() != 3)
+                        revise();
+                    else ToastUtil.makeText(getActivity(), getString(R.string.wait_verify));
+                }
                 break;
         }
     }
