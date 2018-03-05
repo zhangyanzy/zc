@@ -200,12 +200,6 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             String webUrl = String.format(inviteUrl, activityId, code);
             shareActivity(webUrl);
         }
-
-        //领取活动奖励
-        @JavascriptInterface
-        public void getAward(){
-
-        }
     }
 
     //分享活动

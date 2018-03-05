@@ -197,6 +197,7 @@ public class RealInfoFragment extends BaseFragment {
                 .build();
     }
 
+    //提交实名信息
     private void reviseRealInfo() {
         HttpUtil.put(Constants.URL.REVISE_REAL_INFO, params).subscribe(new BaseResponseObserver<CommonResp>() {
 

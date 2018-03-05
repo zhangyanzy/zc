@@ -160,7 +160,7 @@ public class LoginActivity extends BaseFragmentActivity {
                     bundle.putInt("position", position);
                     openActivity(MainActivity.class, bundle);
                 }
-                finish();
+                ActivityUtil.finishActivity(LoginActivity.this);
             }
 
             @Override

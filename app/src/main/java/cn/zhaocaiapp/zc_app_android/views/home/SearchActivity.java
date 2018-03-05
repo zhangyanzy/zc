@@ -393,7 +393,7 @@ public class SearchActivity extends BaseActivity {
         switch (view.getId()) {
             //返回
             case R.id.search_cancel:
-                finish();
+                ActivityUtil.finishActivity(this);
                 break;
             //清空
             case R.id.search_clear:

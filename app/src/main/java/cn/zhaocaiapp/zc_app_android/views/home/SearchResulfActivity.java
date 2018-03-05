@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.views.home;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -63,6 +64,8 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
 
     private ActivityAdapter activityAdapter;
 
+    private Activity lastActivity;
+
     @Override
     public int getContentViewResId() {
         return R.layout.search_resulf;
@@ -70,6 +73,7 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
 
     @Override
     public void init(Bundle savedInstanceState) {
+        lastActivity = ActivityUtil.currentActivity();
         ActivityUtil.addActivity(this);
 
         Bundle bd = this.getIntent().getExtras();
@@ -169,8 +173,8 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
                 finish();
                 break;
             case R.id.iv_top_back:
-                openActivity(MainActivity.class);
-                finish();
+                ActivityUtil.finishActivity(lastActivity);
+                ActivityUtil.finishActivity(this);
                 break;
         }
     }
