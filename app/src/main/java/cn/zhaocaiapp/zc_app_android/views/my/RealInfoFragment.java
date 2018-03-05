@@ -86,10 +86,10 @@ public class RealInfoFragment extends BaseFragment {
     private UserDetailResp.RealInfoBean realInfoBean;
 
     private String realName;
-    private String userGender = "男";
+    private String userGender;
     private String birthDay;
     private String idNumber;
-    private String cardPath;
+    private String cardPath = "";
     private Map<String, String> params = new HashMap<>();
     private boolean isCanUpdate;
 
@@ -261,6 +261,7 @@ public class RealInfoFragment extends BaseFragment {
         realName = edit_user_name.getText().toString();
         idNumber = edit_id_number.getText().toString();
         birthDay = tv_birth_day.getText().toString();
+        userGender = tv_user_gender.getText().toString();
 
         if (GeneralUtils.isNullOrZeroLenght(realName)) {
             ToastUtil.makeText(getActivity(), "用户姓名不能为空");
@@ -354,8 +355,12 @@ public class RealInfoFragment extends BaseFragment {
             @Override
             public void success(String s) {
                 EBLog.i(TAG, s);
-                cardPath = s;
-                PictureLoadUtil.loadPicture(getActivity(), cardPath, iv_scan_picture);
+                if (GeneralUtils.isNullOrZeroLenght(s))
+                    ToastUtil.makeText(getActivity(), getString(R.string.idcard_upload_failure));
+                else {
+                    cardPath = s;
+                    PictureLoadUtil.loadPicture(getActivity(), cardPath, iv_scan_picture);
+                }
             }
 
             @Override

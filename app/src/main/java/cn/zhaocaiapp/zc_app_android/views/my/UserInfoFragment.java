@@ -84,7 +84,6 @@ public class UserInfoFragment extends BaseFragment {
 
     private UserDetailResp.BaseInfoBean baseInfoBean;
     private LocationResp province, city, town;
-    //    private String avatar;
     private String nickName;
     private String homeAddress;
     private String companyAddress;
@@ -248,7 +247,7 @@ public class UserInfoFragment extends BaseFragment {
         }
     }
 
-    //判断是否修改内容
+    //判断内容是否修改
     private void isCanUpdate() {
         nickName = edit_user_nickname.getText().toString();
         homeAddress = edit_user_address.getText().toString();
