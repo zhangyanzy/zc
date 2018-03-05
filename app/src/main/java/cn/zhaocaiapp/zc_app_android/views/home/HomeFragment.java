@@ -214,7 +214,7 @@ public class HomeFragment extends BaseFragment {
                     EBLog.i("tag", "您点击了确认");
                     home_title_area_text.setText(gps.getCity());
                     SpUtils.put(Constants.SPREF.AREA_NAME, gps.getCity());
-                    SpUtils.put(Constants.SPREF.AREA_CODE, gps.getCityCode());
+                    SpUtils.put(Constants.SPREF.AREA_CODE, gps.getAdCode());
                     EventBus.getDefault().post(new MessageEvent<String>("home_tab_0"));
                     normalDialog.dismiss();
                     //获取新手任务

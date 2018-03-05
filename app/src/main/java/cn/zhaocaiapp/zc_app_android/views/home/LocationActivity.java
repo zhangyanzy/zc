@@ -216,7 +216,7 @@ public class LocationActivity extends BaseActivity {
             case R.id.home_location_switch:
                 Gps gps = LocationUtil.getGps();
                 SpUtils.put(Constants.SPREF.AREA_NAME, gps.getCity());
-                SpUtils.put(Constants.SPREF.AREA_CODE, gps.getCityCode());
+                SpUtils.put(Constants.SPREF.AREA_CODE, gps.getAdCode());
                 EventBus.getDefault().post(new MessageEvent<String>("home_location"));
                 LocationActivity.this.finish();
                 break;
