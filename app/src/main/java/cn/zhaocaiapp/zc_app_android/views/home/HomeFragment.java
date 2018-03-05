@@ -366,9 +366,7 @@ public class HomeFragment extends BaseFragment {
 
     @OnClick({
             R.id.home_title_search,
-            R.id.home_title_area,
             R.id.home_title_user_cart,
-            R.id.home_title_area_text,
             R.id.home_title_area_layout
     })
     public void onClick(View view) {
