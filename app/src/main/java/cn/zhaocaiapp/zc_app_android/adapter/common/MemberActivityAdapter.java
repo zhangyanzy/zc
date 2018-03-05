@@ -250,7 +250,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
             //已领取人数进度条
             viewHolderActivity.activity_item_text_number_progress.setProgress((int) pra);
             //地址logo 距离
-            if (list.get(position - 1).getActivityForm() == 0 && LocationUtil.getGps().getOpen()) {
+            if (list.get(position - 1).getActivityType() != 1 && list.get(position - 1).getActivityForm() == 0 && LocationUtil.getGps().getOpen()) {
                 viewHolderActivity.activity_item_text_area_logo.setVisibility(View.VISIBLE);
                 viewHolderActivity.activity_item_text_area_text.setVisibility(View.VISIBLE);
                 //起始位置 我的位置
@@ -263,7 +263,10 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
                 stopGps.setLongitude(list.get(position - 1).getLongitude().doubleValue());
                 //两点距离
                 float areaText = CoordinateConverter.calculateLineDistance(startGps, stopGps);
-                viewHolderActivity.activity_item_text_area_text.setText(areaText > 1000 ? String.format("%.1f", (areaText / 1000)) + "KM" : String.format("%.1f", (areaText)) + "M");
+                viewHolderActivity.activity_item_text_area_text.setText(areaText > 1000 ? String.format("%.1f", (areaText / 1000)) + "km" : String.format("%.1f", (areaText)) + "m");
+            } else {
+                viewHolderActivity.activity_item_text_area_logo.setVisibility(View.INVISIBLE);
+                viewHolderActivity.activity_item_text_area_text.setVisibility(View.INVISIBLE);
             }
             //收藏
             if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, "")) && list.get(position - 1).getFollow()) {
