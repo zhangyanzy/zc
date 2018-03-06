@@ -95,7 +95,7 @@ public class ZcApplication extends MultiDexApplication {
 
         //初始化友盟组件
         initUM();
-        Config.DEBUG = true;
+        Config.DEBUG = false;
 
         //SharedPreferences存储全局设置
         sp = getSharedPreferences(Constants.SPREF.FILE_NAME, Context.MODE_PRIVATE);
@@ -129,7 +129,7 @@ public class ZcApplication extends MultiDexApplication {
             @Override
             public void onResult(AccessToken accessToken) {
                 OCRToken = accessToken.getAccessToken();
-                EBLog.i(TAG, "百度ocr---" + OCRToken);
+//                EBLog.i(TAG, "百度ocr---" + OCRToken);
             }
 
             @Override
@@ -155,7 +155,7 @@ public class ZcApplication extends MultiDexApplication {
                 //注册成功会返回device token
                 umPushToken = deviceToken;
                 SpUtils.put(Constants.SPREF.DEVICE_TOKEN, umPushToken);
-                EBLog.i(TAG, "友盟token---" + umPushToken);
+//                EBLog.i(TAG, "友盟token---" + umPushToken);
             }
 
             @Override
