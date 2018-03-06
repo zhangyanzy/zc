@@ -68,7 +68,6 @@ public class ShareUtil {
 
     //开启分享面板
     public static void openShare() {
-        initMedia();
         mShareAction = new ShareAction(mActivity);
         mShareAction.setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.SINA)
                 .setShareboardclickCallback(new ShareBoardlistener() {
@@ -77,7 +76,7 @@ public class ShareUtil {
                         if (share_media == SHARE_MEDIA.SINA) {
                             mShareAction.setShareContent(initShareContent());
                         } else {
-                            mShareAction.withMedia(umWeb);
+                            mShareAction.withMedia(initMedia());
                         }
                         mShareAction.setPlatform(share_media)
                                 .setCallback(shareListener)
@@ -90,12 +89,13 @@ public class ShareUtil {
     //初始化微博分享内容
     private static ShareContent initShareContent() {
         ShareContent shareContent = new ShareContent();
-        shareContent.mMedia = umWeb;
+        desc = title;
+        shareContent.mMedia = initMedia();
         return shareContent;
     }
 
     //初始化分享内容
-    private static void initMedia() {
+    private static UMWeb initMedia() {
         String server = Constants.URL.H5_URL;
         StringBuilder sb = new StringBuilder();
         sb.append(server).append(webUrl);
@@ -104,6 +104,7 @@ public class ShareUtil {
         umWeb.setTitle(title);
         umWeb.setThumb(umImage);
         umWeb.setDescription(desc);
+        return umWeb;
     }
 
     //分享回调监听

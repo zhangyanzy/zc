@@ -96,6 +96,8 @@ public class SearchActivity extends BaseActivity {
     Button search_btn_off;
     @BindView(R.id.search_btn_on)
     Button search_btn_on;
+    @BindView(R.id.layout_history)
+    LinearLayout layout_history;
 
 
     private List<SearchRecommendResp> searchRecommendRespList; //推荐活动
@@ -344,6 +346,9 @@ public class SearchActivity extends BaseActivity {
         }
         historyList.clear();
         historyList.addAll(stringList1);
+        if (historyList.size() == 0) {
+            layout_history.setVisibility(View.GONE);
+        }
         hisTagAdapter.notifyDataChanged();
     }
 
@@ -353,6 +358,9 @@ public class SearchActivity extends BaseActivity {
     private void clearHistory() {
         SpUtils.put(Constants.SPREF.SEARCH_HISTORY, "");
         historyList.clear();
+        if (historyList.size() == 0) {
+            layout_history.setVisibility(View.GONE);
+        }
         hisTagAdapter.notifyDataChanged();
     }
 

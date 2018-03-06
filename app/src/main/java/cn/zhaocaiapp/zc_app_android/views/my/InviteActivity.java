@@ -1,5 +1,8 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +24,8 @@ import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
  * Created by Administrator on 2018/1/11.
@@ -33,6 +38,8 @@ public class InviteActivity extends BaseActivity {
     TextView tv_top_titlel;
     @BindView(R.id.iv_top_menu)
     ImageView iv_top_menu;
+    @BindView(R.id.tv_top_btu)
+    TextView tv_top_btu;
     @BindView(R.id.web)
     WebView web;
 
@@ -41,8 +48,8 @@ public class InviteActivity extends BaseActivity {
     private String shareDesc = "你看广告，我发钱";
 
     private UMShareAPI umShareAPI;
-    private String inviteCode;
-    private String webUrl;
+    private String inviteCode; //邀请码
+    private String webUrl; //分享链接
 
     @Override
     public int getContentViewResId() {
@@ -51,11 +58,11 @@ public class InviteActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        iv_top_menu.setImageResource(R.mipmap.share);
-        tv_top_titlel.setText("邀请好友");
-
         umShareAPI = ZcApplication.getUMShareAPI();
         inviteCode = getIntent().getStringExtra("code");
+
+        iv_top_menu.setImageResource(R.mipmap.share);
+        tv_top_titlel.setText("邀请码：" + inviteCode);
 
         WebSettings webSettings = web.getSettings();
         //设置自适应屏幕，两者合用
@@ -80,7 +87,7 @@ public class InviteActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
+    @OnClick({R.id.iv_top_back, R.id.iv_top_menu, R.id.tv_top_btu})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_top_back:
@@ -93,6 +100,15 @@ public class InviteActivity extends BaseActivity {
                         .setTitle(shareTitle)
                         .setDesc(shareDesc);
                 ShareUtil.openShare();
+                break;
+            case R.id.tv_top_btu:
+                //获取剪贴板管理器
+                ClipboardManager cm =(ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+                //创建普通字符型ClipData对象
+                ClipData mClipData = ClipData.newPlainText("Label", inviteCode);//‘Label’是任意文字标签
+                // 将ClipData内容放到系统剪贴板里。
+                cm.setPrimaryClip(mClipData);
+                ToastUtil.makeText(InviteActivity.this,  "已复制邀请码");
                 break;
         }
     }

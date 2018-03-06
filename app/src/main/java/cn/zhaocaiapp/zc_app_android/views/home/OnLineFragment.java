@@ -80,7 +80,6 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
 
     private ActivityAdapter activityAdapter;
 
-    private String shareTitle = "一个可以赚钱的APP";
     private String shareDesc = "你看广告，我发钱";
 
     @Override
@@ -186,6 +185,7 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
         @Override
         public void onItemCliclk(int position) {
             String webUrl = String.format(Constants.URL.SHARE_ACTIVITY_URL, activityRespList.get(position).getKid());
+            String shareTitle = activityRespList.get(position).getName();
             ShareUtil.init(getActivity())
                     .setUrl(webUrl)
                     .setSourceId(R.mipmap.logo)

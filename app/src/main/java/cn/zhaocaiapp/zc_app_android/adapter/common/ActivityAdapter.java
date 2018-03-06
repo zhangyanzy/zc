@@ -29,6 +29,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.adapter.my.MyActivityAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
@@ -114,14 +115,14 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         SpannableStringBuilder spannableString = new SpannableStringBuilder("#" + getActivityFormString(list.get(position).getActivityForm()) + "#" + list.get(position).getName());
         spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         viewHolderActivity.activity_item_text_title.setText(spannableString);
-        //视频活动播放
-        if (list.get(position).getActivityForm() == 1) {
-            viewHolderActivity.activity_item_img_vide.setVisibility(View.VISIBLE);
-            viewHolderActivity.tv_member_area_logo.setVisibility(View.GONE);
-        } else {
-            viewHolderActivity.activity_item_img_vide.setVisibility(View.INVISIBLE);
-            viewHolderActivity.tv_member_area_logo.setVisibility(View.VISIBLE);
-        }
+//        //视频活动播放
+//        if (list.get(position).getActivityForm() == 1) {
+//            viewHolderActivity.activity_item_img_vide.setVisibility(View.VISIBLE);
+//            viewHolderActivity.tv_member_area_logo.setVisibility(View.GONE);
+//        } else {
+//            viewHolderActivity.activity_item_img_vide.setVisibility(View.INVISIBLE);
+//            viewHolderActivity.tv_member_area_logo.setVisibility(View.VISIBLE);
+//        }
         //参与人头像
         viewHolderActivity.activity_item_text_user0.setVisibility(View.INVISIBLE);
         viewHolderActivity.activity_item_text_user1.setVisibility(View.INVISIBLE);
@@ -163,8 +164,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         viewHolderActivity.activity_item_text_number_progress.setProgress((int) pra);
         //地址logo 距离
         if (list.get(position).getActivityType() != 1 && list.get(position).getActivityForm() == 0 && LocationUtil.getGps().getOpen()) {
-            viewHolderActivity.activity_item_text_area_logo.setVisibility(View.VISIBLE);
-            viewHolderActivity.activity_item_text_area_text.setVisibility(View.VISIBLE);
+//            viewHolderActivity.activity_item_text_area_logo.setVisibility(View.VISIBLE);
+//            viewHolderActivity.activity_item_text_area_text.setVisibility(View.VISIBLE);
             //起始位置 我的位置
             DPoint startGps = new DPoint();
             startGps.setLatitude(LocationUtil.getGps().getLatitude());
@@ -176,10 +177,11 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             //两点距离
             float areaText = CoordinateConverter.calculateLineDistance(startGps, stopGps);
             viewHolderActivity.activity_item_text_area_text.setText(areaText > 1000 ? String.format("%.1f", (areaText / 1000)) + "km" : String.format("%.1f", (areaText)) + "m");
-        } else {
-            viewHolderActivity.activity_item_text_area_logo.setVisibility(View.INVISIBLE);
-            viewHolderActivity.activity_item_text_area_text.setVisibility(View.INVISIBLE);
         }
+//        else {
+//            viewHolderActivity.activity_item_text_area_logo.setVisibility(View.INVISIBLE);
+//            viewHolderActivity.activity_item_text_area_text.setVisibility(View.INVISIBLE);
+//        }
         //收藏
         if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, "")) && list.get(position).getFollow()) {
             viewHolderActivity.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
@@ -188,7 +190,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         }
         //奖励金额
         viewHolderActivity.activity_item_text_reward.setText(GeneralUtils.getBigDecimalToTwo(list.get(position).getRewardAmount()));
-
+        //是否显示控件
+        isContentVisible(list.get(position).getActivityForm(), viewHolderActivity);
 
         //商家图片 点击
         viewHolderActivity.activity_item_member_logo.setOnClickListener(new View.OnClickListener() {
@@ -231,18 +234,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 context.startActivity(intent);
             }
         });
-//        //进度条 点击
-//        viewHolderActivity.activity_item_text_centent.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, ActivityDetailActivity.class);
-//                intent.putExtra("id", list.get(position).getKid());
-//                intent.putExtra("title", list.get(position).getName());
-//                intent.putExtra("isNeedQRCode", list.get(position).getIfCheck());
-//
-//                context.startActivity(intent);
-//            }
-//        });
+
         //收藏 点击
         viewHolderActivity.activity_item_text_collection.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -318,6 +310,32 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         return list != null ? list.size() : 0;
     }
 
+    //根据活动类型和状态判断控件内容是否显示
+    private void isContentVisible(int activityType, ViewHolderActivity holder) {
+        switch (activityType) {
+            case 0: //线下活动
+                holder.activity_item_text_area_logo.setVisibility(View.VISIBLE);
+                holder.activity_item_text_area_text.setVisibility(View.VISIBLE);
+                holder.activity_item_img_vide.setVisibility(View.GONE);
+                holder.tv_member_area_logo.setVisibility(View.VISIBLE);
+                holder.activity_item_member_area.setVisibility(View.VISIBLE);
+                break;
+            case 1: //视频活动
+                holder.activity_item_text_area_logo.setVisibility(View.GONE);
+                holder.activity_item_text_area_text.setVisibility(View.GONE);
+                holder.activity_item_img_vide.setVisibility(View.VISIBLE);
+                holder.tv_member_area_logo.setVisibility(View.GONE);
+                holder.activity_item_member_area.setVisibility(View.GONE);
+                break;
+            case 2: //问卷活动
+                holder.activity_item_text_area_logo.setVisibility(View.GONE);
+                holder.activity_item_text_area_text.setVisibility(View.GONE);
+                holder.activity_item_img_vide.setVisibility(View.GONE);
+                holder.tv_member_area_logo.setVisibility(View.GONE);
+                holder.activity_item_member_area.setVisibility(View.GONE);
+                break;
+        }
+    }
 
     public void updata(List<ActivityResp> list) {
         this.list = list;

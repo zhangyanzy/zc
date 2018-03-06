@@ -15,32 +15,49 @@
         android:paddingTop="12dp"
         android:src="@mipmap/point_left" />
 
-    <TextView
-        android:id="@+id/tv_top_title"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/height_nav"
         android:layout_centerInParent="true"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
-        android:gravity="center"
-        android:maxLines="1"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/font_size_16"
-        android:visibility="visible" />
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/window_padding_15"
+        android:paddingRight="@dimen/window_padding_15">
 
-    <TextView
-        android:id="@+id/tv_top_menu"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tv_top_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:maxLines="1"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/font_size_15"
+            android:text="邀请码："/>
+
+        <TextView
+            android:id="@+id/tv_top_btu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/font_size_12"
+            android:background="@drawable/button_shape_white_border"
+            android:text="复制邀请码"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:layout_marginLeft="@dimen/window_padding_15"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_top_menu"
+        android:layout_width="@dimen/width_btn_img"
         android:layout_height="@dimen/height_nav"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/window_padding_15"
-        android:layout_toEndOf="@+id/tv_top_title"
-        android:gravity="center_vertical|right"
-        android:maxLines="1"
+        android:paddingBottom="12dp"
         android:paddingRight="12dp"
-        android:textColor="@color/colorFont6"
-        android:textSize="@dimen/font_size_14" />
-
+        android:paddingTop="12dp"
+        android:src="@mipmap/message" />
 </RelativeLayout>
 
