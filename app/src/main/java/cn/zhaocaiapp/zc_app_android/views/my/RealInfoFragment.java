@@ -46,9 +46,11 @@ import cn.zhaocaiapp.zc_app_android.bean.MessageEvent;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.UserDetailResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.capabilities.takephoto.PhotoHelper;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.DialogUtil;
 import cn.zhaocaiapp.zc_app_android.util.FileUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
@@ -268,6 +270,13 @@ public class RealInfoFragment extends BaseFragment {
                 }
                 break;
         }
+    }
+    private void showNormalDialog(){
+        String content = getString(R.string.contact_kefu);
+        NormalDialog dialog = DialogUtil.showDialogTwoBut(getActivity(),null, content, "取消", "确认");
+        dialog.isTitleShow(false);
+
+
     }
 
     //校验信息是否为空

@@ -230,6 +230,7 @@ public class ManageAccountActivity extends BaseActivity {
         if (isTurn) content = getString(R.string.not_certification);
         else content = getString(R.string.remove_bind);
         dialog = DialogUtil.showDialogTwoBut(this, null, content, "取消", "确定 ");
+        dialog.isTitleShow(false);
         dialog.setOnBtnClickL(new OnBtnClickL() {
             @Override
             public void onBtnClick() {

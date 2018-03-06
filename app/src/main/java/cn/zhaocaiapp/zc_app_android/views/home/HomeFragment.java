@@ -88,9 +88,12 @@ public class HomeFragment extends BaseFragment {
     private String areaCode;//用户定位城市Code
     private UserResp userResp;//用户
 
+    private static final String TAG = "首页";
+
     @Override
     public void onResume() {
         super.onResume();
+        EBLog.i(TAG, "---onResume---首页用户信息");
         getUserInfo();
     }
 
