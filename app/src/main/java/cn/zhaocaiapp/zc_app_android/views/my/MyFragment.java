@@ -201,6 +201,7 @@ public class MyFragment extends BaseFragment {
             SpUtils.put(Constants.SPREF.IS_CERTIFICATION, true);
 
         SpUtils.put(Constants.SPREF.INVITE_CODE, userInfo.getInviteCode());
+        SpUtils.put(Constants.SPREF.SERVICE_PHONE, userInfo.getCustomerPhone());
     }
 
     @OnClick({R.id.iv_top_menu, R.id.iv_user_photo, R.id.tv_user_identify, R.id.tv_apply_cash, R.id.layout_all_task, R.id.layout_deliver_task,

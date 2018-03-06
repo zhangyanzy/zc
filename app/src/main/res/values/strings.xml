@@ -69,7 +69,7 @@
     <string name="withdraw_success">提现申请成功，请等待审核</string>
     <string name="withdraw_limit">提现金额不能小于20元</string>
     <string name="withdraw_type">请选择提现方式</string>
-    <string name="account_closure">此账号已被封禁</string>
+    <string name="account_closure">您的账号已被封禁，请联系客服解封</string>
     <string name="check_agreement">请点击接受用户协议</string>
     <string name="remove_bind">确定解除该账户的绑定吗？</string>
     <string name="account_merge">您已经注册过，已将账户合并</string>

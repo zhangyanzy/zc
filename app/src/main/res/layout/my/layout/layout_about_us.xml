@@ -94,7 +94,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorFont3"
             android:textSize="@dimen/font_size_14"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="50dp"/>
     </RelativeLayout>
 
     <View style="@style/horizontal_C9_line"/>
