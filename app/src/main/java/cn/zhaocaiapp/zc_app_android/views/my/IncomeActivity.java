@@ -46,6 +46,7 @@ public class IncomeActivity extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         iv_top_menu.setVisibility(View.GONE);
+        tv_top_title.setText("交易明细");
 
         pager.setAdapter(new IncomePagerAdapter(getSupportFragmentManager()));
         tab_title.setupWithViewPager(pager);

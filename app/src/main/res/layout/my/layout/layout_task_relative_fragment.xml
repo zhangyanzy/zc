@@ -9,82 +9,94 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="活动信息状态："
             android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_15"
-            android:text="活动信息状态：" />
+            android:textSize="@dimen/font_size_15" />
 
         <TextView
-            android:id="@+id/tv_infoAlterCount"
+            android:id="@+id/tv_infostate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="未变动"
             android:textColor="@color/colorRemind"
-            android:textSize="@dimen/font_size_15"
-            android:text="未变动" />
+            android:textSize="@dimen/font_size_15" />
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/layout_edu"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorFont6"
-        android:textSize="@dimen/font_size_15"
-        android:text="学历（单选）"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp">
 
-    <TextView
-        android:id="@+id/tv_educational"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size_14"
-        android:textColor="@color/colorFont9"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/button_shape_white_round"
-        android:text="学历"
-        android:gravity="center"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select_edu"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_15" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorFont6"
-        android:textSize="@dimen/font_size_15"
-        android:text="职业（单选）"
-        android:layout_marginTop="30dp"/>
+        <TextView
+            android:id="@+id/tv_educational"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:drawablePadding="10dp"
+            android:drawableRight="@mipmap/turn_right"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_14" />
+    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_profession"
-        android:layout_width="wrap_content"
+    <View
+        style="@style/horizontal_C9_line"
+        android:layout_marginTop="10dp" />
+
+    <RelativeLayout
+        android:id="@+id/layout_pro"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size_14"
-        android:textColor="@color/colorFont9"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/button_shape_white_round"
-        android:text="职业"
-        android:gravity="center"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"/>
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select_pro"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_15" />
+
+        <TextView
+            android:id="@+id/tv_profession"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:drawablePadding="10dp"
+            android:drawableRight="@mipmap/turn_right"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/font_size_14" />
+    </RelativeLayout>
+
+    <View
+        style="@style/horizontal_C9_line"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/tv_submit"
         android:layout_width="225dp"
         android:layout_height="40dp"
-        android:layout_marginTop="60dp"
-        android:text="提交"
-        android:textSize="@dimen/font_size_18"
-        android:textColor="@color/colorWhite"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/button_shape_orange_round"
         android:layout_marginBottom="@dimen/window_padding_32"
-        android:gravity="center"/>
+        android:layout_marginTop="60dp"
+        android:background="@drawable/button_shape_orange_round"
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/font_size_18" />
 
 </LinearLayout>

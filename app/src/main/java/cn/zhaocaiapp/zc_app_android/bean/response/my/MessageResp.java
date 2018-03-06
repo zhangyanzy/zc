@@ -1,5 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.bean.response.my;
 
+import java.util.Date;
+
 /**
  * Created by Administrator on 2018/1/25.
  */
@@ -13,6 +15,15 @@ public class MessageResp {
     private String content;
     private long messageId;
     private int readStatus;
+    private Date createTime;
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
     public String getContent() {
         return content;
@@ -44,6 +55,7 @@ public class MessageResp {
                 "content='" + content + '\'' +
                 ", messageId=" + messageId +
                 ", readStatus=" + readStatus +
+                ", createTime=" + createTime +
                 '}';
     }
 }

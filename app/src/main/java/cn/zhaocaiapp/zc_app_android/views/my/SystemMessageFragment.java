@@ -79,8 +79,11 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
             @Override
             public void success(List<MessageResp> messageResps) {
                 EBLog.i(TAG, messageResps.toString());
-                messages = messageResps;
+                messages.addAll(messageResps);
                 adapter.refresh(messages);
+
+                refresh_layout.finishLoadmore();
+                refresh_layout.finishRefresh();
             }
 
             @Override
@@ -91,7 +94,9 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
         });
     }
 
-    private void updateMessageStatus() {
+    //更新消息状态
+    private void updateMessageStatus(int position) {
+        msgId = messages.get(position).getMessageId();
         Map<String, String> params = new HashMap<>();
         params.put("messages", msgId + "");
         HttpUtil.get(String.format(Constants.URL.UPDATE_MESSAGE_STATUS, type), params).subscribe(new BaseResponseObserver<String>() {
@@ -99,6 +104,8 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
             @Override
             public void success(String s) {
                 ToastUtil.makeText(getActivity(), s);
+                messages.get(position).setReadStatus(1);
+                adapter.refresh(messages);
             }
 
             @Override
@@ -111,8 +118,7 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
     private MyMessageAdapter.OnItemCliclkListener listener = new MyMessageAdapter.OnItemCliclkListener() {
         @Override
         public void onItemCliclk(int position) {
-//            msgId = messages.get(position).getMessageId();
-//            updateMessageStatus();
+            updateMessageStatus(position);
         }
     };
 
@@ -124,6 +130,8 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-
+        messages.clear();
+        currentResult = 0;
+        loadData();
     }
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -36,7 +37,17 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        holder.tv_describe.setText(messageResps.get(position).getContent());
+        String time = new SimpleDateFormat("yyyy-MM-dd").format(messageResps.get(position).getCreateTime());
+        holder.tv_time.setText(time);
+        if (messageResps.get(position).getReadStatus() == 0){//未读
+            holder.tv_describe.setTextColor(context.getResources().getColor(R.color.colorFont6));
+            holder.tv_time.setTextColor(context.getResources().getColor(R.color.colorFont6));
+        }
+        if (messageResps.get(position).getReadStatus() == 1){//已读
+            holder.tv_describe.setTextColor(context.getResources().getColor(R.color.colorFont9));
+            holder.tv_time.setTextColor(context.getResources().getColor(R.color.colorFont9));
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,10 +59,10 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.View
 
     @Override
     public int getItemCount() {
-        return messageResps.size() == 0 ? 5 : messageResps.size();
+        return messageResps.size();
     }
 
-    public void refresh(List<MessageResp> messageResps){
+    public void refresh(List<MessageResp> messageResps) {
         this.messageResps = messageResps;
         notifyDataSetChanged();
     }

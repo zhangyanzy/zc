@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.OptionsPickerView;
@@ -45,8 +46,12 @@ public class RelativeInfoFragment extends BaseFragment {
     TextView tv_profession;
     @BindView(R.id.tv_submit)
     TextView tv_submit;
-    @BindView(R.id.tv_infoAlterCount)
-    TextView tv_infoAlterCount;
+    @BindView(R.id.tv_infostate)
+    TextView tv_infostate;
+    @BindView(R.id.layout_edu)
+    RelativeLayout layout_edu;
+    @BindView(R.id.layout_pro)
+    RelativeLayout layout_pro;
 
     private View rootView;
 
@@ -54,14 +59,13 @@ public class RelativeInfoFragment extends BaseFragment {
     private OptionsPickerView optionsPickerView;
 
     private UserDetailResp.ActivityInfoBean activityInfoBean;
-    private List<RelationListResp.CommInfo> qualification;
-    private List<RelationListResp.CommInfo> occupation;
+    private List<RelationListResp.CommInfo> qualification;//学历列表
+    private List<RelationListResp.CommInfo> occupation;//职业列表
 
-    private long jobCode;
-    private long educationalCode;
-    private Map<String, String> params = new HashMap<>();
-    private boolean isCanUpdate;
-
+    private long proCode;//职业code
+    private long eduCode;//学历code
+    private String proName;//职业
+    private String eduName;//学历
     private String profession;
     private String education;
 
@@ -119,32 +123,38 @@ public class RelativeInfoFragment extends BaseFragment {
     private void showInfo() {
         profession = activityInfoBean.getJob();
         education = activityInfoBean.getEducational();
+        proCode = activityInfoBean.getJobCode();
+        eduCode = activityInfoBean.getEducationalCode();
         if (GeneralUtils.isNotNullOrZeroLenght(education))
             tv_educational.setText(education);
         if (GeneralUtils.isNotNullOrZeroLenght(profession))
             tv_profession.setText(profession);
         switch (activityInfoBean.getActivtiyInfoAudit()) {
             case 0:
-                tv_infoAlterCount.setText("未变动");
+                tv_infostate.setText("未变动");
                 break;
             case 1:
             case 2:
-                tv_infoAlterCount.setText("变动" + activityInfoBean.getActivityInfoAlterCount() + "次");
+                tv_infostate.setText("变动" + activityInfoBean.getActivityInfoAlterCount() + "次");
                 break;
             case 3:
-                tv_infoAlterCount.setText("待审核");
+                tv_infostate.setText("待审核");
                 break;
             case 4:
-                tv_infoAlterCount.setText("审核通过");
+                tv_infostate.setText("审核通过");
                 break;
             case 5:
-                tv_infoAlterCount.setText("审核未通过");
+                tv_infostate.setText("审核未通过");
                 break;
         }
     }
 
     //提交修改活动相关信息
     private void revise() {
+        Map<String, String> params = new HashMap<>();
+        params.put("jobCode", proCode + "");
+        params.put("educationalCode", eduCode + "");
+
         HttpUtil.put(Constants.URL.REVISE_ACTIVITY_INFO, params).subscribe(new BaseResponseObserver<CommonResp>() {
 
             @Override
@@ -167,42 +177,40 @@ public class RelativeInfoFragment extends BaseFragment {
         });
     }
 
-    private void verify() {
-        String edu = tv_educational.getText().toString();
-        String pro = tv_profession.getText().toString();
-        if (GeneralUtils.isNullOrZeroLenght(edu)) {
+    //校验信息是否为空
+    private boolean isNotEmpty() {
+        eduName = tv_educational.getText().toString();
+        proName = tv_profession.getText().toString();
+        if (GeneralUtils.isNullOrZeroLenght(eduName)) {
             ToastUtil.makeText(getActivity(), "学历不能为空");
-            isCanUpdate = false;
-            return;
-        } else if (!edu.equals(education)) {
-            params.put("jobCode", jobCode + "");
-            isCanUpdate = true;
+            return false;
         }
-        if (GeneralUtils.isNullOrZeroLenght(pro)) {
+        if (GeneralUtils.isNullOrZeroLenght(proName)) {
             ToastUtil.makeText(getActivity(), "职业不能为空");
-            isCanUpdate = false;
-            return;
-        } else if (!pro.equals(profession)) {
-            params.put("educationalCode", educationalCode + "");
-            isCanUpdate = true;
+            return false;
         }
-
+        return true;
     }
 
-    @OnClick({R.id.tv_educational, R.id.tv_profession, R.id.tv_submit})
+    private boolean isCanUpdate() {
+        if (eduName.equals(education) && proName.equals(profession)) {
+            ToastUtil.makeText(getActivity(), getString(R.string.not_revise));
+            return false;
+        }
+        return true;
+    }
+
+    @OnClick({R.id.layout_edu, R.id.layout_pro, R.id.tv_submit})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_educational:
+            case R.id.layout_edu:
                 setItemContent("学历选择", qualification, tv_educational);
-                optionsPickerView.show();
                 break;
-            case R.id.tv_profession:
+            case R.id.layout_pro:
                 setItemContent("职业选择", occupation, tv_profession);
-                optionsPickerView.show();
                 break;
             case R.id.tv_submit:
-                verify();
-                if (isCanUpdate) {
+                if (isNotEmpty() && isCanUpdate()) {
                     if (activityInfoBean.getActivtiyInfoAudit() != 3)
                         revise();
                     else ToastUtil.makeText(getActivity(), getString(R.string.wait_verify));
@@ -221,14 +229,15 @@ public class RelativeInfoFragment extends BaseFragment {
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 view.setText(names.get(options1));
                 if (view.getId() == R.id.tv_educational)
-                    educationalCode = items.get(options1).getDictCode();
+                    eduCode = items.get(options1).getDictCode();
                 if (view.getId() == R.id.tv_profession)
-                    jobCode = items.get(options1).getDictCode();
+                    proCode = items.get(options1).getDictCode();
             }
         }).setTitleText(title)
                 .setSelectOptions(0)
                 .build();
         optionsPickerView.setPicker(names);
+        optionsPickerView.show();
     }
 
     @Override

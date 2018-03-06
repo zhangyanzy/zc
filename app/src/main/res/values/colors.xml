@@ -21,6 +21,7 @@
     <color name="colorDialogContent">#3B70E3</color>
     <!--文字提醒 错误 金额-->
     <color name="colorRemind">#FF4949</color>
+    <color name="colorSuccess">#1DCB00</color>
 
 
     <!--切图包含颜色-->
@@ -35,8 +36,6 @@
     <color name="colorBg">#F2F4F8</color>
     <!--底色-->
     <color name="colorGround">#ffffff</color>
-    <!--成功-->
-    <color name="colorSuccess">#1DCB00</color>
     <!--文字链接 提示-->
     <color name="colorLink">#3B70E3</color>
     <!--警告-->

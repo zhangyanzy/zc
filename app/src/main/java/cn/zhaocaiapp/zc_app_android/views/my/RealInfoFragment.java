@@ -94,7 +94,6 @@ public class RealInfoFragment extends BaseFragment {
     private String birthDay;
     private String idNumber;
     private String cardPath;
-    private Map<String, String> params = new HashMap<>();
 
     private String name;
     private String gender;
@@ -200,6 +199,7 @@ public class RealInfoFragment extends BaseFragment {
 
     //提交实名信息
     private void reviseRealInfo() {
+        Map<String, String> params = new HashMap<>();
         params.put("name", realName);
         if (userGender.equals("男"))
             params.put("sex", "0");

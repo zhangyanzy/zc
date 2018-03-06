@@ -45,7 +45,9 @@ public class ActivityMessageFragment extends BaseFragment implements OnRefreshLi
     private int type = 0;//消息类型
     private int currentResult = 0;
     private int pageSize = 10;
+    private List<MessageResp> messages = new ArrayList<>();
     private MyMessageAdapter adapter;
+    private long msgId;
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,7 +61,7 @@ public class ActivityMessageFragment extends BaseFragment implements OnRefreshLi
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         list.setLayoutManager(manager);
-        adapter = new MyMessageAdapter(getActivity(), new ArrayList<MessageResp>());
+        adapter = new MyMessageAdapter(getActivity(), messages);
         list.setAdapter(adapter);
         adapter.setOnItemCliclkListener(listener);
     }
@@ -71,12 +73,16 @@ public class ActivityMessageFragment extends BaseFragment implements OnRefreshLi
         params.put("currentResult", currentResult + "");
         params.put("pageSize", pageSize + "");
 
-        HttpUtil.get(String.format(Constants.URL.MESSAGE_LIST, type),params).subscribe(new BaseResponseObserver<List<MessageResp>>() {
+        HttpUtil.get(String.format(Constants.URL.MESSAGE_LIST, type), params).subscribe(new BaseResponseObserver<List<MessageResp>>() {
 
             @Override
             public void success(List<MessageResp> messageResps) {
                 EBLog.i(TAG, messageResps.toString());
-                adapter.refresh(messageResps);
+                messages.addAll(messageResps);
+                adapter.refresh(messages);
+
+                refresh_layout.finishLoadmore();
+                refresh_layout.finishRefresh();
             }
 
             @Override
@@ -87,11 +93,32 @@ public class ActivityMessageFragment extends BaseFragment implements OnRefreshLi
         });
     }
 
+    //更新消息状态
+    private void updateMessageStatus(int position) {
+        msgId = messages.get(position).getMessageId();
+        Map<String, String> params = new HashMap<>();
+        params.put("messages", msgId + "");
+        HttpUtil.get(String.format(Constants.URL.UPDATE_MESSAGE_STATUS, type), params).subscribe(new BaseResponseObserver<String>() {
+
+            @Override
+            public void success(String s) {
+                ToastUtil.makeText(getActivity(), s);
+                messages.get(position).setReadStatus(1);
+                adapter.refresh(messages);
+            }
+
+            @Override
+            public void error(Response<String> response) {
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(getActivity(), response.getDesc());
+            }
+        });
+    }
+
     private MyMessageAdapter.OnItemCliclkListener listener = new MyMessageAdapter.OnItemCliclkListener() {
         @Override
         public void onItemCliclk(int position) {
-//            msgId = messages.get(position).getMessageId();
-//            updateMessageStatus();
+            updateMessageStatus(position);
         }
     };
 
@@ -103,6 +130,8 @@ public class ActivityMessageFragment extends BaseFragment implements OnRefreshLi
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-
+        messages.clear();
+        currentResult = 0;
+        loadData();
     }
 }

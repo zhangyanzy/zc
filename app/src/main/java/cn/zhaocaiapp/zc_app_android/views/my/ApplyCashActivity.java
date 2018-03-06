@@ -86,7 +86,8 @@ public class ApplyCashActivity extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         umShareAPI = ZcApplication.getUMShareAPI();
 
-        tv_top_title.setText("体现");
+        tv_top_title.setText("提现");
+        iv_top_menu.setImageResource(R.mipmap.trade_detail);
 
         balance = getIntent().getStringExtra("balance");
         getAccount();

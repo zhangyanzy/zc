@@ -46,7 +46,7 @@ public class MessageActivity extends BaseActivity {
     ViewPager pager;
 
     private List<Fragment> fragments = new ArrayList<>();
-    private String[]tabTitles = {"活动提醒", "系统消息"};
+    private String[]tabTitles = {"系统消息", "活动消息"};
 
     @Override
     public int getContentViewResId() {
@@ -55,8 +55,11 @@ public class MessageActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        fragments.add(new ActivityMessageFragment());
+        iv_top_menu.setVisibility(View.GONE);
+        tv_top_title.setText("消息中心");
+
         fragments.add(new SystemMessageFragment());
+        fragments.add(new ActivityMessageFragment());
 
         pager.setAdapter(new MessagePagerAdapter(getSupportFragmentManager()));
         titles.setupWithViewPager(pager);
