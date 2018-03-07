@@ -309,7 +309,7 @@ public class UserInfoFragment extends BaseFragment {
     //校验是否可以上传到服务器
     private boolean isCanUpdate() {
         if (nickName.equals(name) && homeAddress.equals(hAddress) && homeAddressDetail.equals(hDetail)
-                && companyAddress.equals(cAddress) && companyAddressDetail.equals(cDetail)) {
+                && companyAddress.equals(cAddress) && companyAddressDetail.equals(cDetail) && imgUrl.equals(baseInfoBean.getAvatar())) {
             ToastUtil.makeText(getActivity(), getString(R.string.not_revise));
             return false;
         }

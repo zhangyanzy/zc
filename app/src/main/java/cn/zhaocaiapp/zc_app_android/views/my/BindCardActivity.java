@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +18,11 @@ import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.MessageEvent;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.request.my.BindCardReq;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
+import cn.zhaocaiapp.zc_app_android.bean.response.my.UserDetailResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
@@ -37,7 +41,7 @@ public class BindCardActivity extends BaseActivity {
     @BindView(R.id.iv_top_menu)
     ImageView iv_menu;
     @BindView(R.id.user_name)
-    EditText user_name;
+    TextView user_name;
     @BindView(R.id.card_number)
     EditText card_number;
     @BindView(R.id.bank_name)
@@ -51,6 +55,8 @@ public class BindCardActivity extends BaseActivity {
     private OptionsPickerView optionsPickerView;
     private List<String>bankNames = new ArrayList<>();
 
+    private UserDetailResp.RealInfoBean realInfoBean;
+
     private static final String TAG = "绑定银行卡";
 
     @Override
@@ -62,6 +68,8 @@ public class BindCardActivity extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         iv_menu.setVisibility(View.GONE);
         tv_title.setText("绑定银行卡");
+
+        initData();
 
         bankNames.add("工商银行");
         bankNames.add("农业银行");
@@ -81,6 +89,24 @@ public class BindCardActivity extends BaseActivity {
         bankNames.add("北京银行");
         bankNames.add("上海银行");
         setPickView();
+    }
+
+    //获取用户基本信息
+    private void initData() {
+        HttpUtil.get(Constants.URL.GET_USER_INFO_DETAIL).subscribe(new BaseResponseObserver<UserDetailResp>() {
+
+            @Override
+            public void success(UserDetailResp userDetailResp) {
+                realInfoBean = userDetailResp.getRealInfo();
+                user_name.setText(realInfoBean.getName());
+            }
+
+            @Override
+            public void error(Response<UserDetailResp> response) {
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(BindCardActivity.this, response.getDesc());
+            }
+        });
     }
 
     private boolean verify() {
@@ -131,6 +157,7 @@ public class BindCardActivity extends BaseActivity {
             public void success(CommonResp commonResp) {
                 EBLog.i(TAG, commonResp.toString());
                 ToastUtil.makeText(BindCardActivity.this, commonResp.getDesc());
+                finish();
             }
 
             @Override

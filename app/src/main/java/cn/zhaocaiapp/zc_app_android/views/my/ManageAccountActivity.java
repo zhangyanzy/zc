@@ -70,6 +70,8 @@ public class ManageAccountActivity extends BaseActivity {
     private int type; //0 支付宝  1 微信   2 银行卡
     private NormalDialog dialog;
 
+    private static final int REQUEST_CODE = 6001;
+
     private static final String TAG = "管理账户";
 
     @SuppressLint("HandlerLeak")
@@ -142,11 +144,11 @@ public class ManageAccountActivity extends BaseActivity {
     //绑定三方账户
     private void bindAccount(String uid) {
         BindCardReq bindCardReq = new BindCardReq();
-        if (type == 0) {
+        if (type == 0) { // 支付宝绑定
             bindCardReq.setAlipayNo("");
             bindCardReq.setAlipayOpenId(uid);
         }
-        if (type == 1) {
+        if (type == 1) { // 微信绑定
             bindCardReq.setWechatNo("");
             bindCardReq.setWechatOpenId(uid);
         }
@@ -220,7 +222,7 @@ public class ManageAccountActivity extends BaseActivity {
                 if (account.getBankIs()) showDialog(false);
                 else if (!(boolean) SpUtils.get(Constants.SPREF.IS_CERTIFICATION, false))
                     showDialog(true);
-                else openActivity(BindCardActivity.class);
+                else openActivityForResult(BindCardActivity.class, REQUEST_CODE);
                 break;
         }
     }
@@ -341,5 +343,8 @@ public class ManageAccountActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         umShareAPI.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE){
+            getAccount();
+        }
     }
 }

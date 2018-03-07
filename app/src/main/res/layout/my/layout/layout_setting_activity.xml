@@ -6,14 +6,32 @@
 
     <include layout="@layout/layout_top_title" />
 
-    <View style="@style/C9_8dp_divider" />
+    <View style="@style/horizontal_C9_line" />
 
-    <LinearLayout
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/button_shape_round"
+        android:padding="8dp"
+        android:src="@mipmap/logo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/colorFont3"
+        android:textSize="@dimen/font_size_18"
+        android:text="@string/app_name"
+        android:layout_marginTop="10dp"/>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
-        android:orientation="horizontal"
-        android:paddingStart="25dp">
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,9 +47,10 @@
             android:layout_marginLeft="25dp"
             android:text="V 1.0.0"
             android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_14" />
+            android:textSize="@dimen/font_size_14"
+            android:layout_alignParentRight="true"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <View
         style="@style/horizontal_C9_line"
@@ -39,13 +58,13 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/layout_clear_cache"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:paddingStart="25dp">
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -59,10 +78,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
-            android:text="0MB"
+            android:text="0KB"
             android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_14" />
-    </LinearLayout>
+            android:textSize="@dimen/font_size_14"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 
     <View
         style="@style/horizontal_C9_line"
@@ -75,10 +95,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:layout_marginTop="20dp"
         android:text="关于我们"
         android:textColor="@color/colorFont6"
-        android:textSize="@dimen/font_size_14" />
+        android:textSize="@dimen/font_size_14"
+        android:drawableRight="@mipmap/turn_right"/>
 
     <View
         style="@style/horizontal_C9_line"

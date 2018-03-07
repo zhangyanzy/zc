@@ -168,15 +168,18 @@ public class ApplyCashActivity extends BaseActivity {
                 edit_apply_cash.setText(tv_balance.getText().toString());
                 break;
             case R.id.tv_submit:
-                BigDecimal money = new BigDecimal(edit_apply_cash.getText().toString());
-                if (money.compareTo(new BigDecimal(0)) == -1) {
-                    ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_limit));
-                } else if (type == -1) {
-                    ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_type));
-                } else {
-                    amount = GeneralUtils.getBigDecimalToTwo(money);
-                    doWithdraw();
-                }
+                if (GeneralUtils.isNotNullOrZeroLenght(edit_apply_cash.getText().toString())) {
+                    BigDecimal money = new BigDecimal(edit_apply_cash.getText().toString());
+                    if (money.compareTo(new BigDecimal(20)) == -1) {
+                        ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_limit));
+                    } else if (type == -1) {
+                        ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_type));
+                    } else {
+                        amount = GeneralUtils.getBigDecimalToTwo(money);
+                        doWithdraw();
+                    }
+                } else
+                    ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.input_cash));
                 break;
             case R.id.withdraw_wechat:
                 type = 1;

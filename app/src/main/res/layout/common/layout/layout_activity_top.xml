@@ -23,6 +23,8 @@
         android:layout_toEndOf="@+id/iv_logo"
         android:layout_toStartOf="@+id/tv_state"
         android:layout_marginEnd="@dimen/window_padding_15"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:text="活动名称"
         android:textColor="@color/colorFont3"
         android:textSize="@dimen/font_size_12" />

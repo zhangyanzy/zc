@@ -104,6 +104,10 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void init() {
+        //注册EventBus消息订阅者
+        EventBus.getDefault().register(this);
+        EBLog.i(TAG, "---onStart---首页订阅消息");
+
         home_view.setOffscreenPageLimit(tabTitles.length);
         home_view.setAdapter(new HomeFragmentPagerAdapter(this.getActivity().getSupportFragmentManager()));
         home_tabs.setupWithViewPager(home_view);
@@ -142,10 +146,6 @@ public class HomeFragment extends BaseFragment {
             }
         });
         home_view.setCurrentItem(0);
-
-        //注册EventBus消息订阅者
-        EventBus.getDefault().register(this);
-
     }
 
 
@@ -272,7 +272,7 @@ public class HomeFragment extends BaseFragment {
                 home_view.setCurrentItem(0);
                 EventBus.getDefault().post(new MessageEvent<String>("home_tab_0"));
                 home_title_area_text.setText((String) SpUtils.get(Constants.SPREF.AREA_NAME, Constants.CONFIG.AREA_NAME));
-                EBLog.i("tag", "接受到了");
+                EBLog.i(TAG, "接收到定位切换消息");
             }
         }
 

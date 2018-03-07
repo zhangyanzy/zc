@@ -90,6 +90,10 @@
     <string name="contact_kefu">请联系客服</string>
     <string name="select_edu">请选择学历</string>
     <string name="select_pro">请选择职业</string>
+    <string name="revise_limit">最多可以修改两次，再次修改需要后台审核</string>
+    <string name="professional_wechat">官方微信：zhaocai123</string>
+    <string name="copyright">Copyright @ 2018 zhaocai</string>
+    <string name="copyright_info">All Rights Reserved</string>
 
 
 </resources>

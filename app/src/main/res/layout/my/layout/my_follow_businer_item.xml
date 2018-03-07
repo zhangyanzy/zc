@@ -21,7 +21,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/iv_logo"
+        android:layout_toStartOf="@+id/tv_followed"
         android:text="凯迪拉克"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textColor="@color/colorFont3"
         android:textSize="@dimen/font_size_14" />
 
@@ -33,7 +36,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginStart="8dp"
         android:layout_toEndOf="@+id/iv_logo"
-        android:text="共250个活动"
+        android:text="共100个活动"
         android:textColor="@color/colorFont9"
         android:textSize="@dimen/font_size_14" />
 

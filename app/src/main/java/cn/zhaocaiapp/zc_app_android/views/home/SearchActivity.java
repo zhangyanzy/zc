@@ -1,6 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.views.home;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -116,6 +117,12 @@ public class SearchActivity extends BaseActivity {
     private long city, town;
     private Map<String, String> params = new HashMap<>();
 
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getHistory();
+    }
 
     @Override
     public int getContentViewResId() {
@@ -348,6 +355,8 @@ public class SearchActivity extends BaseActivity {
         historyList.addAll(stringList1);
         if (historyList.size() == 0) {
             layout_history.setVisibility(View.GONE);
+        }else {
+            layout_history.setVisibility(View.VISIBLE);
         }
         hisTagAdapter.notifyDataChanged();
     }
@@ -686,5 +695,10 @@ public class SearchActivity extends BaseActivity {
             towns.addAll(province_townList);
         }
         setCityPicker();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }

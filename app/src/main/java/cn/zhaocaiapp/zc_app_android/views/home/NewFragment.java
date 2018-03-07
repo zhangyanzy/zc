@@ -73,7 +73,7 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
 
     private int listType = 1;//最新活动 1最新活动 2线下活动 3线上活动 4历史活动
     private int pageNumber = 1;//分页
-    private int sortRule = 2;//降序 1升序 2降序
+    private int sortRule = 0;//降序 1升序 2降序
     private int sortType = 0;//默认 0默认 1时间 2金额 3距离
     private String longitude = "";//经度
     private String latitude = "";//纬度
@@ -84,19 +84,15 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
     private String shareDesc = "你看广告，我发钱";
 
     @Override
-    public void onStart() {
-        super.onStart();
-        //注册EventBus消息订阅者
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.home_tab_new, container, false);
     }
 
     @Override
     public void init() {
+        //注册EventBus消息订阅者
+        EventBus.getDefault().register(this);
+
         home_recycler.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
         activityAdapter = new ActivityAdapter(this.getActivity(), activityRespList);
@@ -120,11 +116,11 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
         params.put("longitude", longitude);
         params.put("latitude", latitude);
         if ((int) SpUtils.get(Constants.SPREF.ACTIVITY_RANGE, 0) == 0) {
-            params.put("areaCode", "");
+            params.put("cityCode", "");
         } else {
-            params.put("areaCode", (String) SpUtils.get(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE));
+            params.put("cityCode", (String) SpUtils.get(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE));
         }
-        EBLog.i("tag", params.toString());
+        EBLog.i("tag---请求活动---", params.toString());
 
         HttpUtil.get(Constants.URL.GET_ACTIVITY_LIST, params).subscribe(new BaseResponseObserver<List<ActivityResp>>() {
             @Override
@@ -165,7 +161,7 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
     public void initData() {
         listType = 1;//最新活动 1最新活动 2线下活动 3线上活动 4历史活动
         pageNumber = 1;//分页
-        sortRule = 2;//降序 1升序 2降序
+        sortRule = 0;//降序 1升序 2降序
         sortType = 0;//默认 0默认 1时间 2金额 3距离
         longitude = "";//经度
         latitude = "";//纬度
@@ -285,9 +281,4 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
 
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
 }

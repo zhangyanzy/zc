@@ -108,20 +108,20 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
     }
 
     //取消活动报名
-    private void cancelActivity(long kid) {
-        HttpUtil.put(String.format(Constants.URL.CANCEL_ACTIVITY, kid)).subscribe(new BaseResponseObserver<Boolean>() {
-
-            @Override
-            public void success(Boolean b) {
-            }
-
-            @Override
-            public void error(Response<Boolean> response) {
-                EBLog.e(TAG, response.getCode() + "");
-                ToastUtil.makeText(getActivity(), response.getDesc());
-            }
-        });
-    }
+//    private void cancelActivity(long kid) {
+//        HttpUtil.put(String.format(Constants.URL.CANCEL_ACTIVITY, kid)).subscribe(new BaseResponseObserver<Boolean>() {
+//
+//            @Override
+//            public void success(Boolean b) {
+//            }
+//
+//            @Override
+//            public void error(Response<Boolean> response) {
+//                EBLog.e(TAG, response.getCode() + "");
+//                ToastUtil.makeText(getActivity(), response.getDesc());
+//            }
+//        });
+//    }
 
     //关注活动、取消关注
     private void doFollow(int position, View view) {
@@ -164,16 +164,16 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
                 case R.id.layout_activity_content:
                 case R.id.tv_submit:
                 case R.id.tv_reward:
+                case R.id.tv_cancel: // 取消活动报名
                     String activityTitle = activitys.get(position).getName();
-
                     bundle.clear();
                     bundle.putLong("id", activityId);
                     bundle.putString("title", activityTitle);
                     openActivity(ActivityDetailActivity.class, bundle);
                     break;
-                case R.id.tv_cancel: // 取消活动报名
-                    cancelActivity(activityId);
-                    break;
+//                case R.id.tv_cancel: // 取消活动报名
+//                    cancelActivity(activityId);
+//                    break;
                 case R.id.iv_logo: // 跳转商家详情
                 case R.id.tv_name:
                     long memberId = activitys.get(position).getMemberId();

@@ -1,5 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -29,10 +31,14 @@ import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.RelationListResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.UserDetailResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.listener.OnBtnClickL;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.DialogUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
@@ -211,12 +217,32 @@ public class RelativeInfoFragment extends BaseFragment {
                 break;
             case R.id.tv_submit:
                 if (isNotEmpty() && isCanUpdate()) {
-                    if (activityInfoBean.getActivtiyInfoAudit() != 3)
-                        revise();
-                    else ToastUtil.makeText(getActivity(), getString(R.string.wait_verify));
+                    if (activityInfoBean.getActivtiyInfoAudit() != 3) {
+                        if (activityInfoBean.getActivityInfoAlterCount() < 3)
+                            revise();
+                        else showNormalDialog();
+                    }else ToastUtil.makeText(getActivity(), getString(R.string.wait_verify));
                 }
                 break;
         }
+    }
+
+    private void showNormalDialog() {
+        String content = getString(R.string.revise_limit);
+        NormalDialog dialog = DialogUtil.showDialogTwoBut(getActivity(), null, content, "取消", "确认");
+        dialog.isTitleShow(false);
+        dialog.setOnBtnClickL(new OnBtnClickL() {
+            @Override
+            public void onBtnClick() {
+                dialog.dismiss();
+            }
+        }, new OnBtnClickL() {
+            @Override
+            public void onBtnClick() {
+                revise();
+                dialog.dismiss();
+            }
+        });
     }
 
     private void setItemContent(String title, List<RelationListResp.CommInfo> items, TextView view) {

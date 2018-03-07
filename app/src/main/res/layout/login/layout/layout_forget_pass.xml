@@ -33,12 +33,12 @@
             android:inputType="phone"
             android:maxLines="1"
             android:textColor="@color/colorFont6"
-            android:textColorHint="@color/colorFont9"
+            android:textColorHint="@color/colorLine"
             android:textSize="@dimen/font_size_14" />
     </LinearLayout>
 
     <View
-        style="@style/horizontal_C9_line"
+        style="@style/horizontal_F0_line"
         android:layout_marginLeft="@dimen/window_padding_32"
         android:layout_marginRight="@dimen/window_padding_32"
         android:layout_marginTop="@dimen/edit_line_top" />
@@ -73,7 +73,7 @@
             android:inputType="number"
             android:maxLines="1"
             android:textColor="@color/colorFont6"
-            android:textColorHint="@color/colorFont9"
+            android:textColorHint="@color/colorLine"
             android:textSize="@dimen/font_size_14" />
 
         <TextView
@@ -88,7 +88,7 @@
             android:textSize="@dimen/font_size_14" />
 
         <View
-            style="@style/horizontal_C9_line"
+            style="@style/horizontal_F0_line"
             android:layout_toStartOf="@+id/tv_get_idntify_code"
             android:layout_alignBottom="@+id/tv_get_idntify_code"/>
     </RelativeLayout>
@@ -121,12 +121,12 @@
             android:inputType="textPassword"
             android:maxLines="1"
             android:textColor="@color/colorFont6"
-            android:textColorHint="@color/colorFont9"
+            android:textColorHint="@color/colorLine"
             android:textSize="@dimen/font_size_14" />
     </LinearLayout>
 
     <View
-        style="@style/horizontal_C9_line"
+        style="@style/horizontal_F0_line"
         android:layout_marginLeft="@dimen/window_padding_32"
         android:layout_marginRight="@dimen/window_padding_32"
         android:layout_marginTop="@dimen/edit_line_top"/>

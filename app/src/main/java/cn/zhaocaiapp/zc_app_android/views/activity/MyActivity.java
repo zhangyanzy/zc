@@ -47,6 +47,9 @@ public class MyActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        iv_top_menu.setVisibility(View.GONE);
+        tv_top_titlel.setText("我的活动");
+
         curPosition = getIntent().getIntExtra("position", 0);
 
         fragments.add(new AllActivityFragment());

@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="活动信息状态："
+            android:text="信息状态："
             android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_15" />
 

@@ -71,7 +71,7 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
 
     private int listType = 3;//最新活动 1最新活动 2线下活动 3线上活动 4历史活动
     private int pageNumber = 1;//分页
-    private int sortRule = 2;//降序 1升序 2降序
+    private int sortRule = 0;//降序 1升序 2降序
     private int sortType = 0;//默认 0默认 1时间 2金额 3距离
     private String longitude = "";//经度
     private String latitude = "";//纬度
@@ -159,7 +159,7 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
     public void initData() {
         listType = 3;//最新活动 1最新活动 2线下活动 3线上活动 4历史活动
         pageNumber = 1;//分页
-        sortRule = 2;//降序 1升序 2降序
+        sortRule = 0;//降序 1升序 2降序
         sortType = 0;//默认 0默认 1时间 2金额 3距离
         longitude = "";//经度
         latitude = "";//纬度

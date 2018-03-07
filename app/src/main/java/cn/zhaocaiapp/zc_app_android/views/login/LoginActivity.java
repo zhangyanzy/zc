@@ -152,9 +152,10 @@ public class LoginActivity extends BaseFragmentActivity {
                 setAlias(result);
                 saveUserData(result);
 
-                if (lastActivity != null && lastActivity instanceof ActivityDetailActivity) {
-                    openActivity(ActivityDetailActivity.class, getIntent().getExtras());
-                } else {
+                if (lastActivity != null){
+                    ActivityUtil.finishActivity(LoginActivity.this);
+                }
+                else {
                     int position = getIntent().getIntExtra("currentPosition", 0);
                     Bundle bundle = new Bundle();
                     bundle.putInt("position", position);

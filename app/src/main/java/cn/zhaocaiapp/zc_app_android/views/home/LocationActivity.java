@@ -81,6 +81,8 @@ public class LocationActivity extends BaseActivity {
     ImageView iv_top_back;
     @BindView(R.id.tv_top_title)
     TextView tv_top_title;
+    @BindView(R.id.iv_top_menu)
+    ImageView iv_top_menu;
 
     private static final String TAG = "城市列表";
 
@@ -107,7 +109,9 @@ public class LocationActivity extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         ActivityUtil.addActivity(this);
+
         EBLog.i("tag", "初始化");
+        iv_top_menu.setVisibility(View.GONE);
         initView();
         initData();
     }

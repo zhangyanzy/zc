@@ -265,7 +265,7 @@ public class RealInfoFragment extends BaseFragment {
             case R.id.tv_submit:
                 if (isNotEmpty() && isCanUpdate()) {
                     if (realInfoBean.getRealInfoAuditStatus() != 1) {
-                        if (realInfoBean.getRealInfoAlterCount() <= 2)
+                        if (realInfoBean.getRealInfoAlterCount() < 3)
                             reviseRealInfo();
                         else showNormalDialog();
                     } else ToastUtil.makeText(getActivity(), getString(R.string.wait_verify));
@@ -273,9 +273,10 @@ public class RealInfoFragment extends BaseFragment {
                 break;
         }
     }
-    private void showNormalDialog(){
+
+    private void showNormalDialog() {
         String content = getString(R.string.contact_kefu);
-        NormalDialog dialog = DialogUtil.showDialogTwoBut(getActivity(),null, content, "取消", "确认");
+        NormalDialog dialog = DialogUtil.showDialogTwoBut(getActivity(), null, content, "取消", "确认");
         dialog.isTitleShow(false);
         dialog.setOnBtnClickL(new OnBtnClickL() {
             @Override
@@ -381,6 +382,8 @@ public class RealInfoFragment extends BaseFragment {
             @Override
             public void success(String s) {
                 EBLog.i(TAG, s);
+                //停止身份证识别等待动画
+                stopProgressDialog();
                 if (GeneralUtils.isNullOrZeroLenght(s))
                     ToastUtil.makeText(getActivity(), getString(R.string.idcard_upload_failure));
                 else {
@@ -400,6 +403,8 @@ public class RealInfoFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //开启身份证识别等待动画
+        startProgressDialog();
         // 识别成功回调，身份证识别
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
             if (data != null) {

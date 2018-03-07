@@ -59,6 +59,8 @@ public class AboutUsActivity extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         tv_top_title.setText("关于我们");
+        iv_top_menu.setVisibility(View.GONE);
+
         initDate();
     }
 

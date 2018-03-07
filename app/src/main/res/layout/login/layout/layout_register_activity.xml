@@ -13,7 +13,7 @@
         android:layout_below="@+id/tv_skip_login"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
-        android:src="@mipmap/ic_launcher_round" />
+        android:src="@mipmap/logo_title" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="账号"
+            android:text="手机号"
             android:textColor="@color/colorFont3"
             android:textSize="@dimen/font_size_15" />
 
@@ -42,12 +42,12 @@
             android:inputType="phone"
             android:maxLines="1"
             android:textColor="@color/colorFont6"
-            android:textColorHint="@color/colorFont9"
+            android:textColorHint="@color/colorLine"
             android:textSize="@dimen/font_size_14" />
     </LinearLayout>
 
     <View
-        style="@style/horizontal_C9_line"
+        style="@style/horizontal_F0_line"
         android:layout_marginLeft="@dimen/window_padding_32"
         android:layout_marginRight="@dimen/window_padding_32"
         android:layout_marginTop="@dimen/edit_line_top" />
@@ -83,7 +83,7 @@
             android:inputType="number"
             android:maxLines="1"
             android:textColor="@color/colorFont6"
-            android:textColorHint="@color/colorFont9"
+            android:textColorHint="@color/colorLine"
             android:textSize="@dimen/font_size_14" />
 
         <TextView
@@ -98,7 +98,7 @@
             android:textSize="@dimen/font_size_14" />
 
         <View
-            style="@style/horizontal_C9_line"
+            style="@style/horizontal_F0_line"
             android:layout_alignBottom="@+id/send_identify_code"
             android:layout_toStartOf="@+id/send_identify_code" />
     </RelativeLayout>
@@ -115,7 +115,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="密码"
+            android:text="密    码"
             android:textColor="@color/colorFont3"
             android:textSize="@dimen/font_size_15" />
 
@@ -130,13 +130,13 @@
             android:inputType="textPassword"
             android:maxLines="1"
             android:textColor="@color/colorFont6"
-            android:textColorHint="@color/colorFont9"
+            android:textColorHint="@color/colorLine"
             android:textSize="@dimen/font_size_14" />
 
     </LinearLayout>
 
     <View
-        style="@style/horizontal_C9_line"
+        style="@style/horizontal_F0_line"
         android:layout_marginLeft="@dimen/window_padding_32"
         android:layout_marginRight="@dimen/window_padding_32"
         android:layout_marginTop="@dimen/edit_line_top" />
@@ -168,13 +168,13 @@
             android:inputType="text"
             android:maxLines="1"
             android:textColor="@color/colorFont6"
-            android:textColorHint="@color/colorFont9"
+            android:textColorHint="@color/colorLine"
             android:textSize="@dimen/font_size_14" />
 
     </LinearLayout>
 
     <View
-        style="@style/horizontal_C9_line"
+        style="@style/horizontal_F0_line"
         android:layout_marginLeft="@dimen/window_padding_32"
         android:layout_marginRight="@dimen/window_padding_32"
         android:layout_marginTop="@dimen/edit_line_top"/>

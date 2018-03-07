@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -38,7 +39,7 @@ public class SettingActivity extends BaseActivity {
     @BindView(R.id.tv_about_us)
     TextView tv_about_us;
     @BindView(R.id.layout_clear_cache)
-    LinearLayout layout_clear_cache;
+    RelativeLayout layout_clear_cache;
     @BindView(R.id.layout_setting_activity_all)
     RadioButton layout_setting_activity_all;
     @BindView(R.id.layout_setting_activity_current)
@@ -54,6 +55,7 @@ public class SettingActivity extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         tv_top_titlel.setText("设置");
+        iv_top_menu.setVisibility(View.GONE);
         tv_version.setText("V" + AppUtil.getAppVersionName(this));
         try {
             tv_clear_cache.setText(AppUtil.getCacheSize(this));
