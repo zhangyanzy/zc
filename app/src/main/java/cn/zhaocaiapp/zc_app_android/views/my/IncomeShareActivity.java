@@ -1,8 +1,5 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,7 +10,6 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.autonavi.rtbt.IFrameForRTBT;
 import com.umeng.socialize.UMShareAPI;
 
 import butterknife.BindView;
@@ -21,47 +17,69 @@ import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.Response;
+import cn.zhaocaiapp.zc_app_android.bean.response.my.MyResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
-import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
- * Created by Administrator on 2018/1/11.
+ * Created by Administrator on 2018/3/8.
  */
 
-public class InviteActivity extends BaseActivity {
+public class IncomeShareActivity extends BaseActivity {
     @BindView(R.id.iv_top_back)
     ImageView iv_top_back;
     @BindView(R.id.tv_top_title)
-    TextView tv_top_titlel;
+    TextView tv_top_title;
     @BindView(R.id.iv_top_menu)
     ImageView iv_top_menu;
-    @BindView(R.id.tv_top_btu)
-    TextView tv_top_btu;
     @BindView(R.id.web)
     WebView web;
 
-    private String inviteUrl = "/#/invite/user?code=%s";
-
+    private String webUrl;
+    private String income;
     private UMShareAPI umShareAPI;
-    private String inviteCode; //邀请码
-    private String webUrl; //分享链接
+
+    private static final String TAG = "炫耀收入";
 
     @Override
     public int getContentViewResId() {
-        return R.layout.layout_invite_activity;
+        return R.layout.layout_share_income;
     }
 
     @Override
     public void init(Bundle savedInstanceState) {
         umShareAPI = ZcApplication.getUMShareAPI();
-        inviteCode = getIntent().getStringExtra("code");
 
         iv_top_menu.setImageResource(R.mipmap.share);
-        tv_top_titlel.setText("邀请码：" + inviteCode);
+        tv_top_title.setText("炫耀收入");
 
+        loadData();
+    }
+
+    public void loadData() {
+        HttpUtil.get(Constants.URL.GET_BRIEF_USER_INFO).subscribe(new BaseResponseObserver<MyResp>() {
+
+            @Override
+            public void success(MyResp result) {
+                EBLog.i(TAG, result.toString());
+                income = result.getGrossIncomeAmount().toString();
+                loadWeb();
+            }
+
+            @Override
+            public void error(Response<MyResp> response) {
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(IncomeShareActivity.this, response.getDesc());
+            }
+        });
+    }
+
+    private void loadWeb(){
         WebSettings webSettings = web.getSettings();
         //设置自适应屏幕，两者合用
         webSettings.setUseWideViewPort(true); //将图片调整到适合webview的大小
@@ -73,7 +91,7 @@ public class InviteActivity extends BaseActivity {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
 
-        webUrl = String.format(inviteUrl, inviteCode);
+        webUrl = String.format(Constants.URL.INCOME_SHARE, income);
         web.loadUrl(Constants.URL.H5_URL + webUrl);
         EBLog.i("TAG", Constants.URL.H5_URL + webUrl);
         web.setWebViewClient(new WebViewClient() {
@@ -85,9 +103,9 @@ public class InviteActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.iv_top_back, R.id.iv_top_menu, R.id.tv_top_btu})
-    public void onClick(View view) {
-        switch (view.getId()) {
+    @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
+    public void onClick(View view){
+        switch (view.getId()){
             case R.id.iv_top_back:
                 finish();
                 break;
@@ -100,15 +118,6 @@ public class InviteActivity extends BaseActivity {
                         .setTitle(shareTitle)
                         .setDesc(shareDesc);
                 ShareUtil.openShare();
-                break;
-            case R.id.tv_top_btu:
-                //获取剪贴板管理器
-                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                //创建普通字符型ClipData对象
-                ClipData mClipData = ClipData.newPlainText("Label", inviteCode);//‘Label’是任意文字标签
-                // 将ClipData内容放到系统剪贴板里。
-                cm.setPrimaryClip(mClipData);
-                ToastUtil.makeText(InviteActivity.this, "已复制邀请码");
                 break;
         }
     }

@@ -45,7 +45,7 @@ public class IncomeActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        iv_top_menu.setVisibility(View.GONE);
+        iv_top_menu.setImageResource(R.mipmap.share);
         tv_top_title.setText("交易明细");
 
         pager.setAdapter(new IncomePagerAdapter(getSupportFragmentManager()));
@@ -53,9 +53,16 @@ public class IncomeActivity extends BaseActivity {
         pager.setCurrentItem(0);
     }
 
-    @OnClick({R.id.iv_top_back})
+    @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
     public void onClick(View view){
-        finish();
+        switch (view.getId()){
+            case R.id.iv_top_back:
+                finish();
+                break;
+            case R.id.iv_top_menu:
+                openActivity(IncomeShareActivity.class);
+                break;
+        }
     }
 
     private class IncomePagerAdapter extends FragmentPagerAdapter {

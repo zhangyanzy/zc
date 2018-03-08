@@ -18,7 +18,6 @@ import cn.zhaocaiapp.zc_app_android.views.my.UserInfoActivity;
  * @data 2018-02-03 13:07
  */
 public class newbieTaskActivity extends BaseActivity {
-
     @BindView(R.id.newbie_task_text)
     TextView newbie_task_text;
     @BindView(R.id.newbie_task_btn)
@@ -27,6 +26,8 @@ public class newbieTaskActivity extends BaseActivity {
     ImageView iv_top_back;
     @BindView(R.id.tv_top_title)
     TextView tv_top_title;
+    @BindView(R.id.iv_top_menu)
+    ImageView iv_top_menu;
 
     private static final String TAG = "新手任务";
 
@@ -44,6 +45,7 @@ public class newbieTaskActivity extends BaseActivity {
         newbie_task_text.setText(newbieAmount + "元");
 
         tv_top_title.setText(TAG);
+        iv_top_menu.setVisibility(View.GONE);
     }
 
     @OnClick({

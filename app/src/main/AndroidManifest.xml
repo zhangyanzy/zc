@@ -199,6 +199,9 @@
             android:name=".views.member.MemberDetailActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".views.my.IncomeShareActivity"
+            android:screenOrientation="portrait"/>
+
 
 
 

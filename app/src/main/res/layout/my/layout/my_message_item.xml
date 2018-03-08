@@ -17,12 +17,12 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/window_padding_15"
         android:layout_marginRight="@dimen/window_padding_15"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/iv_logo"
         android:text="参与凯迪拉克奥迪分红"
         android:textColor="@color/colorFont6"
         android:textSize="@dimen/font_size_14"
-        android:maxLines="2"/>
+        android:maxLines="2" />
 
     <TextView
         android:id="@+id/tv_time"

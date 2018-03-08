@@ -7,7 +7,7 @@
 
     <include layout="@layout/layout_top_title" />
 
-    <cn.zhaocaiapp.zc_app_android.widget.ZoomInScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
@@ -17,14 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="35dp">
+            android:paddingBottom="40dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="28dp"
+                android:layout_marginBottom="10dp"
                 android:paddingBottom="16dp"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
@@ -498,5 +498,5 @@
                 android:textColor="@color/colorFont6"
                 android:textSize="16sp" />
         </LinearLayout>
-    </cn.zhaocaiapp.zc_app_android.widget.ZoomInScrollView>
+    </ScrollView>
 </LinearLayout>

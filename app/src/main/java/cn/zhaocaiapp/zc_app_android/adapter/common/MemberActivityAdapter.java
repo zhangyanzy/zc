@@ -55,7 +55,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
     private Context context;
     private OnItemCliclkListener listene;
     private MemberResp memberResp; //商家详情
-
+    private OnItemCliclkListener listener;
 
     public MemberActivityAdapter(Context context, List<ActivityResp> list, MemberResp memberResp) {
         this.list = list;
@@ -383,14 +383,6 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
 
                             });
                         }
-                        // 分享
-                        viewHolderActivity.activity_item_text_share.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                            }
-                        });
-
                     }
                     //登录
                     else {
@@ -400,9 +392,14 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
                 }
             });
 
-
+            // 分享
+            viewHolderActivity.activity_item_text_share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemCliclk(holder.getLayoutPosition());
+                }
+            });
         }
-
     }
 
     @Override

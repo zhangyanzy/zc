@@ -51,25 +51,21 @@ public class NormalInputDialog extends BasesOsDialog<NormalInputDialog> {
 
         view.setBackgroundDrawable(
                 CornerUtils.cornerDrawable(Color.parseColor("#ffffff"), dp2px(5)));
-        setCanceledOnTouchOutside(false);
-        setCancelable(false);
+
 
         return view;
     }
 
-    public void setTitle(@Nullable String title){
+    public void setTitle(@Nullable String title) {
         if (GeneralUtils.isNullOrZeroLenght(title))
             title = content.getResources().getString(R.string.input);
         tv_title.setText(title);
     }
 
-//    public void showDialog(){
-//        content.setText("");
-//        show();
-//    }
-
     @Override
     public void setUiBeforShow() {
+        setCanceledOnTouchOutside(false);
+        setCancelable(false);
         content.setText("");
 
         tv_cancel.setOnClickListener(new View.OnClickListener() {
@@ -87,11 +83,11 @@ public class NormalInputDialog extends BasesOsDialog<NormalInputDialog> {
         });
     }
 
-    public interface OnDialogClickListener{
+    public interface OnDialogClickListener {
         void onDialogClick(int resId, @Nullable String content);
     }
 
-    public void setOnDialogClickListener(OnDialogClickListener listener){
+    public void setOnDialogClickListener(OnDialogClickListener listener) {
         this.listener = listener;
     }
 }

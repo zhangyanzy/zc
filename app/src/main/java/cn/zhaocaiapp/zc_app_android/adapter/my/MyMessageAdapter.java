@@ -45,8 +45,8 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.View
             holder.tv_time.setTextColor(context.getResources().getColor(R.color.colorFont6));
         }
         if (messageResps.get(position).getReadStatus() == 1){//已读
-            holder.tv_describe.setTextColor(context.getResources().getColor(R.color.colorFont9));
-            holder.tv_time.setTextColor(context.getResources().getColor(R.color.colorFont9));
+            holder.tv_describe.setTextColor(context.getResources().getColor(R.color.colorLine));
+            holder.tv_time.setTextColor(context.getResources().getColor(R.color.colorLine));
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -132,8 +132,6 @@ public class ForgetPassActivity extends BaseActivity {
             public void success(CommonResp result) {
                 EBLog.i(TAG, result.getDesc());
                 ToastUtil.makeText(ForgetPassActivity.this, getString(R.string.revise_pass_success));
-
-                openActivity(LoginActivity.class);
                 finish();
             }
 

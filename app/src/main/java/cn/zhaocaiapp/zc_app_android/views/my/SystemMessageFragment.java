@@ -97,8 +97,8 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
     //更新消息状态
     private void updateMessageStatus(int position) {
         msgId = messages.get(position).getMessageId();
-        Map<String, String> params = new HashMap<>();
-        params.put("messages", msgId + "");
+        Map<String, Long> params = new HashMap<>();
+        params.put("messageId", msgId);
         HttpUtil.get(String.format(Constants.URL.UPDATE_MESSAGE_STATUS, type), params).subscribe(new BaseResponseObserver<String>() {
 
             @Override
@@ -110,7 +110,7 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
 
             @Override
             public void error(Response<String> response) {
-                EBLog.e(TAG, response.getCode()+"");
+                EBLog.e(TAG, response.getCode() + "");
             }
         });
     }
@@ -118,7 +118,8 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
     private MyMessageAdapter.OnItemCliclkListener listener = new MyMessageAdapter.OnItemCliclkListener() {
         @Override
         public void onItemCliclk(int position) {
-            updateMessageStatus(position);
+            if (messages.get(position).getReadStatus() == 0) //未读
+                updateMessageStatus(position);
         }
     };
 

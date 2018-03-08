@@ -120,6 +120,7 @@ public class MyFragment extends BaseFragment {
     private TrembleBasesOsDialog trembleBasesOsDialog;
 
     private MyResp userInfo;
+    private boolean isFirst = true;
 
     private static final int REQUEST_CODE = 5001;
 
@@ -127,7 +128,9 @@ public class MyFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        loadData();
+        if (!isFirst)
+            loadData();
+        isFirst = false;
         EBLog.i(TAG, "---onResume---加载个人中心数据");
     }
 
@@ -331,4 +334,10 @@ public class MyFragment extends BaseFragment {
             trembleBasesOsDialog.dismiss();
         }
     };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        isFirst = true;
+    }
 }

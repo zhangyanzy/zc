@@ -29,6 +29,7 @@ import cn.zhaocaiapp.zc_app_android.bean.response.member.MemberResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 
 /**
  * @author 林子
@@ -72,6 +73,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
 
         activityAdapter = new MemberActivityAdapter(this, activityRespList, memberResp);
         member_detail_recycler.setAdapter(activityAdapter);
+        activityAdapter.setOnItemCliclkListener(listener);
 
         member_detail_refresh.setOnRefreshListener(this);
         member_detail_refresh.setOnLoadmoreListener(this);
@@ -128,6 +130,21 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
             }
         });
     }
+
+    private MemberActivityAdapter.OnItemCliclkListener listener = new MemberActivityAdapter.OnItemCliclkListener() {
+        @Override
+        public void onItemCliclk(int position) {
+            String webUrl = String.format(Constants.URL.SHARE_ACTIVITY_URL, activityRespList.get(position).getKid());
+            String shareTitle = activityRespList.get(position).getName();
+            String desc = getString(R.string.share_desc);
+            ShareUtil.init(MemberDetailActivity.this)
+                    .setUrl(webUrl)
+                    .setSourceId(R.mipmap.logo)
+                    .setTitle(shareTitle)
+                    .setDesc(desc);
+            ShareUtil.openShare();
+        }
+    };
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {

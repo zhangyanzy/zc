@@ -236,9 +236,10 @@ public class HomeFragment extends BaseFragment {
     }
 
     //首页获取用户信息
-    private void getUserInfo(){
+    private void getUserInfo() {
         //判断登录
         if (GeneralUtils.isNotNullOrZeroLenght((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
+//        if ((boolean) SpUtils.get(Constants.SPREF.IS_LOGIN, false)) {
             //获取用户信息
             HttpUtil.get(String.format(Constants.URL.GET_ACTIVITY_USER)).subscribe(new BaseResponseObserver<UserInfoResp>() {
                 @Override
@@ -254,7 +255,7 @@ public class HomeFragment extends BaseFragment {
                     home_title_user_income.setText(String.valueOf(userInfoResp.getGrossIncomeAmount()));
                     //用户余额
                     home_title_user_balance.setText(String.valueOf(userInfoResp.getAccountBalanceAmount()));
-                    EBLog.i("tag", result.toString());
+                    EBLog.i(TAG, result.toString());
                 }
 
                 @Override

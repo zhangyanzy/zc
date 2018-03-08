@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.MediaExtractor;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.BoringLayout;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -33,6 +34,7 @@ import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.AccountResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.dialog.listener.OnBtnClickL;
 import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalDialog;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalInputDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.AppUtil;
@@ -40,6 +42,7 @@ import cn.zhaocaiapp.zc_app_android.util.DialogUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
@@ -74,6 +77,7 @@ public class ApplyCashActivity extends BaseActivity {
     private String amount; // 提现金额
     private UMShareAPI umShareAPI;
     private static final int REQUEST_CODE = 4001;
+    private NormalInputDialog inputDialog;
 
     private static final String TAG = "申请提现";
 
@@ -85,14 +89,19 @@ public class ApplyCashActivity extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         umShareAPI = ZcApplication.getUMShareAPI();
+        balance = getIntent().getStringExtra("balance");
 
         tv_top_title.setText("提现");
         iv_top_menu.setImageResource(R.mipmap.trade_detail);
 
-        balance = getIntent().getStringExtra("balance");
         getAccount();
+
+        //初始化输入框弹窗
+        inputDialog = new NormalInputDialog(this);
+        inputDialog.setOnDialogClickListener(inputListener);
     }
 
+    //获取用户账户信息
     private void getAccount() {
         HttpUtil.get(Constants.URL.GET_ACCOUNT_INFO).subscribe(new BaseResponseObserver<AccountResp>() {
 
@@ -111,6 +120,7 @@ public class ApplyCashActivity extends BaseActivity {
         });
     }
 
+    //账户信息展示
     private void showInfo() {
         tv_balance.setText(balance);
         if (account.getWechatIs())
@@ -168,18 +178,7 @@ public class ApplyCashActivity extends BaseActivity {
                 edit_apply_cash.setText(tv_balance.getText().toString());
                 break;
             case R.id.tv_submit:
-                if (GeneralUtils.isNotNullOrZeroLenght(edit_apply_cash.getText().toString())) {
-                    BigDecimal money = new BigDecimal(edit_apply_cash.getText().toString());
-                    if (money.compareTo(new BigDecimal(20)) == -1) {
-                        ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_limit));
-                    } else if (type == -1) {
-                        ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_type));
-                    } else {
-                        amount = GeneralUtils.getBigDecimalToTwo(money);
-                        doWithdraw();
-                    }
-                } else
-                    ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.input_cash));
+                verifyAmount();
                 break;
             case R.id.withdraw_wechat:
                 type = 1;
@@ -206,6 +205,57 @@ public class ApplyCashActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+    //校验输入的取现金额
+    private void verifyAmount() {
+        if (GeneralUtils.isNotNullOrZeroLenght(edit_apply_cash.getText().toString())) {
+            BigDecimal money = new BigDecimal(edit_apply_cash.getText().toString());
+            if (money.compareTo(new BigDecimal(20)) == -1) {
+                ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_limit));
+            } else if (type == -1) {
+                ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_type));
+            } else {
+                amount = GeneralUtils.getBigDecimalToTwo(money);
+                inputDialog.show();
+            }
+        } else
+            ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.input_cash));
+    }
+
+    private NormalInputDialog.OnDialogClickListener inputListener = new NormalInputDialog.OnDialogClickListener() {
+        @Override
+        public void onDialogClick(int resId, @Nullable String content) {
+            if (resId == R.id.tv_submit)
+                if (GeneralUtils.isNullOrZeroLenght(content)) {
+                    ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.input_pass_word));
+                } else {
+                    verifyPass(content);
+                }
+            else inputDialog.dismiss();
+        }
+    };
+
+    //校验密码
+    private void verifyPass(String content) {
+        Map<String, String> params = new HashMap<>();
+        params.put("phone", (String) SpUtils.get(Constants.SPREF.USER_PHONE, ""));
+        params.put("password", content);
+        HttpUtil.post(Constants.URL.VERIFY_PASS, params).subscribe(new BaseResponseObserver<CommonResp>() {
+
+            @Override
+            public void success(CommonResp commonResp) {
+                EBLog.i(TAG, commonResp.getDesc());
+                inputDialog.dismiss();
+                doWithdraw();
+            }
+
+            @Override
+            public void error(Response<CommonResp> response) {
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(ApplyCashActivity.this, response.getDesc());
+            }
+        });
     }
 
     //设置支付方式的选中状态

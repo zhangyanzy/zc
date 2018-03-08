@@ -211,9 +211,11 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         startGps.setLatitude(LocationUtil.getGps().getLatitude());
         startGps.setLongitude(LocationUtil.getGps().getLongitude());
         //结束位置 活动位置
-        DPoint stopGps = new DPoint();
-        stopGps.setLatitude(activity.getLatitude().doubleValue());
-        stopGps.setLongitude(activity.getLongitude().doubleValue());
+        DPoint stopGps = new DPoint(31.235221, 121.499508);
+        if (GeneralUtils.isNotNull(activity.getLatitude()) && GeneralUtils.isNotNull(activity.getLongitude())){
+            stopGps.setLatitude(activity.getLatitude().doubleValue());
+            stopGps.setLongitude(activity.getLongitude().doubleValue());
+        }
         //两点距离
         float areaText = CoordinateConverter.calculateLineDistance(startGps, stopGps);
         return (areaText > 1000 ? String.format("%.1f", (areaText / 1000)) + "km" : String.format("%.1f", (areaText)) + "m");

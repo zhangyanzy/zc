@@ -45,6 +45,9 @@ public class MyFollowAvtivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        iv_top_menu.setVisibility(View.GONE);
+        tv_top_titlel.setText("我的关注");
+
         fragments.add(new MyFollowActivityFragment());
         fragments.add(new MyFollowBusinerFragment());
 
