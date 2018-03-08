@@ -56,8 +56,6 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
 
     private MyActivityAdapter adapter;
     private List<ActivityResp> activitys = new ArrayList<>();
-    private String shareTitle = "一个可以赚钱的APP";
-    private String shareDesc = "你看广告，我发钱";
 
     private static final String TAG = "全部活动";
 
@@ -106,22 +104,6 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
             }
         });
     }
-
-    //取消活动报名
-//    private void cancelActivity(long kid) {
-//        HttpUtil.put(String.format(Constants.URL.CANCEL_ACTIVITY, kid)).subscribe(new BaseResponseObserver<Boolean>() {
-//
-//            @Override
-//            public void success(Boolean b) {
-//            }
-//
-//            @Override
-//            public void error(Response<Boolean> response) {
-//                EBLog.e(TAG, response.getCode() + "");
-//                ToastUtil.makeText(getActivity(), response.getDesc());
-//            }
-//        });
-//    }
 
     //关注活动、取消关注
     private void doFollow(int position, View view) {
@@ -186,6 +168,8 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
                     break;
                 case R.id.activity_item_text_share: //活动分享
                     String webUrl = String.format(Constants.URL.SHARE_ACTIVITY_URL, activityId);
+                    String shareTitle = activitys.get(position).getName();
+                    String shareDesc = getString(R.string.share_desc);
                     ShareUtil.init(getActivity())
                             .setUrl(webUrl)
                             .setSourceId(R.mipmap.logo)

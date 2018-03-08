@@ -44,8 +44,8 @@ public class InviteActivity extends BaseActivity {
     WebView web;
 
     private String inviteUrl = "/#/invite/user?code=%s";
-    private String shareTitle = "一个可以赚钱的APP";
-    private String shareDesc = "你看广告，我发钱";
+    private String shareTitle = getString(R.string.app_name);
+    private String shareDesc = getString(R.string.share_desc);
 
     private UMShareAPI umShareAPI;
     private String inviteCode; //邀请码

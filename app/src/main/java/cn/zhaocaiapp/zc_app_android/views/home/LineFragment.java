@@ -85,7 +85,6 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
     private List<ActivityResp> activityRespList = new ArrayList<>();//活动列表
 
     private ActivityAdapter activityAdapter;
-    private String shareDesc = "你看广告，我发钱";
 
     @Override
     public void onStart() {
@@ -201,11 +200,12 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
         public void onItemCliclk(int position) {
             String webUrl = String.format(Constants.URL.SHARE_ACTIVITY_URL, activityRespList.get(position).getKid());
             String shareTitle = activityRespList.get(position).getName();
+            String desc = getString(R.string.share_desc);
             ShareUtil.init(getActivity())
                     .setUrl(webUrl)
                     .setSourceId(R.mipmap.logo)
                     .setTitle(shareTitle)
-                    .setDesc(shareDesc);
+                    .setDesc(desc);
             ShareUtil.openShare();
         }
     };

@@ -51,8 +51,6 @@ public class UnpassActivityFragment extends BaseFragment implements OnRefreshLis
 
     private MyActivityAdapter adapter;
     private List<ActivityResp> activitys = new ArrayList<>();
-    private String shareTitle = "一个可以赚钱的APP";
-    private String shareDesc = "你看广告，我发钱";
 
     private static final String TAG = "未通过活动";
 
@@ -160,6 +158,8 @@ public class UnpassActivityFragment extends BaseFragment implements OnRefreshLis
                     break;
                 case R.id.activity_item_text_share: //活动分享
                     String webUrl = String.format(Constants.URL.SHARE_ACTIVITY_URL, activityId);
+                    String shareTitle = activitys.get(position).getName();
+                    String shareDesc = getString(R.string.share_desc);
                     ShareUtil.init(getActivity())
                             .setUrl(webUrl)
                             .setSourceId(R.mipmap.logo)

@@ -79,9 +79,6 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     private String activityUrl = "/#/activity/detail?id=%s"; // 分享活動url
     private String inviteUrl = "/#/activity/detail?id=%s&code=%s"; //邀請好友協同活動
 
-    private String shareTitle = "一个可以赚钱的APP";
-    private String shareDesc = "你看广告，我发钱";
-
     private long activityId;  // 活动id
     private String inviteCode = "0";  //活動邀請碼
     private String activityTitle; // 活动名称
@@ -172,6 +169,18 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             return GsonHelper.toJson(params);
         }
 
+        @JavascriptInterface
+        public String getUser() {
+            Map<String, String> params = new HashMap<>();
+
+            //用戶token
+            params.put("token", (String) SpUtils.get(Constants.SPREF.TOKEN, ""));
+
+            EBLog.i("tag", GsonHelper.toJson(params));
+
+            return GsonHelper.toJson(params);
+        }
+
         //掃二維碼及拍照
         @JavascriptInterface
         public void takePhoto(String code) {
@@ -203,11 +212,12 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     }
 
     //分享活动
-    private void shareActivity(String webUrl){
+    private void shareActivity(String webUrl) {
+        String shareDesc = getString(R.string.share_desc);
         ShareUtil.init(this)
                 .setUrl(webUrl)
                 .setSourceId(R.mipmap.logo)
-                .setTitle(shareTitle)
+                .setTitle(activityTitle)
                 .setDesc(shareDesc);
         ShareUtil.openShare();
     }
@@ -226,7 +236,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     }
 
     //未登录，跳转至登录页
-    private void turoToLogin(){
+    private void turoToLogin() {
         Bundle bundle = new Bundle();
         bundle.putLong("id", activityId);
         bundle.putString("title", activityTitle);

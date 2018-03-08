@@ -31,6 +31,7 @@ import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 
 /**
  * @author 林子
@@ -141,7 +142,6 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
             public void error(Response<List<ActivityResp>> response) {
 
             }
-
         });
     }
 
@@ -150,18 +150,30 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
 
         activityAdapter = new ActivityAdapter(this, activityRespList);
         search_recycler.setAdapter(activityAdapter);
+        activityAdapter.setOnItemCliclkListener(listener);
 
         search_refresh.setOnRefreshListener(this);
         search_refresh.setOnLoadmoreListener(this);
 
-
         iv_top_edit.setFocusable(false);
         iv_top_edit.setHint("搜索所有活动");
         iv_top_edit.setText(name);
-
-
     }
 
+    private ActivityAdapter.OnItemCliclkListener listener = new ActivityAdapter.OnItemCliclkListener() {
+        @Override
+        public void onItemCliclk(int position) {
+            String webUrl = String.format(Constants.URL.SHARE_ACTIVITY_URL, activityRespList.get(position).getKid());
+            String shareTitle = activityRespList.get(position).getName();
+            String desc = getString(R.string.share_desc);
+            ShareUtil.init(SearchResulfActivity.this)
+                    .setUrl(webUrl)
+                    .setSourceId(R.mipmap.logo)
+                    .setTitle(shareTitle)
+                    .setDesc(desc);
+            ShareUtil.openShare();
+        }
+    };
 
     @OnClick({
             R.id.iv_top_edit,
