@@ -6,13 +6,16 @@
 
     <TextView
         android:id="@+id/tv_describe"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/window_padding_15"
         android:layout_marginRight="@dimen/window_padding_15"
-        android:text="参与凯迪拉克试驾活动"
+        android:layout_toStartOf="@+id/tv_income"
+        android:text="参与凯迪拉克"
         android:textColor="@color/colorFont6"
-        android:textSize="@dimen/font_size_14" />
+        android:textSize="@dimen/font_size_14"
+        android:maxLines="1"
+        android:ellipsize="end"/>
 
     <TextView
         android:id="@+id/tv_time"

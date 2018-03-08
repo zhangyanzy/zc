@@ -47,6 +47,7 @@ public final class EBLog {
     static {
         // TODO 发布的时候改成asset
         setLogType(LogType.verbose);
+        setLogType(LogType.asset);
     }
 
     private EBLog() {

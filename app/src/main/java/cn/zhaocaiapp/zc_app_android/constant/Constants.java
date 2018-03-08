@@ -223,6 +223,12 @@ public interface Constants {
         * 收支明细
         * */
        String INCOME_LIST = "userinfo/billinfo/%s";
+       /**
+        * 收入分享
+        * */
+        String INCOME_SHARE = "/#/my/income?income=%s";
+
+
 
 
         /**

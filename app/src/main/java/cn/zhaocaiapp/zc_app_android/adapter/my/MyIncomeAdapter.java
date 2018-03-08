@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.jph.takephoto.permission.PermissionManager;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -20,15 +22,16 @@ import cn.zhaocaiapp.zc_app_android.bean.response.my.IncomeResp;
 
 public class MyIncomeAdapter extends RecyclerView.Adapter<MyIncomeAdapter.ViewHolder> {
     private Context context;
-    private List<IncomeResp>items;
+    private List<IncomeResp> items;
+    private int type;
 
-
-    public MyIncomeAdapter(Context context, List<IncomeResp>items){
+    public MyIncomeAdapter(Context context, List<IncomeResp> items, int type) {
         this.context = context;
         this.items = items;
+        this.type = type;
     }
 
-    public void refresh(List<IncomeResp>items){
+    public void refresh(List<IncomeResp> items) {
         this.items = items;
         notifyDataSetChanged();
     }
@@ -44,31 +47,27 @@ public class MyIncomeAdapter extends RecyclerView.Adapter<MyIncomeAdapter.ViewHo
         holder.tv_describe.setText(items.get(position).getBusinessName());
         holder.tv_time.setText(items.get(position).getTimeStr());
 
-        if (items.get(position).getCashStatus() == 0){//已提交
-            holder.tv_state.setText("已提交");
+        if (type == 1) {
+            if (items.get(position).getCashStatus() == 0) {//已提交
+                holder.tv_state.setText("已提交");
+            } else if (items.get(position).getCashStatus() == 1) {//已通过
+                holder.tv_state.setText("已通过");
+            } else if (items.get(position).getCashStatus() == 2) {//未通过
+                holder.tv_state.setText("未通过");
+            } else if (items.get(position).getCashStatus() == 3) {//转账中
+                holder.tv_state.setText("转账中");
+            } else if (items.get(position).getCashStatus() == 4) {//已到账
+                holder.tv_state.setText("已到账");
+            } else if (items.get(position).getCashStatus() == 5) {//转账失败
+                holder.tv_state.setText("转账失败");
+            }
         }
-        else if (items.get(position).getCashStatus() == 1) {//已通过
-            holder.tv_state.setText("已通过");
-        }
-        else if (items.get(position).getCashStatus() == 2) {//未通过
-            holder.tv_state.setText("未通过");
-        }
-        else if (items.get(position).getCashStatus() == 3) {//转账中
-            holder.tv_state.setText("转账中");
-        }
-        else if (items.get(position).getCashStatus() == 4) {//已到账
-            holder.tv_state.setText("已到账");
-        }
-        else if (items.get(position).getCashStatus() == 5) {//转账失败
-            holder.tv_state.setText("转账失败");
-        }
-
         if (items.get(position).getBillType() == 0) {//收入
-           holder.tv_income.setText("+"+items.get(position).getAmount());
-           holder.tv_income.setTextColor(context.getResources().getColor(R.color.colorRemind));
+            holder.tv_income.setText("+" + items.get(position).getAmount());
+            holder.tv_income.setTextColor(context.getResources().getColor(R.color.colorRemind));
         }
         if (items.get(position).getBillType() == 1) {//
-            holder.tv_income.setText("-"+items.get(position).getAmount());
+            holder.tv_income.setText("-" + items.get(position).getAmount());
             holder.tv_income.setTextColor(context.getResources().getColor(R.color.colorSuccess));
         }
     }

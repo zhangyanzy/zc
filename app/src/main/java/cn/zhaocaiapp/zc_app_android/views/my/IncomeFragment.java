@@ -65,7 +65,7 @@ public class IncomeFragment extends BaseFragment implements OnRefreshListener, O
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         list.setLayoutManager(manager);
-        adapter = new MyIncomeAdapter(getActivity(), incomes);
+        adapter = new MyIncomeAdapter(getActivity(), incomes, type);
         list.setAdapter(adapter);
     }
 
