@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.idst.nls.NlsClient;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UTrack;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +22,7 @@ import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.ObtainCodeResp;
+import cn.zhaocaiapp.zc_app_android.bean.response.login.SignupResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.VerifyCodeResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
@@ -135,7 +138,7 @@ public class CheckPhoneActivity extends BaseActivity {
             @Override
             public void success(ObtainCodeResp result) {
                 EBLog.i(TAG, result.toString());
-                ToastUtil.makeText(CheckPhoneActivity.this, result.getDesc());
+                ToastUtil.makeText(CheckPhoneActivity.this, getString(R.string.identifycode_send));
             }
 
             @Override
@@ -169,31 +172,42 @@ public class CheckPhoneActivity extends BaseActivity {
 
                 if (response.getCode() == 5555) {
                     ToastUtil.makeText(CheckPhoneActivity.this, getString(R.string.account_merge));
-                    if (response.getData() != null)
-                        saveUserData((Map<String, String>) response.getData());
-
+                    if (response.getData() != null) {
+                        setAlias((VerifyCodeResp) response.getData());
+                        saveUserData((VerifyCodeResp) response.getData());
+                    }
                     Bundle bundle = new Bundle();
                     bundle.putInt("position", 0);
                     openActivity(MainActivity.class, bundle);
-                }else{
+                } else {
                     ToastUtil.makeText(CheckPhoneActivity.this, response.getDesc());
                 }
             }
         });
     }
 
+    private void setAlias(VerifyCodeResp result) {
+        PushAgent pushAgent = PushAgent.getInstance(this);
+        pushAgent.addAlias(result.getAlias(), "alias_user", new UTrack.ICallBack() {
+            @Override
+            public void onMessage(boolean b, String s) {
+                EBLog.i(TAG, s);
+            }
+        });
+    }
+
     //保存用户数据
-    private void saveUserData(Map<String, String> verifyCodeResp) {
-        SpUtils.put(Constants.SPREF.TOKEN, verifyCodeResp.get("token"));
+    private void saveUserData(VerifyCodeResp result) {
+        SpUtils.put(Constants.SPREF.TOKEN, result.getToken());
         SpUtils.put(Constants.SPREF.IS_LOGIN, true);
         SpUtils.put(Constants.SPREF.LOGIN_MODE, type);
-        SpUtils.put(Constants.SPREF.NICK_NAME, verifyCodeResp.get("nickname"));
-        SpUtils.put(Constants.SPREF.USER_PHONE, verifyCodeResp.get("phone"));
-        SpUtils.put(Constants.SPREF.USER_PHOTO, verifyCodeResp.get("avatar"));
-        if (GeneralUtils.isNotNull(verifyCodeResp.get("kid")))
-            SpUtils.put(Constants.SPREF.USER_ID, verifyCodeResp.get("kid"));
-        if (GeneralUtils.isNotNullOrZeroLenght(verifyCodeResp.get("alias")))
-            SpUtils.put(Constants.SPREF.ALIAS, verifyCodeResp.get("alias"));
+        SpUtils.put(Constants.SPREF.NICK_NAME, result.getNickname());
+        SpUtils.put(Constants.SPREF.USER_PHONE, result.getPhone());
+        SpUtils.put(Constants.SPREF.USER_PHOTO, result.getAvatar());
+        if (GeneralUtils.isNotNull(result.getKid()))
+            SpUtils.put(Constants.SPREF.USER_ID, result.getKid());
+        if (GeneralUtils.isNotNullOrZeroLenght(result.getAlias()))
+            SpUtils.put(Constants.SPREF.ALIAS, result.getAlias());
     }
 
 }

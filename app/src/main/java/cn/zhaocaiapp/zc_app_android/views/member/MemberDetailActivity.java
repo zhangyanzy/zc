@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.views.member;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +21,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.adapter.common.ActivityAdapter;
 import cn.zhaocaiapp.zc_app_android.adapter.common.MemberActivityAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
@@ -45,6 +48,8 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
     ImageView iv_top_back;
     @BindView(R.id.tv_top_title)
     TextView tv_top_title;
+    @BindView(R.id.iv_top_menu)
+    ImageView iv_top_menu;
 
     private static final String TAG = "商家活动";
 
@@ -54,6 +59,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
     private List<ActivityResp> activityRespList = new ArrayList<>();//活动列表
 
     private MemberActivityAdapter activityAdapter;
+    private UMShareAPI umShareAPI;
 
 
     @Override
@@ -67,13 +73,16 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
         memberId = bd.getLong("memberId");
         EBLog.i("tag", "接受到商家Id：" + memberId);
 
+        umShareAPI = ZcApplication.getUMShareAPI();
+
         tv_top_title.setText(TAG);
+        iv_top_menu.setVisibility(View.GONE);
 
         member_detail_recycler.setLayoutManager(new LinearLayoutManager(this));
 
         activityAdapter = new MemberActivityAdapter(this, activityRespList, memberResp);
         member_detail_recycler.setAdapter(activityAdapter);
-        activityAdapter.setOnItemCliclkListener(listener);
+        activityAdapter.setOnItemClickListener(listener);
 
         member_detail_refresh.setOnRefreshListener(this);
         member_detail_refresh.setOnLoadmoreListener(this);
@@ -131,11 +140,11 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
         });
     }
 
-    private MemberActivityAdapter.OnItemCliclkListener listener = new MemberActivityAdapter.OnItemCliclkListener() {
+    private MemberActivityAdapter.OnItemClickListener listener = new MemberActivityAdapter.OnItemClickListener() {
         @Override
-        public void onItemCliclk(int position) {
-            String webUrl = String.format(Constants.URL.SHARE_ACTIVITY_URL, activityRespList.get(position).getKid());
-            String shareTitle = activityRespList.get(position).getName();
+        public void onItemClick(int position) {
+            String webUrl = String.format(Constants.URL.SHARE_ACTIVITY_URL, activityRespList.get(position - 1).getKid());
+            String shareTitle = activityRespList.get(position - 1).getName();
             String desc = getString(R.string.share_desc);
             ShareUtil.init(MemberDetailActivity.this)
                     .setUrl(webUrl)
@@ -164,5 +173,18 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
     @OnClick({R.id.iv_top_back})
     public void onClicl(View view) {
         finish();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        umShareAPI.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        umShareAPI.release();
     }
 }

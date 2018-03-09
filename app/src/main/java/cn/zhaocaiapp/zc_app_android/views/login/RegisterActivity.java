@@ -10,6 +10,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
+import com.umeng.message.PushAgent;
+import com.umeng.message.UTrack;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +23,7 @@ import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
+import cn.zhaocaiapp.zc_app_android.bean.response.login.LoginResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.ObtainCodeResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.SignupResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
@@ -128,7 +132,7 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void success(ObtainCodeResp result) {
                 EBLog.i(TAG, result.toString());
-                ToastUtil.makeText(RegisterActivity.this, result.getDesc());
+                ToastUtil.makeText(RegisterActivity.this, getString(R.string.identifycode_send));
             }
 
             @Override
@@ -156,7 +160,9 @@ public class RegisterActivity extends BaseActivity {
                 EBLog.i(TAG, result.toString());
                 ToastUtil.makeText(RegisterActivity.this, result.getDesc());
 
+                setAlias(result);
                 saveUserData(result);
+
                 Bundle bundle = new Bundle();
                 bundle.putInt("position", 0);
                 openActivity(MainActivity.class, bundle);
@@ -167,6 +173,16 @@ public class RegisterActivity extends BaseActivity {
             public void error(Response response) {
                 ToastUtil.makeText(RegisterActivity.this, response.getDesc());
                 EBLog.i(TAG, response.getCode() + "");
+            }
+        });
+    }
+
+    private void setAlias(SignupResp result) {
+        PushAgent pushAgent = PushAgent.getInstance(this);
+        pushAgent.addAlias(result.getAlias(), "alias_user", new UTrack.ICallBack() {
+            @Override
+            public void onMessage(boolean b, String s) {
+                EBLog.i(TAG, s);
             }
         });
     }

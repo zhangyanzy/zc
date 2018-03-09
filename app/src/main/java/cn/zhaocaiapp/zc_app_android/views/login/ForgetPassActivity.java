@@ -109,7 +109,7 @@ public class ForgetPassActivity extends BaseActivity {
             @Override
             public void success(ObtainCodeResp result) {
                 EBLog.i(TAG, result.toString());
-                ToastUtil.makeText(ForgetPassActivity.this, result.getDesc());
+                ToastUtil.makeText(ForgetPassActivity.this, getString(R.string.identifycode_send));
             }
 
             @Override

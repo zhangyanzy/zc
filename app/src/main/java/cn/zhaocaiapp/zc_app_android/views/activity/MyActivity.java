@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.views.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -11,12 +12,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.umeng.socialize.UMShareAPI;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 
 /**
@@ -39,6 +43,7 @@ public class MyActivity extends BaseActivity {
     private List<Fragment>fragments = new ArrayList<>();
     private int curPosition;
 
+    private UMShareAPI umShareAPI;
 
     @Override
     public int getContentViewResId() {
@@ -47,6 +52,8 @@ public class MyActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        umShareAPI = ZcApplication.getUMShareAPI();
+
         iv_top_menu.setVisibility(View.GONE);
         tv_top_titlel.setText("我的活动");
 
@@ -90,5 +97,17 @@ public class MyActivity extends BaseActivity {
     @OnClick(R.id.iv_top_back)
     public void onClick(View view){
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        umShareAPI.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        umShareAPI.release();
     }
 }

@@ -53,9 +53,8 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
 
     private List<ActivityResp> list;
     private Context context;
-    private OnItemCliclkListener listene;
     private MemberResp memberResp; //商家详情
-    private OnItemCliclkListener listener;
+    private OnItemClickListener listener;
 
     public MemberActivityAdapter(Context context, List<ActivityResp> list, MemberResp memberResp) {
         this.list = list;
@@ -396,7 +395,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
             viewHolderActivity.activity_item_text_share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onItemCliclk(holder.getLayoutPosition());
+                    listener.onItemClick(viewHolderActivity.getLayoutPosition());
                 }
             });
         }
@@ -418,12 +417,12 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
         notifyDataSetChanged();
     }
 
-    public interface OnItemCliclkListener {
-        void onItemCliclk(int position);
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 
-    public void setOnItemCliclkListener(OnItemCliclkListener listener) {
-        this.listene = listener;
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     /**

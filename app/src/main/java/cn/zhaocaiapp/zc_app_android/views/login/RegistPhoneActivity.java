@@ -8,6 +8,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.umeng.message.PushAgent;
+import com.umeng.message.UTrack;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -114,7 +117,9 @@ public class RegistPhoneActivity extends BaseActivity {
                 EBLog.i(TAG, result.toString());
                 ToastUtil.makeText(RegistPhoneActivity.this, result.getDesc());
 
+                setAlias(result);
                 saveUserData(result);
+
                 Bundle bundle = new Bundle();
                 bundle.putInt("position", 0);
                 openActivity(MainActivity.class, bundle);
@@ -125,6 +130,16 @@ public class RegistPhoneActivity extends BaseActivity {
             public void error(Response response) {
                 ToastUtil.makeText(RegistPhoneActivity.this, response.getDesc());
                 EBLog.i(TAG, response.getCode() + "");
+            }
+        });
+    }
+
+    private void setAlias(SignupResp result) {
+        PushAgent pushAgent = PushAgent.getInstance(this);
+        pushAgent.addAlias(result.getAlias(), "alias_user", new UTrack.ICallBack() {
+            @Override
+            public void onMessage(boolean b, String s) {
+                EBLog.i(TAG, s);
             }
         });
     }

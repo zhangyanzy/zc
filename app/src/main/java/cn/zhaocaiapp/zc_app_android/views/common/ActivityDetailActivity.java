@@ -371,4 +371,10 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        shareAPI.release();
+    }
 }

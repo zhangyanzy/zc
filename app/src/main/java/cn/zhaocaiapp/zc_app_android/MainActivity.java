@@ -2,6 +2,7 @@ package cn.zhaocaiapp.zc_app_android;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -15,6 +16,8 @@ import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
+import com.umeng.commonsdk.stateless.UMSLEnvelopeBuild;
+import com.umeng.socialize.UMShareAPI;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,6 +49,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
     private int currentIndex = -1;
     private Map<Integer, Fragment> fragmentMap = new HashMap<>();
 
+    private UMShareAPI umShareAPI;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,12 +57,14 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         setContentView(R.layout.layout_main_activity);
         ActivityUtil.addActivity(this);
 
+        umShareAPI = ZcApplication.getUMShareAPI();
+
         currentPosition = getIntent().getIntExtra("position", -1);
 
         //注册蒲公英Crash反馈
         PgyCrashManager.register(getApplicationContext());
         //注册蒲公英版本更新
-        PgyUpdateManager.setIsForced(true); //设置是否强制更新。true为强制更新；false为不强制更新（默认值）。
+        PgyUpdateManager.setIsForced(false); //设置是否强制更新。true为强制更新；false为不强制更新（默认值）。
         PgyUpdateManager.register(this, updateListener);
 
         initView();
@@ -193,4 +199,16 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
             dialog.setCanceledOnTouchOutside(false);
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        umShareAPI.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        umShareAPI.release();
+    }
 }

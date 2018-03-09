@@ -1,6 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.views.home;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +24,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.MainActivity;
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.adapter.common.ActivityAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
@@ -66,6 +69,7 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
     private ActivityAdapter activityAdapter;
 
     private Activity lastActivity;
+    private UMShareAPI umShareAPI;
 
     @Override
     public int getContentViewResId() {
@@ -76,6 +80,8 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
     public void init(Bundle savedInstanceState) {
         lastActivity = ActivityUtil.currentActivity();
         ActivityUtil.addActivity(this);
+
+        umShareAPI = ZcApplication.getUMShareAPI();
 
         Bundle bd = this.getIntent().getExtras();
         name = bd != null ? bd.getString("name", "") : "";
@@ -156,7 +162,7 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
         search_refresh.setOnLoadmoreListener(this);
 
         iv_top_edit.setFocusable(false);
-        iv_top_edit.setHint("搜索所有活动");
+        iv_top_edit.setHint(getString(R.string.search_activity));
         iv_top_edit.setText(name);
     }
 
@@ -209,7 +215,19 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        openActivity(MainActivity.class);
-        finish();
+        ActivityUtil.finishActivity(lastActivity);
+        ActivityUtil.finishActivity(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        umShareAPI.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        umShareAPI.release();
     }
 }

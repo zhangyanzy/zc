@@ -5,7 +5,7 @@
     <string name="log_tip">一款做任务，赚钱的APP</string>
     <string name="input_phone_number">请输入手机号</string>
     <string name="input_pass_word">请输入密码</string>
-    <string name="pass_length">密码必须为6–20位数字或字母</string>
+    <string name="pass_length">密码必须为6–20位数字+字母</string>
     <string name="forget_pass_word">忘记密码</string>
     <string name="other_login_mode">使用社交账号登录</string>
     <string name="phone_not_empty">手机号不能为空</string>
@@ -13,7 +13,10 @@
     <string name="isNot_phone">手机号格式不正确</string>
     <string name="input_identify_code">请输入验证码</string>
     <string name="get_identify_code">获取验证码</string>
+    <string name="input_old_pass">请输入新原密码</string>
     <string name="input_new_pass">请输入新密码</string>
+    <string name="input_confirm_pass">请再次输入新密码</string>
+    <string name="compile_pass">两次输入的密码不一致，请重新输入</string>
     <string name="reset_pass">找回密码</string>
     <!--字符串中包含的第一个参数为整数d-->
     <string name="delay_time">%1$d秒</string>
@@ -95,6 +98,8 @@
     <string name="copyright">Copyright @ 2018 zhaocai</string>
     <string name="copyright_info">All Rights Reserved</string>
     <string name="share_desc">一款可以随时赚钱的app</string>
+    <string name="identifycode_send">验证码已发送</string>
+    <string name="verify_pass">密码必须为数字+字母！</string>
 
 
 </resources>

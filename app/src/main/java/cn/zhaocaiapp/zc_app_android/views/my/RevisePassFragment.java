@@ -99,19 +99,23 @@ public class RevisePassFragment extends BaseFragment {
 
     private boolean verify() {
         if (GeneralUtils.isNullOrZeroLenght(oldPass)) {
-            ToastUtil.makeText(getActivity(), "请输入原密码");
+            ToastUtil.makeText(getActivity(), getString(R.string.input_old_pass));
             return false;
         }
         if (GeneralUtils.isNullOrZeroLenght(newPass)) {
-            ToastUtil.makeText(getActivity(), "请输入新密码");
+            ToastUtil.makeText(getActivity(), getString(R.string.input_new_pass));
             return false;
         }
         if (GeneralUtils.isNullOrZeroLenght(confirmPass)) {
-            ToastUtil.makeText(getActivity(), "请再次输入新密码");
+            ToastUtil.makeText(getActivity(), getString(R.string.input_confirm_pass));
+            return false;
+        }
+        if (!GeneralUtils.IsPassword(newPass)){
+            ToastUtil.makeText(getActivity(), getString(R.string.verify_pass));
             return false;
         }
         if (!newPass.equals(confirmPass)) {
-            ToastUtil.makeText(getActivity(), "两次输入的密码不一致，请重新输入");
+            ToastUtil.makeText(getActivity(), getString(R.string.compile_pass));
             return false;
         }
         return true;

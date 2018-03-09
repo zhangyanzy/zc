@@ -299,7 +299,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         viewHolderActivity.activity_item_text_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemCliclk(holder.getLayoutPosition());
+                listener.onItemCliclk(viewHolderActivity.getLayoutPosition());
             }
         });
 

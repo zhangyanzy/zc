@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.views.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.umeng.socialize.UMShareAPI;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -27,6 +29,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.adapter.common.ActivityAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
@@ -77,7 +80,7 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
 
     private int listType = 2;//最新活动 1最新活动 2线下活动 3线上活动 4历史活动
     private int pageNumber = 1;//分页
-    private int sortRule = 0;//降序 1升序 2降序
+    private int sortRule = 2;//降序 1升序 2降序
     private int sortType = 0;//默认 0默认 1时间 2金额 3距离
     private String longitude = "";//经度
     private String latitude = "";//纬度
@@ -173,7 +176,7 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
     public void initData() {
         listType = 2;//最新活动 1最新活动 2线下活动 3线上活动 4历史活动
         pageNumber = 1;//分页
-        sortRule = 0;//降序 1升序 2降序
+        sortRule = 2;//降序 1升序 2降序
         sortType = 0;//默认 0默认 1时间 2金额 3距离
         longitude = "";//经度
         latitude = "";//纬度
@@ -329,4 +332,5 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
+
 }

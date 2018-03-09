@@ -406,13 +406,15 @@ public final class GeneralUtils {
      * <密码规则判断>
      * <功能详细描述>
      *
+     * 6-20位数字+字母
+     *
      * @param password
      * @return
      * @see [类、类#方法、类#成员]
      */
     public static boolean IsPassword(String password) {
-        String str = "^[A-Za-z0-9_]{6,20}$";
-        Pattern p = Pattern.compile(str);
+        String s = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$";
+        Pattern p = Pattern.compile(s);
         Matcher m = p.matcher(password);
         return m.matches();
     }
@@ -515,7 +517,7 @@ public final class GeneralUtils {
     public static String userNameReplaceWithStar(String userName) {
         String userNameAfterReplaced = "";
 
-        if (userName == null){
+        if (userName == null) {
             userName = "";
         }
 
@@ -543,7 +545,7 @@ public final class GeneralUtils {
 
     /**
      * 身份证号替换，保留前四位和后四位
-     *
+     * <p>
      * 如果身份证号为空 或者 null ,返回null ；否则，返回替换后的字符串；
      *
      * @param idCard 身份证号
@@ -560,7 +562,7 @@ public final class GeneralUtils {
 
     /**
      * 银行卡替换，保留后四位
-     *
+     * <p>
      * 如果银行卡号为空 或者 null ,返回null ；否则，返回替换后的字符串；
      *
      * @param bankCard 银行卡号
@@ -573,9 +575,9 @@ public final class GeneralUtils {
         } else {
             String str = replaceAction(bankCard, "(?<=\\d{0})\\d(?=\\d{4})");
             StringBuilder sb = new StringBuilder();
-            for (int i = 1; i <= str.length(); i++){
+            for (int i = 1; i <= str.length(); i++) {
                 sb.append(str.charAt(i - 1));
-                if (i%4 == 0){
+                if (i % 4 == 0) {
                     sb.append("  ");
                 }
             }
@@ -586,8 +588,8 @@ public final class GeneralUtils {
     /**
      * 实际替换动作
      *
-     * @param number number
-     * @param regular  正则
+     * @param number  number
+     * @param regular 正则
      * @return
      */
     private static String replaceAction(String number, String regular) {

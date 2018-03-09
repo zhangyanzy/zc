@@ -49,7 +49,7 @@ public class ClosureActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        tv_title.setText(getString(R.string.account_closure));
+        tv_title.setVisibility(View.GONE);
         iv_menu.setVisibility(View.GONE);
 
         initDate();

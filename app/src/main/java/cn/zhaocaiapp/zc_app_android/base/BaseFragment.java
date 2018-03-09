@@ -43,7 +43,6 @@ import pub.devrel.easypermissions.EasyPermissions;
 public abstract class BaseFragment extends TakePhotoFragment implements EasyPermissions.PermissionCallbacks {
     private View rootView;
     private Unbinder unbinder;
-    private UMShareAPI umShareAPI;
 
     protected boolean isInit = false;//视图是否已经初初始化
     protected boolean isLoad = false;//是否已加载数据
@@ -55,7 +54,6 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = setContentView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, rootView);
-        umShareAPI = ZcApplication.getUMShareAPI();
         isInit = true;
         init();
         isCanLoadData();
@@ -241,17 +239,11 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
         }
     };
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        umShareAPI.onActivityResult(requestCode, resultCode, data);
-    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        umShareAPI.release();
         stopLoad();
     }
 }

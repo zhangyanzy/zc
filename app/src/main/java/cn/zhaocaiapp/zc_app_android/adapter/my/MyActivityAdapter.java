@@ -253,7 +253,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
                 holder.tv_cancel.setVisibility(View.VISIBLE);
 
                 //启动倒计时
-                long countdownTime = items.get(position).getDeadLine().getTime() - new Date().getTime() ;
+                long countdownTime = items.get(position).getDeadLine().getTime() - items.get(position).getNowDate().getTime();
                 if (countdownTime > 0) {
                     holder.tv_subscrib.setVisibility(View.VISIBLE);
                     holder.count_down_time.setVisibility(View.VISIBLE);

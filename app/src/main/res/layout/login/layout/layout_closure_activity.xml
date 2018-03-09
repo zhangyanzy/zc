@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_size_14"
             android:textColor="@color/colorFont3"
-            android:text="联系电话："/>
+            android:text="客服电话："/>
 
         <TextView
             android:id="@+id/tv_email"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorFont3"
             android:textSize="@dimen/font_size_14"
-            android:text="邮箱："/>
+            android:text="E-mail："/>
     </LinearLayout>
 
 </RelativeLayout>

@@ -99,7 +99,7 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
         msgId = messages.get(position).getMessageId();
         Map<String, Long> params = new HashMap<>();
         params.put("messageId", msgId);
-        HttpUtil.get(String.format(Constants.URL.UPDATE_MESSAGE_STATUS, type), params).subscribe(new BaseResponseObserver<String>() {
+        HttpUtil.post(String.format(Constants.URL.UPDATE_MESSAGE_STATUS, type), params).subscribe(new BaseResponseObserver<String>() {
 
             @Override
             public void success(String s) {
