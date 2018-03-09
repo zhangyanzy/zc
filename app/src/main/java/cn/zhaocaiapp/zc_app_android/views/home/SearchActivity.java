@@ -603,12 +603,13 @@ public class SearchActivity extends BaseActivity {
             case 5:
                 activityMoney = "";
                 break;
-            default:
-                if (activityMoney.equals("")) {
-                    topLimit = "";
-                    limit = "";
-                }
         }
+        //如果都没有选中清除上下线金额
+        if (activityMoney.equals("")) {
+            topLimit = "";
+            limit = "";
+        }
+
         if (activityMoney.equals("0")) {
             search_money_0.setTextColor(this.getResources().getColor(R.color.colorPrimary));
             search_money_0.setBackground(this.getResources().getDrawable(R.drawable.search_class_on));
