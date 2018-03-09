@@ -20,6 +20,7 @@ import com.google.zxing.client.result.VCardResultParser;
 import com.joooonho.SelectableRoundedImageView;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -252,7 +253,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
                 holder.tv_cancel.setVisibility(View.VISIBLE);
 
                 //启动倒计时
-                long countdownTime = items.get(position).getStartTime().getTime() - items.get(position).getDeadLine().getTime();
+                long countdownTime = items.get(position).getDeadLine().getTime() - new Date().getTime() ;
                 if (countdownTime > 0) {
                     holder.tv_subscrib.setVisibility(View.VISIBLE);
                     holder.count_down_time.setVisibility(View.VISIBLE);
