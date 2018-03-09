@@ -190,7 +190,7 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
             String desc = getString(R.string.share_desc);
             ShareUtil.init(getActivity())
                     .setUrl(webUrl)
-                    .setSourceId(R.mipmap.logo)
+                    .setSourceId(R.mipmap.ic_launcher)
                     .setTitle(shareTitle)
                     .setDesc(desc);
             ShareUtil.openShare();

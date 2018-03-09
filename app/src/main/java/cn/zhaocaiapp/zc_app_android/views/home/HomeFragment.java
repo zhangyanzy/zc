@@ -90,13 +90,17 @@ public class HomeFragment extends BaseFragment {
     private String areaCode;//用户定位城市Code
     private UserResp userResp;//用户
 
+    private boolean isFirst = true;
+
     private static final String TAG = "首页";
 
     @Override
     public void onResume() {
         super.onResume();
-        EBLog.i(TAG, "---onResume---首页用户信息");
-        getUserInfo();
+        if (!isFirst)
+            getUserInfo();
+        isFirst = false;
+        EBLog.i(TAG, "---onResume---加载首页用户数据");
     }
 
     @Override
@@ -108,7 +112,6 @@ public class HomeFragment extends BaseFragment {
     public void init() {
         //注册EventBus消息订阅者
         EventBus.getDefault().register(this);
-        EBLog.i(TAG, "---onStart---首页订阅消息");
 
         home_view.setOffscreenPageLimit(tabTitles.length);
         home_view.setAdapter(new HomeFragmentPagerAdapter(this.getActivity().getSupportFragmentManager()));
@@ -149,9 +152,7 @@ public class HomeFragment extends BaseFragment {
         });
         home_view.setCurrentItem(0);
 
-        /**
-         * 首页头部用户信息
-         * */
+        //加载首页头部用户数据
         getUserInfo();
     }
 
@@ -235,11 +236,6 @@ public class HomeFragment extends BaseFragment {
             //获取新手任务
             userinfoFristpage();
         }
-
-//        /**
-//         * 首页头部用户信息
-//         * */
-//        getUserInfo();
     }
 
     //首页获取用户信息
@@ -251,6 +247,7 @@ public class HomeFragment extends BaseFragment {
             HttpUtil.get(String.format(Constants.URL.GET_ACTIVITY_USER)).subscribe(new BaseResponseObserver<UserInfoResp>() {
                 @Override
                 public void success(UserInfoResp result) {
+                    EBLog.i(TAG, "用户信息---" + result.toString());
                     userInfoResp = result;
                     //用户头像
                     if (GeneralUtils.isNotNullOrZeroLenght(userInfoResp.getAvatar())) {
@@ -262,7 +259,6 @@ public class HomeFragment extends BaseFragment {
                     home_title_user_income.setText(String.valueOf(userInfoResp.getGrossIncomeAmount()));
                     //用户余额
                     home_title_user_balance.setText(String.valueOf(userInfoResp.getAccountBalanceAmount()));
-                    EBLog.i(TAG, result.toString());
                 }
 
                 @Override
@@ -414,6 +410,11 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        isFirst = true;
+    }
 
 }
 

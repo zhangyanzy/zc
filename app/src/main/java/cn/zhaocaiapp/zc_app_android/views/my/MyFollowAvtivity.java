@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -11,12 +12,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.umeng.commonsdk.stateless.UMSLEnvelopeBuild;
+import com.umeng.socialize.UMShareAPI;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 
 /**
@@ -38,6 +43,8 @@ public class MyFollowAvtivity extends BaseActivity {
     private String[]tabTitles = {"活动", "商家"};
     private List<Fragment>fragments = new ArrayList<>();
 
+    private UMShareAPI umShareAPI;
+
     @Override
     public int getContentViewResId() {
         return R.layout.layout_tab_fragment;
@@ -45,6 +52,8 @@ public class MyFollowAvtivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        umShareAPI = ZcApplication.getUMShareAPI();
+
         iv_top_menu.setVisibility(View.GONE);
         tv_top_titlel.setText("我的关注");
 
@@ -79,15 +88,24 @@ public class MyFollowAvtivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
+    @OnClick({R.id.iv_top_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_top_back:
                 finish();
                 break;
-            case R.id.iv_top_menu:
-
-                break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        umShareAPI.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        umShareAPI.release();
     }
 }

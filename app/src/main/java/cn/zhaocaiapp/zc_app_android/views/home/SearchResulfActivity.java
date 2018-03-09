@@ -174,7 +174,7 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
             String desc = getString(R.string.share_desc);
             ShareUtil.init(SearchResulfActivity.this)
                     .setUrl(webUrl)
-                    .setSourceId(R.mipmap.logo)
+                    .setSourceId(R.mipmap.ic_launcher)
                     .setTitle(shareTitle)
                     .setDesc(desc);
             ShareUtil.openShare();

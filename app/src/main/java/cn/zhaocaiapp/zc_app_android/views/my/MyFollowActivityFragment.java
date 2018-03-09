@@ -28,6 +28,7 @@ import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
@@ -63,6 +64,7 @@ public class MyFollowActivityFragment extends BaseFragment implements OnRefreshL
 
         adapter = new ActivityAdapter(getActivity(), activitys);
         list.setAdapter(adapter);
+        adapter.setOnItemCliclkListener(listener);
     }
 
     @Override
@@ -90,6 +92,21 @@ public class MyFollowActivityFragment extends BaseFragment implements OnRefreshL
             }
         });
     }
+
+    private ActivityAdapter.OnItemCliclkListener listener = new ActivityAdapter.OnItemCliclkListener() {
+        @Override
+        public void onItemCliclk(int position) {
+            String webUrl = String.format(Constants.URL.SHARE_ACTIVITY_URL, activitys.get(position).getKid());
+            String shareTitle = activitys.get(position).getName();
+            String desc = getString(R.string.share_desc);
+            ShareUtil.init(getActivity())
+                    .setUrl(webUrl)
+                    .setSourceId(R.mipmap.ic_launcher)
+                    .setTitle(shareTitle)
+                    .setDesc(desc);
+            ShareUtil.openShare();
+        }
+    };
 
     @Override
     public void onLoadmore(RefreshLayout refreshlayout) {

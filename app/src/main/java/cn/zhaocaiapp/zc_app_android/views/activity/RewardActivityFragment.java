@@ -163,7 +163,7 @@ public class RewardActivityFragment extends BaseFragment implements OnRefreshLis
                     String shareDesc = getString(R.string.share_desc);
                     ShareUtil.init(getActivity())
                             .setUrl(webUrl)
-                            .setSourceId(R.mipmap.logo)
+                            .setSourceId(R.mipmap.ic_launcher)
                             .setTitle(shareTitle)
                             .setDesc(shareDesc);
                     ShareUtil.openShare();

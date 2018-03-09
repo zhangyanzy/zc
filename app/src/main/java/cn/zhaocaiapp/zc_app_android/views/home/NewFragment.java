@@ -190,7 +190,7 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
             String desc = getString(R.string.share_desc);
             ShareUtil.init(getActivity())
                     .setUrl(webUrl)
-                    .setSourceId(R.mipmap.logo)
+                    .setSourceId(R.mipmap.ic_launcher)
                     .setTitle(shareTitle)
                     .setDesc(desc);
             ShareUtil.openShare();

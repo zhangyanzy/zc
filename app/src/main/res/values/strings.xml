@@ -34,7 +34,7 @@
     <string name="activity_region">活动地区：</string>
     <string name="activity_state">活动总数</string>
     <string name="activity_state_0">未开始</string>
-    <string name="activity_state_1">进行中</string>
+    <string name="activity_state_1">活动进行</string>
     <string name="activity_state_2">已结束</string>
     <string name="activity_surplus_amount">剩余额度</string>
     <string name="activity_received_number">已领取人数</string>

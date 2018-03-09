@@ -216,7 +216,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         String shareDesc = getString(R.string.share_desc);
         ShareUtil.init(this)
                 .setUrl(webUrl)
-                .setSourceId(R.mipmap.logo)
+                .setSourceId(R.mipmap.ic_launcher)
                 .setTitle(activityTitle)
                 .setDesc(shareDesc);
         ShareUtil.openShare();
