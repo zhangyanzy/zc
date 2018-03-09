@@ -300,7 +300,7 @@ public class HomeFragment extends BaseFragment {
                     if ((boolean) SpUtils.get(Constants.SPREF.SHOW_NEWER_ACTIVITY, true))
                         //判断用户是否做新手任务
                         if (userResp.getIsFinishActivity() == 0) {
-                            NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "新手奖励", "完成新手任务即可领取奖励金", "取消", "任务详情");
+                            NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "新手奖励", "完成新手任务即可领取奖励金", "忽略", "任务详情");
                             //点击空白处,弹窗是否消失
                             normalDialog.setCanceledOnTouchOutside(false);
                             //点击后退键，弹窗是否消失
