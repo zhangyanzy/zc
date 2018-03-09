@@ -45,20 +45,18 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
     private final String[] tags = {"task", "partner", "personal"};
     private int currentIndex = -1;
     private Map<Integer, Fragment> fragmentMap = new HashMap<>();
-    private boolean isGrantPermissison; //是否获取必需权限；
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main_activity);
-        //注册蒲公英Crash反馈
-        PgyCrashManager.register(getApplicationContext());
-
         ActivityUtil.addActivity(this);
 
         currentPosition = getIntent().getIntExtra("position", -1);
 
+        //注册蒲公英Crash反馈
+        PgyCrashManager.register(getApplicationContext());
         //注册蒲公英版本更新
         PgyUpdateManager.setIsForced(true); //设置是否强制更新。true为强制更新；false为不强制更新（默认值）。
         PgyUpdateManager.register(this, updateListener);
@@ -180,7 +178,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         public void onUpdateAvailable(String result) { //更新
             // 将新版本信息封装到AppBean中
             final AppBean appBean = getAppBeanFromString(result);
-            new AlertDialog.Builder(MainActivity.this)
+            AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
                     .setTitle("更新")
                     .setMessage(appBean.getReleaseNote())
                     .setNegativeButton("确定",
@@ -191,6 +189,8 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
                                     startDownloadTask(MainActivity.this, appBean.getDownloadURL());
                                 }
                             }).show();
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
         }
     };
 }

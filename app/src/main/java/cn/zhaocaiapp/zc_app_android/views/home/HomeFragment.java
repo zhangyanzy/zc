@@ -146,6 +146,11 @@ public class HomeFragment extends BaseFragment {
             }
         });
         home_view.setCurrentItem(0);
+
+        /**
+         * 首页头部用户信息
+         * */
+        getUserInfo();
     }
 
 
@@ -229,10 +234,10 @@ public class HomeFragment extends BaseFragment {
             userinfoFristpage();
         }
 
-        /**
-         * 首页头部用户信息
-         * */
-        getUserInfo();
+//        /**
+//         * 首页头部用户信息
+//         * */
+//        getUserInfo();
     }
 
     //首页获取用户信息

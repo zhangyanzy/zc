@@ -128,9 +128,9 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
         params.put("longitude", longitude);
         params.put("latitude", latitude);
         if ((int) SpUtils.get(Constants.SPREF.ACTIVITY_RANGE, 0) == 0) {
-            params.put("areaCode", "");
+            params.put("cityCode", "");
         } else {
-            params.put("areaCode", (String) SpUtils.get(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE));
+            params.put("cityCode", (String) SpUtils.get(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE));
         }
         EBLog.i("tag", params.toString());
 
