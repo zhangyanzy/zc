@@ -38,6 +38,8 @@ public class HttpUtil {
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(Constants.CONFIG.DEFAULT_TIMEOUT, TimeUnit.SECONDS)          //设置连接超时时间
+                .readTimeout(Constants.CONFIG.DEFAULT_TIMEOUT, TimeUnit.SECONDS)          //设置连接超时时间
+                .writeTimeout(Constants.CONFIG.DEFAULT_TIMEOUT, TimeUnit.SECONDS)          //设置连接超时时间
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
