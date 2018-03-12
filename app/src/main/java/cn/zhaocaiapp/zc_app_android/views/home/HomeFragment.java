@@ -53,6 +53,7 @@ import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
+import cn.zhaocaiapp.zc_app_android.widget.AntiShake;
 
 /**
  * @author 林子
@@ -91,6 +92,8 @@ public class HomeFragment extends BaseFragment {
     private UserResp userResp;//用户
 
     private boolean isFirst = true;
+
+    private AntiShake antiShake = new AntiShake();
 
     private static final String TAG = "首页";
 
@@ -151,14 +154,13 @@ public class HomeFragment extends BaseFragment {
             }
         });
         home_view.setCurrentItem(0);
-
-        //加载首页头部用户数据
-        getUserInfo();
     }
 
 
     @Override
     public void loadData() {
+        //加载首页头部用户数据
+        getUserInfo();
 
         /**
          * 消息推送判断
@@ -241,8 +243,7 @@ public class HomeFragment extends BaseFragment {
     //首页获取用户信息
     private void getUserInfo() {
         //判断登录
-        if (GeneralUtils.isNotNullOrZeroLenght((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
-//        if ((boolean) SpUtils.get(Constants.SPREF.IS_LOGIN, false)) {
+        if ((boolean) SpUtils.get(Constants.SPREF.IS_LOGIN, false)) {
             //获取用户信息
             HttpUtil.get(String.format(Constants.URL.GET_ACTIVITY_USER)).subscribe(new BaseResponseObserver<UserInfoResp>() {
                 @Override
@@ -390,11 +391,13 @@ public class HomeFragment extends BaseFragment {
             R.id.home_title_area_layout
     })
     public void onClick(View view) {
+        boolean isAntiShake = antiShake.check(view.getId());
+        if (isAntiShake) return;
         switch (view.getId()) {
-            case R.id.home_title_search:
+            case R.id.home_title_search: //搜索
                 openActivity(SearchActivity.class);
                 break;
-            case R.id.home_title_area_layout:
+            case R.id.home_title_area_layout: //切换定位地点
                 openActivity(LocationActivity.class);
                 break;
             case R.id.home_title_user_cart:

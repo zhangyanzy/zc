@@ -69,12 +69,12 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/tv_user_balance"
+                    android:id="@+id/tv_user_income"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/tv_user_income"
-                    android:layout_alignBottom="@+id/tv_user_income"
+                    android:layout_alignTop="@id/iv_user_photo"
                     android:layout_marginStart="47dp"
+                    android:layout_marginTop="10dp"
                     android:layout_toEndOf="@+id/tv_user_identify"
                     android:drawableLeft="@mipmap/logo_money"
                     android:ellipsize="end"
@@ -87,25 +87,24 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@id/tv_user_balance"
-                    android:layout_below="@+id/tv_user_balance"
+                    android:layout_alignLeft="@id/tv_user_income"
+                    android:layout_below="@+id/tv_user_income"
                     android:layout_marginLeft="2dp"
-                    android:text="账户余额"
+                    android:text="总收入"
                     android:textColor="@color/colorFont6"
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/tv_user_income"
+                    android:id="@+id/tv_user_balance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/iv_user_photo"
+                    android:layout_alignTop="@id/tv_user_income"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@+id/tv_user_balance"
+                    android:layout_toEndOf="@+id/tv_user_income"
                     android:drawableLeft="@mipmap/logo_money"
-                    android:text="0.00元"
-                    android:maxLines="1"
                     android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="0.00元"
                     android:textColor="@color/colorFont6"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -113,10 +112,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@id/tv_user_income"
-                    android:layout_below="@id/tv_user_income"
+                    android:layout_alignLeft="@id/tv_user_balance"
+                    android:layout_below="@id/tv_user_balance"
                     android:layout_marginLeft="2dp"
-                    android:text="总收入"
+                    android:text="账户余额"
                     android:textColor="@color/colorFont6"
                     android:textSize="12sp" />
 
@@ -337,11 +336,11 @@
                 android:id="@+id/layout_invite"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:background="@color/colorWhite"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:background="@color/colorWhite">
+                android:paddingRight="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -371,6 +370,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginBottom="2dp"
+                android:background="@color/colorWhite"
                 android:drawableLeft="@mipmap/withdraw_account"
                 android:drawablePadding="10dp"
                 android:drawableRight="@mipmap/turn_right"
@@ -379,8 +379,7 @@
                 android:paddingStart="@dimen/window_padding_15"
                 android:text="管理提现账户"
                 android:textColor="@color/colorFont6"
-                android:textSize="14sp"
-                android:background="@color/colorWhite"/>
+                android:textSize="14sp" />
 
             <View style="@style/horizontal_C9_line" />
 
@@ -389,6 +388,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginBottom="2dp"
+                android:background="@color/colorWhite"
                 android:drawableLeft="@mipmap/follow"
                 android:drawablePadding="10dp"
                 android:drawableRight="@mipmap/turn_right"
@@ -397,8 +397,7 @@
                 android:paddingStart="@dimen/window_padding_15"
                 android:text="我的关注"
                 android:textColor="@color/colorFont6"
-                android:textSize="14sp"
-                android:background="@color/colorWhite"/>
+                android:textSize="14sp" />
 
             <View style="@style/horizontal_C9_line" />
 
@@ -407,9 +406,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginBottom="2dp"
+                android:background="@color/colorWhite"
                 android:paddingEnd="@dimen/window_padding_15"
-                android:paddingStart="@dimen/window_padding_15"
-                android:background="@color/colorWhite">
+                android:paddingStart="@dimen/window_padding_15">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -439,9 +438,9 @@
                 android:id="@+id/layout_email"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:background="@color/colorWhite"
                 android:paddingEnd="@dimen/window_padding_15"
-                android:paddingStart="@dimen/window_padding_15"
-                android:background="@color/colorWhite">
+                android:paddingStart="@dimen/window_padding_15">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -472,6 +471,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginBottom="2dp"
+                android:background="@color/colorWhite"
                 android:drawableLeft="@mipmap/setting"
                 android:drawablePadding="10dp"
                 android:drawableRight="@mipmap/turn_right"
@@ -480,8 +480,7 @@
                 android:paddingStart="@dimen/window_padding_15"
                 android:text="设置"
                 android:textColor="@color/colorFont6"
-                android:textSize="14sp"
-                android:background="@color/colorWhite"/>
+                android:textSize="14sp" />
 
             <View style="@style/C9_8dp_divider" />
 

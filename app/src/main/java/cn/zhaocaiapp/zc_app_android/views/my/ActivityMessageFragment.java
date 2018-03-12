@@ -96,12 +96,10 @@ public class ActivityMessageFragment extends BaseFragment implements OnRefreshLi
     //更新消息状态
     private void updateMessageStatus(int position) {
         msgId = messages.get(position).getMessageId();
-        Map<String, Long> params = new HashMap<>();
-        params.put("messageId", msgId);
-        EBLog.i(TAG, "更新消息参数" + params.toString());
+        EBLog.i(TAG, "更新消息参数" + msgId + "");
 
-        String url = String.format(Constants.URL.UPDATE_MESSAGE_STATUS, type);
-        HttpUtil.post(url, params).subscribe(new BaseResponseObserver<String>() {
+        String url = String.format(Constants.URL.UPDATE_MESSAGE_STATUS, msgId);
+        HttpUtil.post(url).subscribe(new BaseResponseObserver<String>() {
 
             @Override
             public void success(String s) {

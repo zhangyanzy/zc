@@ -44,7 +44,7 @@ public class KeyBoardUtils {
     }
 
     /**
-     * 打卡软键盘
+     * 打开软键盘
      *
      * @param mEditText 输入框
      * @param mContext  上下文

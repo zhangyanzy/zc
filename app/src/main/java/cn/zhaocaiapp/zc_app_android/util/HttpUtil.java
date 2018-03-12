@@ -42,6 +42,7 @@ public class HttpUtil {
                 .writeTimeout(Constants.CONFIG.DEFAULT_TIMEOUT, TimeUnit.SECONDS)          //设置连接超时时间
                 .build();
 
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.URL.SERVER)                                        //设置服务器地址
                 .client(client)

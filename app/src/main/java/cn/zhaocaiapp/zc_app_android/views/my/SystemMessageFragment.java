@@ -97,9 +97,9 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
     //更新消息状态
     private void updateMessageStatus(int position) {
         msgId = messages.get(position).getMessageId();
-        Map<String, Long> params = new HashMap<>();
-        params.put("messageId", msgId);
-        HttpUtil.post(String.format(Constants.URL.UPDATE_MESSAGE_STATUS, type), params).subscribe(new BaseResponseObserver<String>() {
+        EBLog.i(TAG, "更新消息参数" + msgId + "");
+
+        HttpUtil.post(String.format(Constants.URL.UPDATE_MESSAGE_STATUS, msgId)).subscribe(new BaseResponseObserver<String>() {
 
             @Override
             public void success(String s) {

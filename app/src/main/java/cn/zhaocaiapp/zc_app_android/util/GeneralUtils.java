@@ -332,8 +332,7 @@ public final class GeneralUtils {
         }
 
         String strs = "";
-        strs =
-                str.substring(0, 4) + "-" + str.substring(4, 6) + "-" + str.substring(6, 8) + " " + str.substring(8, 10)
+        strs = str.substring(0, 4) + "-" + str.substring(4, 6) + "-" + str.substring(6, 8) + " " + str.substring(8, 10)
                         + ":" + str.substring(10, 12) + ":" + str.substring(12, 14);
         return strs;
     }
@@ -351,8 +350,7 @@ public final class GeneralUtils {
         }
 
         String strs = "";
-        strs =
-                str.substring(2, 4) + "-" + str.substring(4, 6) + "-" + str.substring(6, 8) + " " + str.substring(8, 10)
+        strs = str.substring(2, 4) + "-" + str.substring(4, 6) + "-" + str.substring(6, 8) + " " + str.substring(8, 10)
                         + ":" + str.substring(10, 12) + ":" + str.substring(12, 14);
         return strs;
     }
@@ -405,7 +403,7 @@ public final class GeneralUtils {
     /**
      * <密码规则判断>
      * <功能详细描述>
-     *
+     * <p>
      * 6-20位数字+字母
      *
      * @param password

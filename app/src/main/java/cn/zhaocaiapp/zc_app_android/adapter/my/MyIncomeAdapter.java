@@ -50,23 +50,24 @@ public class MyIncomeAdapter extends RecyclerView.Adapter<MyIncomeAdapter.ViewHo
         if (type == 1) {
             if (items.get(position).getCashStatus() == 0) {//已提交
                 holder.tv_state.setText("已提交");
-            } else if (items.get(position).getCashStatus() == 1) {//已通过
-                holder.tv_state.setText("已通过");
-            } else if (items.get(position).getCashStatus() == 2) {//未通过
-                holder.tv_state.setText("未通过");
-            } else if (items.get(position).getCashStatus() == 3) {//转账中
-                holder.tv_state.setText("转账中");
-            } else if (items.get(position).getCashStatus() == 4) {//已到账
-                holder.tv_state.setText("已到账");
-            } else if (items.get(position).getCashStatus() == 5) {//转账失败
-                holder.tv_state.setText("转账失败");
+            } else if (items.get(position).getCashStatus() == 1) {//提现中
+                holder.tv_state.setText("提现中");
+            } else if (items.get(position).getCashStatus() == 2) {//提现成功
+                holder.tv_state.setText("提现成功");
+            } else if (items.get(position).getCashStatus() == 3) {//提现失败
+                holder.tv_state.setText("提现失败");
             }
+//            else if (items.get(position).getCashStatus() == 4) {//已到账
+//                holder.tv_state.setText("已到账");
+//            } else if (items.get(position).getCashStatus() == 5) {//转账失败
+//                holder.tv_state.setText("转账失败");
+//            }
         }
         if (items.get(position).getBillType() == 0) {//收入
             holder.tv_income.setText("+" + items.get(position).getAmount());
-            holder.tv_income.setTextColor(context.getResources().getColor(R.color.colorRemind));
+            holder.tv_income.setTextColor(context.getResources().getColor(R.color.colorPrimary));
         }
-        if (items.get(position).getBillType() == 1) {//
+        if (items.get(position).getBillType() == 1) {//提现
             holder.tv_income.setText("-" + items.get(position).getAmount());
             holder.tv_income.setTextColor(context.getResources().getColor(R.color.colorSuccess));
         }

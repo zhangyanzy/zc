@@ -60,13 +60,13 @@ public interface Constants {
          * 服务器地址
          */
         //开发环境
-//        String SERVER = "http://appapi.zhaocaiapp.local/"; // 必须以／结尾否则初始化会报错
+        String SERVER = "http://appapi.zhaocaiapp.local/"; // 必须以／结尾否则初始化会报错
 
         //生产环境
 //        String SERVER = "https://appapi.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
 
         //预生产环境
-        String SERVER = "https://appapi-pre.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
+//        String SERVER = "https://appapi-pre.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
 
         //测试环境
 //        String SERVER = "http://192.168.1.159:8083/";
@@ -239,7 +239,7 @@ public interface Constants {
         /**
          * 首页获取个人信息
          */
-        String GET_ACTIVITY_USER = "activity/user";
+        String GET_ACTIVITY_USER = "/my/activity/user";
         /**
          * 首页获取个人信息
          */

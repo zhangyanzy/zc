@@ -87,7 +87,7 @@ public class LoginActivity extends BaseFragmentActivity {
         setContentView(R.layout.layout_login_main);
         if (getIntent().getBooleanExtra("signOut", false))
             ActivityUtil.finishAllActivity();
-        if (ActivityUtil.getActivityStackSize() != 0)
+        if (ActivityUtil.getActivityStackSize() > 0)
             lastActivity = ActivityUtil.currentActivity();
 
         ActivityUtil.addActivity(this);
@@ -161,7 +161,6 @@ public class LoginActivity extends BaseFragmentActivity {
                     bundle.putInt("position", position);
                     openActivity(MainActivity.class, bundle);
                 }
-                ActivityUtil.finishActivity(LoginActivity.this);
             }
 
             @Override
