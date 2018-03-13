@@ -23,6 +23,9 @@ public class ActivityUtil {
      * 添加Activity到堆栈
      */
     public static void addActivity(Activity activity) {
+        if (activityStack.contains(activity)){
+            activityStack.remove(activity);
+        }
         activityStack.add(activity);
         EBLog.i(TAG, activityStack.toString());
     }

@@ -75,8 +75,8 @@ public class ClosureActivity extends BaseActivity {
     }
 
     private void showInfo() {
-        tv_email.setText("联系邮箱：" + aboutAUsResp.getEmail());
-        tv_phone.setText("联系电话：" + aboutAUsResp.getPhone());
+        tv_email.setText(getString(R.string.e_mail) + aboutAUsResp.getEmail());
+        tv_phone.setText(getString(R.string.service_phone) + aboutAUsResp.getPhone());
     }
 
     @OnClick({R.id.iv_top_back, R.id.tv_phone, R.id.tv_email})

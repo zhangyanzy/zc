@@ -100,6 +100,8 @@
     <string name="share_desc">一款可以随时赚钱的app</string>
     <string name="identifycode_send">验证码已发送</string>
     <string name="verify_pass">密码必须为数字+字母！</string>
+    <string name="service_phone">客服电话：</string>
+    <string name="e_mail">E-mail：</string>
 
 
 </resources>
