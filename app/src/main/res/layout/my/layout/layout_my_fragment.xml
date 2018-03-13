@@ -124,7 +124,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignStart="@+id/tv_user_balance"
+                    android:layout_alignStart="@+id/tv_user_income"
                     android:background="@drawable/button_shape_gray_round"
                     android:gravity="center"
                     android:text="提现"

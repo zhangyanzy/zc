@@ -173,8 +173,8 @@ public class CheckPhoneActivity extends BaseActivity {
                 if (response.getCode() == 5555) {
                     ToastUtil.makeText(CheckPhoneActivity.this, getString(R.string.account_merge));
                     if (response.getData() != null) {
-                        setAlias((VerifyCodeResp) response.getData());
-                        saveUserData((VerifyCodeResp) response.getData());
+                        setAlias((Map<String, String>) response.getData());
+                        saveUserData((Map<String, String>) response.getData());
                     }
                     Bundle bundle = new Bundle();
                     bundle.putInt("position", 0);
@@ -186,9 +186,9 @@ public class CheckPhoneActivity extends BaseActivity {
         });
     }
 
-    private void setAlias(VerifyCodeResp result) {
+    private void setAlias(Map<String, String> result) {
         PushAgent pushAgent = PushAgent.getInstance(this);
-        pushAgent.addAlias(result.getAlias(), "alias_user", new UTrack.ICallBack() {
+        pushAgent.addAlias(result.get("alias"), "alias_user", new UTrack.ICallBack() {
             @Override
             public void onMessage(boolean b, String s) {
                 EBLog.i(TAG, s);
@@ -197,17 +197,17 @@ public class CheckPhoneActivity extends BaseActivity {
     }
 
     //保存用户数据
-    private void saveUserData(VerifyCodeResp result) {
-        SpUtils.put(Constants.SPREF.TOKEN, result.getToken());
+    private void saveUserData(Map<String, String> result) {
+        SpUtils.put(Constants.SPREF.TOKEN, result.get("token"));
         SpUtils.put(Constants.SPREF.IS_LOGIN, true);
         SpUtils.put(Constants.SPREF.LOGIN_MODE, type);
-        SpUtils.put(Constants.SPREF.NICK_NAME, result.getNickname());
-        SpUtils.put(Constants.SPREF.USER_PHONE, result.getPhone());
-        SpUtils.put(Constants.SPREF.USER_PHOTO, result.getAvatar());
-        if (GeneralUtils.isNotNull(result.getKid()))
-            SpUtils.put(Constants.SPREF.USER_ID, result.getKid());
-        if (GeneralUtils.isNotNullOrZeroLenght(result.getAlias()))
-            SpUtils.put(Constants.SPREF.ALIAS, result.getAlias());
+        SpUtils.put(Constants.SPREF.NICK_NAME, result.get("nickname"));
+        SpUtils.put(Constants.SPREF.USER_PHONE, result.get("phone"));
+        SpUtils.put(Constants.SPREF.USER_PHOTO, result.get("avatar"));
+        if (GeneralUtils.isNotNull(result.get("kid")))
+            SpUtils.put(Constants.SPREF.USER_ID, result.get("kid"));
+        if (GeneralUtils.isNotNullOrZeroLenght(result.get("alias")))
+            SpUtils.put(Constants.SPREF.ALIAS, result.get("alias"));
     }
 
 }

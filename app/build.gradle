@@ -109,4 +109,6 @@ dependencies {
     implementation files('libs/umeng-common-1.4.3.jar')
     implementation files('libs/pgyer_sdk_android_2.8.1.jar')
     implementation files('libs/alipaySdk-20170922.jar')
+    //完整版引入
+    compile 'com.shuyu:GSYVideoPlayer:4.1.0'
 }

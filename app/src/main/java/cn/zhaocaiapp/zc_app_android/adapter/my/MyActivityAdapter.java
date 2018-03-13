@@ -252,14 +252,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
                 holder.tv_submit.setVisibility(View.VISIBLE);
                 holder.tv_cancel.setVisibility(View.VISIBLE);
 
-                //启动倒计时
-                long countdownTime = items.get(position).getDeadLine().getTime() - items.get(position).getNowDate().getTime();
-                if (countdownTime > 0) {
-                    holder.tv_subscrib.setVisibility(View.VISIBLE);
-                    holder.count_down_time.setVisibility(View.VISIBLE);
-                    holder.count_down_time.setTag(holder.count_down_time.getId(), position);
-                    holder.count_down_time.start(countdownTime);
-                }
+                setCountdown(position, holder);
                 holder.count_down_time.setOnCountdownEndListener(countdownEndListener);
                 break;
             case 1:
@@ -279,6 +272,9 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
                 holder.tv_cancel.setVisibility(View.GONE);
                 holder.tv_submit.setVisibility(View.VISIBLE);
                 holder.tv_reward.setVisibility(View.GONE);
+
+                setCountdown(position, holder);
+                holder.count_down_time.setOnCountdownEndListener(countdownEndListener);
                 break;
             case 4:
                 holder.tv_state.setText("已完成");
@@ -292,6 +288,17 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
                 holder.tv_submit.setVisibility(View.GONE);
                 holder.tv_reward.setVisibility(View.GONE);
                 break;
+        }
+    }
+
+    private void setCountdown(int position, ViewHolder holder){
+        //启动倒计时
+        long countdownTime = items.get(position).getDeadLine().getTime() - items.get(position).getNowDate().getTime();
+        if (countdownTime > 0) {
+            holder.tv_subscrib.setVisibility(View.VISIBLE);
+            holder.count_down_time.setVisibility(View.VISIBLE);
+            holder.count_down_time.setTag(holder.count_down_time.getId(), position);
+            holder.count_down_time.start(countdownTime);
         }
     }
 

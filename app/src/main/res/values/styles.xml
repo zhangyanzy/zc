@@ -76,6 +76,7 @@
         <item name="tabSelectedTextColor">@color/colorPrimary</item>
         <item name="tabTextColor">@color/colorFont6</item>
         <item name="tabGravity">center</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <!--MainActivity底部button-->

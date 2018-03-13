@@ -9,10 +9,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:text="距活动结束："
+        android:text="完成周期："
         android:textColor="@color/colorFont3"
         android:textSize="@dimen/font_size_14"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <cn.iwgang.countdownview.CountdownView
         android:id="@+id/count_down_time"
@@ -20,17 +20,19 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/tv_subscrib"
+        android:visibility="gone"
         app:isShowDay="true"
         app:isShowHour="true"
-        app:isShowMinute="false"
+        app:isShowMinute="true"
+        app:isShowSecond="false"
         app:isTimeTextBold="true"
         app:suffixDay="天"
         app:suffixHour="时"
+        app:suffixMinute="分"
         app:suffixTextColor="@color/colorFont6"
         app:suffixTextSize="@dimen/font_size_12"
         app:timeTextColor="@color/colorPrimary"
-        app:timeTextSize="@dimen/font_size_16"
-        android:visibility="gone"/>
+        app:timeTextSize="@dimen/font_size_16" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -41,34 +43,32 @@
 
         <TextView
             android:id="@+id/tv_cancel"
-            android:layout_width="wrap_content"
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:background="@drawable/button_shape_white_bg"
+            android:gravity="center"
             android:paddingBottom="6dp"
-            android:paddingEnd="10dp"
-            android:paddingStart="10dp"
             android:paddingTop="6dp"
             android:text="取消"
             android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_12" />
+            android:textSize="@dimen/font_size_13" />
 
         <TextView
             android:id="@+id/tv_reward"
-            android:layout_width="wrap_content"
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="12dp"
             android:layout_toStartOf="@+id/tv_cancel"
             android:background="@drawable/button_shape_white_bg"
+            android:gravity="center"
             android:paddingBottom="6dp"
-            android:paddingEnd="10dp"
-            android:paddingStart="10dp"
             android:paddingTop="6dp"
             android:text="领钱"
             android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_12"
-            android:visibility="gone"/>
+            android:textSize="@dimen/font_size_13"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_submit"
@@ -81,6 +81,6 @@
             android:paddingTop="6dp"
             android:text="交付活动"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/font_size_12" />
+            android:textSize="@dimen/font_size_13" />
     </LinearLayout>
 </RelativeLayout>

@@ -1,5 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.widget;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,7 @@ public class AntiShake {
     private List<OneClickUtil> utils = new ArrayList<>();
 
     public boolean check(Object o) {
+        Log.i("当前时间---", "" + System.currentTimeMillis());
         String flag = null;
         if (o == null)
             flag = Thread.currentThread().getStackTrace()[2].getMethodName();
