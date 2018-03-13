@@ -178,25 +178,35 @@ public class MyFragment extends BaseFragment {
         tv_invite.setText(userInfo.getInviteMessage());
         tv_contact_phone.setText(userInfo.getCustomerPhone());
         tv_email.setText(userInfo.getEmail());
+        tv_msg.setText(userInfo.getMessage() + "");
+        tv_deliver_msg.setText(userInfo.getSubmit() + "");
+        tv_verify_msg.setText(userInfo.getAudit() + "");
+        tv_reward_msg.setText(userInfo.getPay() + "");
+        tv_failed_msg.setText(userInfo.getUnPass() + "");
         if (userInfo.getMessage() > 0) {
-            tv_msg.setText(userInfo.getMessage() + "");
             tv_msg.setVisibility(View.VISIBLE);
+        }else {
+            tv_msg.setVisibility(View.GONE);
         }
         if (userInfo.getSubmit() > 0) {
-            tv_deliver_msg.setText(userInfo.getSubmit() + "");
             tv_deliver_msg.setVisibility(View.VISIBLE);
+        }else {
+            tv_deliver_msg.setVisibility(View.GONE);
         }
         if (userInfo.getAudit() > 0) {
-            tv_verify_msg.setText(userInfo.getAudit() + "");
             tv_verify_msg.setVisibility(View.VISIBLE);
+        }else {
+            tv_verify_msg.setVisibility(View.GONE);
         }
         if (userInfo.getPay() > 0) {
-            tv_reward_msg.setText(userInfo.getPay() + "");
             tv_reward_msg.setVisibility(View.VISIBLE);
+        }else {
+            tv_reward_msg.setVisibility(View.GONE);
         }
         if (userInfo.getUnPass() > 0) {
-            tv_failed_msg.setText(userInfo.getUnPass() + "");
             tv_failed_msg.setVisibility(View.VISIBLE);
+        }else {
+            tv_failed_msg.setVisibility(View.GONE);
         }
         if (GeneralUtils.isNotNullOrZeroLenght(userInfo.getAvatar()))
             PictureLoadUtil.loadPicture(getActivity(), userInfo.getAvatar(), iv_user_photo);
