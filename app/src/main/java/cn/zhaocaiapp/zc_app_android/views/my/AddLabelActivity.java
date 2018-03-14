@@ -64,7 +64,7 @@ public class AddLabelActivity extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         tv_title.setText("添加个人标签");
-
+        iv_menu.setVisibility(View.GONE);
         getLabels();
     }
 

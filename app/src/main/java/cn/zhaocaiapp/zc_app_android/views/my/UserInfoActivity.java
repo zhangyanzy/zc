@@ -48,7 +48,7 @@ public class UserInfoActivity extends BaseActivity {
     @BindView(R.id.pager)
     ViewPager pager_user_info;
 
-    private static final String TAG = "用户详细信息";
+    private static final String TAG = "我的资料";
 
     private String[] tabTitles = {"个人资料", "实名信息", "相关信息", "个人标签", "修改密码"};
     private List<Fragment> fragments = new ArrayList<>();
@@ -66,6 +66,7 @@ public class UserInfoActivity extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         iv_top_menu.setVisibility(View.GONE);
+        tv_top_titlel.setText(TAG);
 
         curPosition = getIntent().getIntExtra("curPosition", 0);
 
