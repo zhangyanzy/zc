@@ -70,6 +70,7 @@ public class ZcApplication extends MultiDexApplication {
     }
 
     private static SharedPreferences sp;
+    private static SharedPreferences spApp;
     private static UMShareAPI umShareAPI;
     private static UMShareConfig config;
     private static List<LocationResp> provinces = new ArrayList<>();
@@ -99,6 +100,7 @@ public class ZcApplication extends MultiDexApplication {
 
         //SharedPreferences存储全局设置
         sp = getSharedPreferences(Constants.SPREF.FILE_NAME, Context.MODE_PRIVATE);
+        spApp = getSharedPreferences(Constants.SPREF.FILE_APP_NAME, Context.MODE_PRIVATE);
 
         //初始化定位
         LocationUtil.initLocation(this);
@@ -183,6 +185,10 @@ public class ZcApplication extends MultiDexApplication {
     //获取全局SharedPreferences对象
     public static SharedPreferences getPreferences() {
         return sp;
+    }
+
+    public static SharedPreferences getPreferencesApp() {
+        return spApp;
     }
 
     //获取UMShareAPI初始化对象

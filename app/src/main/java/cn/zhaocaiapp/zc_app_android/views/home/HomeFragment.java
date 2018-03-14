@@ -1,6 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.views.home;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -18,13 +19,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.sina.weibo.sdk.api.VoiceObject;
-import com.umeng.socialize.UMShareAPI;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -206,8 +206,8 @@ public class HomeFragment extends BaseFragment {
         /**
          * 定位判断
          */
-        areaName = (String) SpUtils.get(Constants.SPREF.AREA_NAME, Constants.CONFIG.AREA_NAME);
-        areaCode = (String) SpUtils.get(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE);
+        areaName = (String) getShareApp(Constants.SPREF.AREA_NAME, Constants.CONFIG.AREA_NAME);
+        areaCode = (String) getShareApp(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE);
         //显示当前用户定位城市
         home_title_area_text.setText(areaName);
         Gps gps = LocationUtil.getGps();
@@ -226,8 +226,8 @@ public class HomeFragment extends BaseFragment {
                 public void onBtnClick() {
                     EBLog.i("tag", "您点击了确认");
                     home_title_area_text.setText(gps.getCity());
-                    SpUtils.put(Constants.SPREF.AREA_NAME, gps.getCity());
-                    SpUtils.put(Constants.SPREF.AREA_CODE, gps.getAdCode());
+                    setShareApp(Constants.SPREF.AREA_NAME, gps.getCity());
+                    setShareApp(Constants.SPREF.AREA_CODE, gps.getAdCode());
                     EventBus.getDefault().post(new MessageEvent<String>("home_tab_0"));
                     normalDialog.dismiss();
                     //获取新手任务
@@ -276,7 +276,7 @@ public class HomeFragment extends BaseFragment {
             if (event.getMessage().equals("home_location")) {
                 home_view.setCurrentItem(0);
                 EventBus.getDefault().post(new MessageEvent<String>("home_tab_0"));
-                home_title_area_text.setText((String) SpUtils.get(Constants.SPREF.AREA_NAME, Constants.CONFIG.AREA_NAME));
+                home_title_area_text.setText((String) getShareApp(Constants.SPREF.AREA_NAME, Constants.CONFIG.AREA_NAME));
                 EBLog.i(TAG, "接收到定位切换消息");
             }
         }
@@ -418,6 +418,94 @@ public class HomeFragment extends BaseFragment {
         isFirst = true;
     }
 
+    /**
+     * 保存 app本地文件配置
+     */
+    public static void setShareApp(String key, Object object) {
+        SharedPreferences sp = ZcApplication.getPreferencesApp();
+        SharedPreferences.Editor editor = sp.edit();
+
+        if (object == null) return;
+        if (object instanceof String) {
+            editor.putString(key, (String) object);
+        } else if (object instanceof Integer) {
+            editor.putInt(key, (Integer) object);
+        } else if (object instanceof Boolean) {
+            editor.putBoolean(key, (Boolean) object);
+        } else if (object instanceof Float) {
+            editor.putFloat(key, (Float) object);
+        } else if (object instanceof Long) {
+            editor.putLong(key, (Long) object);
+        } else {
+            editor.putString(key, object.toString());
+        }
+
+        SharedPreferencesCompat.apply(editor);
+    }
+
+    /**
+     * 返回 app本地文件配置
+     */
+    public static Object getShareApp(String key, Object defaultObject) {
+        SharedPreferences sp = ZcApplication.getPreferencesApp();
+
+        if (defaultObject instanceof String) {
+            return sp.getString(key, (String) defaultObject);
+        } else if (defaultObject instanceof Integer) {
+            return sp.getInt(key, (Integer) defaultObject);
+        } else if (defaultObject instanceof Boolean) {
+            return sp.getBoolean(key, (Boolean) defaultObject);
+        } else if (defaultObject instanceof Float) {
+            return sp.getFloat(key, (Float) defaultObject);
+        } else if (defaultObject instanceof Long) {
+            return sp.getLong(key, (Long) defaultObject);
+        }
+
+        return null;
+    }
+
+    /**
+     * 创建一个解决SharedPreferencesCompat.apply方法的一个兼容类
+     *
+     * @author zhy
+     */
+    private static class SharedPreferencesCompat {
+        private static final Method sApplyMethod = findApplyMethod();
+
+        /**
+         * 反射查找apply的方法
+         *
+         * @return
+         */
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        private static Method findApplyMethod() {
+            try {
+                Class clz = SharedPreferences.Editor.class;
+                return clz.getMethod("apply");
+            } catch (NoSuchMethodException e) {
+            }
+
+            return null;
+        }
+
+        /**
+         * 如果找到则使用apply执行，否则使用commit
+         *
+         * @param editor
+         */
+        public static void apply(SharedPreferences.Editor editor) {
+            try {
+                if (sApplyMethod != null) {
+                    sApplyMethod.invoke(editor);
+                    return;
+                }
+            } catch (IllegalArgumentException e) {
+            } catch (IllegalAccessException e) {
+            } catch (InvocationTargetException e) {
+            }
+            editor.commit();
+        }
+    }
 }
 
 

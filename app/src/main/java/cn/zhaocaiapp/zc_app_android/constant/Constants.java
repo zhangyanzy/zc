@@ -60,13 +60,13 @@ public interface Constants {
          * 服务器地址
          */
         //开发环境
-        String SERVER = "http://appapi.zhaocaiapp.local/"; // 必须以／结尾否则初始化会报错
+//        String SERVER = "http://appapi.zhaocaiapp.local/"; // 必须以／结尾否则初始化会报错
 
         //生产环境
 //        String SERVER = "https://appapi.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
 
         //预生产环境
-//        String SERVER = "https://appapi-pre.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
+        String SERVER = "https://appapi-pre.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
 
         //测试环境
 //        String SERVER = "http://192.168.1.159:8083/";
@@ -74,9 +74,9 @@ public interface Constants {
         /**
          * H5页面地址
          */
-        String H5_URL = "http://m.zhaocaiapp.local"; //开发环境
+//        String H5_URL = "http://m.zhaocaiapp.local"; //开发环境
 //        String H5_URL = "https://m.zhaocaiapp.cn"; //生产环境
-//        String H5_URL = "https://m-pre.zhaocaiapp.cn"; //预生产环境
+        String H5_URL = "https://m-pre.zhaocaiapp.cn"; //预生产环境
 
         /**
          * 注册
@@ -297,9 +297,14 @@ public interface Constants {
 
     interface SPREF {
         /**
-         * 保存在手机里面的文件名
+         * 保存在手机里面的文件名 用户有关
          */
         String FILE_NAME = "share_data";
+        /**
+         * 保存在手机里面的文件名 应用有关
+         */
+        String FILE_APP_NAME = "share_app";
+
         /**
          * 是否显示引导页
          */
