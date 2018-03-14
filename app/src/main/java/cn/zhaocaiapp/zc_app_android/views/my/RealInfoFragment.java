@@ -367,6 +367,8 @@ public class RealInfoFragment extends BaseFragment {
 
             @Override
             public void onError(OCRError error) {
+                //停止身份证识别等待动画
+                stopProgressDialog();
                 EBLog.e(TAG, error.getMessage());
             }
         });
@@ -415,8 +417,8 @@ public class RealInfoFragment extends BaseFragment {
                         recIDCard(filePath);
                     }
                 }
-            }
-        }
+            }else stopProgressDialog();
+        }else stopProgressDialog();
     }
 
     @Override

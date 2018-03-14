@@ -2,21 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="120dp">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="130dp"
         android:background="@color/colorPrimary"
         android:orientation="vertical"
-        android:paddingEnd="10dp"
-        android:paddingStart="10dp"
-        android:paddingTop="5dp">
+        android:paddingLeft="@dimen/window_padding"
+        android:paddingRight="@dimen/window_padding">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginTop="15dp">
 
             <LinearLayout
                 android:id="@+id/home_title_area_layout"
@@ -65,75 +65,73 @@
                     android:layout_gravity="center_vertical"
                     android:src="@mipmap/home_search" />
             </LinearLayout>
-
         </LinearLayout>
-
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorWhite">
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:background="@color/colorWhite"-->
+        <!--android:visibility="visible">-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
     <LinearLayout
         android:id="@+id/home_title_user_cart"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="@dimen/window_padding"
+        android:layout_marginRight="@dimen/window_padding"
         android:background="@drawable/home_card"
-        android:padding="4dp">
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp">
 
         <LinearLayout
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
                 android:id="@+id/home_title_user_img"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:src="@mipmap/user_default"
-                app:civ_border_color="@color/colorLine"
-                app:civ_border_width="5dp" />
+                app:civ_border_width="5dp"
+                app:civ_border_color="@color/colorLine"/>
 
             <TextView
                 android:id="@+id/home_title_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="4dp"
                 android:ellipsize="end"
                 android:gravity="center"
-                android:paddingStart="10dp"
                 android:singleLine="true"
                 android:text="未登录"
                 android:textColor="@color/colorFont3"
                 android:textSize="14sp" />
-
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="14dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:layout_marginTop="15dp">
 
                 <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="34dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:src="@mipmap/logo_money" />
 
@@ -145,42 +143,42 @@
                     android:singleLine="true"
                     android:text="0.00"
                     android:textColor="@color/colorFont3"
-                    android:textSize="18sp"
-                    android:layout_marginLeft="2dp"/>
+                    android:textSize="@dimen/font_size_24"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/element"
                     android:textColor="@color/colorFont3"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/font_size_24" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="34dp"
                 android:text="@string/user_income"
                 android:textColor="@color/colorFont9"
                 android:textSize="12sp"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="2dp"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginLeft="12dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:layout_marginTop="15dp">
 
                 <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="34dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:src="@mipmap/logo_money" />
 
@@ -192,25 +190,24 @@
                     android:singleLine="true"
                     android:text="0.00"
                     android:textColor="@color/colorFont3"
-                    android:textSize="18sp"
-                    android:layout_marginLeft="2dp"/>
+                    android:textSize="@dimen/font_size_24"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/element"
                     android:textColor="@color/colorFont3"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/font_size_24" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="34dp"
                 android:text="@string/user_balance"
                 android:textColor="@color/colorFont9"
                 android:textSize="12sp"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="2dp"/>
         </LinearLayout>
 
 

@@ -391,8 +391,7 @@ public class HomeFragment extends BaseFragment {
             R.id.home_title_area_layout
     })
     public void onClick(View view) {
-        boolean isAntiShake = antiShake.check(view.getId());
-        if (isAntiShake) return;
+        if (antiShake.check(view.getId())) return;
         switch (view.getId()) {
             case R.id.home_title_search: //搜索
                 openActivity(SearchActivity.class);

@@ -179,7 +179,10 @@ public class CheckPhoneActivity extends BaseActivity {
                     Bundle bundle = new Bundle();
                     bundle.putInt("position", 0);
                     openActivity(MainActivity.class, bundle);
-                } else {
+                }else if (response.getCode() == 5005){
+
+                }
+                else {
                     ToastUtil.makeText(CheckPhoneActivity.this, response.getDesc());
                 }
             }

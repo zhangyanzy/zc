@@ -9,10 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="190dp"
         android:scaleType="fitXY"
-        app:sriv_left_bottom_corner_radius="5dp"
-        app:sriv_left_top_corner_radius="5dp"
-        app:sriv_right_bottom_corner_radius="5dp"
-        app:sriv_right_top_corner_radius="5dp" />
+        app:sriv_left_bottom_corner_radius="8dp"
+        app:sriv_left_top_corner_radius="8dp"
+        app:sriv_right_bottom_corner_radius="8dp"
+        app:sriv_right_top_corner_radius="8dp" />
 
     <TextView
         android:id="@+id/activity_item_img_state"
