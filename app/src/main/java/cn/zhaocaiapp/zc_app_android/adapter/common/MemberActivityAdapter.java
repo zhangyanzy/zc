@@ -249,7 +249,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
             //已领取人数进度条
             viewHolderActivity.activity_item_text_number_progress.setProgress((int) pra);
             //地址logo 距离
-            if (list.get(position - 1).getActivityType() != 1 && list.get(position - 1).getActivityForm() == 0 && LocationUtil.getGps().getOpen()) {
+            if (list.get(position - 1).getActivityForm() == 0 && LocationUtil.getGps().getOpen()) {
                 viewHolderActivity.activity_item_text_area_logo.setVisibility(View.VISIBLE);
                 viewHolderActivity.activity_item_text_area_text.setVisibility(View.VISIBLE);
                 //起始位置 我的位置
