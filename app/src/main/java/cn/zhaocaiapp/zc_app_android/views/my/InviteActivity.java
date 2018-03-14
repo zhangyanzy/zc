@@ -43,7 +43,7 @@ public class InviteActivity extends BaseActivity {
     @BindView(R.id.web)
     WebView web;
 
-    private String inviteUrl = "/#/invite/user?code=%s";
+    private String inviteUrl = "/invite/user?code=%s";
 
     private UMShareAPI umShareAPI;
     private String inviteCode; //邀请码

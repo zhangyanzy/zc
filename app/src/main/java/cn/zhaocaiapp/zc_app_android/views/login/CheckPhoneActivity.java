@@ -24,9 +24,11 @@ import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.ObtainCodeResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.SignupResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.VerifyCodeResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
+import cn.zhaocaiapp.zc_app_android.util.DialogUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
@@ -180,9 +182,9 @@ public class CheckPhoneActivity extends BaseActivity {
                     bundle.putInt("position", 0);
                     openActivity(MainActivity.class, bundle);
                 }else if (response.getCode() == 5005){
-
-                }
-                else {
+                    String content = getString(R.string.other_account_closure);
+                    NormalDialog dialog = DialogUtil.showDialogOneBut(CheckPhoneActivity.this, null, content, "关闭");
+                } else {
                     ToastUtil.makeText(CheckPhoneActivity.this, response.getDesc());
                 }
             }

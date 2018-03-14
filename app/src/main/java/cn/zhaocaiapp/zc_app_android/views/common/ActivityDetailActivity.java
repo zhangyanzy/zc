@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.transition.Transition;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -75,13 +76,20 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
     private static final String TAG = "H5详情页";
     private static final int REQUEST_CODE = 2001;
+    public final static String TRANSITION = "TRANSITION";
 
-    private String activityUrl = "/#/activity/detail?id=%s"; // 分享活動url
-    private String inviteUrl = "/#/activity/detail?id=%s&code=%s"; //邀請好友協同活動
+    private String activityUrl = "/activity/detail?id=%s"; // 分享活動url
+    private String inviteUrl = "/activity/detail?id=%s&code=%s"; //邀請好友協同活動
 
     private long activityId;  // 活动id
     private String inviteCode = "0";  //活動邀請碼
     private String activityTitle; // 活动名称
+
+    private ImageView backBut;//返回键
+    private View startBut;//播放键
+
+    private boolean isTransition;
+    private Transition transition;
 
     @Override
     public int getContentViewResId() {
@@ -134,6 +142,17 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         ZXingLibrary.initDisplayOpinion(this);
 
     }
+
+//    private void initPlayer(){
+//        isTransition = getIntent().getBooleanExtra(TRANSITION, false);
+//
+//        //设置返回键
+//        backBut = vp_player.getBackButton();
+//        backBut.setVisibility(View.VISIBLE);
+//        //设置播放键
+//        startBut = vp_player.getStartButton();
+//        startBut.setVisibility(View.VISIBLE);
+//    }
 
     //预留给js调用的回调
     class JavaScriptInterfaces {

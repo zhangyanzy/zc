@@ -214,11 +214,11 @@ public interface Constants {
         /**
          * 分享活动
          * */
-        String SHARE_ACTIVITY_URL = "/#/activity/detail?id=%s";
+        String SHARE_ACTIVITY_URL = "/activity/detail?id=%s";
        /**
         * 分享邀请好友
         * */
-       String INVITE_URL = "/#/invite/user?code=%s";
+       String INVITE_URL = "/invite/user?code=%s";
        /**
         * 收支明细
         * */
@@ -226,7 +226,7 @@ public interface Constants {
        /**
         * 收入分享
         * */
-        String INCOME_SHARE = "/#/my/income?income=%s";
+        String INCOME_SHARE = "/my/income?income=%s";
 
 
 
