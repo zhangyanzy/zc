@@ -20,6 +20,7 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.math.BigDecimal;
+import java.nio.file.attribute.PosixFilePermission;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,9 +76,12 @@ public class ApplyCashActivity extends BaseActivity {
     private int type = -1;//提现方式    0 支付宝  1 微信   2 银行卡
     private AccountResp account;
     private String amount; // 提现金额
-    private UMShareAPI umShareAPI;
+    private int selectType = -1;
+
     private static final int REQUEST_CODE = 4001;
+
     private NormalInputDialog inputDialog;
+    private UMShareAPI umShareAPI;
 
     private static final String TAG = "申请提现";
 
@@ -135,13 +139,13 @@ public class ApplyCashActivity extends BaseActivity {
             withdraw_bank.setText("已绑定");
         else
             withdraw_bank.setText("未绑定");
-        setDrawable();
+        setSelect();
     }
 
     //申请提现
     private void doWithdraw() {
         Map<String, String> map = new HashMap<>();
-        map.put("type", type + "");
+        map.put("type", selectType + "");
         map.put("amount", amount);
 
         HttpUtil.post(Constants.URL.DO_WITHDRAW, map).subscribe(new BaseResponseObserver<CommonResp>() {
@@ -149,6 +153,8 @@ public class ApplyCashActivity extends BaseActivity {
             @Override
             public void success(CommonResp commonResp) {
                 ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_success));
+                double balan = Double.valueOf(balance) - Double.valueOf(amount);
+                tv_balance.setText(String.valueOf(balan));
             }
 
             @Override
@@ -183,7 +189,7 @@ public class ApplyCashActivity extends BaseActivity {
             case R.id.withdraw_wechat:
                 type = 1;
                 if (account.getWechatIs()) {
-                    setDrawable();
+                    setSelect();
                 } else {
                     showDialog();
                 }
@@ -191,7 +197,7 @@ public class ApplyCashActivity extends BaseActivity {
             case R.id.withdraw_ali:
                 type = 0;
                 if (account.getAlipayIs()) {
-                    setDrawable();
+                    setSelect();
                 } else {
                     showDialog();
                 }
@@ -199,7 +205,7 @@ public class ApplyCashActivity extends BaseActivity {
             case R.id.withdraw_bank:
                 type = 2;
                 if (account.getBankIs()) {
-                    setDrawable();
+                    setSelect();
                 } else {
                     showDialog();
                 }
@@ -209,12 +215,16 @@ public class ApplyCashActivity extends BaseActivity {
 
     //校验输入的取现金额
     private void verifyAmount() {
+        int limit = 20;
         if (GeneralUtils.isNotNullOrZeroLenght(edit_apply_cash.getText().toString())) {
             BigDecimal money = new BigDecimal(edit_apply_cash.getText().toString());
-            if (money.compareTo(new BigDecimal(20)) == -1) {
-                ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_limit));
-            } else if (type == -1) {
+            if (selectType == 2) {
+                limit = 200;
+            }
+            if (selectType == -1) {
                 ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_type));
+            } else if (money.compareTo(new BigDecimal(limit)) == -1) {
+                ToastUtil.makeText(ApplyCashActivity.this, String.format(getString(R.string.withdraw_limit), String.valueOf(limit)));
             } else {
                 amount = GeneralUtils.getBigDecimalToTwo(money);
                 inputDialog.show();
@@ -259,33 +269,50 @@ public class ApplyCashActivity extends BaseActivity {
     }
 
     //设置支付方式的选中状态
-    private void setDrawable() {
+    private void setSelect() {
+        if (selectType == -1) {
+           setDrawable(type);
+        }else {
+            setDrawable(selectType);
+        }
+    }
+
+    private void setDrawable(int position){
         Drawable selDrawable = getResources().getDrawable(R.mipmap.selected);
         Drawable unDrawable = getResources().getDrawable(R.mipmap.unselected);
         selDrawable.setBounds(0, 0, 48, 48);
         unDrawable.setBounds(0, 0, 48, 48);
-        switch (type) {
+        switch (position) {
             case 0:
-                if (account.getAlipayIs())
+                if (account.getAlipayIs()) {
                     withdraw_ali.setCompoundDrawables(null, null, selDrawable, null);
-                else
+                    selectType = 0;
+                } else {
                     withdraw_ali.setCompoundDrawables(null, null, unDrawable, null);
+//                    selectType = -1;
+                }
                 withdraw_wechat.setCompoundDrawables(null, null, unDrawable, null);
                 withdraw_bank.setCompoundDrawables(null, null, unDrawable, null);
                 break;
             case 1:
-                if (account.getWechatIs())
+                if (account.getWechatIs()) {
                     withdraw_wechat.setCompoundDrawables(null, null, selDrawable, null);
-                else
+                    selectType = 1;
+                } else {
                     withdraw_wechat.setCompoundDrawables(null, null, unDrawable, null);
+//                    selectType = -1;
+                }
                 withdraw_ali.setCompoundDrawables(null, null, unDrawable, null);
                 withdraw_bank.setCompoundDrawables(null, null, unDrawable, null);
                 break;
             case 2:
-                if (account.getBankIs())
+                if (account.getBankIs()) {
                     withdraw_bank.setCompoundDrawables(null, null, selDrawable, null);
-                else
+                    selectType = 2;
+                } else {
                     withdraw_bank.setCompoundDrawables(null, null, unDrawable, null);
+//                    selectType = -1;
+                }
                 withdraw_wechat.setCompoundDrawables(null, null, unDrawable, null);
                 withdraw_ali.setCompoundDrawables(null, null, unDrawable, null);
                 break;

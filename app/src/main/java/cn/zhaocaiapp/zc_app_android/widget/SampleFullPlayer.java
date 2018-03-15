@@ -2,11 +2,9 @@ package cn.zhaocaiapp.zc_app_android.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
-import cn.zhaocaiapp.zc_app_android.R;
 
 /**
  * Created by Administrator on 2018/3/14.

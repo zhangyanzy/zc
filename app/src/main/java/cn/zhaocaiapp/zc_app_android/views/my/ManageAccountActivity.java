@@ -71,6 +71,9 @@ public class ManageAccountActivity extends BaseActivity {
     private NormalDialog dialog;
 
     private static final int REQUEST_CODE = 6001;
+//    private static final int SUCCESS = 6010;
+//    private static final int FAILURE = 6011;
+//    private int resultCode;
 
     private static final String TAG = "管理账户";
 

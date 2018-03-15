@@ -3,6 +3,7 @@
 
     <!--主题色-->
     <color name="colorPrimary">#FBC873</color>
+    <color name="colorPrimary_">#b3fbc873</color>
     <!--文字标题-->
     <color name="colorFont3">#333333</color>
     <!--文字正文-->

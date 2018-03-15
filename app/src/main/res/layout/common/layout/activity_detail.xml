@@ -7,6 +7,14 @@
 
     <include layout="@layout/layout_top_title" />
 
+    <cn.zhaocaiapp.zc_app_android.widget.SampleFullPlayer
+        android:id="@+id/vp_player"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+    </cn.zhaocaiapp.zc_app_android.widget.SampleFullPlayer>
+
     <WebView
         android:id="@+id/activity_detail_webView"
         android:layout_width="match_parent"

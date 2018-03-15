@@ -70,7 +70,8 @@
     <string name="bankname_not_null">开户行不能为空</string>
     <string name="bankaliasname_not_null">开户支行不能为空</string>
     <string name="withdraw_success">提现申请成功，请等待审核</string>
-    <string name="withdraw_limit">提现金额不能小于20元</string>
+    <string name="withdraw_limit">提现金额不能小于%s元</string>
+    <string name="withdraw_min_limit">提现金额20元起</string>
     <string name="withdraw_type">请选择提现方式</string>
     <string name="account_closure">您的账号已被封禁，请联系客服解封</string>
     <string name="check_agreement">请点击接受用户协议</string>
@@ -103,6 +104,7 @@
     <string name="service_phone">客服电话：</string>
     <string name="e_mail">E-mail：</string>
     <string name="other_account_closure">该账号已被封禁</string>
+    <string name="input_detail_address">请填写详细地址，不少于4个字</string>
 
 
 </resources>

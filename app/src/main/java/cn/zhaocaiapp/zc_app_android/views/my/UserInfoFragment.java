@@ -73,6 +73,10 @@ public class UserInfoFragment extends BaseFragment {
     EditText home_address_detail;
     @BindView(R.id.company_address_detail)
     EditText company_address_detail;
+    @BindView(R.id.iv_select_ha)
+    ImageView iv_select_ha;
+    @BindView(R.id.iv_select_ca)
+    ImageView iv_select_ca;
 
     private View rootView;
     private PhotoHelper photoHelper;
@@ -261,11 +265,13 @@ public class UserInfoFragment extends BaseFragment {
                 PhotoPickerUtil.setContent("选择照片", new String[]{"拍照", "从相册选择"}, null);
                 PhotoPickerUtil.show(photoListener);
                 break;
-            case R.id.edit_user_address: //选择地址
+            case R.id.edit_user_address: //选择家庭地址
+            case R.id.iv_select_ha:
                 addressType = 0;
                 optionsPickerView.show();
                 break;
-            case R.id.edit_company_address:
+            case R.id.edit_company_address: //选择公司地址
+            case R.id.iv_select_ca:
                 addressType = 1;
                 optionsPickerView.show();
                 break;

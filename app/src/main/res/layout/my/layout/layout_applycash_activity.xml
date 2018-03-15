@@ -85,7 +85,7 @@
         android:layout_alignStart="@+id/edit_apply_cash"
         android:layout_below="@+id/edit_apply_cash"
         android:layout_marginTop="5dp"
-        android:text="提现金额20元起"
+        android:text="@string/withdraw_min_limit"
         android:textColor="@color/colorFont6"
         android:textSize="@dimen/font_size_14" />
 

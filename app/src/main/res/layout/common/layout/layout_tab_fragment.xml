@@ -17,7 +17,7 @@
 
     </android.support.design.widget.TabLayout>
 
-    <View style="@style/C9_8dp_divider"/>
+    <View style="@style/horizontal_F0_line"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"

@@ -55,6 +55,7 @@ import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
+import cn.zhaocaiapp.zc_app_android.widget.SampleFullPlayer;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
@@ -67,6 +68,8 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     ImageView iv_menu;
     @BindView(R.id.activity_detail_webView)
     WebView activity_detail_webView;
+    @BindView(R.id.vp_player)
+    SampleFullPlayer vp_player;
 
     private View rootView;
     private PhotoHelper photoHelper;
@@ -115,7 +118,6 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         }
 
         activity_detail_webView.loadUrl("file:///android_asset/h5-assets/index.html");
-        //webView.loadUrl("http://192.168.1.189:8080");
         WebSettings settings = activity_detail_webView.getSettings();
         settings.setJavaScriptEnabled(true);    //js支持
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);   //不使用缓存
@@ -143,16 +145,16 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
     }
 
-//    private void initPlayer(){
+    private void initPlayer(){
 //        isTransition = getIntent().getBooleanExtra(TRANSITION, false);
-//
-//        //设置返回键
-//        backBut = vp_player.getBackButton();
-//        backBut.setVisibility(View.VISIBLE);
-//        //设置播放键
-//        startBut = vp_player.getStartButton();
-//        startBut.setVisibility(View.VISIBLE);
-//    }
+
+        //设置返回键
+        backBut = vp_player.getBackButton();
+        backBut.setVisibility(View.VISIBLE);
+        //设置播放键
+        startBut = vp_player.getStartButton();
+        startBut.setVisibility(View.VISIBLE);
+    }
 
     //预留给js调用的回调
     class JavaScriptInterfaces {

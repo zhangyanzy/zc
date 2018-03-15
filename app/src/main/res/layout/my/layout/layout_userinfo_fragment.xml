@@ -1,206 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/window_padding_32"
-    android:paddingRight="@dimen/window_padding_32">
-
-    <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
-        android:id="@+id/iv_user_photo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:src="@mipmap/user_default"
-        app:civ_border_color="@color/colorPrimary"
-        app:civ_border_width="3dp" />
-
-    <TextView
-        android:id="@+id/tv_change_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
-        android:text="更换头像"
-        android:textColor="@color/colorFont6"
-        android:textSize="@dimen/font_size_14" />
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:paddingBottom="30dp">
+
+        <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
+            android:id="@+id/iv_user_photo"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:src="@mipmap/user_default"
+            app:civ_border_color="@color/colorLine"
+            app:civ_border_width="6dp" />
 
         <TextView
+            android:id="@+id/tv_change_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:paddingBottom="5dp"
-            android:text="昵         称："
-            android:textColor="@color/colorFont9"
-            android:textSize="@dimen/font_size_14" />
-
-        <EditText
-            android:id="@+id/edit_user_nickname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:paddingLeft="15dp"
-            android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_14" />
-    </LinearLayout>
-
-    <View
-        style="@style/horizontal_C9_line"
-        android:layout_marginLeft="80dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:paddingBottom="5dp"
-            android:text="手机号码："
-            android:textColor="@color/colorFont9"
-            android:textSize="@dimen/font_size_14" />
-
-        <TextView
-            android:id="@+id/edit_user_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="12dp"
-            android:layout_weight="1"
-            android:paddingLeft="15dp"
-            android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_14" />
-
-        <TextView
-            android:id="@+id/tv_revise_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="12dp"
-            android:text="修改手机号码"
-            android:textColor="@color/colorFont9"
-            android:textSize="@dimen/font_size_14" />
-    </LinearLayout>
-
-    <View
-        style="@style/horizontal_C9_line"
-        android:layout_marginLeft="80dp" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp">
-
-        <TextView
-            android:id="@+id/home_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:paddingBottom="5dp"
-            android:text="家庭住址："
-            android:textColor="@color/colorFont9"
-            android:textSize="@dimen/font_size_14" />
-
-        <TextView
-            android:id="@+id/edit_user_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/home_address"
-            android:paddingLeft="15dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:text="更换头像"
             android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_14" />
 
         <View
-            style="@style/horizontal_C9_line"
-            android:layout_below="@+id/edit_user_address"
-            android:layout_marginLeft="80dp" />
+            style="@style/horizontal_F0_line"
+            android:layout_marginTop="30dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_select_project"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/window_padding"
+            android:paddingRight="@dimen/window_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="昵         称："
+                android:textColor="@color/colorFont9"
+                android:textSize="@dimen/font_size_14" />
+
+            <EditText
+                android:id="@+id/edit_user_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:paddingLeft="15dp"
+                android:text=""
+                android:textColor="@color/colorFont6"
+                android:textSize="@dimen/font_size_14"
+                android:gravity="end"/>
+        </LinearLayout>
+
+        <View style="@style/horizontal_F0_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_select_project"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/window_padding"
+            android:paddingRight="@dimen/window_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="手机号码："
+                android:textColor="@color/colorFont9"
+                android:textSize="@dimen/font_size_14" />
+
+            <TextView
+                android:id="@+id/edit_user_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:layout_weight="1"
+                android:paddingLeft="15dp"
+                android:textColor="@color/colorFont6"
+                android:textSize="@dimen/font_size_14" />
+
+            <TextView
+                android:id="@+id/tv_revise_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="修改手机号码"
+                android:textColor="@color/colorFont9"
+                android:textSize="@dimen/font_size_14" />
+        </LinearLayout>
+
+        <View style="@style/horizontal_F0_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_select_project"
+            android:paddingLeft="@dimen/window_padding"
+            android:paddingRight="@dimen/window_padding">
+
+            <TextView
+                android:id="@+id/home_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="家庭住址："
+                android:textColor="@color/colorFont9"
+                android:textSize="@dimen/font_size_14" />
+
+            <TextView
+                android:id="@+id/edit_user_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="30dp"
+                android:layout_toEndOf="@+id/home_address"
+                android:paddingLeft="15dp"
+                android:textColor="@color/colorFont6"
+                android:textSize="@dimen/font_size_14" />
+
+            <ImageView
+                android:id="@+id/iv_select_ha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/turn_right" />
+
+        </RelativeLayout>
+
+        <View style="@style/horizontal_F0_line" />
 
         <EditText
             android:id="@+id/home_address_detail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/edit_user_address"
-            android:layout_below="@+id/edit_user_address"
+            android:layout_height="96dp"
             android:background="@null"
-            android:hint="详细地址"
-            android:minHeight="34dp"
-            android:paddingLeft="15dp"
+            android:gravity="start"
+            android:hint="@string/input_detail_address"
+            android:maxLines="3"
+            android:paddingLeft="@dimen/window_padding"
+            android:paddingRight="@dimen/window_padding"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
             android:textColor="@color/colorFont6"
             android:textColorHint="@color/colorFont9"
             android:textSize="@dimen/font_size_14" />
-    </RelativeLayout>
 
-    <View
-        style="@style/horizontal_C9_line"
-        android:layout_marginLeft="80dp" />
+        <View style="@style/horizontal_F0_line" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp">
-
-        <TextView
-            android:id="@+id/company_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:paddingBottom="5dp"
-            android:text="公司地址："
-            android:textColor="@color/colorFont9"
-            android:textSize="@dimen/font_size_14" />
-
-        <TextView
-            android:id="@+id/edit_company_address"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/company_address"
-            android:paddingLeft="15dp"
-            android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_14" />
+            android:layout_height="@dimen/height_select_project"
+            android:paddingLeft="@dimen/window_padding"
+            android:paddingRight="@dimen/window_padding">
 
-        <View
-            style="@style/horizontal_C9_line"
-            android:layout_below="@+id/edit_company_address"
-            android:layout_marginLeft="80dp" />
+            <TextView
+                android:id="@+id/company_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:paddingBottom="5dp"
+                android:text="公司地址："
+                android:textColor="@color/colorFont9"
+                android:textSize="@dimen/font_size_14" />
+
+            <TextView
+                android:id="@+id/edit_company_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="30dp"
+                android:layout_toEndOf="@+id/company_address"
+                android:paddingLeft="15dp"
+                android:textColor="@color/colorFont6"
+                android:textSize="@dimen/font_size_14" />
+
+            <ImageView
+                android:id="@+id/iv_select_ca"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/turn_right" />
+        </RelativeLayout>
+
+        <View style="@style/horizontal_F0_line" />
 
         <EditText
             android:id="@+id/company_address_detail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/edit_company_address"
-            android:layout_below="@+id/edit_company_address"
+            android:layout_height="96dp"
             android:background="@null"
-            android:hint="详细地址"
-            android:minHeight="34dp"
-            android:paddingLeft="15dp"
+            android:gravity="start"
+            android:hint="@string/input_detail_address"
+            android:maxLines="3"
+            android:paddingLeft="@dimen/window_padding"
+            android:paddingRight="@dimen/window_padding"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
             android:textColor="@color/colorFont6"
             android:textColorHint="@color/colorFont9"
             android:textSize="@dimen/font_size_14" />
-    </RelativeLayout>
 
-    <View
-        style="@style/horizontal_C9_line"
-        android:layout_marginLeft="80dp" />
+        <View style="@style/horizontal_F0_line" />
 
-    <TextView
-        android:id="@+id/tv_submit"
-        android:layout_width="225dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="80dp"
-        android:background="@drawable/button_shape_orange_round"
-        android:gravity="center"
-        android:text="提交"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/font_size_18" />
+        <TextView
+            android:id="@+id/tv_submit"
+            android:layout_width="225dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/button_shape_orange_round"
+            android:gravity="center"
+            android:text="提交"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/font_size_18" />
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

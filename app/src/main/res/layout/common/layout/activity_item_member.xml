@@ -13,7 +13,7 @@
         android:layout_height="@dimen/member_logo"
         android:layout_gravity="center_vertical"
         android:layout_weight="0"
-        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_color="@color/colorPrimary_"
         app:civ_border_width="@dimen/member_logo_frame" />
 
     <TextView
