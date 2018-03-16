@@ -12,10 +12,19 @@ public class MessageResp {
      "messageId":,  Long     消息ID
      "readStatus":   Integer   读的状态0未读 1已读
      * */
+    private String title;
     private String content;
     private long messageId;
     private int readStatus;
     private Date createTime;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public Date getCreateTime() {
         return createTime;

@@ -105,6 +105,10 @@
     <string name="e_mail">E-mail：</string>
     <string name="other_account_closure">该账号已被封禁</string>
     <string name="input_detail_address">请填写详细地址，不少于4个字</string>
+    <string name="delete_label_confirm">参与问卷调查获取的标签删除后无法找回，是否继续删除？</string>
+    <string name="notice_switch">您的消息通知开关没有打开，无法收到最近消息。</string>
+    <string name="change_position">定位到您当前位置为%s，是否切换？</string>
+    <string name="new_task_reward">完成新手任务即可领取奖励</string>
 
 
 </resources>

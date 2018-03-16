@@ -2,11 +2,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
@@ -56,11 +58,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:gravity="end"
                 android:paddingLeft="15dp"
                 android:text=""
                 android:textColor="@color/colorFont6"
-                android:textSize="@dimen/font_size_14"
-                android:gravity="end"/>
+                android:textSize="@dimen/font_size_14" />
         </LinearLayout>
 
         <View style="@style/horizontal_F0_line" />
@@ -147,10 +149,10 @@
             android:gravity="start"
             android:hint="@string/input_detail_address"
             android:maxLines="3"
+            android:paddingBottom="15dp"
             android:paddingLeft="@dimen/window_padding"
             android:paddingRight="@dimen/window_padding"
             android:paddingTop="15dp"
-            android:paddingBottom="15dp"
             android:textColor="@color/colorFont6"
             android:textColorHint="@color/colorFont9"
             android:textSize="@dimen/font_size_14" />
@@ -203,10 +205,10 @@
             android:gravity="start"
             android:hint="@string/input_detail_address"
             android:maxLines="3"
+            android:paddingBottom="15dp"
             android:paddingLeft="@dimen/window_padding"
             android:paddingRight="@dimen/window_padding"
             android:paddingTop="15dp"
-            android:paddingBottom="15dp"
             android:textColor="@color/colorFont6"
             android:textColorHint="@color/colorFont9"
             android:textSize="@dimen/font_size_14" />

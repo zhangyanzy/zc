@@ -85,8 +85,14 @@ public class MyFollowBusinerFragment extends BaseFragment implements OnRefreshLi
                 members.addAll(memberResps);
                 adapter.refresh(members);
 
-                refresh_layout.finishRefresh();
-                refresh_layout.finishLoadmore();
+                if (memberResps.size() < pageSize) {
+                    refresh_layout.finishLoadmoreWithNoMoreData();
+                    refresh_layout.setEnableFooterFollowWhenLoadFinished(true);
+                }
+                if (refresh_layout.isRefreshing())
+                    refresh_layout.finishRefresh();
+                else if (refresh_layout.isLoading())
+                    refresh_layout.finishLoadmore();
             }
 
             @Override

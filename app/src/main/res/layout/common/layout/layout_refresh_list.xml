@@ -11,6 +11,10 @@
         android:scrollbars="none"
         app:srlEnablePreviewInEditMode="true">
 
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <include layout="@layout/layout_list"/>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>

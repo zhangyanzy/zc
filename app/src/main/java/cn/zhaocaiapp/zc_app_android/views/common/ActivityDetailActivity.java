@@ -107,9 +107,8 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
         activityId = getIntent().getLongExtra("id", -1);
         activityTitle = getIntent().getStringExtra("title");
-        tv_title.setText(activityTitle);
-        iv_menu.setImageResource(R.mipmap.share);
 
+        //从浏览器跳转回活动详情
         Uri uri = getIntent().getData();
         if (uri != null) {
             activityId = Long.valueOf(uri.getQueryParameter("id"));
@@ -117,6 +116,10 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             activityTitle = uri.getQueryParameter("name");
         }
 
+        tv_title.setText(activityTitle);
+        iv_menu.setImageResource(R.mipmap.share);
+
+        //加载H5活动详情
         activity_detail_webView.loadUrl("file:///android_asset/h5-assets/index.html");
         WebSettings settings = activity_detail_webView.getSettings();
         settings.setJavaScriptEnabled(true);    //js支持
@@ -145,6 +148,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
     }
 
+    //初始化播放器控件
     private void initPlayer(){
 //        isTransition = getIntent().getBooleanExtra(TRANSITION, false);
 

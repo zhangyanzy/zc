@@ -1,43 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="15dp">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/iv_logo"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@mipmap/logo"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="@dimen/window_padding"
+        android:layout_marginTop="14dp"
+        android:src="@mipmap/message_logo" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:maxWidth="160dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/iv_logo"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="系统通知"
+        android:textColor="@color/colorFont3"
+        android:textSize="@dimen/font_size_14" />
 
     <TextView
         android:id="@+id/tv_describe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/window_padding_15"
-        android:layout_marginRight="@dimen/window_padding_15"
-        android:layout_toEndOf="@+id/iv_logo"
+        android:layout_marginRight="@dimen/window_padding"
+        android:layout_below="@+id/tv_title"
+        android:layout_alignLeft="@+id/tv_title"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:text=""
         android:textColor="@color/colorFont6"
-        android:textSize="@dimen/font_size_14"
-        android:maxLines="2"
-        android:ellipsize="end"/>
+        android:textSize="@dimen/font_size_12" />
 
     <TextView
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_above="@+id/line"
-        android:layout_marginRight="@dimen/window_padding_15"
+        android:layout_marginRight="@dimen/window_padding"
+        android:layout_marginTop="14dp"
         android:text="2018-1-1 00:00:00"
-        android:textColor="@color/colorFont6"
-        android:textSize="@dimen/font_size_14" />
+        android:textColor="@color/colorFont9"
+        android:textSize="@dimen/font_size_12" />
 
     <View
-        android:id="@+id/line"
-        style="@style/horizontal_C9_line"
+        style="@style/horizontal_F0_line"
         android:layout_below="@+id/iv_logo"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="14dp"
+        android:layout_toEndOf="@+id/iv_logo" />
 </RelativeLayout>

@@ -23,7 +23,7 @@
         android:textColor="@color/colorWhite"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/button_shape_orange_round"
-        android:layout_marginBottom="@dimen/window_padding_32"
+        android:layout_marginBottom="@dimen/window_padding_bottom"
         android:gravity="center"/>
 
 </LinearLayout>

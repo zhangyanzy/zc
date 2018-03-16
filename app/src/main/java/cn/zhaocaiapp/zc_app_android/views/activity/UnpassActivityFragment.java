@@ -87,8 +87,14 @@ public class UnpassActivityFragment extends BaseFragment implements OnRefreshLis
                 activitys.addAll(activityResps);
                 adapter.refresh(activitys);
 
-                refresh_layout.finishLoadmore();
-                refresh_layout.finishRefresh();
+                if (activityResps.size() < pageSize) {
+                    refresh_layout.finishLoadmoreWithNoMoreData();
+                    refresh_layout.setEnableFooterFollowWhenLoadFinished(true);
+                }
+                if (refresh_layout.isRefreshing())
+                    refresh_layout.finishRefresh();
+                else if (refresh_layout.isLoading())
+                    refresh_layout.finishLoadmore();
             }
 
             @Override

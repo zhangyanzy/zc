@@ -69,6 +69,8 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
     private List<MemberSearchResp> searchAssociationList = new ArrayList<>();//商家搜索联想
     private boolean isOnChanage = false;//是否是点击联想列表
 
+    private static final String TAG = "商家首页";
+
     @Nullable
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,14 +81,13 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
     @Override
     public void init() {
         member_recycler_view.setLayoutManager(new GridLayoutManager(getActivity(), 5));
-
         member_recycler_view.addItemDecoration(new MemberDecoration(getActivity(), 10, 10));
 
         memberAdapter = new MemberAdapter(getActivity(), memberRespList);
         member_recycler_view.setAdapter(memberAdapter);
         memberAdapter.setOnItemCliclkListener(listener);
 
-
+        member_refresh_layout.autoRefresh();//进入时自动刷新
         member_refresh_layout.setOnRefreshListener(this);
         member_refresh_layout.setEnableLoadmore(false);
 
@@ -102,20 +103,20 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
             //内容改变前
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                EBLog.i("tag", "内容改变前");
+                EBLog.i(TAG, "内容改变前");
             }
 
             //内容改变
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                EBLog.i("tag", "内容改变");
-                EBLog.i("tag", s.toString());
+                EBLog.i(TAG, "内容改变");
+                EBLog.i(TAG, s.toString());
             }
 
             //内容改变后
             @Override
             public void afterTextChanged(Editable s) {
-                EBLog.i("tag", "内容改变后");
+                EBLog.i(TAG, "内容改变后");
                 if (GeneralUtils.isNotNullOrZeroLenght(s.toString())) {
                     search_clear.setVisibility(View.VISIBLE);
                     Map<String, String> params = new HashMap<>();
@@ -132,14 +133,13 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
                             searchAssociationList = result;
                             memberSearchAdapter.updata(searchAssociationList);
                             isOnChanage = false;
-                            EBLog.i("tag", result.toString());
+                            EBLog.i(TAG, result.toString());
                         }
 
                         @Override
                         public void error(Response<List<MemberSearchResp>> response) {
 
                         }
-
                     });
                 } else {
                     search_clear.setVisibility(View.INVISIBLE);
@@ -164,15 +164,13 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
 
     @Override
     public void loadData() {
-        member_recycler_view.scrollToPosition(0);//回到顶部
-        member_refresh_layout.autoRefresh();//自动刷新
-
         Map<String, String> params = new HashMap<>();
         params.put("name", name);
 
         HttpUtil.get(Constants.URL.GET_MEMBER_QUERY, params).subscribe(new BaseResponseObserver<List<MemberResp>>() {
             @Override
             public void success(List<MemberResp> result) {
+                EBLog.i(TAG, result.toString());
                 if (result.size() == 0) {
                     list_null.setVisibility(View.VISIBLE);
                 } else {
@@ -180,15 +178,14 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
                 }
                 memberRespList = result;
                 memberAdapter.updata(memberRespList);
-                EBLog.i("tag", result.toString());
-                member_refresh_layout.finishRefresh();
+                if (member_refresh_layout.isRefreshing())
+                    member_refresh_layout.finishRefresh();
             }
 
             @Override
             public void error(Response<List<MemberResp>> response) {
 
             }
-
         });
     }
 
@@ -198,7 +195,7 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
             Bundle bd = new Bundle();
             bd.putLong("memberId", memberRespList.get(position).getKid());
             openActivity(MemberDetailActivity.class, bd);
-            EBLog.i("tag", "您点击了第" + position + "条");
+            EBLog.i(TAG, "您点击了第" + position + "条");
         }
     };
     private MemberSearchAdapter.OnItemCliclkListener listener2 = new MemberSearchAdapter.OnItemCliclkListener() {
@@ -209,7 +206,7 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
             iv_top_edit.setText(searchAssociationList.get(position).getName());
             name = String.valueOf(searchAssociationList.get(position).getName());
             loadData();
-            EBLog.i("tag", "您点击了第" + position + "条");
+            EBLog.i(TAG, "您点击了第" + position + "条");
         }
     };
 
@@ -223,17 +220,14 @@ public class MemberFragment extends BaseFragment implements OnRefreshListener {
         loadData();
     }
 
-    @OnClick({
-            R.id.search_clear
-
-    })
+    @OnClick({R.id.search_clear})
     public void onClick(View view) {
         switch (view.getId()) {
             //清空
             case R.id.search_clear:
                 iv_top_edit.setText("");
+                name="";
                 break;
-
         }
     }
 

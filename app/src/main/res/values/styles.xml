@@ -63,10 +63,9 @@
     </style>
 
     <!--浅灰色divider-->
-    <style name="C9_8dp_divider">
+    <style name="divider_8">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">8dp</item>
-        <item name="android:background">@color/colorLine</item>
     </style>
 
 

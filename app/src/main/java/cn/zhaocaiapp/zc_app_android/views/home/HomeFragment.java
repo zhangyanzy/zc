@@ -148,8 +148,7 @@ public class HomeFragment extends BaseFragment {
             //再次选中tab的逻辑
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                EBLog.i("tag", "您再次点击了");
-                EBLog.i("tag", tab.toString());
+                EBLog.i(TAG, "您再次点击了---" + tab.getText());
                 EventBus.getDefault().post(new MessageEvent<String>("home_tab_" + tab.getPosition()));
             }
         });
@@ -167,7 +166,7 @@ public class HomeFragment extends BaseFragment {
          */
         NotificationManagerCompat manager = NotificationManagerCompat.from(this.getActivity());
         boolean isOpened = manager.areNotificationsEnabled();
-        EBLog.i("tag", "消息推送通知开关：" + isOpened);
+        EBLog.i(TAG, "消息推送通知开关：" + isOpened);
         if (!SpUtils.contains(Constants.SPREF.MESSAGE_PUSH)) {
             SpUtils.put(Constants.SPREF.MESSAGE_PUSH, new Date().getTime());
         }
@@ -179,17 +178,19 @@ public class HomeFragment extends BaseFragment {
 
             if (new Date().after(cal.getTime())) {
                 SpUtils.put(Constants.SPREF.MESSAGE_PUSH, new Date().getTime());
-                NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "提示", "您的通知没有打开，无法收到最近消息。", "取消", "去设置");
+                String content = getString(R.string.notice_switch);
+                NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), null, content, "取消", "设置");
+                normalDialog.isTitleShow(false);
                 normalDialog.setOnBtnClickL(new OnBtnClickL() {
                     @Override
                     public void onBtnClick() {
-                        EBLog.i("tag", "您点击了取消");
+                        EBLog.i(TAG, "您点击了取消");
                         normalDialog.cancel();
                     }
                 }, new OnBtnClickL() {
                     @Override
                     public void onBtnClick() {
-                        EBLog.i("tag", "您点击了确认");
+                        EBLog.i(TAG, "您点击了确认");
                         // 根据isOpened结果，判断是否需要提醒用户跳转AppInfo页面，去打开App通知权限
                         Intent intent = new Intent();
                         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -212,11 +213,13 @@ public class HomeFragment extends BaseFragment {
         home_title_area_text.setText(areaName);
         Gps gps = LocationUtil.getGps();
         if (gps.getOpen() && !areaName.equals(gps.getCity()) && (boolean) SpUtils.get(Constants.SPREF.SHOW_NEWER_ACTIVITY, true)) {
-            NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "提示", "定位到您在" + gps.getCity() + "，是否切换？", "关闭", "切换");
+            String content = String.format(getString(R.string.change_position), gps.getCity());
+            NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), null, content, "关闭", "切换");
+            normalDialog.isTitleShow(false);
             normalDialog.setOnBtnClickL(new OnBtnClickL() {
                 @Override
                 public void onBtnClick() {
-                    EBLog.i("tag", "您点击了取消");
+                    EBLog.i(TAG, "您点击了取消");
                     normalDialog.cancel();
                     //获取新手任务
                     userinfoFristpage();
@@ -224,7 +227,7 @@ public class HomeFragment extends BaseFragment {
             }, new OnBtnClickL() {
                 @Override
                 public void onBtnClick() {
-                    EBLog.i("tag", "您点击了确认");
+                    EBLog.i(TAG, "您点击了确认");
                     home_title_area_text.setText(gps.getCity());
                     setShareApp(Constants.SPREF.AREA_NAME, gps.getCity());
                     setShareApp(Constants.SPREF.AREA_CODE, gps.getAdCode());
@@ -299,7 +302,8 @@ public class HomeFragment extends BaseFragment {
                     if ((boolean) SpUtils.get(Constants.SPREF.SHOW_NEWER_ACTIVITY, true))
                         //判断用户是否做新手任务
                         if (userResp.getIsFinishActivity() == 0) {
-                            NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "新手奖励", "完成新手任务即可领取奖励金", "忽略", "任务详情");
+                            String content = getString(R.string.new_task_reward);
+                            NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "新手奖励", content, "忽略", "任务详情");
                             //点击空白处,弹窗是否消失
                             normalDialog.setCanceledOnTouchOutside(false);
                             //点击后退键，弹窗是否消失
@@ -307,14 +311,14 @@ public class HomeFragment extends BaseFragment {
                             normalDialog.setOnBtnClickL(new OnBtnClickL() {
                                 @Override
                                 public void onBtnClick() {
-                                    EBLog.i("tag", "您点击了取消");
+                                    EBLog.i(TAG, "您点击了取消");
                                     SpUtils.put(Constants.SPREF.SHOW_NEWER_ACTIVITY, false);
                                     normalDialog.cancel();
                                 }
                             }, new OnBtnClickL() {
                                 @Override
                                 public void onBtnClick() {
-                                    EBLog.i("tag", "您点击了确认");
+                                    EBLog.i(TAG, "您点击了确认");
                                     Bundle bd = new Bundle();
                                     bd.putString("newbieAmount", GeneralUtils.getBigDecimalToTwo(userResp.getNewbieAmount()));
                                     openActivity(newbieTaskActivity.class, bd);
@@ -322,7 +326,7 @@ public class HomeFragment extends BaseFragment {
                                 }
                             });
                         }
-                    EBLog.i("tag", result.toString());
+                    EBLog.i(TAG, result.toString());
                 }
 
                 @Override

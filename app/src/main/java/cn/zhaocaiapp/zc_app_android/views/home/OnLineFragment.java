@@ -48,7 +48,6 @@ import cn.zhaocaiapp.zc_app_android.util.SpUtils;
  * @data 2018-01-22 20:02
  */
 public class OnLineFragment extends BaseFragment implements OnRefreshListener, OnLoadmoreListener {
-
     @BindView(R.id.home_refresh)
     RefreshLayout home_refresh;
     @BindView(R.id.home_recycler)
@@ -83,6 +82,8 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
 
     private ActivityAdapter activityAdapter;
 
+    private static final String TAG = "线上活动";
+
     @Override
     public void onStart() {
         super.onStart();
@@ -105,12 +106,14 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
 
         home_refresh.setOnRefreshListener(this);
         home_refresh.setOnLoadmoreListener(this);
+
+        //初始化筛选条件
+        setSort();
+        home_refresh.autoRefresh();//自动刷新
     }
 
     @Override
     public void loadData() {
-        setSort();
-        home_refresh.autoRefresh();//自动刷新
         Map<String, String> params = new HashMap<>();
         params.put("listType", String.valueOf(listType));
         params.put("pageSize", String.valueOf(Constants.CONFIG.PAGE_SIZE));
@@ -119,7 +122,7 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
         params.put("sortType", String.valueOf(sortType));
         params.put("longitude", longitude);
         params.put("latitude", latitude);
-        EBLog.i("tag", params.toString());
+        EBLog.i(TAG, params.toString());
 
         HttpUtil.get(Constants.URL.GET_ACTIVITY_LIST, params).subscribe(new BaseResponseObserver<List<ActivityResp>>() {
             @Override
@@ -142,8 +145,11 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
                 }
 
                 activityAdapter.updata(activityRespList);
-                EBLog.i("tag", result.toString());
-                home_refresh.finishRefresh();
+                EBLog.i(TAG, result.toString());
+                if (home_refresh.isRefreshing())
+                    home_refresh.finishRefresh();
+                else if (home_refresh.isLoading())
+                    home_refresh.finishLoadmore();
             }
 
             @Override
@@ -164,7 +170,6 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
         sortType = 0;//默认 0默认 1时间 2金额 3距离
         longitude = "";//经度
         latitude = "";//纬度
-        EBLog.i("tag", "点击了");
     }
 
     //接收EventBus发送的消息，并处理
@@ -172,11 +177,11 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
     public void onEvent(MessageEvent<String> event) {
         if (event.getMessage() instanceof String) {
             if (event.getMessage().equals("home_tab_1")) {
+                EBLog.i(TAG, "接受到更新通知");
+                home_recycler.scrollToPosition(0);//回到顶部
                 initData();
                 setSort();
-                home_recycler.scrollToPosition(0);//回到顶部
-                loadData();
-                EBLog.i("tag", "接受到了");
+                home_refresh.autoRefresh();
             }
         }
 
@@ -211,9 +216,9 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
                     sortType = 1;
                     sortRule = 2;
                 }
-                setSort();
                 home_recycler.scrollToPosition(0);//回到顶部
-                loadData();
+                setSort();
+                home_refresh.autoRefresh();
                 break;
             case R.id.home_sort_money_layout:
                 if (sortType == 2) {
@@ -222,9 +227,9 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
                     sortType = 2;
                     sortRule = 2;
                 }
-                setSort();
                 home_recycler.scrollToPosition(0);//回到顶部
-                loadData();
+                setSort();
+                home_refresh.autoRefresh();
                 break;
         }
     }
@@ -271,7 +276,6 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         pageNumber = 1;
-        home_recycler.scrollToPosition(0);//回到顶部
         loadData();
     }
 

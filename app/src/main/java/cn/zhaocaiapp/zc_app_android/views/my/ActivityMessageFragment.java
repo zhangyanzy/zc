@@ -61,7 +61,7 @@ public class ActivityMessageFragment extends BaseFragment implements OnRefreshLi
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         list.setLayoutManager(manager);
-        adapter = new MyMessageAdapter(getActivity(), messages);
+        adapter = new MyMessageAdapter(getActivity(), messages, type);
         list.setAdapter(adapter);
         adapter.setOnItemCliclkListener(listener);
     }
@@ -81,8 +81,14 @@ public class ActivityMessageFragment extends BaseFragment implements OnRefreshLi
                 messages.addAll(messageResps);
                 adapter.refresh(messages);
 
-                refresh_layout.finishLoadmore();
-                refresh_layout.finishRefresh();
+                if (messageResps.size() < pageSize) {
+                    refresh_layout.finishLoadmoreWithNoMoreData();
+                    refresh_layout.setEnableFooterFollowWhenLoadFinished(true);
+                }
+                if (refresh_layout.isRefreshing())
+                    refresh_layout.finishRefresh();
+                else if (refresh_layout.isLoading())
+                    refresh_layout.finishLoadmore();
             }
 
             @Override

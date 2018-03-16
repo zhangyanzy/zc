@@ -71,6 +71,8 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
     private Activity lastActivity;
     private UMShareAPI umShareAPI;
 
+    private static final String TAG = "搜索结果页";
+
     @Override
     public int getContentViewResId() {
         return R.layout.search_resulf;
@@ -93,7 +95,7 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
         areaCode = bd != null ? bd.getString("areaCode", "") : "";
 
 
-        EBLog.i("tag", "接受到搜索名称：" + name);
+        EBLog.i(TAG, "接受到搜索名称：" + name);
 
         initView();
         initData();
@@ -103,11 +105,9 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
      * 初始化数据
      */
     private void initData() {
-
         /**
          * 获取推荐活动
          */
-        //获取商家活动列表
         Map<String, String> params = new HashMap<>();
         params.put("name", name);
         params.put("activityForm", activityForm);
@@ -118,7 +118,7 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
         params.put("areaCode", areaCode);
         params.put("pageSize", String.valueOf(Constants.CONFIG.PAGE_SIZE));
         params.put("currentResult", String.valueOf((pageNumber - 1) * Constants.CONFIG.PAGE_SIZE));
-        EBLog.i("tag", params.toString());
+        EBLog.i(TAG, params.toString());
         HttpUtil.get(Constants.URL.GET_ACTIVITY_FIND, params).subscribe(new BaseResponseObserver<List<ActivityResp>>() {
             @Override
             public void success(List<ActivityResp> result) {
@@ -140,8 +140,11 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
                 }
 
                 activityAdapter.updata(activityRespList);
-                EBLog.i("tag", result.toString());
-                search_refresh.finishRefresh();
+                EBLog.i(TAG, result.toString());
+                if (search_refresh.isRefreshing())
+                    search_refresh.finishRefresh();
+                else if (search_refresh.isLoading())
+                    search_refresh.finishLoadmore();
             }
 
             @Override
@@ -200,14 +203,14 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         pageNumber = 1;
-        EBLog.i("tag", "refresh --pageNumber：" + pageNumber);
+        EBLog.i(TAG, "refresh --pageNumber：" + pageNumber);
         initData();
     }
 
     @Override
     public void onLoadmore(RefreshLayout refreshlayout) {
         pageNumber = pageNumber + 1;
-        EBLog.i("tag", "loadmore -- pageNumber：" + pageNumber);
+        EBLog.i(TAG, "loadmore -- pageNumber：" + pageNumber);
         initData();
 
     }

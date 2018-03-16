@@ -82,6 +82,8 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
 
     private ActivityAdapter activityAdapter;
 
+    private static final String TAG = "历史活动";
+
     @Override
     public void onStart() {
         super.onStart();
@@ -104,12 +106,14 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
 
         home_refresh.setOnRefreshListener(this);
         home_refresh.setOnLoadmoreListener(this);
+
+        //初始化筛选条件
+        setSort();
+        home_refresh.autoRefresh();//自动刷新
     }
 
     @Override
     public void loadData() {
-        setSort();
-        home_refresh.autoRefresh();//自动刷新
         Map<String, String> params = new HashMap<>();
         params.put("listType", String.valueOf(listType));
         params.put("pageSize", String.valueOf(Constants.CONFIG.PAGE_SIZE));
@@ -123,7 +127,7 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
         } else {
             params.put("cityCode", (String) SpUtils.get(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE));
         }
-        EBLog.i("tag", params.toString());
+        EBLog.i(TAG, params.toString());
 
         HttpUtil.get(Constants.URL.GET_ACTIVITY_LIST, params).subscribe(new BaseResponseObserver<List<ActivityResp>>() {
             @Override
@@ -146,8 +150,11 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
                 }
 
                 activityAdapter.updata(activityRespList);
-                EBLog.i("tag", result.toString());
-                home_refresh.finishRefresh();
+                EBLog.i(TAG, result.toString());
+                if (home_refresh.isRefreshing())
+                    home_refresh.finishRefresh();
+                else if (home_refresh.isLoading())
+                    home_refresh.finishLoadmore();
             }
 
             @Override
@@ -168,7 +175,6 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
         sortType = 0;//默认 0默认 1时间 2金额 3距离
         longitude = "";//经度
         latitude = "";//纬度
-        EBLog.i("tag", "点击了");
     }
 
     //接收EventBus发送的消息，并处理
@@ -176,11 +182,11 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
     public void onEvent(MessageEvent<String> event) {
         if (event.getMessage() instanceof String) {
             if (event.getMessage().equals("home_tab_3")) {
+                EBLog.i(TAG, "接受到更新通知");
+                home_recycler.scrollToPosition(0);//回到顶部
                 initData();
                 setSort();
-                home_recycler.scrollToPosition(0);//回到顶部
-                loadData();
-                EBLog.i("tag", "接受到了");
+                home_refresh.autoRefresh();
             }
         }
 
@@ -215,9 +221,9 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
                     sortType = 1;
                     sortRule = 2;
                 }
-                setSort();
                 home_recycler.scrollToPosition(0);//回到顶部
-                loadData();
+                setSort();
+                home_refresh.autoRefresh();
                 break;
             case R.id.home_sort_money_layout:
                 if (sortType == 2) {
@@ -226,9 +232,9 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
                     sortType = 2;
                     sortRule = 2;
                 }
-                setSort();
                 home_recycler.scrollToPosition(0);//回到顶部
-                loadData();
+                setSort();
+                home_refresh.autoRefresh();
                 break;
         }
     }
@@ -275,7 +281,6 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         pageNumber = 1;
-        home_recycler.scrollToPosition(0);//回到顶部
         loadData();
     }
 

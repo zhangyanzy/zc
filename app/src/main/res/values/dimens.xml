@@ -28,7 +28,7 @@
     <dimen name="height_btn_text">40dp</dimen>
     <!--内容距离屏幕边框-->
     <dimen name="window_padding">12dp</dimen>
-    <dimen name="window_padding_32">32dp</dimen>
+    <dimen name="window_padding_bottom">30dp</dimen>
     <!--个人中心bottom选择项高度-->
     <dimen name="height_select_project">48dp</dimen>
     <!--item之间的分割条高度-->

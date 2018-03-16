@@ -51,8 +51,6 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
     @BindView(R.id.iv_top_menu)
     ImageView iv_top_menu;
 
-    private static final String TAG = "商家活动";
-
     private long memberId;//商家id
     private int pageNumber = 1;//分页
     private MemberResp memberResp = new MemberResp(); //商家详情
@@ -61,6 +59,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
     private MemberActivityAdapter activityAdapter;
     private UMShareAPI umShareAPI;
 
+    private static final String TAG = "商家详情";
 
     @Override
     public int getContentViewResId() {
@@ -71,7 +70,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
     public void init(Bundle savedInstanceState) {
         Bundle bd = this.getIntent().getExtras();
         memberId = bd.getLong("memberId");
-        EBLog.i("tag", "接受到商家Id：" + memberId);
+        EBLog.i(TAG, "接受到商家Id：" + memberId);
 
         umShareAPI = ZcApplication.getUMShareAPI();
 
@@ -90,15 +89,15 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
     }
 
     private void initData() {
-
         //获取商家详情
         HttpUtil.get(String.format(Constants.URL.GET_MEMBER_DETAIL, memberId)).subscribe(new BaseResponseObserver<MemberResp>() {
             @Override
             public void success(MemberResp result) {
                 memberResp = result;
                 activityAdapter.updataMember(memberResp);
-                EBLog.i("tag", result.toString());
-                member_detail_refresh.finishRefresh();
+                EBLog.i(TAG, result.toString());
+                if (member_detail_refresh.isRefreshing())
+                    member_detail_refresh.finishRefresh();
             }
 
             @Override
@@ -111,7 +110,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
         params.put("memberId", String.valueOf(memberId));
         params.put("pageSize", String.valueOf(Constants.CONFIG.PAGE_SIZE));
         params.put("currentResult", String.valueOf((pageNumber - 1) * Constants.CONFIG.PAGE_SIZE));
-        EBLog.i("tag", params.toString());
+        EBLog.i(TAG, params.toString());
 
         HttpUtil.get(Constants.URL.GET_ACTIVITY_LIST_MEMBER, params).subscribe(new BaseResponseObserver<List<ActivityResp>>() {
             @Override
@@ -129,8 +128,11 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
                 }
 
                 activityAdapter.updata(activityRespList);
-                EBLog.i("tag", result.toString());
-                member_detail_refresh.finishRefresh();
+                EBLog.i(TAG, result.toString());
+                if (member_detail_refresh.isRefreshing())
+                    member_detail_refresh.finishRefresh();
+                else if (member_detail_refresh.isLoading())
+                    member_detail_refresh.finishLoadmore();
             }
 
             @Override
@@ -158,14 +160,14 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         pageNumber = 1;
-        EBLog.i("tag", "refresh --pageNumber：" + pageNumber);
+        EBLog.i(TAG, "refresh --pageNumber：" + pageNumber);
         initData();
     }
 
     @Override
     public void onLoadmore(RefreshLayout refreshlayout) {
         pageNumber = pageNumber + 1;
-        EBLog.i("tag", "loadmore -- pageNumber：" + pageNumber);
+        EBLog.i(TAG, "loadmore -- pageNumber：" + pageNumber);
         initData();
 
     }

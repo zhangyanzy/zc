@@ -30,8 +30,11 @@ import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.UserLabelResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.listener.OnBtnClickL;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.DialogUtil;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
@@ -46,13 +49,13 @@ public class LabelFragment extends BaseFragment {
     ImageView iv_delete;
     @BindView(R.id.label_list)
     TagFlowLayout label_list;
-    @BindView(R.id.tv_submit)
-    TextView tv_submit;
+//    @BindView(R.id.tv_submit)
+//    TextView tv_submit;
 
     private List<UserLabelResp> labels;
     private boolean isShowDel = false;
     private TagAdapter tagAdapter;
-//    private List<Integer> positions = new ArrayList<>();
+    private NormalDialog dialog;
 
     private static final int ADD_LABEL_CODE = 2001;
 
@@ -105,7 +108,6 @@ public class LabelFragment extends BaseFragment {
 
                     setLabelGrade(UserLabelResp.getTimes() / 10, holder);
 
-                    EBLog.i(TAG, UserLabelResp.toString());
                     return view;
                 }
             });
@@ -113,15 +115,34 @@ public class LabelFragment extends BaseFragment {
                 @Override
                 public boolean onTagClick(View view, int position, FlowLayout parent) {
                     if (isShowDel) {
-//                        positions.add(position);
-//                        view.setVisibility(View.GONE);
-//                        labels.remove(position);
-                        deleteLabel(view, position);
+                        if (labels.get(position).getType() == 1) { //非可选标签
+                            String content = getString(R.string.delete_label_confirm);
+                            dialog = DialogUtil.showDialogTwoBut(getActivity(), null, content, "取消", "删除");
+                            dialog.isTitleShow(false);
+                            setDialogListener(view ,position);
+                        } else deleteLabel(view, position);
                     }
                     return false;
                 }
             });
         }
+    }
+
+    //设置对话框的监听事件
+    private void setDialogListener(View view, int position){
+        dialog.setOnBtnClickL(new OnBtnClickL() {
+            @Override
+            public void onBtnClick() {
+                dialog.dismiss();
+            }
+        }, new OnBtnClickL() {
+            @Override
+            public void onBtnClick() {
+                deleteLabel(view, position);
+                dialog.dismiss();
+            }
+        });
+
     }
 
     private void setLabelGrade(int grade, ViewHolder holder) {
@@ -147,7 +168,7 @@ public class LabelFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.iv_add, R.id.iv_delete, R.id.tv_submit})
+    @OnClick({R.id.iv_add, R.id.iv_delete})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_add:

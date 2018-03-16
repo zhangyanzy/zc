@@ -46,7 +46,7 @@ public class UserDetailResp {
          * "activtiyInfoAudit": Integer 0-未变动 1-变动1次 2-变动2次 3-待审核 4-审核通过 5-审核未通过
          */
         private long educationalCode;
-        private int jobCode;
+        private long jobCode;
         private String job;
         private String educational;
         private int activityInfoAlterCount;
@@ -69,11 +69,11 @@ public class UserDetailResp {
             this.educationalCode = educationalCode;
         }
 
-        public int getJobCode() {
+        public long getJobCode() {
             return jobCode;
         }
 
-        public void setJobCode(int jobCode) {
+        public void setJobCode(long jobCode) {
             this.jobCode = jobCode;
         }
 

@@ -168,10 +168,15 @@ public class RelativeInfoFragment extends BaseFragment {
                 EBLog.i(TAG, commonResp.toString());
                 ToastUtil.makeText(getActivity(), commonResp.getDesc());
 
-                if (activityInfoBean.getActivityInfoAlterCount() < 3) {
+                if (activityInfoBean.getActivityInfoAlterCount() < 3)
                     activityInfoBean.setActivtiyInfoAudit(activityInfoBean.getActivtiyInfoAudit() + 1);
-                } else activityInfoBean.setActivtiyInfoAudit(3);
+                else activityInfoBean.setActivtiyInfoAudit(3);
+
                 activityInfoBean.setActivityInfoAlterCount(activityInfoBean.getActivityInfoAlterCount() + 1);
+                activityInfoBean.setEducational(eduName);
+                activityInfoBean.setEducationalCode(eduCode);
+                activityInfoBean.setJob(proName);
+                activityInfoBean.setJobCode(proCode);
                 showInfo();
             }
 
@@ -218,10 +223,10 @@ public class RelativeInfoFragment extends BaseFragment {
             case R.id.tv_submit:
                 if (isNotEmpty() && isCanUpdate()) {
                     if (activityInfoBean.getActivtiyInfoAudit() != 3) {
-                        if (activityInfoBean.getActivityInfoAlterCount() < 3)
+                        if (activityInfoBean.getActivityInfoAlterCount() < 2)
                             revise();
                         else showNormalDialog();
-                    }else ToastUtil.makeText(getActivity(), getString(R.string.wait_verify));
+                    } else ToastUtil.makeText(getActivity(), getString(R.string.wait_verify));
                 }
                 break;
         }

@@ -33,8 +33,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:orientation="horizontal"
-        android:paddingEnd="@dimen/window_padding_32"
-        android:paddingStart="@dimen/window_padding_32">
+        android:paddingEnd="@dimen/window_padding_bottom"
+        android:paddingStart="@dimen/window_padding_bottom">
 
         <TextView
             android:id="@+id/tv_account"
@@ -60,15 +60,15 @@
 
     <View
         style="@style/horizontal_F0_line"
-        android:layout_marginLeft="@dimen/window_padding_32"
-        android:layout_marginRight="@dimen/window_padding_32"
+        android:layout_marginLeft="@dimen/window_padding_bottom"
+        android:layout_marginRight="@dimen/window_padding_bottom"
         android:layout_marginTop="@dimen/edit_line_top"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/window_padding_32"
-        android:layout_marginRight="@dimen/window_padding_32"
+        android:layout_marginLeft="@dimen/window_padding_bottom"
+        android:layout_marginRight="@dimen/window_padding_bottom"
         android:layout_marginTop="30dp">
 
         <TextView
@@ -119,8 +119,8 @@
         android:layout_height="40dp"
         android:layout_marginTop="60dp"
         android:background="@drawable/button_shape_orange_round"
-        android:layout_marginStart="@dimen/window_padding_32"
-        android:layout_marginEnd="@dimen/window_padding_32"
+        android:layout_marginStart="@dimen/window_padding_bottom"
+        android:layout_marginEnd="@dimen/window_padding_bottom"
         android:gravity="center"
         android:text="提交"
         android:textColor="@color/colorWhite"

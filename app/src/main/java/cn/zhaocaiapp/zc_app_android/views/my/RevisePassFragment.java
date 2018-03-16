@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.umeng.message.PushAgent;
+import com.umeng.message.UTrack;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +28,7 @@ import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 
@@ -85,6 +89,7 @@ public class RevisePassFragment extends BaseFragment {
             @Override
             public void success(CommonResp commonResp) {
                 ToastUtil.makeText(getActivity(), getString(R.string.revise_pass_success));
+                deleteAlias();
                 openActivity(LoginActivity.class);
                 getActivity().finish();
             }
@@ -121,4 +126,13 @@ public class RevisePassFragment extends BaseFragment {
         return true;
     }
 
+    private void deleteAlias() {
+        PushAgent pushAgent = PushAgent.getInstance(getActivity());
+        pushAgent.deleteAlias((String) SpUtils.get(Constants.SPREF.ALIAS, ""), "alias_user", new UTrack.ICallBack() {
+            @Override
+            public void onMessage(boolean b, String s) {
+                EBLog.i(TAG, s);
+            }
+        });
+    }
 }

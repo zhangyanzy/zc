@@ -82,8 +82,14 @@ public class IncomeFragment extends BaseFragment implements OnRefreshListener, O
                 incomes.addAll(incomeResps);
                 adapter.refresh(incomes);
 
-                refresh_layout.finishLoadmore();
-                refresh_layout.finishRefresh();
+                if (incomeResps.size() < pageSize) {
+                    refresh_layout.finishLoadmoreWithNoMoreData();
+                    refresh_layout.setEnableFooterFollowWhenLoadFinished(true);
+                }
+                if (refresh_layout.isRefreshing())
+                    refresh_layout.finishRefresh();
+                else if (refresh_layout.isLoading())
+                    refresh_layout.finishLoadmore();
             }
 
             @Override
