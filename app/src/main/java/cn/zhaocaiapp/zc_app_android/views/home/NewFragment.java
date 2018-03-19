@@ -42,6 +42,7 @@ import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
  * @author 林子
@@ -80,8 +81,8 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
     private String latitude = "";//纬度
 
     private List<ActivityResp> activityRespList = new ArrayList<>();//活动列表
-
     private ActivityAdapter activityAdapter;
+//    private boolean isFirstLoad = true; //是否首次加载数据
 
     private static final String TAG = "最新活动";
 
@@ -158,7 +159,8 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
 
             @Override
             public void error(Response<List<ActivityResp>> response) {
-
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(getActivity(), response.getDesc());
             }
         });
     }
