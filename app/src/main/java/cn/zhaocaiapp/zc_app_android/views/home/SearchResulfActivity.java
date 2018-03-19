@@ -35,6 +35,7 @@ import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
  * @author 林子
@@ -102,12 +103,9 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
     }
 
     /**
-     * 初始化数据
+     * 获取推荐活动
      */
     private void initData() {
-        /**
-         * 获取推荐活动
-         */
         Map<String, String> params = new HashMap<>();
         params.put("name", name);
         params.put("activityForm", activityForm);
@@ -122,11 +120,7 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
         HttpUtil.get(Constants.URL.GET_ACTIVITY_FIND, params).subscribe(new BaseResponseObserver<List<ActivityResp>>() {
             @Override
             public void success(List<ActivityResp> result) {
-                if (result.size() == 0 && pageNumber == 1) {
-                    list_null.setVisibility(View.VISIBLE);
-                } else {
-                    list_null.setVisibility(View.GONE);
-                }
+                EBLog.i(TAG, result.toString());
                 if (pageNumber == 1) {
                     activityRespList = result;
                     //恢复没有更多数据的原始状态
@@ -134,13 +128,17 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
                 } else {
                     activityRespList.addAll(result);
                 }
+                if (activityRespList.size() > 0) {
+                    list_null.setVisibility(View.GONE);
+                } else {
+                    list_null.setVisibility(View.VISIBLE);
+                }
+                activityAdapter.updata(activityRespList);
+
                 if (result.size() < Constants.CONFIG.PAGE_SIZE) {
                     //完成加载并标记没有更多数据
                     search_refresh.finishLoadmoreWithNoMoreData();
                 }
-
-                activityAdapter.updata(activityRespList);
-                EBLog.i(TAG, result.toString());
                 if (search_refresh.isRefreshing())
                     search_refresh.finishRefresh();
                 else if (search_refresh.isLoading())
@@ -149,20 +147,20 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
 
             @Override
             public void error(Response<List<ActivityResp>> response) {
-
+                EBLog.e(TAG, response.getCode()+"");
+                ToastUtil.makeText(SearchResulfActivity.this, response.getDesc());
             }
         });
     }
 
     private void initView() {
         search_recycler.setLayoutManager(new LinearLayoutManager(this));
+        search_refresh.setOnRefreshListener(this);
+        search_refresh.setOnLoadmoreListener(this);
 
         activityAdapter = new ActivityAdapter(this, activityRespList);
         search_recycler.setAdapter(activityAdapter);
         activityAdapter.setOnItemCliclkListener(listener);
-
-        search_refresh.setOnRefreshListener(this);
-        search_refresh.setOnLoadmoreListener(this);
 
         iv_top_edit.setFocusable(false);
         iv_top_edit.setHint(getString(R.string.search_activity));
@@ -184,10 +182,7 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
         }
     };
 
-    @OnClick({
-            R.id.iv_top_edit,
-            R.id.iv_top_back
-    })
+    @OnClick({R.id.iv_top_edit, R.id.iv_top_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_top_edit:

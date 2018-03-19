@@ -33,6 +33,7 @@ import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
  * @author 林子
@@ -68,14 +69,14 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
 
     @Override
     public void init(Bundle savedInstanceState) {
-        Bundle bd = this.getIntent().getExtras();
-        memberId = bd.getLong("memberId");
-        EBLog.i(TAG, "接受到商家Id：" + memberId);
-
         umShareAPI = ZcApplication.getUMShareAPI();
 
         tv_top_title.setText(TAG);
         iv_top_menu.setVisibility(View.GONE);
+
+        Bundle bd = this.getIntent().getExtras();
+        memberId = bd.getLong("memberId");
+        EBLog.i(TAG, "接受到商家Id：" + memberId);
 
         member_detail_recycler.setLayoutManager(new LinearLayoutManager(this));
 
@@ -85,11 +86,12 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
 
         member_detail_refresh.setOnRefreshListener(this);
         member_detail_refresh.setOnLoadmoreListener(this);
-        initData();
+        member_detail_refresh.autoRefresh();
+
     }
 
     private void initData() {
-        //获取商家详情
+        //获取商家信息
         HttpUtil.get(String.format(Constants.URL.GET_MEMBER_DETAIL, memberId)).subscribe(new BaseResponseObserver<MemberResp>() {
             @Override
             public void success(MemberResp result) {
@@ -102,6 +104,8 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
 
             @Override
             public void error(Response<MemberResp> response) {
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(MemberDetailActivity.this, response.getDesc());
             }
         });
 
@@ -115,6 +119,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
         HttpUtil.get(Constants.URL.GET_ACTIVITY_LIST_MEMBER, params).subscribe(new BaseResponseObserver<List<ActivityResp>>() {
             @Override
             public void success(List<ActivityResp> result) {
+                EBLog.i(TAG, result.toString());
                 if (pageNumber == 1) {
                     activityRespList = result;
                     //恢复没有更多数据的原始状态
@@ -122,13 +127,12 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
                 } else {
                     activityRespList.addAll(result);
                 }
+                activityAdapter.updata(activityRespList);
+
                 if (result.size() < Constants.CONFIG.PAGE_SIZE) {
                     //完成加载并标记没有更多数据
                     member_detail_refresh.finishLoadmoreWithNoMoreData();
                 }
-
-                activityAdapter.updata(activityRespList);
-                EBLog.i(TAG, result.toString());
                 if (member_detail_refresh.isRefreshing())
                     member_detail_refresh.finishRefresh();
                 else if (member_detail_refresh.isLoading())
@@ -137,7 +141,8 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
 
             @Override
             public void error(Response<List<ActivityResp>> response) {
-
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(MemberDetailActivity.this, response.getDesc());
             }
         });
     }
@@ -169,14 +174,12 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
         pageNumber = pageNumber + 1;
         EBLog.i(TAG, "loadmore -- pageNumber：" + pageNumber);
         initData();
-
     }
 
     @OnClick({R.id.iv_top_back})
     public void onClicl(View view) {
         finish();
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

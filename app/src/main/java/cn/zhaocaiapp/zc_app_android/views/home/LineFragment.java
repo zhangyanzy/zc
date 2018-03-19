@@ -47,6 +47,7 @@ import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
  * @author 林子
@@ -105,21 +106,31 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
     @Override
     public void init() {
         home_recycler.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        home_refresh.setOnRefreshListener(this);
+        home_refresh.setOnLoadmoreListener(this);
 
         activityAdapter = new ActivityAdapter(this.getActivity(), activityRespList);
         home_recycler.setAdapter(activityAdapter);
         activityAdapter.setOnItemCliclkListener(listener);
 
-        home_refresh.setOnRefreshListener(this);
-        home_refresh.setOnLoadmoreListener(this);
-
-        //初始化筛选条件
-        setSort();
-        home_refresh.autoRefresh();//自动刷新
     }
 
     @Override
     public void loadData() {
+        //初始化筛选条件
+        setSort();
+        /**
+         * 会导致首次进入时重复加载数据
+         * */
+        home_refresh.autoRefresh();//自动刷新
+    }
+
+    /**
+     * 解决因懒加载和进入时的自动刷新导致的重复加载
+     * <p>
+     * 加载网络数据
+     */
+    private void initNetData() {
         Map<String, String> params = new HashMap<>();
         params.put("listType", String.valueOf(listType));
         params.put("pageSize", String.valueOf(Constants.CONFIG.PAGE_SIZE));
@@ -143,11 +154,7 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
         HttpUtil.get(Constants.URL.GET_ACTIVITY_LIST, params).subscribe(new BaseResponseObserver<List<ActivityResp>>() {
             @Override
             public void success(List<ActivityResp> result) {
-                if (result.size() == 0 && pageNumber == 1) {
-                    list_null.setVisibility(View.VISIBLE);
-                } else {
-                    list_null.setVisibility(View.GONE);
-                }
+                EBLog.i(TAG, result.toString());
                 if (pageNumber == 1) {
                     activityRespList = result;
                     //恢复没有更多数据的原始状态
@@ -155,13 +162,17 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
                 } else {
                     activityRespList.addAll(result);
                 }
+                if (activityRespList.size() > 0) {
+                    list_null.setVisibility(View.GONE);
+                } else {
+                    list_null.setVisibility(View.VISIBLE);
+                }
+                activityAdapter.updata(activityRespList);
+
                 if (result.size() < Constants.CONFIG.PAGE_SIZE) {
                     //完成加载并标记没有更多数据
                     home_refresh.finishLoadmoreWithNoMoreData();
                 }
-
-                activityAdapter.updata(activityRespList);
-                EBLog.i(TAG, result.toString());
                 if (home_refresh.isRefreshing())
                     home_refresh.finishRefresh();
                 else if (home_refresh.isLoading())
@@ -170,16 +181,16 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
 
             @Override
             public void error(Response<List<ActivityResp>> response) {
-
+               EBLog.e(TAG, response.getCode()+"");
+                ToastUtil.makeText(getActivity(), response.getDesc());
             }
-
         });
     }
 
     /**
      * 初始化数据
      */
-    public void initData() {
+    public void initSort() {
         listType = 2;//最新活动 1最新活动 2线下活动 3线上活动 4历史活动
         pageNumber = 1;//分页
         sortRule = 2;//降序 1升序 2降序
@@ -195,12 +206,11 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
             if (event.getMessage().equals("home_tab_2")) {
                 EBLog.i(TAG, "接受到更新通知");
                 home_recycler.scrollToPosition(0);//回到顶部
-                initData();
+                initSort();
                 setSort();
                 home_refresh.autoRefresh();
             }
         }
-
     }
 
     private ActivityAdapter.OnItemCliclkListener listener = new ActivityAdapter.OnItemCliclkListener() {
@@ -218,11 +228,7 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
         }
     };
 
-    @OnClick({
-            R.id.home_sort_time_layout,
-            R.id.home_sort_money_layout,
-            R.id.home_sort_area_layout
-    })
+    @OnClick({R.id.home_sort_time_layout, R.id.home_sort_money_layout, R.id.home_sort_area_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.home_sort_time_layout:
@@ -314,20 +320,18 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
             home_sort_money_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
             home_sort_area_text.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
         }
-
     }
-
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         pageNumber = 1;
-        loadData();
+        initNetData();
     }
 
     @Override
     public void onLoadmore(RefreshLayout refreshlayout) {
         pageNumber = pageNumber + 1;
-        loadData();
+        initNetData();
 
     }
 

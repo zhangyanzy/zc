@@ -50,7 +50,6 @@ import cn.zhaocaiapp.zc_app_android.views.member.MemberDetailActivity;
  * @data 2018-01-05 17:59
  */
 public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAdapter.ViewHolder> {
-
     private List<ActivityResp> list;
     private Context context;
     private MemberResp memberResp; //商家详情
@@ -84,8 +83,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
-        //商家详情
+        //商家信息
         if (position == 0) {
             ViewHolderMember viewHolderMember = (ViewHolderMember) holder;
             //商家头像
@@ -145,6 +143,8 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
 
                                 @Override
                                 public void error(Response<String> response) {
+                                    EBLog.e("tag", response.getCode() + "");
+                                    ToastUtil.makeText(context, response.getDesc());
                                 }
                             });
                         }
@@ -171,9 +171,10 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
 
                                 @Override
                                 public void error(Response<String> response) {
+                                    EBLog.e("tag", response.getCode() + "");
+                                    ToastUtil.makeText(context, response.getDesc());
                                 }
                             });
-
                         }
                     } else {
                         Intent intent = new Intent(context, LoginActivity.class);
@@ -181,11 +182,9 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
                     }
                 }
             });
-
         }
         //活动列表
         else {
-
             ViewHolderActivity viewHolderActivity = (ViewHolderActivity) holder;
             //商家图片
             PictureLoadUtil.loadPicture(context, list.get(position - 1).getMemberImg(), viewHolderActivity.activity_item_member_logo);
@@ -203,12 +202,6 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
             SpannableStringBuilder spannableString = new SpannableStringBuilder("#" + getActivityFormString(list.get(position - 1).getActivityForm()) + "#" + list.get(position - 1).getName());
             spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             viewHolderActivity.activity_item_text_title.setText(spannableString);
-            //视频活动播放
-            if (list.get(position - 1).getActivityForm() == 1) {
-                viewHolderActivity.activity_item_img_vide.setVisibility(View.VISIBLE);
-            } else {
-                viewHolderActivity.activity_item_img_vide.setVisibility(View.INVISIBLE);
-            }
             //参与人头像
             viewHolderActivity.activity_item_text_user0.setVisibility(View.INVISIBLE);
             viewHolderActivity.activity_item_text_user1.setVisibility(View.INVISIBLE);
@@ -232,7 +225,6 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
                         PictureLoadUtil.loadPicture(context, list.get(position - 1).getUserList().get(2).getAvatar(), viewHolderActivity.activity_item_text_user2);
                     }
                 }
-
             }
             //剩余额度
             viewHolderActivity.activity_item_text_amount.setText(GeneralUtils.getBigDecimalToTwo(list.get(position - 1).getLeftAmount()));
@@ -250,8 +242,6 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
             viewHolderActivity.activity_item_text_number_progress.setProgress((int) pra);
             //地址logo 距离
             if (list.get(position - 1).getActivityForm() == 0 && LocationUtil.getGps().getOpen()) {
-                viewHolderActivity.activity_item_text_area_logo.setVisibility(View.VISIBLE);
-                viewHolderActivity.activity_item_text_area_text.setVisibility(View.VISIBLE);
                 //起始位置 我的位置
                 DPoint startGps = new DPoint();
                 startGps.setLatitude(LocationUtil.getGps().getLatitude());
@@ -263,9 +253,6 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
                 //两点距离
                 float areaText = CoordinateConverter.calculateLineDistance(startGps, stopGps);
                 viewHolderActivity.activity_item_text_area_text.setText(areaText > 1000 ? String.format("%.1f", (areaText / 1000)) + "km" : String.format("%.1f", (areaText)) + "m");
-            } else {
-                viewHolderActivity.activity_item_text_area_logo.setVisibility(View.INVISIBLE);
-                viewHolderActivity.activity_item_text_area_text.setVisibility(View.INVISIBLE);
             }
             //收藏
             if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, "")) && list.get(position - 1).getFollow()) {
@@ -275,26 +262,9 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
             }
             //奖励金额
             viewHolderActivity.activity_item_text_reward.setText(GeneralUtils.getBigDecimalToTwo(list.get(position - 1).getRewardAmount()));
+            //是否显示控件
+            isContentVisible(list.get(position - 1).getActivityForm(), viewHolderActivity);
 
-
-            //商家图片 点击
-            viewHolderActivity.activity_item_member_logo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, MemberDetailActivity.class);
-                    intent.putExtra("memberId", list.get(position - 1).getMemberId());
-                    context.startActivity(intent);
-                }
-            });
-            //商家名称 点击
-            viewHolderActivity.activity_item_member_name.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, MemberDetailActivity.class);
-                    intent.putExtra("memberId", list.get(position - 1).getMemberId());
-                    context.startActivity(intent);
-                }
-            });
             //活动图片 点击
             viewHolderActivity.activity_item_img_i.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -318,8 +288,8 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
                     context.startActivity(intent);
                 }
             });
-            //进度条 点击
-            viewHolderActivity.activity_item_text_centent.setOnClickListener(new View.OnClickListener() {
+            //活动内容点击
+            viewHolderActivity.layout_activity_content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, ActivityDetailActivity.class);
@@ -354,9 +324,9 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
 
                                 @Override
                                 public void error(Response<String> response) {
-
+                                    EBLog.e("tag", response.getCode() + "");
+                                    ToastUtil.makeText(context, response.getDesc());
                                 }
-
                             });
                         }
                         //未收藏
@@ -377,9 +347,9 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
 
                                 @Override
                                 public void error(Response<String> response) {
-
+                                    EBLog.e("tag", response.getCode() + "");
+                                    ToastUtil.makeText(context, response.getDesc());
                                 }
-
                             });
                         }
                     }
@@ -406,6 +376,32 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
         return list != null ? list.size() + 1 : 1;
     }
 
+    //根据活动类型和状态判断控件内容是否显示
+    private void isContentVisible(int activityType, ViewHolderActivity holder) {
+        switch (activityType) {
+            case 0: //线下活动
+                holder.activity_item_text_area_logo.setVisibility(View.VISIBLE);
+                holder.activity_item_text_area_text.setVisibility(View.VISIBLE);
+                holder.activity_item_img_vide.setVisibility(View.GONE);
+                holder.tv_member_area_logo.setVisibility(View.VISIBLE);
+                holder.activity_item_member_area.setVisibility(View.VISIBLE);
+                break;
+            case 1: //视频活动
+                holder.activity_item_text_area_logo.setVisibility(View.GONE);
+                holder.activity_item_text_area_text.setVisibility(View.GONE);
+                holder.activity_item_img_vide.setVisibility(View.VISIBLE);
+                holder.tv_member_area_logo.setVisibility(View.GONE);
+                holder.activity_item_member_area.setVisibility(View.GONE);
+                break;
+            case 2: //问卷活动
+                holder.activity_item_text_area_logo.setVisibility(View.GONE);
+                holder.activity_item_text_area_text.setVisibility(View.GONE);
+                holder.activity_item_img_vide.setVisibility(View.GONE);
+                holder.tv_member_area_logo.setVisibility(View.GONE);
+                holder.activity_item_member_area.setVisibility(View.GONE);
+                break;
+        }
+    }
 
     public void updata(List<ActivityResp> list) {
         this.list = list;
@@ -473,10 +469,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
         return type;
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder {
-
-
         View itemView;
 
         public ViewHolder(View itemView) {
@@ -487,7 +480,6 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
     }
 
     public class ViewHolderMember extends ViewHolder {
-
         //商家头像
         @BindView(R.id.member_detail_logo)
         SelectableRoundedImageView member_detail_logo;
@@ -522,7 +514,6 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
         @BindView(R.id.member_detail_follow_text)
         TextView member_detail_follow_text;
 
-
         View itemView;
 
         public ViewHolderMember(View itemView) {
@@ -533,7 +524,6 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
     }
 
     public class ViewHolderActivity extends ViewHolder {
-
         //商家图片
         @BindView(R.id.activity_item_member_logo)
         ImageView activity_item_member_logo;
@@ -593,9 +583,12 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
         //分享
         @BindView(R.id.activity_item_text_share)
         ImageView activity_item_text_share;
-        //进度条
-        @BindView(R.id.activity_item_text_centent)
-        LinearLayout activity_item_text_centent;
+        //活动地区
+        @BindView(R.id.tv_member_area_logo)
+        TextView tv_member_area_logo;
+        //活动内容
+        @BindView(R.id.layout_activity_content)
+        LinearLayout layout_activity_content;
 
         View itemView;
 
@@ -605,6 +598,5 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
             this.itemView = itemView;
         }
     }
-
 
 }
