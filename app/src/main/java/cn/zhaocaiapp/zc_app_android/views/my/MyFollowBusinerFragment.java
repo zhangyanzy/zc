@@ -82,10 +82,12 @@ public class MyFollowBusinerFragment extends BaseFragment implements OnRefreshLi
             @Override
             public void success(List<MemberResp> memberResps) {
                 EBLog.i(TAG, memberResps.toString());
-                members.addAll(memberResps);
+                if (currentResult == 0) members = memberResps;
+                else members.addAll(memberResps);
                 adapter.refresh(members);
 
                 if (memberResps.size() < pageSize) {
+                    //完成加载并标记没有更多数据
                     refresh_layout.finishLoadmoreWithNoMoreData();
                     refresh_layout.setEnableFooterFollowWhenLoadFinished(true);
                 }
@@ -169,7 +171,6 @@ public class MyFollowBusinerFragment extends BaseFragment implements OnRefreshLi
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         currentResult = 0;
-        members.clear();
         loadData();
     }
 }

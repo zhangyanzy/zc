@@ -283,7 +283,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
                 holder.tv_reward.setVisibility(View.GONE);
                 break;
             case 5:
-                holder.tv_state.setText("已结束");
+                holder.tv_state.setText("已关闭");
                 holder.tv_cancel.setVisibility(View.GONE);
                 holder.tv_submit.setVisibility(View.GONE);
                 holder.tv_reward.setVisibility(View.GONE);

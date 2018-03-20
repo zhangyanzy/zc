@@ -16,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxLines="2" />
+            android:maxLines="2"
+            android:textColor="@color/colorFont6"/>
     </LinearLayout>
 
     <LinearLayout
@@ -134,7 +135,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0"
                     android:text="@string/activity_surplus_amount"
-                    android:textColor="@color/colorFont9"
+                    android:textColor="@color/colorFont6"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -178,7 +179,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0"
                     android:text="@string/activity_received_number"
-                    android:textColor="@color/colorFont9"
+                    android:textColor="@color/colorFont6"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -224,7 +225,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="奖励 元/人"
-                        android:textColor="@color/colorFont9"
+                        android:textColor="@color/colorFont6"
                         android:textSize="12sp" />
 
                 </LinearLayout>

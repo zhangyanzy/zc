@@ -78,10 +78,12 @@ public class MyFollowActivityFragment extends BaseFragment implements OnRefreshL
             @Override
             public void success(List<ActivityResp> activityResps) {
                 EBLog.i(TAG, activityResps.toString());
-                activitys.addAll(activityResps);
+                if (currentResult == 0) activitys = activityResps;
+                else activitys.addAll(activityResps);
                 adapter.updata(activitys);
 
                 if (activityResps.size() < pageSize) {
+                    //完成加载并标记没有更多数据
                     refresh_layout.finishLoadmoreWithNoMoreData();
                     refresh_layout.setEnableFooterFollowWhenLoadFinished(true);
                 }
@@ -123,7 +125,6 @@ public class MyFollowActivityFragment extends BaseFragment implements OnRefreshL
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         currentResult = 0;
-        activitys.clear();
         loadData();
     }
 }

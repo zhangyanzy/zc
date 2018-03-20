@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/iv_scan_picture"
             android:layout_width="match_parent"
-            android:layout_height="240dp"
+            android:layout_height="220dp"
             android:scaleType="fitXY"
             android:src="@mipmap/real_info" />
 

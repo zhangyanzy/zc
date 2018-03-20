@@ -230,7 +230,6 @@ public interface Constants {
 
 
 
-
         /**
          * 获取城市列表
          */

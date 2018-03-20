@@ -16,6 +16,7 @@
     <string name="input_old_pass">请输入新原密码</string>
     <string name="input_new_pass">请输入新密码</string>
     <string name="input_confirm_pass">请再次输入新密码</string>
+    <string name="input_login_pass_word">请输入登录密码</string>
     <string name="compile_pass">两次输入的密码不一致，请重新输入</string>
     <string name="reset_pass">找回密码</string>
     <!--字符串中包含的第一个参数为整数d-->
@@ -109,6 +110,7 @@
     <string name="notice_switch">您的消息通知开关没有打开，无法收到最近消息。</string>
     <string name="change_position">定位到您当前位置为%s，是否切换？</string>
     <string name="new_task_reward">完成新手任务即可领取奖励</string>
+    <string name="invite_friend">邀请好友</string>
 
 
 </resources>

@@ -77,10 +77,12 @@ public class WithdrawFragment extends BaseFragment implements OnRefreshListener,
             @Override
             public void success(List<IncomeResp> incomeResps) {
                 EBLog.i(TAG, incomeResps.toString());
-                incomes.addAll(incomeResps);
+                if (currentResult == 0) incomes = incomeResps;
+                else incomes.addAll(incomeResps);
                 adapter.refresh(incomes);
 
                 if (incomeResps.size() < pageSize) {
+                    //完成加载并标记没有更多数据
                     refresh_layout.finishLoadmoreWithNoMoreData();
                     refresh_layout.setEnableFooterFollowWhenLoadFinished(true);
                 }
@@ -106,7 +108,6 @@ public class WithdrawFragment extends BaseFragment implements OnRefreshListener,
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-        incomes.clear();
         currentResult = 0;
         loadData();
     }

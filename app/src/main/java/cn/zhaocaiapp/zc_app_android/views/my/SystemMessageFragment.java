@@ -79,10 +79,12 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
             @Override
             public void success(List<MessageResp> messageResps) {
                 EBLog.i(TAG, messageResps.toString());
-                messages.addAll(messageResps);
+                if (currentResult == 0) messages = messageResps;
+                else messages.addAll(messageResps);
                 adapter.refresh(messages);
 
                 if (messageResps.size() < pageSize) {
+                    //完成加载并标记没有更多数据
                     refresh_layout.finishLoadmoreWithNoMoreData();
                     refresh_layout.setEnableFooterFollowWhenLoadFinished(true);
                 }
@@ -137,7 +139,6 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-        messages.clear();
         currentResult = 0;
         loadData();
     }

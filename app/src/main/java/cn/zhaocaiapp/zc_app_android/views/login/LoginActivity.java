@@ -134,6 +134,7 @@ public class LoginActivity extends BaseFragmentActivity {
 
     //发送登录请求
     private void doLogin() {
+        startProgressDialog();
         Map<String, String> params = new HashMap<>();
         if (type == Constants.SPREF.TYPE_PHONE) {
             params.put("account", phone);
@@ -148,6 +149,7 @@ public class LoginActivity extends BaseFragmentActivity {
             @Override
             public void success(LoginResp result) {
                 EBLog.i(TAG, result.toString());
+                stopProgressDialog();
 
                 setAlias(result);
                 saveUserData(result);
@@ -166,6 +168,8 @@ public class LoginActivity extends BaseFragmentActivity {
             @Override
             public void error(Response response) {
                 EBLog.i(TAG, response.getCode() + "");
+                stopProgressDialog();
+
                 if (type != 0 && response.getCode() == 5000) { //此三方账号未绑定
                     turnToCheckPhone();
                 } else if (response.getCode() == 5005) { // 此账号已被封禁
@@ -302,6 +306,7 @@ public class LoginActivity extends BaseFragmentActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         umShareAPI.onActivityResult(requestCode, resultCode, data);
+        stopProgressDialog();
     }
 
     @Override

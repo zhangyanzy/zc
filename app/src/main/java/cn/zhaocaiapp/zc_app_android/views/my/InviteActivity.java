@@ -35,11 +35,9 @@ public class InviteActivity extends BaseActivity {
     @BindView(R.id.iv_top_back)
     ImageView iv_top_back;
     @BindView(R.id.tv_top_title)
-    TextView tv_top_titlel;
+    TextView tv_top_title;
     @BindView(R.id.iv_top_menu)
     ImageView iv_top_menu;
-    @BindView(R.id.tv_top_btu)
-    TextView tv_top_btu;
     @BindView(R.id.web)
     WebView web;
 
@@ -60,7 +58,7 @@ public class InviteActivity extends BaseActivity {
         inviteCode = getIntent().getStringExtra("code");
 
         iv_top_menu.setImageResource(R.mipmap.share);
-        tv_top_titlel.setText("邀请码：" + inviteCode);
+        tv_top_title.setText(R.string.invite_friend);
 
         WebSettings webSettings = web.getSettings();
         //设置自适应屏幕，两者合用
@@ -85,7 +83,7 @@ public class InviteActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.iv_top_back, R.id.iv_top_menu, R.id.tv_top_btu})
+    @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_top_back:
@@ -101,15 +99,15 @@ public class InviteActivity extends BaseActivity {
                         .setDesc(shareDesc);
                 ShareUtil.openShare();
                 break;
-            case R.id.tv_top_btu:
-                //获取剪贴板管理器
-                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                //创建普通字符型ClipData对象
-                ClipData mClipData = ClipData.newPlainText("Label", inviteCode);//‘Label’是任意文字标签
-                // 将ClipData内容放到系统剪贴板里。
-                cm.setPrimaryClip(mClipData);
-                ToastUtil.makeText(InviteActivity.this, "已复制邀请码");
-                break;
+//            case R.id.tv_top_btu:
+//                //获取剪贴板管理器
+//                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+//                //创建普通字符型ClipData对象
+//                ClipData mClipData = ClipData.newPlainText("Label", inviteCode);//‘Label’是任意文字标签
+//                // 将ClipData内容放到系统剪贴板里。
+//                cm.setPrimaryClip(mClipData);
+//                ToastUtil.makeText(InviteActivity.this, "已复制邀请码");
+//                break;
         }
     }
 

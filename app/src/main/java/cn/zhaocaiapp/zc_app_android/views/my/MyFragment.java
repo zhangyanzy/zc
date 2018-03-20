@@ -122,8 +122,6 @@ public class MyFragment extends BaseFragment {
     private MyResp userInfo;
     private boolean isFirst = true;
 
-    private static final int REQUEST_CODE = 5001;
-
 
     @Override
     public void onResume() {
