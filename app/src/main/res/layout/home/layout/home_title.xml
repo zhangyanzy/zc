@@ -145,12 +145,12 @@
                     android:textColor="@color/colorFont3"
                     android:textSize="@dimen/font_size_24"/>
 
-                <TextView
+                <!--<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/element"
                     android:textColor="@color/colorFont3"
-                    android:textSize="@dimen/font_size_24" />
+                    android:textSize="@dimen/font_size_24" />-->
             </LinearLayout>
 
             <TextView
@@ -192,12 +192,12 @@
                     android:textColor="@color/colorFont3"
                     android:textSize="@dimen/font_size_24"/>
 
-                <TextView
+                <!--<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/element"
                     android:textColor="@color/colorFont3"
-                    android:textSize="@dimen/font_size_24" />
+                    android:textSize="@dimen/font_size_24" />-->
             </LinearLayout>
 
             <TextView

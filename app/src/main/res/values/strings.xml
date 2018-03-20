@@ -61,8 +61,8 @@
     <string name="search_money_6">终止金额</string>
     <string name="search_area_0">城市</string>
     <string name="search_area_1">区域</string>
-    <string name="user_income">总收入</string>
-    <string name="user_balance">账户余额</string>
+    <string name="user_income">总收入(元)</string>
+    <string name="user_balance">账户余额(元)</string>
     <string name="element">元</string>
     <string name="add_card_remaind">注：银行卡最低提现额度为200，并将扣除5%手续费，到账时间是5个工作日（建议使用支付宝或微信）</string>
     <string name="card_username_not_null">持卡人姓名不能为空</string>

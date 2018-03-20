@@ -103,7 +103,7 @@
                                 android:layout_toEndOf="@+id/iv_income"
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="0.00元"
+                                android:text="0.00"
                                 android:textColor="@color/colorFont6"
                                 android:textSize="@dimen/font_size_24" />
                         </LinearLayout>
@@ -113,7 +113,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/layout_income"
                             android:layout_marginLeft="28dp"
-                            android:text="总收入"
+                            android:text="总收入(元)"
                             android:textColor="@color/colorFont6"
                             android:textSize="12sp" />
                     </RelativeLayout>
@@ -144,7 +144,7 @@
                                 android:layout_toEndOf="@+id/iv_balance"
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="0.00元"
+                                android:text="0.00"
                                 android:textColor="@color/colorFont6"
                                 android:textSize="@dimen/font_size_24" />
                         </LinearLayout>
@@ -154,7 +154,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/layout_balance"
                             android:layout_marginLeft="28dp"
-                            android:text="账户余额"
+                            android:text="账户余额(元)"
                             android:textColor="@color/colorFont6"
                             android:textSize="12sp" />
                     </RelativeLayout>

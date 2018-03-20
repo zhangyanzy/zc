@@ -173,8 +173,8 @@ public class MyFragment extends BaseFragment {
     private void showUserInfo() {
         tv_user_name.setText(userInfo.getNickname());
         tv_user_identify.setText(userInfo.getRealInfoAudit());
-        tv_user_balance.setText(userInfo.getAccountBalanceAmount() + "元");
-        tv_user_income.setText(userInfo.getGrossIncomeAmount() + "元");
+        tv_user_balance.setText(userInfo.getAccountBalanceAmount() + "");
+        tv_user_income.setText(userInfo.getGrossIncomeAmount() + "");
         tv_invite.setText(userInfo.getInviteMessage());
         tv_contact_phone.setText(userInfo.getCustomerPhone());
         tv_email.setText(userInfo.getEmail());
