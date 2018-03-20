@@ -295,7 +295,6 @@ public class MyFragment extends BaseFragment {
             case R.id.tv_user_income:
                 openActivity(IncomeActivity.class);
                 break;
-
         }
     }
 
