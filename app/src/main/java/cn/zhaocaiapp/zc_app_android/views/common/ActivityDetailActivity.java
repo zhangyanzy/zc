@@ -122,11 +122,10 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         ActivityUtil.addActivity(this);
         shareAPI = ZcApplication.getUMShareAPI();
 
-        tv_title.setText(activityTitle);
-        iv_menu.setImageResource(R.mipmap.share);
-
         activityId = getIntent().getLongExtra("id", -1);
         activityTitle = getIntent().getStringExtra("title");
+        tv_title.setText(activityTitle);
+        iv_menu.setImageResource(R.mipmap.share);
 
         //从浏览器跳转回活动详情
         Uri uri = getIntent().getData();
