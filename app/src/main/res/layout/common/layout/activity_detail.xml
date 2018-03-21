@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
-    android:orientation="vertical">
+    android:background="@color/colorWhite">
 
     <include layout="@layout/layout_top_title" />
-
-    <cn.zhaocaiapp.zc_app_android.widget.SampleFullPlayer
-        android:id="@+id/vp_player"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-    </cn.zhaocaiapp.zc_app_android.widget.SampleFullPlayer>
 
     <WebView
         android:id="@+id/activity_detail_webView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_top_title" />
+
+    <FrameLayout
+        android:id="@+id/layout_player"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_top_title"
+        android:background="@color/transparent"
+        android:paddingLeft="@dimen/window_padding"
+        android:paddingRight="@dimen/window_padding"
+        android:paddingTop="48dp"
+        android:visibility="gone">
+
+        <cn.zhaocaiapp.zc_app_android.widget.SampleFullPlayer
+            android:id="@+id/vp_player"
+            android:layout_width="match_parent"
+            android:layout_height="206dp"
+            android:layout_below="@+id/layout_top_title">
+
+        </cn.zhaocaiapp.zc_app_android.widget.SampleFullPlayer>
+
+    </FrameLayout>
+</RelativeLayout>

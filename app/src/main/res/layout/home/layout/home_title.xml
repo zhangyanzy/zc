@@ -75,7 +75,7 @@
         android:layout_marginTop="60dp"
         android:layout_marginLeft="@dimen/window_padding"
         android:layout_marginRight="@dimen/window_padding"
-        android:background="@drawable/home_card"
+        android:background="@mipmap/home_top_card"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="10dp">

@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:background="@drawable/button_shape_loading_dialog"
     android:gravity="center_horizontal"
-    android:minHeight="175dp"
-    android:minWidth="160dp"
+    android:minHeight="178dp"
+    android:minWidth="182dp"
     android:orientation="vertical"
     android:paddingTop="25dp" >
 
