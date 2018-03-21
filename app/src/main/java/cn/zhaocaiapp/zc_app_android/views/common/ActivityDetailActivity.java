@@ -27,9 +27,13 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.jph.takephoto.model.TResult;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
+import com.shuyu.gsyvideoplayer.listener.GSYVideoProgressListener;
+import com.shuyu.gsyvideoplayer.listener.LockClickListener;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
+import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
 import com.umeng.socialize.UMShareAPI;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
@@ -146,7 +150,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         //绑定js方法
         activity_detail_webView.addJavascriptInterface(new JavaScriptInterfaces(), "native");
         activity_detail_webView.requestFocusFromTouch();
-        activity_detail_webView.setWebChromeClient(new WebChromeClient());      //解决alert不弹出问题
+        activity_detail_webView.setWebChromeClient(new WebChromeClient());//解决alert不弹出问题
         activity_detail_webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -273,48 +277,82 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             layout_player.setVisibility(View.VISIBLE);
             initTransition();
             startPlayer(bean.getSrc(), bean.getCurrentTime());
+            //直接横屏
+            orientationUtils.resolveByClick();
+            //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
+            vp_player.startWindowFullscreen(ActivityDetailActivity.this, true, true);
         }
-
     }
 
     //开始全屏播放
     private void startPlayer(String url, float time) {
-        //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
-        vp_player.startWindowFullscreen(this, true, true);
-
         GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
-        gsyVideoOption.setShowFullAnimation(true)
+        gsyVideoOption.setIsTouchWiget(true)
+                .setRotateViewAuto(false)
+                .setLockLand(false)
+                .setShowFullAnimation(false)
+                .setNeedLockFull(true)
+                .setSeekRatio(1)
                 .setUrl(url)
-                .setSeekRatio(time)
-                .setVideoTitle(activityTitle)
+                .setCacheWithPlay(false)
+                .setVideoTitle("测试视频")
                 .setVideoAllCallBack(new GSYSampleCallBack() {
-
-                    //数据加载成功
                     @Override
                     public void onPrepared(String url, Object... objects) {
                         super.onPrepared(url, objects);
-
-                        //开始播放后才可全屏
-                        orientationUtils.setEnable(false);
-                        isPrepared = true;
-                        orientationUtils.resolveByClick();
-                    }
-
-                    //进入全屏
-                    @Override
-                    public void onEnterFullscreen(String url, Object... objects) {
-                        super.onEnterFullscreen(url, objects);
+                        //开始播放了才能旋转和全屏
+                        orientationUtils.setEnable(true);
                         isPlay = true;
                     }
 
-                    //退出全屏
+                    @Override
+                    public void onEnterFullscreen(String url, Object... objects) {
+                        super.onEnterFullscreen(url, objects);
+
+                    }
+
+                    @Override
+                    public void onAutoComplete(String url, Object... objects) {
+                        super.onAutoComplete(url, objects);
+                    }
+
+                    @Override
+                    public void onClickStartError(String url, Object... objects) {
+                        super.onClickStartError(url, objects);
+                    }
+
                     @Override
                     public void onQuitFullscreen(String url, Object... objects) {
                         super.onQuitFullscreen(url, objects);
-                        isPlay = false;
+                        if (orientationUtils != null) {
+                            orientationUtils.backToProtVideo();
+                        }
+                    }
+                })
+                .setLockClickListener(new LockClickListener() {
+                    @Override
+                    public void onClick(View view, boolean lock) {
+                        if (orientationUtils != null) {
+                            //配合下方的onConfigurationChanged
+                            orientationUtils.setEnable(!lock);
+                        }
+                    }
+                })
+                .setGSYVideoProgressListener(new GSYVideoProgressListener() {
+                    @Override
+                    public void onProgress(int progress, int secProgress, int currentPosition, int duration) {
+
                     }
                 })
                 .build(vp_player);
+
+        vp_player.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (vp_player.isIfCurrentIsFullscreen())
+                    onBackPressed();
+            }
+        });
     }
 
     //初始化过度动画
@@ -507,20 +545,36 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
     }
 
+    private GSYVideoPlayer getCurPlay() {
+        if (vp_player.getFullWindowPlayer() != null) {
+            return vp_player.getFullWindowPlayer();
+        }
+        return vp_player;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (orientationUtils != null) {
+            orientationUtils.backToProtVideo();
+        }
+        if (GSYVideoManager.backFromWindowFull(this)) {
+            return;
+        }
+        super.onBackPressed();
+    }
+
+
     @Override
     protected void onPause() {
+        getCurPlay().onVideoPause();
         super.onPause();
-        if (isPlay)
-            vp_player.onVideoPause();
         isPause = true;
     }
 
     @Override
     protected void onResume() {
+        getCurPlay().onVideoResume(false);
         super.onResume();
-        if (isPrepared && isPause)
-            vp_player.onVideoResume();
-        isPlay = true;
         isPause = false;
     }
 
@@ -528,5 +582,10 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     protected void onDestroy() {
         super.onDestroy();
         shareAPI.release();
+        if (isPlay) {
+            getCurPlay().release();
+        }
+        if (orientationUtils != null)
+            orientationUtils.releaseListener();
     }
 }

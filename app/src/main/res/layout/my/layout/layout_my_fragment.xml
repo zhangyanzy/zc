@@ -92,8 +92,8 @@
 
                             <ImageView
                                 android:id="@+id/iv_income"
-                                android:layout_width="28dp"
-                                android:layout_height="24dp"
+                                android:layout_width="30dp"
+                                android:layout_height="26dp"
                                 android:src="@mipmap/logo_money" />
 
                             <TextView
@@ -105,7 +105,7 @@
                                 android:maxLines="1"
                                 android:text="0.00"
                                 android:textColor="@color/colorFont6"
-                                android:textSize="@dimen/font_size_24" />
+                                android:textSize="@dimen/font_size_22" />
                         </LinearLayout>
 
                         <TextView
@@ -133,8 +133,8 @@
 
                             <ImageView
                                 android:id="@+id/iv_balance"
-                                android:layout_width="28dp"
-                                android:layout_height="24dp"
+                                android:layout_width="30dp"
+                                android:layout_height="26dp"
                                 android:src="@mipmap/logo_money" />
 
                             <TextView
@@ -146,7 +146,7 @@
                                 android:maxLines="1"
                                 android:text="0.00"
                                 android:textColor="@color/colorFont6"
-                                android:textSize="@dimen/font_size_24" />
+                                android:textSize="@dimen/font_size_22" />
                         </LinearLayout>
 
                         <TextView
