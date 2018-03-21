@@ -50,7 +50,7 @@
         android:textSize="@dimen/font_size_14" />
 
     <View
-        style="@style/horizontal_C9_line"
+        style="@style/horizontal_F0_line"
         android:layout_below="@+id/tv_time"
         android:layout_marginTop="10dp" />
 </RelativeLayout>

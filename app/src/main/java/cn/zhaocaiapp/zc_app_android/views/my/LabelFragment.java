@@ -115,7 +115,7 @@ public class LabelFragment extends BaseFragment {
                 @Override
                 public boolean onTagClick(View view, int position, FlowLayout parent) {
                     if (isShowDel) {
-                        if (labels.get(position).getType() == 1) { //非可选标签
+                        if (labels.get(position).getType() == 0) { //非可选标签
                             String content = getString(R.string.delete_label_confirm);
                             dialog = DialogUtil.showDialogTwoBut(getActivity(), null, content, "取消", "删除");
                             dialog.isTitleShow(false);

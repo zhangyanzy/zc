@@ -9,10 +9,10 @@
     <RelativeLayout
         android:id="@+id/layout_wechat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/height_select_project"
         android:layout_marginTop="30dp"
-        android:paddingEnd="@dimen/window_padding_15"
-        android:paddingStart="@dimen/window_padding_15">
+        android:paddingEnd="@dimen/window_padding"
+        android:paddingStart="@dimen/window_padding">
 
         <TextView
             android:id="@+id/tv_wechat"
@@ -36,22 +36,19 @@
             android:drawablePadding="10dp"
             android:drawableRight="@mipmap/turn_right"
             android:gravity="center_vertical"
-            android:textColor="@color/colorFont3"
+            android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_14"
             android:text="未绑定"/>
     </RelativeLayout>
 
-    <View
-        style="@style/horizontal_C9_line"
-        android:layout_marginTop="@dimen/edit_line_top" />
+    <View style="@style/horizontal_F0_line"/>
 
     <RelativeLayout
         android:id="@+id/layout_ali"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:paddingEnd="@dimen/window_padding_15"
-        android:paddingStart="@dimen/window_padding_15">
+        android:layout_height="@dimen/height_select_project"
+        android:paddingEnd="@dimen/window_padding"
+        android:paddingStart="@dimen/window_padding">
 
         <TextView
             android:id="@+id/tv_ali"
@@ -75,23 +72,20 @@
             android:drawablePadding="10dp"
             android:drawableRight="@mipmap/turn_right"
             android:gravity="center_vertical"
-            android:textColor="@color/colorFont3"
+            android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_14"
             android:text="未绑定"/>
 
     </RelativeLayout>
 
-    <View
-        style="@style/horizontal_C9_line"
-        android:layout_marginTop="@dimen/edit_line_top" />
+    <View style="@style/horizontal_F0_line"/>
 
     <RelativeLayout
         android:id="@+id/layout_bank"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:paddingEnd="@dimen/window_padding_15"
-        android:paddingStart="@dimen/window_padding_15">
+        android:layout_height="@dimen/height_select_project"
+        android:paddingEnd="@dimen/window_padding"
+        android:paddingStart="@dimen/window_padding">
 
         <TextView
             android:id="@+id/tv_bank_card"
@@ -101,6 +95,7 @@
             android:drawableLeft="@mipmap/withdraw_bank"
             android:drawablePadding="10dp"
             android:gravity="center_vertical"
+            android:layout_centerVertical="true"
             android:text="银行卡"
             android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_14" />
@@ -114,14 +109,12 @@
             android:drawablePadding="10dp"
             android:drawableRight="@mipmap/turn_right"
             android:gravity="center_vertical"
-            android:textColor="@color/colorFont3"
+            android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_14"
             android:text="未绑定"/>
 
     </RelativeLayout>
 
-    <View
-        style="@style/horizontal_C9_line"
-        android:layout_marginTop="@dimen/edit_line_top" />
+    <View style="@style/horizontal_F0_line" />
 
 </LinearLayout>

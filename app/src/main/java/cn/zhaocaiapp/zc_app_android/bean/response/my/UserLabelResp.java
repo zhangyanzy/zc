@@ -9,7 +9,7 @@ public class UserLabelResp {
      * "name":    标签名称
      * "tagId":   标签ID
      * "times":   标签次数
-     * "type":    标签类型  0  可选类型  1  非可选
+     * "type":    标签类型  1 可选类型   0 非可选
      */
 
     private long tagId;

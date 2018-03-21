@@ -53,7 +53,7 @@
         android:textSize="@dimen/font_size_12"
         android:layout_marginEnd="@dimen/window_padding_15"/>
 
-    <View style="@style/horizontal_C9_line"
+    <View style="@style/horizontal_F0_line"
         android:layout_below="@+id/iv_logo"
         android:layout_alignStart="@+id/tv_businer_name"
         android:layout_marginTop="10dp"/>

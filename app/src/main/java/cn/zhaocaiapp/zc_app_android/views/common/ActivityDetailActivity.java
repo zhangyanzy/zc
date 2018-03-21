@@ -516,8 +516,8 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     //返回解析结果字符串
                     zxResult = bundle.getString(CodeUtils.RESULT_STRING);
+                    EBLog.i(TAG, "二维码解析结果:" + zxResult);
                     photoHelper.onClick(0, getTakePhoto());
-                    ToastUtil.makeText(ActivityDetailActivity.this, "解析结果:" + zxResult);
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     ToastUtil.makeText(ActivityDetailActivity.this, "二维码解析失败");
                 }
