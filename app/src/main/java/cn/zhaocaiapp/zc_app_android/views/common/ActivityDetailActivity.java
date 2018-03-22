@@ -2,6 +2,7 @@ package cn.zhaocaiapp.zc_app_android.views.common;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -108,12 +109,12 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     private View startBut;//播放键
     private TextView vp_title;//视频标题
 
-    private boolean isTransition;
     private Transition transition;
     private OrientationUtils orientationUtils;
     private boolean isPlay; //是否正在播放
     private boolean isPause;//是否暂停
     private boolean isPrepared;//是否准别好视频资源
+    private Runnable runnable;
 
     @Override
     public int getContentViewResId() {
@@ -160,9 +161,6 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             }
         });
 
-        //初始化播放器控件
-        initPlayer();
-
         //初始化takephoto
         photoHelper = PhotoHelper.of(rootView, true);
 
@@ -194,6 +192,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
                 onBackPressed();
             }
         });
+
     }
 
     //预留给js调用的回调
@@ -271,16 +270,14 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         }
 
         @JavascriptInterface
-        public void enterFull(Object date) {
-            VideoBean bean = (VideoBean) date;
+        public void enterFull(String url, float time) {
+            EBLog.i(TAG, "url---" + url + "time---" + time);
 
-            layout_player.setVisibility(View.VISIBLE);
+            //初始化播放器控件
+            initPlayer();
+            //初始化过渡动画
             initTransition();
-            startPlayer(bean.getSrc(), bean.getCurrentTime());
-            //直接横屏
-            orientationUtils.resolveByClick();
-            //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
-            vp_player.startWindowFullscreen(ActivityDetailActivity.this, true, true);
+            setPlayer(url, time);
         }
     }
 
@@ -299,6 +296,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
                 .setVideoAllCallBack(new GSYSampleCallBack() {
                     @Override
                     public void onPrepared(String url, Object... objects) {
+                        EBLog.i(TAG, "onPrepared---准备视频资源");
                         super.onPrepared(url, objects);
                         //开始播放了才能旋转和全屏
                         orientationUtils.setEnable(true);
@@ -307,12 +305,14 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
                     @Override
                     public void onEnterFullscreen(String url, Object... objects) {
+                        EBLog.i(TAG, "onEnterFullscreen---进入全屏");
                         super.onEnterFullscreen(url, objects);
 
                     }
 
                     @Override
                     public void onAutoComplete(String url, Object... objects) {
+                        EBLog.i(TAG, "onAutoComplete");
                         super.onAutoComplete(url, objects);
                     }
 
@@ -323,6 +323,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
                     @Override
                     public void onQuitFullscreen(String url, Object... objects) {
+                        EBLog.i(TAG, "onQuitFullscreen---退出全屏");
                         super.onQuitFullscreen(url, objects);
                         if (orientationUtils != null) {
                             orientationUtils.backToProtVideo();
@@ -357,7 +358,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
     //初始化过度动画
     private void initTransition() {
-        if (isTransition && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             postponeEnterTransition();
             ViewCompat.setTransitionName(vp_player, IMG_TRANSITION);
             addTransitionListener();
@@ -393,6 +394,24 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
                 .setTitle(activityTitle)
                 .setDesc(shareDesc);
         ShareUtil.openShare();
+    }
+
+    private void setPlayer(String url, float time) {
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                layout_player.setVisibility(View.VISIBLE);
+
+                EBLog.i(TAG, "UI线程播放视频");
+
+                startPlayer(url, time);
+                //直接横屏
+                orientationUtils.resolveByClick();
+                //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
+                vp_player.startWindowFullscreen(ActivityDetailActivity.this, true, true);
+            }
+        };
+        ActivityDetailActivity.this.runOnUiThread(runnable);
     }
 
     @OnClick({R.id.iv_top_back, R.id.iv_top_menu})

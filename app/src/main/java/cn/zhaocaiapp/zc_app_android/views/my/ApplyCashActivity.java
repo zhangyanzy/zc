@@ -288,8 +288,8 @@ public class ApplyCashActivity extends BaseActivity {
     }
 
     private void setDrawable(int position) {
-        Drawable selDrawable = getResources().getDrawable(R.mipmap.selected);
-        Drawable unDrawable = getResources().getDrawable(R.mipmap.unselected);
+        Drawable selDrawable = getResources().getDrawable(R.mipmap.checked);
+        Drawable unDrawable = getResources().getDrawable(R.mipmap.unchecked);
         selDrawable.setBounds(0, 0, 48, 48);
         unDrawable.setBounds(0, 0, 48, 48);
         switch (position) {
