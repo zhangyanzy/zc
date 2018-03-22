@@ -83,7 +83,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.item_text_title.setText(spannableString);
         //活动地点距当前距离
-        if (activity.getActivityForm() != 1 && activity.getActivityForm() != 2) {
+        if (activity.getActivityForm() != 1 && activity.getActivityForm() != 2 && LocationUtil.getGps().getOpen()) {
             holder.item_text_area_text.setText(getDistance(activity));
         }
         //活动剩余额度

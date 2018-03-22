@@ -61,12 +61,12 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="12dp"
             android:layout_toStartOf="@+id/tv_cancel"
-            android:background="@drawable/button_shape_white_bg"
+            android:background="@drawable/button_shape_orange_bg"
             android:gravity="center"
             android:paddingBottom="6dp"
             android:paddingTop="6dp"
             android:text="领钱"
-            android:textColor="@color/colorFont6"
+            android:textColor="@color/colorWhite"
             android:textSize="@dimen/font_size_13"
             android:visibility="gone" />
 
