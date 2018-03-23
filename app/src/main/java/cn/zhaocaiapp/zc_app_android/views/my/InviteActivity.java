@@ -1,8 +1,5 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,7 +10,6 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.autonavi.rtbt.IFrameForRTBT;
 import com.umeng.socialize.UMShareAPI;
 
 import butterknife.BindView;
@@ -24,8 +20,6 @@ import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
-import cn.zhaocaiapp.zc_app_android.util.SpUtils;
-import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
  * Created by Administrator on 2018/1/11.
@@ -94,7 +88,7 @@ public class InviteActivity extends BaseActivity {
                 String shareDesc = getString(R.string.share_desc);
                 ShareUtil.init(this)
                         .setUrl(webUrl)
-                        .setSourceId(R.mipmap.ic_launcher)
+                        .setSourceId(R.mipmap.icon_launcher)
                         .setTitle(shareTitle)
                         .setDesc(shareDesc);
                 ShareUtil.openShare();

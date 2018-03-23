@@ -2,7 +2,6 @@ package cn.zhaocaiapp.zc_app_android.views.common;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.ActivityManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -40,7 +39,6 @@ import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,14 +50,12 @@ import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BasePhotoActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
-import cn.zhaocaiapp.zc_app_android.bean.VideoBean;
 import cn.zhaocaiapp.zc_app_android.capabilities.json.GsonHelper;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.capabilities.takephoto.PhotoHelper;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.DeviceUtil;
-import cn.zhaocaiapp.zc_app_android.util.FileUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
@@ -396,7 +392,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         String shareDesc = getString(R.string.share_desc);
         ShareUtil.init(this)
                 .setUrl(webUrl)
-                .setSourceId(R.mipmap.ic_launcher)
+                .setSourceId(R.mipmap.icon_launcher)
                 .setTitle(activityTitle)
                 .setDesc(shareDesc);
         ShareUtil.openShare();

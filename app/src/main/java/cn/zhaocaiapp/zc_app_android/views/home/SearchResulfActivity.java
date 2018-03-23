@@ -22,7 +22,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import cn.zhaocaiapp.zc_app_android.MainActivity;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.adapter.common.ActivityAdapter;
@@ -175,7 +174,7 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
             String desc = getString(R.string.share_desc);
             ShareUtil.init(SearchResulfActivity.this)
                     .setUrl(webUrl)
-                    .setSourceId(R.mipmap.ic_launcher)
+                    .setSourceId(R.mipmap.icon_launcher)
                     .setTitle(shareTitle)
                     .setDesc(desc);
             ShareUtil.openShare();

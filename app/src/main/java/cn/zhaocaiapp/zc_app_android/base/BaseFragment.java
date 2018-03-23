@@ -198,6 +198,15 @@ public abstract class BaseFragment extends TakePhotoFragment implements EasyPerm
         startActivityForResult(intent, requestCode);
     }
 
+    /**
+     * 启动Activity
+     */
+    public void openActivityForResult(Class<?> mClass,Bundle bundle, int requestCode) {
+        Intent intent = new Intent(getActivity(), mClass);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, requestCode);
+    }
+
     //判断是否获取到指定的权限
     public boolean isGrantPerm(String perm) {
         return (perms.contains(perm));

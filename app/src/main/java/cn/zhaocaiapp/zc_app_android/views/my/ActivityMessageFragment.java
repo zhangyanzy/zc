@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -48,6 +49,9 @@ public class ActivityMessageFragment extends BaseFragment implements OnRefreshLi
     private List<MessageResp> messages = new ArrayList<>();
     private MyMessageAdapter adapter;
     private long msgId;
+    private int curPosition;
+
+    private static final int REQUEST_CODE = 5002;
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -127,8 +131,10 @@ public class ActivityMessageFragment extends BaseFragment implements OnRefreshLi
     private MyMessageAdapter.OnItemCliclkListener listener = new MyMessageAdapter.OnItemCliclkListener() {
         @Override
         public void onItemCliclk(int position) {
-            if (messages.get(position).getReadStatus() == 0) //未读
-                updateMessageStatus(position);
+            curPosition = position;
+            Bundle bundle = new Bundle();
+            bundle.putString("message", messages.get(position).getContent());
+            openActivityForResult(MessageDetailActivity.class, bundle, REQUEST_CODE);
         }
     };
 
@@ -142,5 +148,12 @@ public class ActivityMessageFragment extends BaseFragment implements OnRefreshLi
     public void onRefresh(RefreshLayout refreshlayout) {
         currentResult = 0;
         loadData();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (messages.get(curPosition).getReadStatus() == 0) //未读
+            updateMessageStatus(curPosition);
     }
 }

@@ -1,7 +1,5 @@
 package cn.zhaocaiapp.zc_app_android.views.activity;
 
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,13 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,13 +21,11 @@ import java.util.Map;
 
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.R;
-import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.adapter.my.MyActivityAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
-import cn.zhaocaiapp.zc_app_android.bean.response.member.MemberResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
@@ -192,7 +186,7 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
                     String shareDesc = getString(R.string.share_desc);
                     ShareUtil.init(getActivity())
                             .setUrl(webUrl)
-                            .setSourceId(R.mipmap.ic_launcher)
+                            .setSourceId(R.mipmap.icon_launcher)
                             .setTitle(shareTitle)
                             .setDesc(shareDesc);
                     ShareUtil.openShare();

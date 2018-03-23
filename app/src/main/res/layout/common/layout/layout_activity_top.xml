@@ -10,7 +10,7 @@
         android:id="@+id/iv_logo"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:src="@mipmap/ic_launcher_round"
+        android:src="@mipmap/icon_launcher_round"
         app:civ_border_color="@color/colorPrimary"
         app:civ_border_width="3dp" />
 

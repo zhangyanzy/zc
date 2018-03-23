@@ -1,6 +1,5 @@
 package cn.zhaocaiapp.zc_app_android.views.home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.umeng.socialize.UMShareAPI;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -29,7 +27,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
-import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.adapter.common.ActivityAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
@@ -42,7 +39,6 @@ import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.DialogUtil;
-import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
@@ -221,7 +217,7 @@ public class LineFragment extends BaseFragment implements OnRefreshListener, OnL
             String desc = getString(R.string.share_desc);
             ShareUtil.init(getActivity())
                     .setUrl(webUrl)
-                    .setSourceId(R.mipmap.ic_launcher)
+                    .setSourceId(R.mipmap.icon_launcher)
                     .setTitle(shareTitle)
                     .setDesc(desc);
             ShareUtil.openShare();

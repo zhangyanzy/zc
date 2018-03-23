@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="cn.zhaocaiapp.zc_app_android">
 
     <!-- 友盟集成权限 -->
@@ -38,9 +39,10 @@
     <application
         android:name=".ZcApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/icon_launcher_round"
+        tools:replace="android:icon,android:theme"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -95,7 +97,6 @@
         <!--登录-->
         <activity
             android:name=".views.login.LoginActivity"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <!--忘记密码-->
         <activity
@@ -200,8 +201,11 @@
         <activity
             android:name=".views.member.MemberDetailActivity"
             android:screenOrientation="portrait" />
-
+        <!--收入分享-->
         <activity android:name=".views.my.IncomeShareActivity"
+            android:screenOrientation="portrait"/>
+        <!--消息详情-->
+        <activity android:name=".views.my.MessageDetailActivity"
             android:screenOrientation="portrait"/>
 
 

@@ -22,7 +22,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
-import cn.zhaocaiapp.zc_app_android.adapter.common.ActivityAdapter;
 import cn.zhaocaiapp.zc_app_android.adapter.common.MemberActivityAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
@@ -155,7 +154,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
             String desc = getString(R.string.share_desc);
             ShareUtil.init(MemberDetailActivity.this)
                     .setUrl(webUrl)
-                    .setSourceId(R.mipmap.ic_launcher)
+                    .setSourceId(R.mipmap.icon_launcher)
                     .setTitle(shareTitle)
                     .setDesc(desc);
             ShareUtil.openShare();

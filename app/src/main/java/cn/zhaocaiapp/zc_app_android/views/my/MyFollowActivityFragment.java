@@ -109,7 +109,7 @@ public class MyFollowActivityFragment extends BaseFragment implements OnRefreshL
             String desc = getString(R.string.share_desc);
             ShareUtil.init(getActivity())
                     .setUrl(webUrl)
-                    .setSourceId(R.mipmap.ic_launcher)
+                    .setSourceId(R.mipmap.icon_launcher)
                     .setTitle(shareTitle)
                     .setDesc(desc);
             ShareUtil.openShare();

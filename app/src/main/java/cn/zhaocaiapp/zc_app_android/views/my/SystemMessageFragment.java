@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.nio.file.FileAlreadyExistsException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +51,9 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
     private MyMessageAdapter adapter;
     private List<MessageResp> messages = new ArrayList<>();
     private long msgId;
+    private int curPosition;
+
+    private static final int REQUEST_CODE = 5002;
 
     @Override
     public View setContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -126,8 +131,10 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
     private MyMessageAdapter.OnItemCliclkListener listener = new MyMessageAdapter.OnItemCliclkListener() {
         @Override
         public void onItemCliclk(int position) {
-            if (messages.get(position).getReadStatus() == 0) //未读
-                updateMessageStatus(position);
+            curPosition = position;
+            Bundle bundle = new Bundle();
+            bundle.putString("message", messages.get(position).getContent());
+            openActivityForResult(MessageDetailActivity.class, bundle, REQUEST_CODE);
         }
     };
 
@@ -141,5 +148,12 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
     public void onRefresh(RefreshLayout refreshlayout) {
         currentResult = 0;
         loadData();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (messages.get(curPosition).getReadStatus() == 0) //未读
+            updateMessageStatus(curPosition);
     }
 }

@@ -49,11 +49,11 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.View
         holder.tv_describe.setText(messageResps.get(position).getContent());
         String time = new SimpleDateFormat("yyyy-MM-dd").format(messageResps.get(position).getCreateTime());
         holder.tv_time.setText(time);
-//        if (messageResps.get(position).getReadStatus() == 0){//未读
-//            holder.tv_title.setTextColor(context.getResources().getColor(R.color.colorFont3));
-//            holder.tv_describe.setTextColor(context.getResources().getColor(R.color.colorFont6));
-//            holder.tv_time.setTextColor(context.getResources().getColor(R.color.colorFont9));
-//        }
+        if (messageResps.get(position).getReadStatus() == 0) {//未读
+            holder.tv_title.setTextColor(context.getResources().getColor(R.color.colorFont3));
+            holder.tv_describe.setTextColor(context.getResources().getColor(R.color.colorFont6));
+            holder.tv_time.setTextColor(context.getResources().getColor(R.color.colorFont9));
+        }
         if (messageResps.get(position).getReadStatus() == 1){//已读
             holder.tv_title.setTextColor(context.getResources().getColor(R.color.colorLine));
             holder.tv_describe.setTextColor(context.getResources().getColor(R.color.colorLine));

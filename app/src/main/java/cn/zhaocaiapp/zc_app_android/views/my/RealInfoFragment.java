@@ -215,8 +215,8 @@ public class RealInfoFragment extends BaseFragment {
             public void success(CommonResp commonResp) {
                 ToastUtil.makeText(getActivity(), commonResp.getDesc());
                 realInfoBean.setRealInfoAuditStatus(1);
-                SpUtils.put(Constants.SPREF.IS_CERTIFICATION, false);
                 tv_identify_state.setText("待审核");
+                SpUtils.put(Constants.SPREF.IS_CERTIFICATION, false);
             }
 
             @Override

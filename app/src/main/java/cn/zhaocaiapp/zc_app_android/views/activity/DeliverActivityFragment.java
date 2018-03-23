@@ -21,7 +21,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.R;
-import cn.zhaocaiapp.zc_app_android.adapter.common.ActivityAdapter;
 import cn.zhaocaiapp.zc_app_android.adapter.my.MyActivityAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
@@ -186,7 +185,7 @@ public class DeliverActivityFragment extends BaseFragment implements OnRefreshLi
                     String shareDesc = getString(R.string.share_desc);
                     ShareUtil.init(getActivity())
                             .setUrl(webUrl)
-                            .setSourceId(R.mipmap.ic_launcher)
+                            .setSourceId(R.mipmap.icon_launcher)
                             .setTitle(shareTitle)
                             .setDesc(shareDesc);
                     ShareUtil.openShare();
