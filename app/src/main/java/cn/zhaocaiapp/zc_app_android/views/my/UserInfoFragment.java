@@ -447,6 +447,7 @@ public class UserInfoFragment extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == ChangePhoneActivity.RESULT_CODE) {
             String phone = data.getStringExtra("phone");
+            SpUtils.put(Constants.SPREF.USER_PHONE, phone);
             edit_user_phone.setText(phone);
         }
     }
