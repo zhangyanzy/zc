@@ -21,6 +21,7 @@ import java.util.Date;
 
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.refer.BusinessEnum;
 import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
@@ -110,7 +111,7 @@ public abstract class BaseResponseObserver<T> implements Observer<JsonObject> {
     }
 
     private void turnToLogin() {
-        SpUtils.clear();
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).clear();
         Activity activity = ActivityUtil.currentActivity();
         activity.startActivity(new Intent(activity, LoginActivity.class));
     }

@@ -103,7 +103,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
             //商家活动 已结束
             viewHolderMember.member_detail_state_2.setText(String.valueOf(memberResp.getOffLine()));
             //判断登录
-            if (GeneralUtils.isNotNullOrZeroLenght((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
+            if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
                 //已关注
                 if (GeneralUtils.isNotNull(memberResp.getIsFollow()) && memberResp.getIsFollow() == 1) {
                     //商家关注 按钮
@@ -119,7 +119,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
             viewHolderMember.member_detail_follow_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (GeneralUtils.isNotNullOrZeroLenght((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
+                    if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
                         //已关注
                         if (memberResp.getIsFollow() == 1) {
                             //取消关注
@@ -257,7 +257,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
                 viewHolderActivity.activity_item_text_area_text.setText(areaText > 1000 ? String.format("%.1f", (areaText / 1000)) + "km" : String.format("%.1f", (areaText)) + "m");
             }
             //收藏
-            if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, "")) && list.get(position - 1).getFollow()) {
+            if (GeneralUtils.isNotNull((String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.TOKEN, "")) && list.get(position - 1).getFollow()) {
                 viewHolderActivity.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
             } else {
                 viewHolderActivity.activity_item_text_collection.setImageResource(R.mipmap.collection_off);
@@ -307,7 +307,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
                 @Override
                 public void onClick(View v) {
                     //未登录
-                    if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
+                    if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
                         //已经收藏
                         if (list.get(position - 1).getFollow()) {
                             //取消收藏

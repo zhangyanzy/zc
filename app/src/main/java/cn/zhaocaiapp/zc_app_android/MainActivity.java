@@ -103,7 +103,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
                 currentPosition = 1;
                 break;
             case R.id.group_button_personal:
-                if (!(boolean) SpUtils.get(Constants.SPREF.IS_LOGIN, false)) {
+                if (!(boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
                     RadioButton radioButton = null;
                     if (currentPosition == 0)
                         radioButton = findViewById(R.id.group_button_task);

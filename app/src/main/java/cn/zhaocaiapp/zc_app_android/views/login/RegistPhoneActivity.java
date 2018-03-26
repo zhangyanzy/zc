@@ -146,14 +146,14 @@ public class RegistPhoneActivity extends BaseActivity {
 
     //保存用户数据
     private void saveUserData(SignupResp result) {
-        SpUtils.put(Constants.SPREF.TOKEN, result.getToken());
-        SpUtils.put(Constants.SPREF.IS_LOGIN, true);
-        SpUtils.put(Constants.SPREF.LOGIN_MODE, type);
-        SpUtils.put(Constants.SPREF.USER_PHOTO, result.getAvatar());
-        SpUtils.put(Constants.SPREF.NICK_NAME, result.getNickname());
-        SpUtils.put(Constants.SPREF.USER_PHONE, result.getPhone());
-        SpUtils.put(Constants.SPREF.USER_ID, result.getKid());
-        SpUtils.put(Constants.SPREF.ALIAS, result.getAlias());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.TOKEN, result.getToken());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.IS_LOGIN, true);
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.LOGIN_MODE, type);
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.USER_PHOTO, result.getAvatar());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.NICK_NAME, result.getNickname());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.USER_PHONE, result.getPhone());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.USER_ID, result.getKid());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.ALIAS, result.getAlias());
     }
 
     @Override

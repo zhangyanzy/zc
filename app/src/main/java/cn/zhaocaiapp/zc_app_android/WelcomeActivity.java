@@ -113,8 +113,8 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
      * 跳过
      */
     private void launchHomeScreen() {
-        SpUtils.put(Constants.SPREF.IS_FIRST_TIME_LAUNCH, false);
-        if ((boolean) SpUtils.get((Constants.SPREF.IS_LOGIN), false))
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.IS_FIRST_TIME_LAUNCH, false);
+        if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get((Constants.SPREF.IS_LOGIN), false))
             startActivity(new Intent(this, MainActivity.class));
         else startActivity(new Intent(this, LoginActivity.class));
 

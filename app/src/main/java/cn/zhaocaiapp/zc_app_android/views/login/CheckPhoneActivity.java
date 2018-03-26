@@ -203,16 +203,16 @@ public class CheckPhoneActivity extends BaseActivity {
 
     //保存用户数据
     private void saveUserData(Map<String, String> result) {
-        SpUtils.put(Constants.SPREF.TOKEN, result.get("token"));
-        SpUtils.put(Constants.SPREF.IS_LOGIN, true);
-        SpUtils.put(Constants.SPREF.LOGIN_MODE, type);
-        SpUtils.put(Constants.SPREF.NICK_NAME, result.get("nickname"));
-        SpUtils.put(Constants.SPREF.USER_PHONE, result.get("phone"));
-        SpUtils.put(Constants.SPREF.USER_PHOTO, result.get("avatar"));
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.TOKEN, result.get("token"));
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.IS_LOGIN, true);
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.LOGIN_MODE, type);
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.NICK_NAME, result.get("nickname"));
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.USER_PHONE, result.get("phone"));
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.USER_PHOTO, result.get("avatar"));
         if (GeneralUtils.isNotNull(result.get("kid")))
-            SpUtils.put(Constants.SPREF.USER_ID, result.get("kid"));
+            SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.USER_ID, result.get("kid"));
         if (GeneralUtils.isNotNullOrZeroLenght(result.get("alias")))
-            SpUtils.put(Constants.SPREF.ALIAS, result.get("alias"));
+            SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.ALIAS, result.get("alias"));
     }
 
 }

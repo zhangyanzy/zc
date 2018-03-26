@@ -78,7 +78,6 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
 
     private List<ActivityResp> activityRespList = new ArrayList<>();//活动列表
     private ActivityAdapter activityAdapter;
-//    private boolean isFirstLoad = true; //是否首次加载数据
 
     private static final String TAG = "最新活动";
 
@@ -126,10 +125,10 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
         params.put("sortType", String.valueOf(sortType));
         params.put("longitude", longitude);
         params.put("latitude", latitude);
-        if ((int) SpUtils.get(Constants.SPREF.ACTIVITY_RANGE, 0) == 0) {
+        if ((int) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.ACTIVITY_RANGE, 0) == 0) {
             params.put("cityCode", "");
         } else {
-            params.put("cityCode", (String) SpUtils.get(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE));
+            params.put("cityCode", (String) SpUtils.init(Constants.SPREF.FILE_APP_NAME).get(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE));
         }
         EBLog.i(TAG, "---请求活动参数---" + params.toString());
 

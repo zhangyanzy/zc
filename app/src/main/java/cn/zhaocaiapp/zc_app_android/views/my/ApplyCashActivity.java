@@ -250,7 +250,7 @@ public class ApplyCashActivity extends BaseActivity {
     //校验密码
     private void verifyPass(String content) {
         Map<String, String> params = new HashMap<>();
-        params.put("phone", (String) SpUtils.get(Constants.SPREF.USER_PHONE, ""));
+        params.put("phone", (String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.USER_PHONE, ""));
         params.put("password", content);
         HttpUtil.post(Constants.URL.VERIFY_PASS, params).subscribe(new BaseResponseObserver<CommonResp>() {
 

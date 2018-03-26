@@ -209,10 +209,10 @@ public class MyFragment extends BaseFragment {
         if (GeneralUtils.isNotNullOrZeroLenght(userInfo.getAvatar()))
             PictureLoadUtil.loadPicture(getActivity(), userInfo.getAvatar(), iv_user_photo);
         if (userInfo.getRealInfoAuditStatus() == 2)//通过实名认证
-            SpUtils.put(Constants.SPREF.IS_CERTIFICATION, true);
+            SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.IS_CERTIFICATION, true);
 
-        SpUtils.put(Constants.SPREF.INVITE_CODE, userInfo.getInviteCode());
-        SpUtils.put(Constants.SPREF.SERVICE_PHONE, userInfo.getCustomerPhone());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.INVITE_CODE, userInfo.getInviteCode());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.SERVICE_PHONE, userInfo.getCustomerPhone());
     }
 
     @OnClick({R.id.iv_top_menu, R.id.iv_user_photo, R.id.tv_user_identify, R.id.tv_apply_cash, R.id.layout_all_task, R.id.layout_deliver_task,
@@ -222,7 +222,7 @@ public class MyFragment extends BaseFragment {
         Bundle bundle = new Bundle();
         Intent intent = null;
         // 用户未登录，跳转到登陆界面
-        if (!(boolean) SpUtils.get(Constants.SPREF.IS_LOGIN, false)) {
+        if (!(boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
             openActivity(LoginActivity.class);
             return;
         }
@@ -301,14 +301,14 @@ public class MyFragment extends BaseFragment {
     //退出登录
     private void doLoginOut() {
         Map<String, String> params = new HashMap<>();
-        params.put("token", (String) SpUtils.get(Constants.SPREF.TOKEN, ""));
+        params.put("token", (String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.TOKEN, ""));
         HttpUtil.post(Constants.URL.USER_LOGIN_OUT, params).subscribe(new BaseResponseObserver<CommonResp>() {
             @Override
             public void success(CommonResp result) {
                 EBLog.i(TAG, result.toString());
 
                 deleteAlias();
-                SpUtils.clear();
+                SpUtils.init(Constants.SPREF.FILE_USER_NAME).clear();
 
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("signOut", true);
@@ -325,7 +325,7 @@ public class MyFragment extends BaseFragment {
 
     private void deleteAlias() {
         PushAgent pushAgent = PushAgent.getInstance(getActivity());
-        pushAgent.deleteAlias((String) SpUtils.get(Constants.SPREF.ALIAS, ""), "alias_user", new UTrack.ICallBack() {
+        pushAgent.deleteAlias((String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.ALIAS, ""), "alias_user", new UTrack.ICallBack() {
             @Override
             public void onMessage(boolean b, String s) {
                 EBLog.i(TAG, s);

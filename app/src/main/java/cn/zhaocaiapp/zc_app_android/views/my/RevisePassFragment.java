@@ -128,7 +128,7 @@ public class RevisePassFragment extends BaseFragment {
 
     private void deleteAlias() {
         PushAgent pushAgent = PushAgent.getInstance(getActivity());
-        pushAgent.deleteAlias((String) SpUtils.get(Constants.SPREF.ALIAS, ""), "alias_user", new UTrack.ICallBack() {
+        pushAgent.deleteAlias((String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.ALIAS, ""), "alias_user", new UTrack.ICallBack() {
             @Override
             public void onMessage(boolean b, String s) {
                 EBLog.i(TAG, s);

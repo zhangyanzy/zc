@@ -67,7 +67,7 @@ public class ZcApplication extends MultiDexApplication {
         });
     }
 
-    private static SharedPreferences sp;
+    private static SharedPreferences spUser;
     private static SharedPreferences spApp;
     private static UMShareAPI umShareAPI;
     private static UMShareConfig config;
@@ -96,21 +96,22 @@ public class ZcApplication extends MultiDexApplication {
         initUM();
         Config.DEBUG = false;
 
-        //SharedPreferences存储全局设置
-        sp = getSharedPreferences(Constants.SPREF.FILE_NAME, Context.MODE_PRIVATE);
+        //存储用户相关信息
+        spUser = getSharedPreferences(Constants.SPREF.FILE_USER_NAME, Context.MODE_PRIVATE);
+        //存储应用相关信息
         spApp = getSharedPreferences(Constants.SPREF.FILE_APP_NAME, Context.MODE_PRIVATE);
 
         //初始化定位
         LocationUtil.initLocation(this);
 
-        //获取省列表
+        //初始化省市区列表
         getAreasList();
 
         //初始化OCR单例
         initAccessToken(getApplicationContext());
 
-        //首次进入，设置新手任务弹窗显示
-        SpUtils.put(Constants.SPREF.SHOW_NEWER_ACTIVITY, true);
+        //用户首次进入，标记新手任务弹窗显示
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.SHOW_NEWER_ACTIVITY, true);
     }
 
     //开启子线程解析城市数据
@@ -123,6 +124,7 @@ public class ZcApplication extends MultiDexApplication {
         }).start();
     }
 
+    //初始化白底身份识别授权
     private void initAccessToken(Context context) {
 
         OCR.getInstance().initAccessToken(new OnResultListener<AccessToken>() {
@@ -139,6 +141,7 @@ public class ZcApplication extends MultiDexApplication {
         }, context);
     }
 
+    //初始化友盟组件
     private void initUM() {
         umShareAPI = UMShareAPI.get(this);
         config = new UMShareConfig();
@@ -154,7 +157,7 @@ public class ZcApplication extends MultiDexApplication {
             public void onSuccess(String deviceToken) {
                 //注册成功会返回device token
                 umPushToken = deviceToken;
-                SpUtils.put(Constants.SPREF.DEVICE_TOKEN, umPushToken);
+                SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.DEVICE_TOKEN, umPushToken);
 //                EBLog.i(TAG, "友盟token---" + umPushToken);
             }
 
@@ -174,6 +177,9 @@ public class ZcApplication extends MultiDexApplication {
         OCR.getInstance().release();
     }
 
+    /**
+     * 通知垃圾回收
+     * */
     @Override
     public void onLowMemory() {
         super.onLowMemory();
@@ -181,11 +187,12 @@ public class ZcApplication extends MultiDexApplication {
     }
 
     //获取全局SharedPreferences对象
-    public static SharedPreferences getPreferences() {
-        return sp;
+    public static SharedPreferences getUserPreferences() {
+        return spUser;
     }
 
-    public static SharedPreferences getPreferencesApp() {
+    //获取全局SharedPreferences对象
+    public static SharedPreferences getAppPreferencesApp() {
         return spApp;
     }
 
@@ -194,6 +201,7 @@ public class ZcApplication extends MultiDexApplication {
         return umShareAPI;
     }
 
+    //获取省市区列表
     public static List<LocationResp> getProvinces() {
         return provinces;
     }

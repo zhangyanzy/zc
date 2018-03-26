@@ -189,12 +189,12 @@ public class RegisterActivity extends BaseActivity {
 
     //保存用户数据
     private void saveUserData(SignupResp result) {
-        SpUtils.put(Constants.SPREF.TOKEN, result.getToken());
-        SpUtils.put(Constants.SPREF.IS_LOGIN, true);
-        SpUtils.put(Constants.SPREF.LOGIN_MODE, 0);
-        SpUtils.put(Constants.SPREF.USER_PHONE, result.getPhone());
-        SpUtils.put(Constants.SPREF.USER_ID, result.getKid());
-        SpUtils.put(Constants.SPREF.ALIAS, result.getAlias());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.TOKEN, result.getToken());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.IS_LOGIN, true);
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.LOGIN_MODE, 0);
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.USER_PHONE, result.getPhone());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.USER_ID, result.getKid());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.ALIAS, result.getAlias());
     }
 
 }

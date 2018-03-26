@@ -92,7 +92,6 @@ public class HomeFragment extends BaseFragment {
     private UserResp userResp;//用户
 
     private boolean isFirst = true;
-
     private AntiShake antiShake = new AntiShake();
 
     private static final String TAG = "首页";
@@ -167,17 +166,17 @@ public class HomeFragment extends BaseFragment {
         NotificationManagerCompat manager = NotificationManagerCompat.from(this.getActivity());
         boolean isOpened = manager.areNotificationsEnabled();
         EBLog.i(TAG, "消息推送通知开关：" + isOpened);
-        if (!SpUtils.contains(Constants.SPREF.MESSAGE_PUSH)) {
-            SpUtils.put(Constants.SPREF.MESSAGE_PUSH, new Date().getTime());
+        if (!SpUtils.init(Constants.SPREF.FILE_USER_NAME).contains(Constants.SPREF.MESSAGE_PUSH)) {
+            SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.MESSAGE_PUSH, new Date().getTime());
         }
         if (!isOpened) {
-            Date messagePush = new Date((Long) SpUtils.get(Constants.SPREF.MESSAGE_PUSH, new Date().getTime()));
+            Date messagePush = new Date((Long) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.MESSAGE_PUSH, new Date().getTime()));
             Calendar cal = Calendar.getInstance();
             cal.setTime(messagePush);
             cal.add(Calendar.DAY_OF_YEAR, 15);
 
             if (new Date().after(cal.getTime())) {
-                SpUtils.put(Constants.SPREF.MESSAGE_PUSH, new Date().getTime());
+                SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.MESSAGE_PUSH, new Date().getTime());
                 String content = getString(R.string.notice_switch);
                 NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), null, content, "取消", "设置");
                 normalDialog.isTitleShow(false);
@@ -203,16 +202,15 @@ public class HomeFragment extends BaseFragment {
             }
         }
 
-
         /**
          * 定位判断
          */
-        areaName = (String) getShareApp(Constants.SPREF.AREA_NAME, Constants.CONFIG.AREA_NAME);
-        areaCode = (String) getShareApp(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE);
+        areaName = (String) SpUtils.init(Constants.SPREF.FILE_APP_NAME).get(Constants.SPREF.AREA_NAME, Constants.CONFIG.AREA_NAME);
+        areaCode = (String) SpUtils.init(Constants.SPREF.FILE_APP_NAME).get(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE);
         //显示当前用户定位城市
         home_title_area_text.setText(areaName);
         Gps gps = LocationUtil.getGps();
-        if (gps.getOpen() && !areaName.equals(gps.getCity()) && (boolean) SpUtils.get(Constants.SPREF.SHOW_NEWER_ACTIVITY, true)) {
+        if (gps.getOpen() && !areaName.equals(gps.getCity()) && (boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.SHOW_NEWER_ACTIVITY, true)) {
             String content = String.format(getString(R.string.change_position), gps.getCity());
             NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), null, content, "关闭", "切换");
             normalDialog.isTitleShow(false);
@@ -229,8 +227,8 @@ public class HomeFragment extends BaseFragment {
                 public void onBtnClick() {
                     EBLog.i(TAG, "您点击了确认");
                     home_title_area_text.setText(gps.getCity());
-                    setShareApp(Constants.SPREF.AREA_NAME, gps.getCity());
-                    setShareApp(Constants.SPREF.AREA_CODE, gps.getAdCode());
+                    SpUtils.init(Constants.SPREF.FILE_APP_NAME).put(Constants.SPREF.AREA_NAME, gps.getCity());
+                    SpUtils.init(Constants.SPREF.FILE_APP_NAME).put(Constants.SPREF.AREA_CODE, gps.getAdCode());
                     EventBus.getDefault().post(new MessageEvent<String>("home_tab_0"));
                     normalDialog.dismiss();
                     //获取新手任务
@@ -246,7 +244,7 @@ public class HomeFragment extends BaseFragment {
     //首页获取用户信息
     private void getUserInfo() {
         //判断登录
-        if ((boolean) SpUtils.get(Constants.SPREF.IS_LOGIN, false)) {
+        if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
             //获取用户信息
             HttpUtil.get(String.format(Constants.URL.GET_ACTIVITY_USER)).subscribe(new BaseResponseObserver<UserInfoResp>() {
                 @Override
@@ -279,7 +277,7 @@ public class HomeFragment extends BaseFragment {
             if (event.getMessage().equals("home_location")) {
                 home_view.setCurrentItem(0);
                 EventBus.getDefault().post(new MessageEvent<String>("home_tab_0"));
-                home_title_area_text.setText((String) getShareApp(Constants.SPREF.AREA_NAME, Constants.CONFIG.AREA_NAME));
+                home_title_area_text.setText((String) SpUtils.init(Constants.SPREF.FILE_APP_NAME).get(Constants.SPREF.AREA_NAME, Constants.CONFIG.AREA_NAME));
                 EBLog.i(TAG, "接收到定位切换消息");
             }
         }
@@ -291,7 +289,7 @@ public class HomeFragment extends BaseFragment {
      */
     private void userinfoFristpage() {
         //判断登录
-        if (GeneralUtils.isNotNullOrZeroLenght((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
+        if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
             //获取新手任务
             HttpUtil.get(String.format(Constants.URL.GET_USERINFO_FRISTPAGE)).subscribe(new BaseResponseObserver<UserResp>() {
                 @Override
@@ -299,7 +297,7 @@ public class HomeFragment extends BaseFragment {
                     userResp = result;
 
                     //是否弹窗提示新手任务
-                    if ((boolean) SpUtils.get(Constants.SPREF.SHOW_NEWER_ACTIVITY, true))
+                    if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.SHOW_NEWER_ACTIVITY, true))
                         //判断用户是否做新手任务
                         if (userResp.getIsFinishActivity() == 0) {
                             String content = getString(R.string.new_task_reward);
@@ -312,7 +310,7 @@ public class HomeFragment extends BaseFragment {
                                 @Override
                                 public void onBtnClick() {
                                     EBLog.i(TAG, "您点击了取消");
-                                    SpUtils.put(Constants.SPREF.SHOW_NEWER_ACTIVITY, false);
+                                    SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.SHOW_NEWER_ACTIVITY, false);
                                     normalDialog.cancel();
                                 }
                             }, new OnBtnClickL() {
@@ -389,11 +387,7 @@ public class HomeFragment extends BaseFragment {
         return fragment;
     }
 
-    @OnClick({
-            R.id.home_title_search,
-            R.id.home_title_user_cart,
-            R.id.home_title_area_layout
-    })
+    @OnClick({R.id.home_title_search, R.id.home_title_user_cart, R.id.home_title_area_layout})
     public void onClick(View view) {
         if (antiShake.check(view.getId())) return;
         switch (view.getId()) {
@@ -405,7 +399,7 @@ public class HomeFragment extends BaseFragment {
                 break;
             case R.id.home_title_user_cart:
                 //已登录
-                if (GeneralUtils.isNotNullOrZeroLenght((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
+                if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
                     ((MainActivity) getActivity()).setCheckButton(2);
                 }
                 //未登录
@@ -422,94 +416,94 @@ public class HomeFragment extends BaseFragment {
         isFirst = true;
     }
 
-    /**
-     * 保存 app本地文件配置
-     */
-    public static void setShareApp(String key, Object object) {
-        SharedPreferences sp = ZcApplication.getPreferencesApp();
-        SharedPreferences.Editor editor = sp.edit();
-
-        if (object == null) return;
-        if (object instanceof String) {
-            editor.putString(key, (String) object);
-        } else if (object instanceof Integer) {
-            editor.putInt(key, (Integer) object);
-        } else if (object instanceof Boolean) {
-            editor.putBoolean(key, (Boolean) object);
-        } else if (object instanceof Float) {
-            editor.putFloat(key, (Float) object);
-        } else if (object instanceof Long) {
-            editor.putLong(key, (Long) object);
-        } else {
-            editor.putString(key, object.toString());
-        }
-
-        SharedPreferencesCompat.apply(editor);
-    }
-
-    /**
-     * 返回 app本地文件配置
-     */
-    public static Object getShareApp(String key, Object defaultObject) {
-        SharedPreferences sp = ZcApplication.getPreferencesApp();
-
-        if (defaultObject instanceof String) {
-            return sp.getString(key, (String) defaultObject);
-        } else if (defaultObject instanceof Integer) {
-            return sp.getInt(key, (Integer) defaultObject);
-        } else if (defaultObject instanceof Boolean) {
-            return sp.getBoolean(key, (Boolean) defaultObject);
-        } else if (defaultObject instanceof Float) {
-            return sp.getFloat(key, (Float) defaultObject);
-        } else if (defaultObject instanceof Long) {
-            return sp.getLong(key, (Long) defaultObject);
-        }
-
-        return null;
-    }
-
-    /**
-     * 创建一个解决SharedPreferencesCompat.apply方法的一个兼容类
-     *
-     * @author zhy
-     */
-    private static class SharedPreferencesCompat {
-        private static final Method sApplyMethod = findApplyMethod();
-
-        /**
-         * 反射查找apply的方法
-         *
-         * @return
-         */
-        @SuppressWarnings({"unchecked", "rawtypes"})
-        private static Method findApplyMethod() {
-            try {
-                Class clz = SharedPreferences.Editor.class;
-                return clz.getMethod("apply");
-            } catch (NoSuchMethodException e) {
-            }
-
-            return null;
-        }
-
-        /**
-         * 如果找到则使用apply执行，否则使用commit
-         *
-         * @param editor
-         */
-        public static void apply(SharedPreferences.Editor editor) {
-            try {
-                if (sApplyMethod != null) {
-                    sApplyMethod.invoke(editor);
-                    return;
-                }
-            } catch (IllegalArgumentException e) {
-            } catch (IllegalAccessException e) {
-            } catch (InvocationTargetException e) {
-            }
-            editor.commit();
-        }
-    }
+//    /**
+//     * 保存 app本地文件配置
+//     */
+//    public static void setShareApp(String key, Object object) {
+//        SharedPreferences sp = ZcApplication.getPreferencesApp();
+//        SharedPreferences.Editor editor = sp.edit();
+//
+//        if (object == null) return;
+//        if (object instanceof String) {
+//            editor.putString(key, (String) object);
+//        } else if (object instanceof Integer) {
+//            editor.putInt(key, (Integer) object);
+//        } else if (object instanceof Boolean) {
+//            editor.putBoolean(key, (Boolean) object);
+//        } else if (object instanceof Float) {
+//            editor.putFloat(key, (Float) object);
+//        } else if (object instanceof Long) {
+//            editor.putLong(key, (Long) object);
+//        } else {
+//            editor.putString(key, object.toString());
+//        }
+//
+//        SharedPreferencesCompat.apply(editor);
+//    }
+//
+//    /**
+//     * 返回 app本地文件配置
+//     */
+//    public static Object getShareApp(String key, Object defaultObject) {
+//        SharedPreferences sp = ZcApplication.getPreferencesApp();
+//
+//        if (defaultObject instanceof String) {
+//            return sp.getString(key, (String) defaultObject);
+//        } else if (defaultObject instanceof Integer) {
+//            return sp.getInt(key, (Integer) defaultObject);
+//        } else if (defaultObject instanceof Boolean) {
+//            return sp.getBoolean(key, (Boolean) defaultObject);
+//        } else if (defaultObject instanceof Float) {
+//            return sp.getFloat(key, (Float) defaultObject);
+//        } else if (defaultObject instanceof Long) {
+//            return sp.getLong(key, (Long) defaultObject);
+//        }
+//
+//        return null;
+//    }
+//
+//    /**
+//     * 创建一个解决SharedPreferencesCompat.apply方法的一个兼容类
+//     *
+//     * @author zhy
+//     */
+//    private static class SharedPreferencesCompat {
+//        private static final Method sApplyMethod = findApplyMethod();
+//
+//        /**
+//         * 反射查找apply的方法
+//         *
+//         * @return
+//         */
+//        @SuppressWarnings({"unchecked", "rawtypes"})
+//        private static Method findApplyMethod() {
+//            try {
+//                Class clz = SharedPreferences.Editor.class;
+//                return clz.getMethod("apply");
+//            } catch (NoSuchMethodException e) {
+//            }
+//
+//            return null;
+//        }
+//
+//        /**
+//         * 如果找到则使用apply执行，否则使用commit
+//         *
+//         * @param editor
+//         */
+//        public static void apply(SharedPreferences.Editor editor) {
+//            try {
+//                if (sApplyMethod != null) {
+//                    sApplyMethod.invoke(editor);
+//                    return;
+//                }
+//            } catch (IllegalArgumentException e) {
+//            } catch (IllegalAccessException e) {
+//            } catch (InvocationTargetException e) {
+//            }
+//            editor.commit();
+//        }
+//    }
 }
 
 

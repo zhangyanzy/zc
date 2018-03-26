@@ -3,12 +3,14 @@ package cn.zhaocaiapp.zc_app_android.views.common;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.transition.Transition;
@@ -20,10 +22,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 
 import com.google.gson.Gson;
 import com.jph.takephoto.model.TResult;
@@ -68,7 +69,6 @@ import cn.zhaocaiapp.zc_app_android.widget.OnTransitionListener;
 import cn.zhaocaiapp.zc_app_android.widget.SampleFullPlayer;
 import pub.devrel.easypermissions.EasyPermissions;
 
-
 public class ActivityDetailActivity extends BasePhotoActivity implements EasyPermissions.PermissionCallbacks {
     @BindView(R.id.iv_top_back)
     ImageView iv_back;
@@ -80,8 +80,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     WebView activity_detail_webView;
     @BindView(R.id.vp_player)
     SampleFullPlayer vp_player;
-    @BindView(R.id.layout_player)
-    FrameLayout layout_player;
+
 
     private View rootView;
     private PhotoHelper photoHelper;
@@ -104,13 +103,17 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     private ImageView backBut;//返回键
     private View startBut;//播放键
     private TextView vp_title;//视频标题
+    private ImageView fullBut;//全屏键
 
     private Transition transition;
     private OrientationUtils orientationUtils;
+    private boolean isTransition;
+    private Runnable runnable;
+
     private boolean isPlay; //是否正在播放
     private boolean isPause;//是否暂停
-    private boolean isPrepared;//是否准别好视频资源
-    private Runnable runnable;
+    private boolean isPrepared;//是否准备好视频资源
+
 
     @Override
     public int getContentViewResId() {
@@ -165,32 +168,6 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
     }
 
-    //初始化播放器控件
-    private void initPlayer() {
-        //显示视频标题
-        vp_title = vp_player.getTitleTextView();
-        vp_title.setVisibility(View.VISIBLE);
-        //设置返回键
-        backBut = vp_player.getBackButton();
-        backBut.setVisibility(View.VISIBLE);
-        //设置播放键
-        startBut = vp_player.getStartButton();
-        startBut.setVisibility(View.VISIBLE);
-
-        //外部辅助的旋转，帮助全屏
-        orientationUtils = new OrientationUtils(this, vp_player);
-        //初始化不打开外部的旋转
-        orientationUtils.setEnable(false);
-
-        backBut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-    }
-
     //预留给js调用的回调
     class JavaScriptInterfaces {
         /**
@@ -204,7 +181,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             //活动详情id
             params.put("id", activityId + "");
             //用戶token
-            params.put("token", (String) SpUtils.get(Constants.SPREF.TOKEN, ""));
+            params.put("token", (String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.TOKEN, ""));
             params.put("type", "0");
             //手机唯一识别码
             params.put("deviceUUID", DeviceUtil.getDeviceModel());
@@ -225,7 +202,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         public String getUser() {
             Map<String, String> params = new HashMap<>();
             //用戶token
-            params.put("token", (String) SpUtils.get(Constants.SPREF.TOKEN, ""));
+            params.put("token", (String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.TOKEN, ""));
             EBLog.i(TAG, GsonHelper.toJson(params));
 
             return GsonHelper.toJson(params);
@@ -249,7 +226,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         //跳轉登錄
         @JavascriptInterface
         public void goLogin() {
-            if (!(boolean) SpUtils.get(Constants.SPREF.IS_LOGIN, false))
+            if (!(boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false))
                 turoToLogin();
         }
 
@@ -264,12 +241,105 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         public void enterFull(String url, float time) {
             EBLog.i(TAG, "url---" + url + "time---" + time);
 
-//            //初始化播放器控件
-//            initPlayer();
-//            //初始化过渡动画
-//            initTransition();
-//            setPlayer(url, time);
+            isTransition = true;
+            vp_player.setUp(url, false, activityTitle);
+            //初始化播放器控件
+            initPlayer();
+            showPlayer(url, time);
         }
+    }
+
+    //分享活动
+    private void shareActivity(String webUrl) {
+        String shareDesc = getString(R.string.share_desc);
+        ShareUtil.init(this)
+                .setUrl(webUrl)
+                .setSourceId(R.mipmap.icon_launcher)
+                .setTitle(activityTitle)
+                .setDesc(shareDesc);
+        ShareUtil.openShare();
+    }
+
+    //初始化播放器控件
+    private void initPlayer() {
+        //显示视频标题
+        vp_title = vp_player.getTitleTextView();
+        vp_title.setVisibility(View.VISIBLE);
+        //设置返回键
+        backBut = vp_player.getBackButton();
+        backBut.setVisibility(View.VISIBLE);
+        //设置播放键
+        startBut = vp_player.getStartButton();
+        startBut.setVisibility(View.VISIBLE);
+        //设置全屏键
+        fullBut = vp_player.getFullscreenButton();
+        fullBut.setVisibility(View.VISIBLE);
+
+        //外部辅助的旋转，帮助全屏
+        orientationUtils = new OrientationUtils(this, vp_player);
+        //初始化不打开外部的旋转
+        orientationUtils.setEnable(false);
+
+        backBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        fullBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (vp_player.isIfCurrentIsFullscreen()) {
+                    onBackPressed();
+                } else {   //未全屏
+                    //直接横屏全屏
+                    orientationUtils.resolveByClick();
+                }
+            }
+        });
+    }
+
+    //显示全屏播放器
+    private void showPlayer(String url, float time) {
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                vp_player.setVisibility(View.VISIBLE);
+                EBLog.i(TAG, "切换至UI线程播放视频");
+            }
+        };
+        ActivityDetailActivity.this.runOnUiThread(runnable);
+        //初始化过渡动画
+        initTransition();
+    }
+
+    //初始化过渡动画
+    private void initTransition() {
+        if (isTransition && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            postponeEnterTransition();
+            ViewCompat.setTransitionName(vp_player, IMG_TRANSITION);
+            addTransitionListener();
+            startPostponedEnterTransition();
+        } else {
+            vp_player.startPlayLogic();
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private boolean addTransitionListener() {
+        transition = getWindow().getSharedElementEnterTransition();
+        if (transition != null) {
+            transition.addListener(new OnTransitionListener(){
+                @Override
+                public void onTransitionEnd(Transition transition) {
+                    super.onTransitionEnd(transition);
+                    vp_player.startPlayLogic();
+                    transition.removeListener(this);
+                }
+            });
+            return true;
+        }
+        return false;
     }
 
     //开始全屏播放
@@ -281,7 +351,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
                 .setShowFullAnimation(true)
                 .setUrl(url)
                 .setCacheWithPlay(false)
-                .setSeekOnStart((int)(time * 1000L))
+                .setSeekOnStart((int) (time * 1000L))
                 .setCacheWithPlay(false)
                 .setVideoTitle(activityTitle)
                 .setVideoAllCallBack(new GSYSampleCallBack() {
@@ -342,73 +412,13 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
                 })
                 .setStartAfterPrepared(true)
                 .build(vp_player);
-
-        vp_player.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (vp_player.isIfCurrentIsFullscreen()) {
-                    onBackPressed();
-                } else {   //未全屏
-                    //直接横屏
-                    orientationUtils.resolveByClick();
-                    //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
-                    vp_player.startWindowFullscreen(ActivityDetailActivity.this, true, true);
-                }
-            }
-        });
     }
 
-    //初始化过度动画
-    private void initTransition() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            postponeEnterTransition();
-            ViewCompat.setTransitionName(vp_player, IMG_TRANSITION);
-            addTransitionListener();
-            startPostponedEnterTransition();
-        } else {
-            vp_player.startPlayLogic();
+    private GSYVideoPlayer getCurPlay() {
+        if (vp_player.getFullWindowPlayer() != null) {
+            return vp_player.getFullWindowPlayer();
         }
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private boolean addTransitionListener() {
-        transition = getWindow().getSharedElementEnterTransition();
-        if (transition != null) {
-            transition.addListener(new OnTransitionListener() {
-                @Override
-                public void onTransitionEnd(Transition transition) {
-                    super.onTransitionEnd(transition);
-                    vp_player.startPlayLogic();
-                    transition.removeListener(this);
-                }
-            });
-            return true;
-        }
-        return false;
-    }
-
-    //分享活动
-    private void shareActivity(String webUrl) {
-        String shareDesc = getString(R.string.share_desc);
-        ShareUtil.init(this)
-                .setUrl(webUrl)
-                .setSourceId(R.mipmap.icon_launcher)
-                .setTitle(activityTitle)
-                .setDesc(shareDesc);
-        ShareUtil.openShare();
-    }
-
-    private void setPlayer(String url, float time) {
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                layout_player.setVisibility(View.VISIBLE);
-                EBLog.i(TAG, "切换UI线程播放视频");
-
-                startPlayer(url, time);
-            }
-        };
-        ActivityDetailActivity.this.runOnUiThread(runnable);
+        return vp_player;
     }
 
     @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
@@ -561,47 +571,48 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
     }
 
-    private GSYVideoPlayer getCurPlay() {
-        if (vp_player.getFullWindowPlayer() != null) {
-            return vp_player.getFullWindowPlayer();
-        }
-        return vp_player;
-    }
-
     @Override
     public void onBackPressed() {
-        if (orientationUtils != null) {
-            orientationUtils.backToProtVideo();
-        }
-        if (GSYVideoManager.backFromWindowFull(this)) {
+        //先返回正常状态
+        if (orientationUtils.getScreenType() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            vp_player.getFullscreenButton().performClick();
             return;
         }
-        super.onBackPressed();
+        //释放所有
+        vp_player.setVideoAllCallBack(null);
+        GSYVideoManager.releaseAllVideos();
+        if (isTransition && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            super.onBackPressed();
+        } else {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    finish();
+                    overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
+                }
+            }, 500);
+        }
     }
-
 
     @Override
     protected void onPause() {
-        getCurPlay().onVideoPause();
         super.onPause();
-        isPause = true;
+        vp_player.onVideoPause();
     }
 
     @Override
     protected void onResume() {
-        getCurPlay().onVideoResume(false);
         super.onResume();
-        isPause = false;
+        vp_player.onVideoResume();
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     protected void onDestroy() {
         super.onDestroy();
         shareAPI.release();
-        if (isPlay) {
-            getCurPlay().release();
-        }
         if (orientationUtils != null)
             orientationUtils.releaseListener();
     }
+
 }

@@ -377,7 +377,7 @@ public class UserInfoFragment extends BaseFragment {
                 if (GeneralUtils.isNotNullOrZeroLenght(s)) {
                     imgUrl = s;
                     PictureLoadUtil.loadPicture(getActivity(), imgUrl, iv_user_photo);
-                    SpUtils.put(Constants.SPREF.USER_PHOTO, imgUrl);
+                    SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.USER_PHOTO, imgUrl);
                 } else ToastUtil.makeText(getActivity(), getString(R.string.avater_upload_failure));
             }
 
@@ -447,7 +447,7 @@ public class UserInfoFragment extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == ChangePhoneActivity.RESULT_CODE) {
             String phone = data.getStringExtra("phone");
-            SpUtils.put(Constants.SPREF.USER_PHONE, phone);
+            SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.USER_PHONE, phone);
             edit_user_phone.setText(phone);
         }
     }

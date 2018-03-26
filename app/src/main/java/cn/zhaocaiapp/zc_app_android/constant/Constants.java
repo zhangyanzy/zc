@@ -298,7 +298,7 @@ public interface Constants {
         /**
          * 保存在手机里面的文件名 用户有关
          */
-        String FILE_NAME = "share_data";
+        String FILE_USER_NAME = "share_data";
         /**
          * 保存在手机里面的文件名 应用有关
          */

@@ -193,14 +193,14 @@ public class LoginActivity extends BaseFragmentActivity {
 
     //保存用户数据
     private void saveUserData(LoginResp loginResp) {
-        SpUtils.put(Constants.SPREF.TOKEN, loginResp.getToken());
-        SpUtils.put(Constants.SPREF.IS_LOGIN, true);
-        SpUtils.put(Constants.SPREF.LOGIN_MODE, loginResp.getType());
-        SpUtils.put(Constants.SPREF.USER_PHOTO, loginResp.getAvatar());
-        SpUtils.put(Constants.SPREF.NICK_NAME, loginResp.getNickname());
-        SpUtils.put(Constants.SPREF.USER_PHONE, loginResp.getPhone());
-        SpUtils.put(Constants.SPREF.USER_ID, loginResp.getKid());
-        SpUtils.put(Constants.SPREF.ALIAS, loginResp.getAlias());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.TOKEN, loginResp.getToken());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.IS_LOGIN, true);
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.LOGIN_MODE, loginResp.getType());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.USER_PHOTO, loginResp.getAvatar());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.NICK_NAME, loginResp.getNickname());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.USER_PHONE, loginResp.getPhone());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.USER_ID, loginResp.getKid());
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.ALIAS, loginResp.getAlias());
     }
 
     //检测是否安装三方应用

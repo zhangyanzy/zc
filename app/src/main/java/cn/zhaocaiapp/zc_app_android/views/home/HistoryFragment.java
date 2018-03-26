@@ -130,10 +130,10 @@ public class HistoryFragment extends BaseFragment implements OnRefreshListener, 
         params.put("sortType", String.valueOf(sortType));
         params.put("longitude", longitude);
         params.put("latitude", latitude);
-        if ((int) SpUtils.get(Constants.SPREF.ACTIVITY_RANGE, 0) == 0) {
+        if ((int) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.ACTIVITY_RANGE, 0) == 0) {
             params.put("cityCode", "");
         } else {
-            params.put("cityCode", (String) SpUtils.get(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE));
+            params.put("cityCode", (String) SpUtils.init(Constants.SPREF.FILE_APP_NAME).get(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE));
         }
         EBLog.i(TAG, params.toString());
 

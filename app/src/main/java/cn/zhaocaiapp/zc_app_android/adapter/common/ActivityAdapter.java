@@ -155,7 +155,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             holder.activity_item_text_area_text.setText(areaText > 1000 ? String.format("%.1f", (areaText / 1000)) + "km" : String.format("%.1f", (areaText)) + "m");
         }
         //收藏
-        if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, "")) && list.get(position).getFollow()) {
+        if (GeneralUtils.isNotNull((String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.TOKEN, "")) && list.get(position).getFollow()) {
             holder.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
         } else {
             holder.activity_item_text_collection.setImageResource(R.mipmap.collection_off);
@@ -217,7 +217,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             public void onClick(View v) {
                 if (antiShake.check(v.getId())) return;
                 //未登录
-                if (GeneralUtils.isNotNull((String) SpUtils.get(Constants.SPREF.TOKEN, ""))) {
+                if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
                     //已经收藏
                     if (list.get(position).getFollow()) {
                         //取消收藏

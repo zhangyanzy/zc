@@ -166,10 +166,7 @@ public class SearchActivity extends BaseActivity {
             public void error(Response<List<SearchRecommendResp>> response) {
                 EBLog.i("tag", response.toString());
             }
-
         });
-
-
     }
 
     private void initView() {
@@ -250,14 +247,15 @@ public class SearchActivity extends BaseActivity {
             //内容改变
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                onMoney(5);
-
+//                onMoney(5);
             }
 
             //内容改变后
             @Override
             public void afterTextChanged(Editable s) {
                 topLimit = String.valueOf(s);
+                activityMoney = "";
+                setButMoneyStyle();
             }
         });
 
@@ -272,14 +270,15 @@ public class SearchActivity extends BaseActivity {
             //内容改变
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                onMoney(5);
-
+//                onMoney(5);
             }
 
             //内容改变后
             @Override
             public void afterTextChanged(Editable s) {
                 limit = String.valueOf(s);
+                activityMoney = "";
+                setButMoneyStyle();
             }
         });
     }
@@ -296,6 +295,8 @@ public class SearchActivity extends BaseActivity {
         bd.putString("limit", limit);
         bd.putString("cityCode", city == 0 ? "" : String.valueOf(city));
         bd.putString("areaCode", town == 0 ? "" : String.valueOf(town));
+
+        EBLog.i("搜索条件", "limit---"+ limit + "/toplimit---" + topLimit);
         openActivity(SearchResulfActivity.class, bd);
     }
 
@@ -325,7 +326,7 @@ public class SearchActivity extends BaseActivity {
         if (GeneralUtils.isNullOrZeroLenght(content)) {
             return;
         }
-        List<String> stringList = new ArrayList(GeneralUtils.stringToList((String) SpUtils.get(Constants.SPREF.SEARCH_HISTORY, "")));
+        List<String> stringList = new ArrayList(GeneralUtils.stringToList((String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.SEARCH_HISTORY, "")));
         //排除重复
         for (int i = 0; i < stringList.size(); i++) {
             if (content.equals(stringList.get(i))) {
@@ -334,7 +335,7 @@ public class SearchActivity extends BaseActivity {
         }
         //添加
         stringList.add(content);
-        SpUtils.put(Constants.SPREF.SEARCH_HISTORY, GeneralUtils.listToString(stringList));
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.SEARCH_HISTORY, GeneralUtils.listToString(stringList));
         getHistory();
     }
 
@@ -342,7 +343,7 @@ public class SearchActivity extends BaseActivity {
      * 获取历史记录
      */
     private void getHistory() {
-        List<String> stringList = new ArrayList(GeneralUtils.stringToList((String) SpUtils.get(Constants.SPREF.SEARCH_HISTORY, "")));
+        List<String> stringList = new ArrayList(GeneralUtils.stringToList((String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.SEARCH_HISTORY, "")));
 
         List<String> stringList1 = new ArrayList<>();
         for (int i = stringList.size() - 1; i >= 0 && stringList1.size() < 10; i--) {
@@ -365,7 +366,7 @@ public class SearchActivity extends BaseActivity {
      * 清除搜索历史
      */
     private void clearHistory() {
-        SpUtils.put(Constants.SPREF.SEARCH_HISTORY, "");
+        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.SEARCH_HISTORY, "");
         historyList.clear();
         if (historyList.size() == 0) {
             layout_history.setVisibility(View.GONE);
@@ -385,27 +386,10 @@ public class SearchActivity extends BaseActivity {
         }
     }
 
-    @OnClick({
-            R.id.search_cancel,
-            R.id.search_clear,
-            R.id.activity_class_0,
-            R.id.activity_class_1,
-            R.id.activity_class_2,
-            R.id.activity_type_0,
-            R.id.activity_type_1,
-            R.id.activity_type_2,
-            R.id.search_money_0,
-            R.id.search_money_1,
-            R.id.search_money_2,
-            R.id.search_money_3,
-            R.id.search_money_4,
-            R.id.search_city,
-            R.id.search_town,
-            R.id.search_history_clear,
-            R.id.search_btn_on,
-            R.id.search_btn_off,
-
-    })
+    @OnClick({R.id.search_cancel, R.id.search_clear, R.id.activity_class_0, R.id.activity_class_1, R.id.activity_class_2,
+            R.id.activity_type_0, R.id.activity_type_1, R.id.activity_type_2, R.id.search_money_0, R.id.search_money_1,
+            R.id.search_money_2, R.id.search_money_3, R.id.search_money_4, R.id.search_city, R.id.search_town, R.id.search_history_clear,
+            R.id.search_btn_on, R.id.search_btn_off,})
     public void onClick(View view) {
         switch (view.getId()) {
             //返回
@@ -483,7 +467,6 @@ public class SearchActivity extends BaseActivity {
             case R.id.search_btn_off:
                 goClear();
                 break;
-
         }
     }
 
@@ -504,7 +487,6 @@ public class SearchActivity extends BaseActivity {
             case 3:
                 activityType = "";
                 break;
-
         }
         if (activityType.equals("0")) {
             activity_class_0.setTextColor(this.getResources().getColor(R.color.colorPrimary));
@@ -609,7 +591,11 @@ public class SearchActivity extends BaseActivity {
             topLimit = "";
             limit = "";
         }
+        setButMoneyStyle();
+    }
 
+    //设置金钱搜索按钮的样式
+    private void setButMoneyStyle(){
         if (activityMoney.equals("0")) {
             search_money_0.setTextColor(this.getResources().getColor(R.color.colorPrimary));
             search_money_0.setBackground(this.getResources().getDrawable(R.drawable.search_class_on));
@@ -645,7 +631,6 @@ public class SearchActivity extends BaseActivity {
             search_money_4.setTextColor(this.getResources().getColor(R.color.colorFont6));
             search_money_4.setBackground(this.getResources().getDrawable(R.drawable.search_class_off));
         }
-
     }
 
     //城市选择器初始化和设置

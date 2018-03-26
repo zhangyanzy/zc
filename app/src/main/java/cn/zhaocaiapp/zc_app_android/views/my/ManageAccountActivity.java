@@ -223,7 +223,7 @@ public class ManageAccountActivity extends BaseActivity {
             case R.id.layout_bank://银行卡账户
                 type = 2;
                 if (account.getBankIs()) showDialog(false);
-                else if (!(boolean) SpUtils.get(Constants.SPREF.IS_CERTIFICATION, false))
+                else if (!(boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_CERTIFICATION, false))
                     showDialog(true);
                 else openActivityForResult(BindCardActivity.class, REQUEST_CODE);
                 break;

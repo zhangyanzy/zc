@@ -102,7 +102,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         holder.item_text_number_progress.setProgress((int) account);
         //活动奖励金额
         holder.item_text_reward.setText(GeneralUtils.getBigDecimalToTwo(activity.getRewardAmount()));
-        if ((boolean) SpUtils.get(Constants.SPREF.IS_LOGIN, false)) {
+        if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
             if (activity.getFollow())
                 holder.item_text_collection.setImageResource(R.mipmap.collection_on);
             else

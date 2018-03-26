@@ -65,7 +65,7 @@ public class AboutUsActivity extends BaseActivity {
     }
 
     private void initDate() {
-        String url = String.format(Constants.URL.ABOUT_US, (long) SpUtils.get(Constants.SPREF.USER_ID, 0l));
+        String url = String.format(Constants.URL.ABOUT_US, (long) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.USER_ID, 0l));
         HttpUtil.get(url).subscribe(new BaseResponseObserver<AboutAUsResp>() {
 
             @Override

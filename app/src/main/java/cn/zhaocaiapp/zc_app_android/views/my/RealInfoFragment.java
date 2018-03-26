@@ -216,7 +216,7 @@ public class RealInfoFragment extends BaseFragment {
                 ToastUtil.makeText(getActivity(), commonResp.getDesc());
                 realInfoBean.setRealInfoAuditStatus(1);
                 tv_identify_state.setText("待审核");
-                SpUtils.put(Constants.SPREF.IS_CERTIFICATION, false);
+                SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.IS_CERTIFICATION, false);
             }
 
             @Override
@@ -287,7 +287,7 @@ public class RealInfoFragment extends BaseFragment {
         }, new OnBtnClickL() {
             @Override
             public void onBtnClick() {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + SpUtils.get(Constants.SPREF.SERVICE_PHONE, "")));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.SERVICE_PHONE, "")));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getActivity().startActivity(intent);
                 dialog.dismiss();

@@ -65,7 +65,7 @@ public class HttpUtil {
      * @return
      */
     public static Observable get(String url) {
-        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        USER_TOKEN = (String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.TOKEN, "");
         EBLog.i("tag", "USER_TOKEN：" + USER_TOKEN);
         return http.get(url, USER_TOKEN)
                 .subscribeOn(Schedulers.io())
@@ -81,7 +81,7 @@ public class HttpUtil {
      * @return
      */
     public static Observable get(String url, Map params) {
-        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        USER_TOKEN = (String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.TOKEN, "");
         EBLog.i("tag", "USER_TOKEN：" + USER_TOKEN);
         return http.get(url, USER_TOKEN, params)
                 .subscribeOn(Schedulers.io())
@@ -96,7 +96,7 @@ public class HttpUtil {
      * @return
      */
     public static Observable post(String url) {
-        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        USER_TOKEN = (String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.TOKEN, "");
         EBLog.i("tag", "USER_TOKEN：" + USER_TOKEN);
         return http.post(url, USER_TOKEN)
                 .subscribeOn(Schedulers.io())
@@ -112,7 +112,7 @@ public class HttpUtil {
      * @return
      */
     public static Observable post(String url, Map params) {
-        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        USER_TOKEN = (String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.TOKEN, "");
 //        EBLog.i("tag", "USER_TOKEN：" + USER_TOKEN);
         return http.post(url, USER_TOKEN, params)
                 .subscribeOn(Schedulers.io())
@@ -128,7 +128,7 @@ public class HttpUtil {
      * @return
      */
     public static Observable put(String url) {
-        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        USER_TOKEN = (String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.TOKEN, "");
         EBLog.i("tag", "USER_TOKEN：" + USER_TOKEN);
         return http.put(url, USER_TOKEN)
                 .subscribeOn(Schedulers.io())
@@ -143,7 +143,7 @@ public class HttpUtil {
      * @return
      */
     public static Observable put(String url, Object object) {
-        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        USER_TOKEN = (String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.TOKEN, "");
 //        EBLog.i("tag", "USER_TOKEN：" + USER_TOKEN);
         return http.put(url, USER_TOKEN, object)
                 .subscribeOn(Schedulers.io())
@@ -159,7 +159,7 @@ public class HttpUtil {
      * @return
      */
     public static Observable put(String url, Map params) {
-        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        USER_TOKEN = (String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.TOKEN, "");
 //        EBLog.i("tag", "USER_TOKEN：" + USER_TOKEN);
         return http.put(url, USER_TOKEN, params)
                 .subscribeOn(Schedulers.io())
@@ -174,7 +174,7 @@ public class HttpUtil {
      * @return
      */
     public static Observable delete(String url) {
-        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        USER_TOKEN = (String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.TOKEN, "");
 //        EBLog.i("tag", "USER_TOKEN：" + USER_TOKEN);
         return http.delete(url, USER_TOKEN)
                 .subscribeOn(Schedulers.io())
@@ -190,7 +190,7 @@ public class HttpUtil {
      * @return
      */
     public static Observable delete(String url, Map params) {
-        USER_TOKEN = (String) SpUtils.get(Constants.SPREF.TOKEN, "");
+        USER_TOKEN = (String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.TOKEN, "");
 //        EBLog.i("tag", "USER_TOKEN：" + USER_TOKEN);
         return http.delete(url, USER_TOKEN, params)
                 .subscribeOn(Schedulers.io())
