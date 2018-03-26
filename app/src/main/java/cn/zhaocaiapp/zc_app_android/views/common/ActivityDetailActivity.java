@@ -166,6 +166,8 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         //初始化扫描二维码组件
         ZXingLibrary.initDisplayOpinion(this);
 
+        //初始化播放器控件
+        initPlayer();
     }
 
     //预留给js调用的回调
@@ -243,8 +245,6 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
             isTransition = true;
             vp_player.setUp(url, false, activityTitle);
-            //初始化播放器控件
-            initPlayer();
             showPlayer(url, time);
         }
     }
@@ -306,11 +306,12 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             public void run() {
                 vp_player.setVisibility(View.VISIBLE);
                 EBLog.i(TAG, "切换至UI线程播放视频");
+
+                //初始化过渡动画
+                initTransition();
             }
         };
         ActivityDetailActivity.this.runOnUiThread(runnable);
-        //初始化过渡动画
-        initTransition();
     }
 
     //初始化过渡动画

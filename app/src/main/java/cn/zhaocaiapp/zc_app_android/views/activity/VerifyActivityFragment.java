@@ -68,6 +68,7 @@ public class VerifyActivityFragment extends BaseFragment implements OnRefreshLis
 
         adapter = new MyActivityAdapter(getActivity(), activitys, MyActivityAdapter.MYACTIVITY_VERIFY);
         list.setAdapter(adapter);
+        adapter.setOnItemClickListener(listener);
     }
 
     //加载活动列表
