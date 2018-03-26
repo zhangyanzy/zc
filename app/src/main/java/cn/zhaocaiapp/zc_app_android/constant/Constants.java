@@ -227,7 +227,10 @@ public interface Constants {
         * 收入分享
         * */
         String INCOME_SHARE = "/my/income?income=%s";
-
+        /**
+         *提现校验密码
+         * */
+        String WITHDRAW_VERIFU_PASS = "/userinfo/check/witdraw/password";
 
 
         /**

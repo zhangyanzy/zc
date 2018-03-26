@@ -583,7 +583,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         vp_player.setVideoAllCallBack(null);
         GSYVideoManager.releaseAllVideos();
         if (isTransition && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            super.onBackPressed();
+            goBack();
         } else {
             new Handler().postDelayed(new Runnable() {
                 @Override
