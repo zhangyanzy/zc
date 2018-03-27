@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="30dp"
-    android:background="@color/colorWhite">
+    android:background="@color/colorWhite"
+    android:paddingBottom="30dp">
 
     <include layout="@layout/layout_top_title" />
 
@@ -21,7 +21,7 @@
             android:layout_marginTop="25dp"
             android:text="100"
             android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_22" />
+            android:textSize="@dimen/font_size_24" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,33 +51,34 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/layout_balance"
         android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="100dp"
         android:layout_marginTop="50dp"
         android:background="@null"
         android:hint="@string/input_cash"
-        android:paddingRight="65dp"
         android:singleLine="true"
         android:textColor="@color/colorFont6"
         android:textColorHint="@color/colorFont9"
         android:textSize="@dimen/font_size_14" />
-
-    <View
-        style="@style/horizontal_F0_line"
-        android:layout_alignEnd="@+id/edit_apply_cash"
-        android:layout_alignStart="@+id/edit_apply_cash"
-        android:layout_below="@+id/edit_apply_cash" />
 
     <TextView
         android:id="@+id/tv_withdraw_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/edit_apply_cash"
-        android:layout_alignEnd="@+id/edit_apply_cash"
+        android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/edit_apply_cash"
+        android:layout_marginRight="30dp"
         android:gravity="center_vertical"
         android:text="@string/withdraw_all"
         android:textColor="@color/colorFont6"
         android:textSize="@dimen/font_size_14" />
+
+    <View
+        style="@style/horizontal_F0_line"
+        android:layout_alignEnd="@+id/tv_withdraw_all"
+        android:layout_alignStart="@+id/edit_apply_cash"
+        android:layout_below="@+id/edit_apply_cash"
+        android:layout_marginTop="5dp" />
 
     <TextView
         android:id="@+id/tv_withdraw_limit"
@@ -85,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/edit_apply_cash"
         android:layout_below="@+id/edit_apply_cash"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:text="@string/withdraw_min_limit"
         android:textColor="@color/colorFont6"
         android:textSize="@dimen/font_size_14" />

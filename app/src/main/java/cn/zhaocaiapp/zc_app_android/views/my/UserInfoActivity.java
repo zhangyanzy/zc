@@ -115,6 +115,9 @@ public class UserInfoActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
+            //处理view pager切换时，软键盘隐藏
+            if (KeyBoardUtils.isKeyBordVisiable(UserInfoActivity.this))
+                KeyBoardUtils.closeKeybord(tv_top_titlel, UserInfoActivity.this);
             return fragments.get(position);
         }
 

@@ -90,7 +90,6 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
     private static final String TAG = "H5详情页";
     private static final int REQUEST_CODE = 2001;
-    public final static String TRANSITION = "TRANSITION";
     public final static String IMG_TRANSITION = "IMG_TRANSITION";
 
     private String activityUrl = "/activity/detail?id=%s"; // 分享活動url
@@ -107,7 +106,6 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
     private Transition transition;
     private OrientationUtils orientationUtils;
-    private boolean isTransition;
     private Runnable runnable;
 
     private boolean isPlay; //是否正在播放
@@ -241,9 +239,8 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
         @JavascriptInterface
         public void enterFull(String url, float time) {
-            EBLog.i(TAG, "url---" + url + "time---" + time);
+            EBLog.i(TAG, "url---" + url + "\n time---" + time);
 
-            isTransition = true;
             vp_player.setUp(url, false, activityTitle);
             showPlayer(url, time);
         }
@@ -276,7 +273,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         fullBut.setVisibility(View.VISIBLE);
 
         //外部辅助的旋转，帮助全屏
-        orientationUtils = new OrientationUtils(this, vp_player);
+        orientationUtils = new OrientationUtils(ActivityDetailActivity.this, vp_player);
         //初始化不打开外部的旋转
         orientationUtils.setEnable(false);
 
@@ -286,6 +283,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
                 onBackPressed();
             }
         });
+
         fullBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -305,6 +303,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             @Override
             public void run() {
                 vp_player.setVisibility(View.VISIBLE);
+                orientationUtils.setEnable(true);
                 EBLog.i(TAG, "切换至UI线程播放视频");
 
                 //初始化过渡动画
@@ -316,7 +315,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
     //初始化过渡动画
     private void initTransition() {
-        if (isTransition && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             postponeEnterTransition();
             ViewCompat.setTransitionName(vp_player, IMG_TRANSITION);
             addTransitionListener();
@@ -330,7 +329,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     private boolean addTransitionListener() {
         transition = getWindow().getSharedElementEnterTransition();
         if (transition != null) {
-            transition.addListener(new OnTransitionListener(){
+            transition.addListener(new OnTransitionListener() {
                 @Override
                 public void onTransitionEnd(Transition transition) {
                     super.onTransitionEnd(transition);
@@ -582,17 +581,8 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         //释放所有
         vp_player.setVideoAllCallBack(null);
         GSYVideoManager.releaseAllVideos();
-        if (isTransition && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            goBack();
-        } else {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    finish();
-                    overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
-                }
-            }, 500);
-        }
+        goBack();
+
     }
 
     @Override

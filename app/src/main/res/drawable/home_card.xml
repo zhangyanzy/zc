@@ -4,38 +4,39 @@
     <!-- 个人觉得更形象的表达：top代表下边的阴影高度，left代表右边的阴影宽度。其实也就是相对应的offset，solid中的颜色是阴影的颜色，也可以设置角度等等 -->
     <item
         android:bottom="0dp"
-        android:left="1dp"
-        android:right="0dp"
-        android:top="10dp">
+        android:left="2dp"
+        android:right="2dp"
+        android:top="0dp">
 
         <shape android:shape="rectangle">
             <gradient
-                android:angle="270"
-                android:endColor="#83edecec" />
+                android:angle="90"
+                android:endColor="#8ef4bf74"
+                android:type="linear"/>
             <corners
-                android:bottomLeftRadius="10dip"
-                android:bottomRightRadius="10dip"
-                android:topLeftRadius="10dip"
-                android:topRightRadius="10dip" />
+                android:bottomLeftRadius="8dip"
+                android:bottomRightRadius="8dip"
+                android:topLeftRadius="2dip"
+                android:topRightRadius="2dip" />
         </shape>
     </item>
     <!-- 背景部分 -->
     <!-- 形象的表达：bottom代表背景部分在上边缘超出阴影的高度，right代表背景部分在左边超出阴影的宽度（相对应的offset） -->
-    <item
-        android:bottom="10dp"
-        android:left="0dp"
-        android:right="1dp"
-        android:top="0dp">
-        <shape android:shape="rectangle">
-            <gradient
-                android:angle="270"
-                android:endColor="#f3fdf5e7"
-                android:startColor="#f3fdf5e7"/>
-            <corners
-                android:bottomLeftRadius="10dip"
-                android:bottomRightRadius="10dip"
-                android:topLeftRadius="10dip"
-                android:topRightRadius="10dip" />
-        </shape>
-    </item>
+    <!--<item-->
+        <!--android:bottom="10dp"-->
+        <!--android:left="0dp"-->
+        <!--android:right="0dp"-->
+        <!--android:top="0dp">-->
+        <!--<shape android:shape="rectangle">-->
+            <!--<gradient-->
+                <!--android:angle=""-->
+                <!--android:endColor="#f3fdf5e7"-->
+                <!--android:startColor="#f3fdf5e7"/>-->
+            <!--<corners-->
+                <!--android:bottomLeftRadius="10dip"-->
+                <!--android:bottomRightRadius="10dip"-->
+                <!--android:topLeftRadius="10dip"-->
+                <!--android:topRightRadius="10dip" />-->
+        <!--</shape>-->
+    <!--</item>-->
 </layer-list>
