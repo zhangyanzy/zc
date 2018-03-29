@@ -185,7 +185,7 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_top_edit:
-                finish();
+                ActivityUtil.finishActivity(this);
                 break;
             case R.id.iv_top_back:
                 ActivityUtil.finishActivity(lastActivity);

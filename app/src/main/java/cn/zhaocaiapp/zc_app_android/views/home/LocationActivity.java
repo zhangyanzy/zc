@@ -69,7 +69,6 @@ import cn.zhaocaiapp.zc_app_android.util.SpUtils;
  * @data 2018-01-15 13:36
  */
 public class LocationActivity extends BaseActivity {
-
     @BindView(R.id.home_location_recycler)
     RecyclerView home_location_recycler;
     @BindView(R.id.indexBar)

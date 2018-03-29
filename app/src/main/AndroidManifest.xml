@@ -82,7 +82,7 @@
             android:name=".views.common.ActivityDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:hardwareAccelerated="false">
+            android:hardwareAccelerated="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

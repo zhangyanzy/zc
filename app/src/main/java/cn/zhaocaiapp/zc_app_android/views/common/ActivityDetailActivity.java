@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.transition.Transition;
@@ -23,7 +22,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -32,7 +30,6 @@ import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
 import com.shuyu.gsyvideoplayer.listener.GSYVideoProgressListener;
-import com.shuyu.gsyvideoplayer.listener.LockClickListener;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
 import com.umeng.socialize.UMShareAPI;
@@ -66,7 +63,7 @@ import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.widget.OnTransitionListener;
-import cn.zhaocaiapp.zc_app_android.widget.SampleFullPlayer;
+import cn.zhaocaiapp.zc_app_android.widget.SampleControlPlayer;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class ActivityDetailActivity extends BasePhotoActivity implements EasyPermissions.PermissionCallbacks {
@@ -79,7 +76,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     @BindView(R.id.activity_detail_webView)
     WebView activity_detail_webView;
     @BindView(R.id.vp_player)
-    SampleFullPlayer vp_player;
+    SampleControlPlayer vp_player;
 
 
     private View rootView;
@@ -158,14 +155,15 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             }
         });
 
+        //初始化播放器控件
+        initPlayer();
+
         //初始化takephoto
         photoHelper = PhotoHelper.of(rootView, true);
 
         //初始化扫描二维码组件
         ZXingLibrary.initDisplayOpinion(this);
 
-        //初始化播放器控件
-        initPlayer();
     }
 
     //预留给js调用的回调
@@ -241,7 +239,9 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         public void enterFull(String url, float time) {
             EBLog.i(TAG, "url---" + url + "\n time---" + time);
 
-            vp_player.setUp(url, false, activityTitle);
+//            vp_player.setUrl(url, false, activityTitle);
+            //初始化过渡动画
+            initTransition();
             showPlayer(url, time);
         }
     }
@@ -275,7 +275,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         //外部辅助的旋转，帮助全屏
         orientationUtils = new OrientationUtils(ActivityDetailActivity.this, vp_player);
         //初始化不打开外部的旋转
-        orientationUtils.setEnable(false);
+        orientationUtils.setEnable(true);
 
         backBut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -289,9 +289,6 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             public void onClick(View v) {
                 if (vp_player.isIfCurrentIsFullscreen()) {
                     onBackPressed();
-                } else {   //未全屏
-                    //直接横屏全屏
-                    orientationUtils.resolveByClick();
                 }
             }
         });
@@ -303,11 +300,9 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             @Override
             public void run() {
                 vp_player.setVisibility(View.VISIBLE);
-                orientationUtils.setEnable(true);
+                orientationUtils.resolveByClick();
+                startPlayer(url, time);
                 EBLog.i(TAG, "切换至UI线程播放视频");
-
-                //初始化过渡动画
-                initTransition();
             }
         };
         ActivityDetailActivity.this.runOnUiThread(runnable);
@@ -347,21 +342,19 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         GSYVideoOptionBuilder gsyVideoOption = new GSYVideoOptionBuilder();
         gsyVideoOption.setIsTouchWigetFull(false)
                 .setRotateViewAuto(false)
-                .setLockLand(true)
+                .setLockLand(false)
                 .setShowFullAnimation(true)
                 .setUrl(url)
                 .setCacheWithPlay(false)
-                .setSeekOnStart((int) (time * 1000L))
-                .setCacheWithPlay(false)
+                .setSeekOnStart((long) (time * 1000L))
                 .setVideoTitle(activityTitle)
                 .setVideoAllCallBack(new GSYSampleCallBack() {
                     @Override
                     public void onPrepared(String url, Object... objects) {
-                        EBLog.i(TAG, "onPrepared---准备视频资源");
                         super.onPrepared(url, objects);
-                        //开始播放了才能旋转和全屏
-                        orientationUtils.setEnable(true);
-                        isPlay = true;
+                        EBLog.i(TAG, "onPrepared---准备视频资源");
+//                        //开始播放了才能旋转和全屏
+//                        orientationUtils.setEnable(true);
 //                        //直接横屏
 //                        orientationUtils.resolveByClick();
 //                        //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
@@ -370,15 +363,15 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
                     @Override
                     public void onEnterFullscreen(String url, Object... objects) {
-                        EBLog.i(TAG, "onEnterFullscreen---进入全屏");
                         super.onEnterFullscreen(url, objects);
+                        EBLog.i(TAG, "onEnterFullscreen---进入全屏");
 
                     }
 
                     @Override
                     public void onAutoComplete(String url, Object... objects) {
-                        EBLog.i(TAG, "onAutoComplete");
                         super.onAutoComplete(url, objects);
+                        EBLog.i(TAG, "onAutoComplete");
                     }
 
                     @Override
@@ -388,20 +381,8 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
                     @Override
                     public void onQuitFullscreen(String url, Object... objects) {
-                        EBLog.i(TAG, "onQuitFullscreen---退出全屏");
                         super.onQuitFullscreen(url, objects);
-                        if (orientationUtils != null) {
-                            orientationUtils.backToProtVideo();
-                        }
-                    }
-                })
-                .setLockClickListener(new LockClickListener() {
-                    @Override
-                    public void onClick(View view, boolean lock) {
-                        if (orientationUtils != null) {
-                            //配合下方的onConfigurationChanged
-                            orientationUtils.setEnable(!lock);
-                        }
+                        EBLog.i(TAG, "onQuitFullscreen---退出全屏");
                     }
                 })
                 .setGSYVideoProgressListener(new GSYVideoProgressListener() {
@@ -574,15 +555,16 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     @Override
     public void onBackPressed() {
         //先返回正常状态
-        if (orientationUtils.getScreenType() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+        if (orientationUtils.getScreenType() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && orientationUtils != null) {
             vp_player.getFullscreenButton().performClick();
+            orientationUtils.backToProtVideo();
+            vp_player.setVisibility(View.GONE);
+            //释放播放器资源
+            vp_player.setVideoAllCallBack(null);
+            GSYVideoManager.releaseAllVideos();
             return;
         }
-        //释放所有
-        vp_player.setVideoAllCallBack(null);
-        GSYVideoManager.releaseAllVideos();
         goBack();
-
     }
 
     @Override
@@ -602,6 +584,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     protected void onDestroy() {
         super.onDestroy();
         shareAPI.release();
+        vp_player.release();
         if (orientationUtils != null)
             orientationUtils.releaseListener();
     }

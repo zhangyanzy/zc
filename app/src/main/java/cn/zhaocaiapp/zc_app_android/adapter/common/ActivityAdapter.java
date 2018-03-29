@@ -127,16 +127,16 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         //剩余额度
         holder.activity_item_text_amount.setText(GeneralUtils.getBigDecimalToTwo(list.get(position).getLeftAmount()));
         //已领取人数
-        holder.activity_item_text_number.setText(String.valueOf(list.get(position).getFinishCount()));
+        holder.activity_item_text_number.setText(String.valueOf(list.get(position).getActualUser()));
         //剩余额度进度条
         double leftAmount = list.get(position).getLeftAmount().doubleValue();
         double totalAmount = list.get(position).getTotalAmount().doubleValue();
         double amount = (leftAmount / totalAmount) * 100;
         holder.activity_item_text_amount_progress.setProgress((int) amount);
-        double finishCount = list.get(position).getFinishCount().intValue();
-        double getMaxUser = list.get(position).getMaxUser().intValue();
-        double pra = (finishCount / getMaxUser) * 100;
         //已领取人数进度条
+        double actualUser = list.get(position).getActualUser().intValue();
+        double getMaxUser = list.get(position).getMaxUser().intValue();
+        double pra = (actualUser / getMaxUser) * 100;
         holder.activity_item_text_number_progress.setProgress((int) pra);
         //地址logo 距离
         if (list.get(position).getActivityForm() == 0 && LocationUtil.getGps().getOpen()) {

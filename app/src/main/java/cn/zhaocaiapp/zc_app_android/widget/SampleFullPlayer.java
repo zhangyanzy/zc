@@ -21,7 +21,6 @@ import cn.zhaocaiapp.zc_app_android.R;
 
 public class SampleFullPlayer extends StandardGSYVideoPlayer {
     private String videoUrl;
-    private String videoTitle;
 
     public SampleFullPlayer(Context context, Boolean fullFlag) {
         super(context, fullFlag);
@@ -38,11 +37,6 @@ public class SampleFullPlayer extends StandardGSYVideoPlayer {
     @Override
     public int getLayoutId() {
         return R.layout.layout_video_player;
-    }
-
-    @Override
-    protected void init(Context context) {
-        super.init(context);
     }
 
     @Override
@@ -64,7 +58,7 @@ public class SampleFullPlayer extends StandardGSYVideoPlayer {
      */
     @Override
     protected void touchDoubleUp() {
-        super.touchDoubleUp();
+//        super.touchDoubleUp();
     }
 
     /**

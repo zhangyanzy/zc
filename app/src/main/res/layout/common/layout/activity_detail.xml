@@ -11,11 +11,11 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/layout_top_title" />
 
-    <cn.zhaocaiapp.zc_app_android.widget.SampleFullPlayer
+    <cn.zhaocaiapp.zc_app_android.widget.SampleControlPlayer
         android:id="@+id/vp_player"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
 
-    </cn.zhaocaiapp.zc_app_android.widget.SampleFullPlayer>
+    </cn.zhaocaiapp.zc_app_android.widget.SampleControlPlayer>
 </RelativeLayout>

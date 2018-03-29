@@ -94,11 +94,11 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         double amount = (leftAmount / totalAmount) * 100;
         holder.item_text_amount_progress.setProgress((int) amount);
         //已领取人数
-        holder.item_text_number.setText(activity.getFinishCount() + "");
+        holder.item_text_number.setText(activity.getActualUser() + "");
         //已领取人数进度条
-        double finishCount = activity.getFinishCount().intValue();
+        double actualUser = activity.getActualUser().intValue();
         double getMaxUser = activity.getMaxUser().intValue();
-        double account = (finishCount / getMaxUser) * 100;
+        double account = (actualUser / getMaxUser) * 100;
         holder.item_text_number_progress.setProgress((int) account);
         //活动奖励金额
         holder.item_text_reward.setText(GeneralUtils.getBigDecimalToTwo(activity.getRewardAmount()));
