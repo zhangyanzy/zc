@@ -63,10 +63,10 @@ public interface Constants {
 //        String SERVER = "http://appapi.zhaocaiapp.local/"; // 必须以／结尾否则初始化会报错
 
         //生产环境
-//        String SERVER = "https://appapi.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
+        String SERVER = "https://appapi.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
 
         //预生产环境
-        String SERVER = "https://appapi-pre.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
+//        String SERVER = "https://appapi-pre.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
 
         //测试环境
 //        String SERVER = "http://192.168.1.159:8083/";
@@ -75,8 +75,8 @@ public interface Constants {
          * H5页面地址
          */
 //        String H5_URL = "http://m.zhaocaiapp.local"; //开发环境
-//        String H5_URL = "https://m.zhaocaiapp.cn"; //生产环境
-        String H5_URL = "https://m-pre.zhaocaiapp.cn"; //预生产环境
+        String H5_URL = "https://m.zhaocaiapp.cn"; //生产环境
+//        String H5_URL = "https://m-pre.zhaocaiapp.cn"; //预生产环境
 
         /**
          * 注册
@@ -295,6 +295,11 @@ public interface Constants {
          * 图片上传
          */
         String UPLOAD_IMAGE = "common/upload/image";
+
+        /**
+         * 是否开启分享功能
+         * */
+        String IS_SHOW_SHARE = "app/config/ios?appVersion=%s";
     }
 
     interface SPREF {
@@ -306,11 +311,10 @@ public interface Constants {
          * 保存在手机里面的文件名 应用有关
          */
         String FILE_APP_NAME = "share_app";
-
         /**
-         * 是否显示引导页
+         * 是否开启分享功能
          */
-        String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
+        String IS_SHOW_SHARE = "isShowShare";
 
         //保存到sharedPreferenced的数据的key
         String IS_LOGIN = "isLogin";                //登录状态
@@ -328,7 +332,6 @@ public interface Constants {
         String INVITE_CODE = "inviteCode";          // 邀請碼
         String IS_CERTIFICATION = "realInfoAuditStatus"; //是否通过实名认证
 
-        String SERVICE_PHONE = "servicePhone";      //客服电话
 
         int TYPE_PHONE = 0;    //手机登录
         int TYPE_WECHAT = 1;   //微信登录
@@ -337,8 +340,8 @@ public interface Constants {
         int TYPE_ALI = 4;      //支付宝账户
         int TYPE_BANK = 5;     //银行卡账户
 
+        String SERVICE_PHONE = "servicePhone";      //客服电话
         String SEARCH_HISTORY = "searchHistory"; //搜索历史
-
         String AREA_NAME = "areaName"; //用户定位城市名称
         String AREA_CODE = "areaCode"; //用户定位城市Code
         String MESSAGE_PUSH = "messagePush"; //消息推送时间

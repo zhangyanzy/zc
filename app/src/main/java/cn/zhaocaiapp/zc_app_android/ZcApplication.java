@@ -24,15 +24,23 @@ import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.zhaocaiapp.zc_app_android.base.BaseAndroid;
 import cn.zhaocaiapp.zc_app_android.base.BaseConfig;
+import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.Response;
+import cn.zhaocaiapp.zc_app_android.bean.response.common.UiShowResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.LocationResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.AppUtil;
 import cn.zhaocaiapp.zc_app_android.util.AreaUtil;
+import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 
@@ -112,6 +120,9 @@ public class ZcApplication extends MultiDexApplication {
 
         //用户首次进入，标记新手任务弹窗显示
         SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.SHOW_NEWER_ACTIVITY, true);
+
+        //是否开启分享功能
+        isShowShare();
     }
 
     //开启子线程解析城市数据
@@ -135,9 +146,7 @@ public class ZcApplication extends MultiDexApplication {
             }
 
             @Override
-            public void onError(OCRError error) {
-                EBLog.e("百度身份证识别licence授权失败", error.getMessage());
-            }
+            public void onError(OCRError error) {}
         }, context);
     }
 
@@ -162,9 +171,32 @@ public class ZcApplication extends MultiDexApplication {
             }
 
             @Override
-            public void onFailure(String s, String s1) {
+            public void onFailure(String s, String s1) {}
+        });
+    }
 
+    /**
+     * 获取开关，设置是否开启分享功能
+     * */
+    private void isShowShare(){
+        String version = AppUtil.getAppVersionName(this);
+        HttpUtil.get(String.format(Constants.URL.IS_SHOW_SHARE, version)).subscribe(new BaseResponseObserver<UiShowResp>() {
+
+            @Override
+            public void success(UiShowResp uiShowResp) {
+                EBLog.i(TAG, uiShowResp.toString());
+                String content = uiShowResp.getContent();
+                try {
+                    JSONObject object = new JSONObject(content);
+                    boolean uiShow = object.getBoolean("uiShow");
+                    SpUtils.init(Constants.SPREF.FILE_APP_NAME).put(Constants.SPREF.IS_SHOW_SHARE, uiShow);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
+
+            @Override
+            public void error(Response<UiShowResp> response) {}
         });
     }
 

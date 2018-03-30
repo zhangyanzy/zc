@@ -60,11 +60,14 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
 
         //存储应用是否首次启动的信息
         SharedPreferences sp = getSharedPreferences("first_start", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
         boolean isFirstStart = sp.getBoolean("is_first_start", true);
         //不是第一次启动
-        if (!isFirstStart) launchHomeScreen();
-        else editor.putBoolean("is_first_start", false).apply();
+        if (!isFirstStart) {
+            launchHomeScreen();
+        } else {
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putBoolean("is_first_start", false).apply();
+        }
 
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
@@ -113,7 +116,6 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
      * 跳过
      */
     private void launchHomeScreen() {
-        SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.IS_FIRST_TIME_LAUNCH, false);
         if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get((Constants.SPREF.IS_LOGIN), false))
             startActivity(new Intent(this, MainActivity.class));
         else startActivity(new Intent(this, LoginActivity.class));

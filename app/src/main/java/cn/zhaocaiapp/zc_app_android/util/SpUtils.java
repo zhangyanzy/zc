@@ -45,7 +45,6 @@ public class SpUtils {
      * @param object
      */
     public void put(String key, Object object) {
-//        SharedPreferences sp = ZcApplication.getPreferences();
         SharedPreferences.Editor editor = sp.edit();
 
         if (object == null) return;
@@ -63,7 +62,6 @@ public class SpUtils {
             editor.putString(key, object.toString());
         }
         editor.apply();
-//        SharedPreferencesCompat.apply(editor);
     }
 
     /**
@@ -74,8 +72,6 @@ public class SpUtils {
      * @return
      */
     public Object get(String key, Object defaultObject) {
-//        SharedPreferences sp = ZcApplication.getPreferences();
-
         if (defaultObject instanceof String) {
             return sp.getString(key, (String) defaultObject);
         } else if (defaultObject instanceof Integer) {
@@ -92,16 +88,13 @@ public class SpUtils {
     }
 
     public Set<String> getStringSet(String key, Set<String> defValues) {
-//        SharedPreferences sp = ZcApplication.getPreferences();
         return sp.getStringSet(key, defValues);
     }
 
     public void putStringSet(String key, Set<String> values) {
-//        SharedPreferences sp = ZcApplication.getPreferences();
         SharedPreferences.Editor edit = sp.edit();
         edit.putStringSet(key, values);
         edit.apply();
-//        SharedPreferencesCompat.apply(edit);
     }
 
     /**
@@ -110,22 +103,18 @@ public class SpUtils {
      * @param key
      */
     public void remove(String key) {
-//        SharedPreferences sp = ZcApplication.getPreferences();
         SharedPreferences.Editor editor = sp.edit();
         editor.remove(key);
         editor.apply();
-//        SharedPreferencesCompat.apply(editor);
     }
 
     /**
      * 清除所有数据
      */
     public void clear() {
-//        SharedPreferences sp = ZcApplication.getPreferences();
         SharedPreferences.Editor editor = sp.edit();
         editor.clear();
         editor.apply();
-//        SharedPreferencesCompat.apply(editor);
     }
 
     /**
@@ -135,7 +124,6 @@ public class SpUtils {
      * @return
      */
     public boolean contains(String key) {
-//        SharedPreferences sp = ZcApplication.getPreferences();
         return sp.contains(key);
     }
 
@@ -145,7 +133,6 @@ public class SpUtils {
      * @return
      */
     public Map<String, ?> getAll() {
-//        SharedPreferences sp = ZcApplication.getPreferences();
         return sp.getAll();
     }
 
