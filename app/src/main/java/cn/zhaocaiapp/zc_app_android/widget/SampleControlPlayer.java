@@ -45,6 +45,9 @@ public class SampleControlPlayer extends StandardGSYVideoPlayer {
 
         //不给触摸亮度，如果需要，屏蔽下方代码即可
         mBrightness = false;
+
+        //是否触摸进度条
+        mTouchingProgressBar = false;
     }
 
     /**

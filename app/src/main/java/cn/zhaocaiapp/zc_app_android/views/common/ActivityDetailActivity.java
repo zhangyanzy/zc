@@ -270,7 +270,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         startBut.setVisibility(View.VISIBLE);
         //设置全屏键
         fullBut = vp_player.getFullscreenButton();
-        fullBut.setVisibility(View.VISIBLE);
+        fullBut.setVisibility(View.GONE);
 
         //外部辅助的旋转，帮助全屏
         orientationUtils = new OrientationUtils(ActivityDetailActivity.this, vp_player);
@@ -284,14 +284,14 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             }
         });
 
-        fullBut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (vp_player.isIfCurrentIsFullscreen()) {
-                    onBackPressed();
-                }
-            }
-        });
+//        fullBut.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (vp_player.isIfCurrentIsFullscreen()) {
+//                    onBackPressed();
+//                }
+//            }
+//        });
     }
 
     //显示全屏播放器
@@ -359,6 +359,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 //                        orientationUtils.resolveByClick();
 //                        //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
 //                        vp_player.startWindowFullscreen(ActivityDetailActivity.this, true, true);
+
                     }
 
                     @Override

@@ -112,7 +112,7 @@ public class LoginActivity extends BaseFragmentActivity {
             case R.id.tv_forget_pass: //忘记密码
                 openActivity(ForgetPassActivity.class);
                 break;
-            case R.id.tv_login: //登陆
+            case R.id.tv_login: //手机号登陆
                 type = Constants.SPREF.TYPE_PHONE;
                 if (judgePhone(phone) && judgePass(pass))
                     doLogin();
