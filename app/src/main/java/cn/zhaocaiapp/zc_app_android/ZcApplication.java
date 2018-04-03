@@ -121,8 +121,8 @@ public class ZcApplication extends MultiDexApplication {
         //用户首次进入，标记新手任务弹窗显示
         SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.SHOW_NEWER_ACTIVITY, true);
 
-        //是否开启分享功能
-        isShowShare();
+//        //是否开启分享功能
+//        isShowShare();
     }
 
     //开启子线程解析城市数据
@@ -175,30 +175,30 @@ public class ZcApplication extends MultiDexApplication {
         });
     }
 
-    /**
-     * 获取开关，设置是否开启分享功能
-     * */
-    private void isShowShare(){
-        String version = AppUtil.getAppVersionName(this);
-        HttpUtil.get(String.format(Constants.URL.IS_SHOW_SHARE, version)).subscribe(new BaseResponseObserver<UiShowResp>() {
-
-            @Override
-            public void success(UiShowResp uiShowResp) {
-                EBLog.i(TAG, uiShowResp.toString());
-                String content = uiShowResp.getContent();
-                try {
-                    JSONObject object = new JSONObject(content);
-                    boolean uiShow = object.getBoolean("uiShow");
-                    SpUtils.init(Constants.SPREF.FILE_APP_NAME).put(Constants.SPREF.IS_SHOW_SHARE, uiShow);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void error(Response<UiShowResp> response) {}
-        });
-    }
+//    /**
+//     * 获取开关，设置是否开启分享功能
+//     * */
+//    private void isShowShare(){
+//        String version = AppUtil.getAppVersionName(this);
+//        HttpUtil.get(String.format(Constants.URL.IS_SHOW_SHARE, version)).subscribe(new BaseResponseObserver<UiShowResp>() {
+//
+//            @Override
+//            public void success(UiShowResp uiShowResp) {
+//                EBLog.i(TAG, uiShowResp.toString());
+//                String content = uiShowResp.getContent();
+//                try {
+//                    JSONObject object = new JSONObject(content);
+//                    boolean uiShow = object.getBoolean("uiShow");
+//                    SpUtils.init(Constants.SPREF.FILE_APP_NAME).put(Constants.SPREF.IS_SHOW_SHARE, uiShow);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void error(Response<UiShowResp> response) {}
+//        });
+//    }
 
     /**
      * 退出程序 清理内存

@@ -202,8 +202,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         holder.activity_item_text_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isShowShare = (boolean) SpUtils.init(Constants.SPREF.FILE_APP_NAME).get(Constants.SPREF.IS_SHOW_SHARE, false);
-                if (!isShowShare) return;
+//                boolean isShowShare = (boolean) SpUtils.init(Constants.SPREF.FILE_APP_NAME).get(Constants.SPREF.IS_SHOW_SHARE, false);
+//                if (!isShowShare) return;
                 if (antiShake.check(v.getId())) return;
                 listener.onItemCliclk(holder.getLayoutPosition());
             }
