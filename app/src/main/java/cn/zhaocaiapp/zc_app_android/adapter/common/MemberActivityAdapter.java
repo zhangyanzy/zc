@@ -19,7 +19,6 @@ import com.amap.api.location.CoordinateConverter;
 import com.amap.api.location.DPoint;
 import com.joooonho.SelectableRoundedImageView;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +29,7 @@ import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
-import cn.zhaocaiapp.zc_app_android.bean.response.member.MemberResp;
+import cn.zhaocaiapp.zc_app_android.bean.response.common.FinishUserResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
@@ -41,7 +40,6 @@ import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.common.ActivityDetailActivity;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
-import cn.zhaocaiapp.zc_app_android.views.member.MemberDetailActivity;
 
 
 /**
@@ -52,28 +50,17 @@ import cn.zhaocaiapp.zc_app_android.views.member.MemberDetailActivity;
 public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAdapter.ViewHolder> {
     private List<ActivityResp> list;
     private Context context;
-    private MemberResp memberResp; //商家详情
     private OnItemClickListener listener;
 
-    public MemberActivityAdapter(Context context, List<ActivityResp> list, MemberResp memberResp) {
+    public MemberActivityAdapter(Context context, List<ActivityResp> list) {
         this.list = list;
         this.context = context;
-        this.memberResp = memberResp;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        EBLog.i("tag", String.valueOf(viewType));
-        View view;
-        ViewHolder viewHolder;
-        if (viewType == 0) {
-            view = LayoutInflater.from(context).inflate(R.layout.member_detail_header, parent, false);
-            viewHolder = new ViewHolderMember(view);
-        } else {
-            view = LayoutInflater.from(context).inflate(R.layout.activity_item, parent, false);
-            viewHolder = new ViewHolderActivity(view);
-        }
-        return viewHolder;
+        View view = LayoutInflater.from(context).inflate(R.layout.activity_item, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -83,306 +70,133 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //商家信息
-        if (position == 0) {
-            ViewHolderMember viewHolderMember = (ViewHolderMember) holder;
-            //商家头像
-            PictureLoadUtil.loadPicture(context, memberResp.getLogo(), viewHolderMember.member_detail_logo);
-            //商家名称
-            viewHolderMember.member_detail_name.setText(memberResp.getName());
-            //商家电话
-            viewHolderMember.member_detail_phone.setText(memberResp.getPhone());
-            //商家地址
-            viewHolderMember.member_detail_area.setText(memberResp.getProvinceName() + memberResp.getCityName() + memberResp.getAreaName() + memberResp.getAddressDetail());
-            //商家活动 全部
-            viewHolderMember.member_detail_state.setText(String.valueOf(memberResp.getTotal()));
-            //商家活动 未开始
-            viewHolderMember.member_detail_state_0.setText(String.valueOf(memberResp.getBeforeLine()));
-            //商家活动 进行中
-            viewHolderMember.member_detail_state_1.setText(String.valueOf(memberResp.getOnLine()));
-            //商家活动 已结束
-            viewHolderMember.member_detail_state_2.setText(String.valueOf(memberResp.getOffLine()));
-            //判断登录
-            if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
-                //已关注
-                if (GeneralUtils.isNotNull(memberResp.getIsFollow()) && memberResp.getIsFollow() == 1) {
-                    //商家关注 按钮
-                    viewHolderMember.member_detail_follow_layout.setBackground(context.getResources().getDrawable(R.drawable.member_follow_on));
-                    //商家关注 图片
-                    viewHolderMember.member_detail_follow_img.setVisibility(View.GONE);
-                    //商家关注 文案
-                    viewHolderMember.member_detail_follow_text.setText("已关注");
-                    viewHolderMember.member_detail_follow_text.setTextColor(context.getResources().getColor(R.color.colorLine));
-                }
+        //商家logo
+        PictureLoadUtil.loadPicture(context, list.get(position).getMemberImg(), holder.activity_item_member_logo);
+        //商家名称
+        holder.activity_item_member_name.setText(list.get(position).getMemberName());
+        //活动区域
+        holder.activity_item_member_area.setText(list.get(position).getCityName());
+        //活动图片
+        PictureLoadUtil.loadPicture(context, list.get(position).getActivityImage1(), holder.activity_item_img_i);
+        //活动状态
+        holder.activity_item_img_state.setText(getOnlineString(list.get(position).getOnline()));
+        //活动类型
+        holder.activity_item_img_type.setText(getActivityFormString(list.get(position).getActivityForm()));
+        //活动名称
+        SpannableStringBuilder spannableString = new SpannableStringBuilder("#" + getActivityFormString(list.get(position).getActivityForm()) + "#" + list.get(position).getName());
+        spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.activity_item_text_title.setText(spannableString);
+        //剩余额度
+        holder.activity_item_text_amount.setText(GeneralUtils.getBigDecimalToTwo(list.get(position).getLeftAmount()));
+        //已领取人数
+        holder.activity_item_text_number.setText(String.valueOf(list.get(position).getActualUser()));
+        //剩余额度进度条
+        double leftAmount = list.get(position).getLeftAmount().doubleValue();
+        double totalAmount = list.get(position).getTotalAmount().doubleValue();
+        double amount = (leftAmount / totalAmount) * 100;
+        holder.activity_item_text_amount_progress.setProgress((int) amount);
+        //已领取人数进度条
+        double actualUser = list.get(position).getActualUser().intValue();
+        double getMaxUser = list.get(position).getMaxUser().intValue();
+        double pra = (actualUser / getMaxUser) * 100;
+        holder.activity_item_text_number_progress.setProgress((int) pra);
+        //地址logo 距离
+        if (list.get(position).getActivityForm() == 0 && LocationUtil.getGps().getOpen()) {
+            //起始位置 我的位置
+            DPoint startGps = new DPoint();
+            startGps.setLatitude(LocationUtil.getGps().getLatitude());
+            startGps.setLongitude(LocationUtil.getGps().getLongitude());
+            //结束位置 活动位置
+            DPoint stopGps = new DPoint(31.235221, 121.499508);
+            if (GeneralUtils.isNotNull(list.get(position).getLatitude()) && GeneralUtils.isNotNull(list.get(position).getLongitude())) {
+                stopGps.setLatitude(list.get(position).getLatitude().doubleValue());
+                stopGps.setLongitude(list.get(position).getLongitude().doubleValue());
             }
-            //商家图片 点击
-            viewHolderMember.member_detail_follow_layout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
-                        //已关注
-                        if (memberResp.getIsFollow() == 1) {
-                            //取消关注
-                            Map<String, String> params = new HashMap<>();
-                            params.put("follow", "0");
-                            EBLog.i("tag", params.toString());
-
-                            HttpUtil.post(String.format(Constants.URL.POST_MEMBER_FOLLOW, memberResp.getKid()), params).subscribe(new BaseResponseObserver<String>() {
-                                @Override
-                                public void success(String result) {
-                                    memberResp.setIsFollow(0);
-                                    //商家关注 按钮
-                                    viewHolderMember.member_detail_follow_layout.setBackground(context.getResources().getDrawable(R.drawable.member_follow_off));
-                                    //商家关注 图片
-                                    viewHolderMember.member_detail_follow_img.setVisibility(View.VISIBLE);
-                                    //商家关注 文案
-                                    viewHolderMember.member_detail_follow_text.setText("关注");
-                                    viewHolderMember.member_detail_follow_text.setTextColor(context.getResources().getColor(R.color.colorWhite));
-                                    EBLog.i("tag", result.toString());
-                                }
-
-                                @Override
-                                public void error(Response<String> response) {
-                                    EBLog.e("tag", response.getCode() + "");
-                                    ToastUtil.makeText(context, response.getDesc());
-                                }
-                            });
-                        }
-                        //未关注
-                        else {
-                            //关注
-                            Map<String, String> params = new HashMap<>();
-                            params.put("follow", "1");
-                            EBLog.i("tag", params.toString());
-
-                            HttpUtil.post(String.format(Constants.URL.POST_MEMBER_FOLLOW, memberResp.getKid()), params).subscribe(new BaseResponseObserver<String>() {
-                                @Override
-                                public void success(String result) {
-                                    memberResp.setIsFollow(1);
-                                    //商家关注 按钮
-                                    viewHolderMember.member_detail_follow_layout.setBackground(context.getResources().getDrawable(R.drawable.member_follow_on));
-                                    //商家关注 图片
-                                    viewHolderMember.member_detail_follow_img.setVisibility(View.GONE);
-                                    //商家关注 文案
-                                    viewHolderMember.member_detail_follow_text.setText("已关注");
-                                    viewHolderMember.member_detail_follow_text.setTextColor(context.getResources().getColor(R.color.colorLine));
-                                    EBLog.i("tag", result.toString());
-                                }
-
-                                @Override
-                                public void error(Response<String> response) {
-                                    EBLog.e("tag", response.getCode() + "");
-                                    ToastUtil.makeText(context, response.getDesc());
-                                }
-                            });
-                        }
-                    } else {
-                        Intent intent = new Intent(context, LoginActivity.class);
-                        context.startActivity(intent);
-                    }
-                }
-            });
+            //两点距离
+            float areaText = CoordinateConverter.calculateLineDistance(startGps, stopGps);
+            holder.activity_item_text_area_text.setText(areaText > 1000 ? String.format("%.1f", (areaText / 1000)) + "km" : String.format("%.1f", (areaText)) + "m");
         }
-        //活动列表
-        else {
-            ViewHolderActivity viewHolderActivity = (ViewHolderActivity) holder;
-            //商家图片
-            PictureLoadUtil.loadPicture(context, list.get(position - 1).getMemberImg(), viewHolderActivity.activity_item_member_logo);
-            //商家名称
-            viewHolderActivity.activity_item_member_name.setText(list.get(position - 1).getMemberName());
-            //活动区域
-            viewHolderActivity.activity_item_member_area.setText(list.get(position - 1).getCityName());
-            //活动图片
-            PictureLoadUtil.loadPicture(context, list.get(position - 1).getActivityImage1(), viewHolderActivity.activity_item_img_i);
-            //活动状态
-            viewHolderActivity.activity_item_img_state.setText(getOnlineString(list.get(position - 1).getOnline()));
-            //活动类型
-            viewHolderActivity.activity_item_img_type.setText(getActivityFormString(list.get(position - 1).getActivityForm()));
-            //活动名称
-            SpannableStringBuilder spannableString = new SpannableStringBuilder("#" + getActivityFormString(list.get(position - 1).getActivityForm()) + "#" + list.get(position - 1).getName());
-            spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            viewHolderActivity.activity_item_text_title.setText(spannableString);
-            //参与人头像
-            viewHolderActivity.activity_item_text_user0.setVisibility(View.INVISIBLE);
-            viewHolderActivity.activity_item_text_user1.setVisibility(View.INVISIBLE);
-            viewHolderActivity.activity_item_text_user2.setVisibility(View.INVISIBLE);
-            if (GeneralUtils.isNotNull(list.get(position - 1).getUserList()) && list.get(position - 1).getUserList().size() > 0) {
-                if (list.get(position - 1).getUserList().size() >= 1) {
-                    viewHolderActivity.activity_item_text_user0.setVisibility(View.VISIBLE);
-                    if (GeneralUtils.isNotNullOrZeroLenght(list.get(position - 1).getUserList().get(0).getAvatar())) {
-                        PictureLoadUtil.loadPicture(context, list.get(position - 1).getUserList().get(0).getAvatar(), viewHolderActivity.activity_item_text_user0);
-                    }
-                }
-                if (list.get(position - 1).getUserList().size() >= 2) {
-                    viewHolderActivity.activity_item_text_user1.setVisibility(View.VISIBLE);
-                    if (GeneralUtils.isNotNullOrZeroLenght(list.get(position - 1).getUserList().get(1).getAvatar())) {
-                        PictureLoadUtil.loadPicture(context, list.get(position - 1).getUserList().get(1).getAvatar(), viewHolderActivity.activity_item_text_user1);
-                    }
-                }
-                if (list.get(position - 1).getUserList().size() == 3) {
-                    viewHolderActivity.activity_item_text_user2.setVisibility(View.VISIBLE);
-                    if (GeneralUtils.isNotNullOrZeroLenght(list.get(position - 1).getUserList().get(2).getAvatar())) {
-                        PictureLoadUtil.loadPicture(context, list.get(position - 1).getUserList().get(2).getAvatar(), viewHolderActivity.activity_item_text_user2);
-                    }
-                }
-            }
-            //剩余额度
-            viewHolderActivity.activity_item_text_amount.setText(GeneralUtils.getBigDecimalToTwo(list.get(position - 1).getLeftAmount()));
-            //已领取人数
-            viewHolderActivity.activity_item_text_number.setText(String.valueOf(list.get(position - 1).getActualUser()));
-            //剩余额度进度条
-            double leftAmount = list.get(position - 1).getLeftAmount().doubleValue();
-            double totalAmount = list.get(position - 1).getTotalAmount().doubleValue();
-            double amount = (leftAmount / totalAmount) * 100;
-            viewHolderActivity.activity_item_text_amount_progress.setProgress((int) amount);
-            //已领取人数进度条
-            double actualUser = list.get(position - 1).getActualUser().intValue();
-            double getMaxUser = list.get(position - 1).getMaxUser().intValue();
-            double pra = (actualUser / getMaxUser) * 100;
-
-            viewHolderActivity.activity_item_text_number_progress.setProgress((int) pra);
-            //地址logo 距离
-            if (list.get(position - 1).getActivityForm() == 0 && LocationUtil.getGps().getOpen()) {
-                //起始位置 我的位置
-                DPoint startGps = new DPoint();
-                startGps.setLatitude(LocationUtil.getGps().getLatitude());
-                startGps.setLongitude(LocationUtil.getGps().getLongitude());
-                //结束位置 活动位置
-                DPoint stopGps = new DPoint(31.235221, 121.499508);
-                if (GeneralUtils.isNotNull(list.get(position - 1).getLatitude()) && GeneralUtils.isNotNull(list.get(position - 1).getLongitude())) {
-                    stopGps.setLatitude(list.get(position - 1).getLatitude().doubleValue());
-                    stopGps.setLongitude(list.get(position - 1).getLongitude().doubleValue());
-                }
-                //两点距离
-                float areaText = CoordinateConverter.calculateLineDistance(startGps, stopGps);
-                viewHolderActivity.activity_item_text_area_text.setText(areaText > 1000 ? String.format("%.1f", (areaText / 1000)) + "km" : String.format("%.1f", (areaText)) + "m");
-            }
-            //收藏
-            if (GeneralUtils.isNotNull((String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.TOKEN, "")) && list.get(position - 1).getFollow()) {
-                viewHolderActivity.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
-            } else {
-                viewHolderActivity.activity_item_text_collection.setImageResource(R.mipmap.collection_off);
-            }
-            //奖励金额
-            viewHolderActivity.activity_item_text_reward.setText(GeneralUtils.getBigDecimalToTwo(list.get(position - 1).getRewardAmount()));
-            //是否显示控件
-            isContentVisible(list.get(position - 1).getActivityForm(), viewHolderActivity);
-
-            //活动图片 点击
-            viewHolderActivity.activity_item_img_i.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, ActivityDetailActivity.class);
-                    intent.putExtra("id", list.get(position - 1).getKid());
-                    intent.putExtra("title", list.get(position - 1).getName());
-                    intent.putExtra("isNeedQRCode", list.get(position - 1).getIfCheck());
-                    context.startActivity(intent);
-                }
-            });
-            //活动名称 点击
-            viewHolderActivity.activity_item_text_title.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, ActivityDetailActivity.class);
-                    intent.putExtra("id", list.get(position - 1).getKid());
-                    intent.putExtra("title", list.get(position - 1).getName());
-                    intent.putExtra("isNeedQRCode", list.get(position - 1).getIfCheck());
-
-                    context.startActivity(intent);
-                }
-            });
-            //活动内容点击
-            viewHolderActivity.layout_activity_content.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, ActivityDetailActivity.class);
-                    intent.putExtra("id", list.get(position - 1).getKid());
-                    intent.putExtra("title", list.get(position - 1).getName());
-                    intent.putExtra("isNeedQRCode", list.get(position - 1).getIfCheck());
-
-                    context.startActivity(intent);
-                }
-            });
-            //收藏 点击
-            viewHolderActivity.activity_item_text_collection.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //未登录
-                    if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
-                        //已经收藏
-                        if (list.get(position - 1).getFollow()) {
-                            //取消收藏
-                            Map<String, String> params = new HashMap<>();
-                            params.put("follow", "0");
-                            EBLog.i("tag", params.toString());
-                            EBLog.i("tag", list.get(position - 1).getKid().toString());
-
-                            HttpUtil.post(String.format(Constants.URL.POST_ACTIVITY_FOLLOW, list.get(position - 1).getKid()), params).subscribe(new BaseResponseObserver<String>() {
-                                @Override
-                                public void success(String result) {
-                                    list.get(position - 1).setFollow(false);
-                                    viewHolderActivity.activity_item_text_collection.setImageResource(R.mipmap.collection_off);
-                                    EBLog.i("tag", result.toString());
-                                }
-
-                                @Override
-                                public void error(Response<String> response) {
-                                    EBLog.e("tag", response.getCode() + "");
-                                    ToastUtil.makeText(context, response.getDesc());
-                                }
-                            });
-                        }
-                        //未收藏
-                        else {
-                            //收藏
-                            Map<String, String> params = new HashMap<>();
-                            params.put("follow", "1");
-                            EBLog.i("tag", params.toString());
-                            EBLog.i("tag", list.get(position - 1).getKid().toString());
-
-                            HttpUtil.post(String.format(Constants.URL.POST_ACTIVITY_FOLLOW, list.get(position - 1).getKid()), params).subscribe(new BaseResponseObserver<String>() {
-                                @Override
-                                public void success(String result) {
-                                    list.get(position - 1).setFollow(true);
-                                    viewHolderActivity.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
-                                    EBLog.i("tag", result.toString());
-                                }
-
-                                @Override
-                                public void error(Response<String> response) {
-                                    EBLog.e("tag", response.getCode() + "");
-                                    ToastUtil.makeText(context, response.getDesc());
-                                }
-                            });
-                        }
-                    }
-                    //登录
-                    else {
-                        Intent intent = new Intent(context, LoginActivity.class);
-                        context.startActivity(intent);
-                    }
-                }
-            });
-
-            // 分享
-            viewHolderActivity.activity_item_text_share.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    boolean isShowShare = (boolean) SpUtils.init(Constants.SPREF.FILE_APP_NAME).get(Constants.SPREF.IS_SHOW_SHARE, false);
-                    if (!isShowShare) return;
-                    listener.onItemClick(viewHolderActivity.getLayoutPosition());
-                }
-            });
+        if (list.get(position).getFollow()) {
+            holder.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
+        } else {
+            holder.activity_item_text_collection.setImageResource(R.mipmap.collection_off);
         }
+        //奖励金额
+        holder.activity_item_text_reward.setText(GeneralUtils.getBigDecimalToTwo(list.get(position).getRewardAmount()));
+        //是否显示控件
+        isContentVisible(list.get(position).getActivityForm(), holder);
+        //参与人头像
+        showUserPhoto(list.get(position).getUserList(), holder);
+
+        //活动图片 点击
+        holder.activity_item_img_i.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ActivityDetailActivity.class);
+                intent.putExtra("id", list.get(position).getKid());
+                intent.putExtra("title", list.get(position).getName());
+                intent.putExtra("isNeedQRCode", list.get(position).getIfCheck());
+                context.startActivity(intent);
+            }
+        });
+        //活动名称 点击
+        holder.activity_item_text_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ActivityDetailActivity.class);
+                intent.putExtra("id", list.get(position).getKid());
+                intent.putExtra("title", list.get(position).getName());
+                intent.putExtra("isNeedQRCode", list.get(position).getIfCheck());
+                context.startActivity(intent);
+            }
+        });
+        //活动内容点击
+        holder.layout_activity_content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ActivityDetailActivity.class);
+                intent.putExtra("id", list.get(position).getKid());
+                intent.putExtra("title", list.get(position).getName());
+                intent.putExtra("isNeedQRCode", list.get(position).getIfCheck());
+                context.startActivity(intent);
+            }
+        });
+        //收藏 点击
+        holder.activity_item_text_collection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
+                    if (list.get(position).getFollow()) { //已经收藏
+                        //取消收藏
+                        doFollow(position, 0, holder);
+                    } else {  //未收藏
+                        //收藏
+                        doFollow(position, 1, holder);
+                    }
+                } else { //未登录
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    context.startActivity(intent);
+                }
+            }
+        });
+        // 分享
+        holder.activity_item_text_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isShowShare = (boolean) SpUtils.init(Constants.SPREF.FILE_APP_NAME).get(Constants.SPREF.IS_SHOW_SHARE, false);
+                if (!isShowShare) return;
+                listener.onItemClick(holder.getLayoutPosition());
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return list != null ? list.size() + 1 : 1;
+        return list.size();
     }
 
     //根据活动类型和状态判断控件内容是否显示
-    private void isContentVisible(int activityType, ViewHolderActivity holder) {
+    private void isContentVisible(int activityType, ViewHolder holder) {
         switch (activityType) {
             case 0: //线下活动
                 holder.activity_item_text_area_logo.setVisibility(View.VISIBLE);
@@ -408,13 +222,45 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
         }
     }
 
-    public void updata(List<ActivityResp> list) {
-        this.list = list;
-        notifyDataSetChanged();
+    //显示报名用户的额头像
+    private void showUserPhoto(List<FinishUserResp> userList, ViewHolder holder) {
+        for (int i = 0; i < userList.size(); i++) {
+            ImageView imageView = (ImageView) holder.layout_user.getChildAt(i);
+            imageView.setVisibility(View.VISIBLE);
+            if (GeneralUtils.isNotNullOrZeroLenght(userList.get(i).getAvatar())) {
+                PictureLoadUtil.loadPicture(context, userList.get(i).getAvatar(), imageView);
+            }
+        }
     }
 
-    public void updataMember(MemberResp memberResp) {
-        this.memberResp = memberResp;
+    //关注/取消关注
+    private void doFollow(int position, int state, ViewHolder holder) {
+        Map<String, String> params = new HashMap<>();
+        params.put("follow", state + "");
+        EBLog.i("tag", params.toString());
+
+        HttpUtil.post(String.format(Constants.URL.POST_ACTIVITY_FOLLOW, list.get(position).getKid()), params).subscribe(new BaseResponseObserver<String>() {
+            @Override
+            public void success(String result) {
+                if (state == 1) { //收藏
+                    list.get(position).setFollow(true);
+                    holder.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
+                } else if (state == 0) { //取消收藏
+                    list.get(position).setFollow(false);
+                    holder.activity_item_text_collection.setImageResource(R.mipmap.collection_off);
+                }
+            }
+
+            @Override
+            public void error(Response<String> response) {
+                EBLog.e("tag", response.getCode() + "");
+                ToastUtil.makeText(context, response.getDesc());
+            }
+        });
+    }
+
+    public void updata(List<ActivityResp> list) {
+        this.list = list;
         notifyDataSetChanged();
     }
 
@@ -475,61 +321,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        View itemView;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-            this.itemView = itemView;
-        }
-    }
-
-    public class ViewHolderMember extends ViewHolder {
-        //商家头像
-        @BindView(R.id.member_detail_logo)
-        SelectableRoundedImageView member_detail_logo;
-        //商家名称
-        @BindView(R.id.member_detail_name)
-        TextView member_detail_name;
-        //商家电话
-        @BindView(R.id.member_detail_phone)
-        TextView member_detail_phone;
-        //商家地址
-        @BindView(R.id.member_detail_area)
-        TextView member_detail_area;
-        //商家活动 全部
-        @BindView(R.id.member_detail_state)
-        TextView member_detail_state;
-        //商家活动 未开始
-        @BindView(R.id.member_detail_state_0)
-        TextView member_detail_state_0;
-        //商家活动 进行中
-        @BindView(R.id.member_detail_state_1)
-        TextView member_detail_state_1;
-        //商家活动 已结束
-        @BindView(R.id.member_detail_state_2)
-        TextView member_detail_state_2;
-        //商家关注 按钮
-        @BindView(R.id.member_detail_follow_layout)
-        LinearLayout member_detail_follow_layout;
-        //商家关注 图片
-        @BindView(R.id.member_detail_follow_img)
-        ImageView member_detail_follow_img;
-        //商家关注 文案
-        @BindView(R.id.member_detail_follow_text)
-        TextView member_detail_follow_text;
-
-        View itemView;
-
-        public ViewHolderMember(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-            this.itemView = itemView;
-        }
-    }
-
-    public class ViewHolderActivity extends ViewHolder {
-        //商家图片
+        //商家logo
         @BindView(R.id.activity_item_member_logo)
         ImageView activity_item_member_logo;
         //商家名称
@@ -553,15 +345,6 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
         //视频活动播放
         @BindView(R.id.activity_item_img_vide)
         ImageView activity_item_img_vide;
-        //参与人0
-        @BindView(R.id.activity_item_text_user0)
-        ImageView activity_item_text_user0;
-        //参与人1
-        @BindView(R.id.activity_item_text_user1)
-        ImageView activity_item_text_user1;
-        //参与人2
-        @BindView(R.id.activity_item_text_user2)
-        ImageView activity_item_text_user2;
         //剩余额度
         @BindView(R.id.activity_item_text_amount)
         TextView activity_item_text_amount;
@@ -594,11 +377,15 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
         //活动内容
         @BindView(R.id.layout_activity_content)
         LinearLayout layout_activity_content;
+        //报名的用户头像
+        @BindView(R.id.layout_user)
+        LinearLayout layout_user;
 
         View itemView;
 
-        public ViewHolderActivity(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
+
             ButterKnife.bind(this, itemView);
             this.itemView = itemView;
         }

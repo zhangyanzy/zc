@@ -46,37 +46,32 @@ public interface Constants {
         int PAGE_SIZE = 10;
 
         /**
-         *
+         * 用户定位城市名称
          */
-        String AREA_NAME = "上海市"; //用户定位城市名称
+        String AREA_NAME = "上海市";
         /**
-         *
+         * 用户定位城市Code
          */
-        String AREA_CODE = "310115"; //用户定位城市Code
+        String AREA_CODE = "310115";
     }
 
     interface URL {
         /**
          * 服务器地址
+         * <p>
+         * 必须以／结尾否则初始化会报错
          */
-        //开发环境
-//        String SERVER = "http://appapi.zhaocaiapp.local/"; // 必须以／结尾否则初始化会报错
-
-        //生产环境
-        String SERVER = "https://appapi.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
-
-        //预生产环境
-//        String SERVER = "https://appapi-pre.zhaocaiapp.cn/"; //必须以／结尾否则初始化会报错
-
-        //测试环境
-//        String SERVER = "http://192.168.1.159:8083/";
+//        String SERVER = "http://appapi.zhaocaiapp.local/"; //开发环境
+//        String SERVER = "https://appapi.zhaocaiapp.cn/"; //生产环境
+        String SERVER = "https://appapi-pre.zhaocaiapp.cn/"; //预生产环境
+//        String SERVER = "http://192.168.1.159:8083/"; //测试环境
 
         /**
          * H5页面地址
          */
 //        String H5_URL = "http://m.zhaocaiapp.local"; //开发环境
-        String H5_URL = "https://m.zhaocaiapp.cn"; //生产环境
-//        String H5_URL = "https://m-pre.zhaocaiapp.cn"; //预生产环境
+//        String H5_URL = "https://m.zhaocaiapp.cn"; //生产环境
+        String H5_URL = "https://m-pre.zhaocaiapp.cn"; //预生产环境
 
         /**
          * 注册
@@ -205,32 +200,32 @@ public interface Constants {
         String REWARD_AVTIVITY = "my/activity/money/%s";
         /**
          * 支付宝授权
-         * */
+         */
         String ALIPAY_OTHUR = "userinfo/orderinfo";
         /**
          * 校验密码
-         * */
+         */
         String VERIFY_PASS = "userinfo/ckeckpassword";
         /**
          * 分享活动
-         * */
+         */
         String SHARE_ACTIVITY_URL = "/activity/detail?id=%s";
-       /**
-        * 分享邀请好友
-        * */
-       String INVITE_URL = "/invite/user?code=%s";
-       /**
-        * 收支明细
-        * */
-       String INCOME_LIST = "userinfo/billinfo/%s";
-       /**
-        * 收入分享
-        * */
+        /**
+         * 分享邀请好友
+         */
+        String INVITE_URL = "/invite/user?code=%s";
+        /**
+         * 收支明细
+         */
+        String INCOME_LIST = "userinfo/billinfo/%s";
+        /**
+         * 收入分享
+         */
         String INCOME_SHARE = "/my/income?income=%s";
         /**
-         *提现校验密码
-         * */
-        String WITHDRAW_VERIFU_PASS = "/userinfo/check/witdraw/password";
+         * 提现校验密码
+         */
+        String WITHDRAW_VERIFU_PASS = "userinfo/check/witdraw/password";
 
 
         /**
@@ -241,7 +236,7 @@ public interface Constants {
         /**
          * 首页获取个人信息
          */
-        String GET_ACTIVITY_USER = "/my/activity/user";
+        String GET_ACTIVITY_USER = "my/activity/user";
         /**
          * 首页获取个人信息
          */
@@ -269,7 +264,7 @@ public interface Constants {
         /**
          * 商家关注与取消关注
          */
-        String POST_MEMBER_FOLLOW = "/member/%s/follow";
+        String POST_MEMBER_FOLLOW = "member/%s/follow";
 
         /**
          * 商家列表
@@ -298,7 +293,7 @@ public interface Constants {
 
         /**
          * 是否开启分享功能
-         * */
+         */
         String IS_SHOW_SHARE = "app/config/ios?appVersion=%s";
     }
 

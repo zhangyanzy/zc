@@ -16,11 +16,8 @@ import android.widget.TextView;
 
 import com.amap.api.location.CoordinateConverter;
 import com.amap.api.location.DPoint;
-import com.google.zxing.client.result.VCardResultParser;
 import com.joooonho.SelectableRoundedImageView;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -110,7 +107,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         }
         isContentVisible(activity.getActivityForm(), holder);
         setActivityButton(activity.getActivityStatus(), position, holder);
-        showUserPhoto(context, activity.getUserList(), holder);
+        showUserPhoto(activity.getUserList(), holder);
 
         //点击活动大图
         holder.activity_item_img.setOnClickListener(new View.OnClickListener() {
@@ -197,7 +194,8 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         notifyDataSetChanged();
     }
 
-    private void showUserPhoto(Context context, List<FinishUserResp> userList, ViewHolder holder) {
+    //显示报名用户的头像
+    private void showUserPhoto(List<FinishUserResp> userList, ViewHolder holder) {
         for (int i = 0; i < userList.size(); i++) {
             ImageView imageView = (ImageView) holder.layout_user.getChildAt(i);
             imageView.setVisibility(View.VISIBLE);

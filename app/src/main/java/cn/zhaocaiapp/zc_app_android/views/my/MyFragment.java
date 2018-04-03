@@ -145,7 +145,6 @@ public class MyFragment extends BaseFragment {
         //初始化退出登录弹窗
         trembleBasesOsDialog = new TrembleBasesOsDialog(getActivity());
         trembleBasesOsDialog.setOnDialogClickListener(trembleListener);
-
     }
 
     @Override

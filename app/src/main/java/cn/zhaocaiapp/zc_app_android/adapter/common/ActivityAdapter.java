@@ -3,7 +3,6 @@ package cn.zhaocaiapp.zc_app_android.adapter.common;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.nfc.Tag;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -21,8 +20,6 @@ import com.amap.api.location.CoordinateConverter;
 import com.amap.api.location.DPoint;
 import com.joooonho.SelectableRoundedImageView;
 
-
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,20 +27,16 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.zhaocaiapp.zc_app_android.R;
-import cn.zhaocaiapp.zc_app_android.adapter.my.MyActivityAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
-import cn.zhaocaiapp.zc_app_android.bean.response.member.MemberResp;
-import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalDialog;
+import cn.zhaocaiapp.zc_app_android.bean.response.common.FinishUserResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
-import cn.zhaocaiapp.zc_app_android.util.DialogUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
-import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.common.ActivityDetailActivity;
@@ -72,7 +65,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        EBLog.i("tag", String.valueOf(viewType));
         View view = LayoutInflater.from(context).inflate(R.layout.activity_item, parent, false);
         return new ViewHolder(view);
     }
@@ -100,31 +92,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         SpannableStringBuilder spannableString = new SpannableStringBuilder("#" + getActivityFormString(list.get(position).getActivityForm()) + "#" + list.get(position).getName());
         spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.activity_item_text_title.setText(spannableString);
-        //参与人头像
-        holder.activity_item_text_user0.setVisibility(View.INVISIBLE);
-        holder.activity_item_text_user1.setVisibility(View.INVISIBLE);
-        holder.activity_item_text_user2.setVisibility(View.INVISIBLE);
-        if (GeneralUtils.isNotNull(list.get(position).getUserList()) && list.get(position).getUserList().size() > 0) {
-            if (list.get(position).getUserList().size() >= 1) {
-                holder.activity_item_text_user0.setVisibility(View.VISIBLE);
-                if (GeneralUtils.isNotNullOrZeroLenght(list.get(position).getUserList().get(0).getAvatar())) {
-                    PictureLoadUtil.loadPicture(context, list.get(position).getUserList().get(0).getAvatar(), holder.activity_item_text_user0);
-                }
-            }
-            if (list.get(position).getUserList().size() >= 2) {
-                holder.activity_item_text_user1.setVisibility(View.VISIBLE);
-                if (GeneralUtils.isNotNullOrZeroLenght(list.get(position).getUserList().get(1).getAvatar())) {
-                    PictureLoadUtil.loadPicture(context, list.get(position).getUserList().get(1).getAvatar(), holder.activity_item_text_user1);
-                }
-            }
-            if (list.get(position).getUserList().size() == 3) {
-                holder.activity_item_text_user2.setVisibility(View.VISIBLE);
-                if (GeneralUtils.isNotNullOrZeroLenght(list.get(position).getUserList().get(2).getAvatar())) {
-                    PictureLoadUtil.loadPicture(context, list.get(position).getUserList().get(2).getAvatar(), holder.activity_item_text_user2);
-                }
-            }
-        }
-
         //剩余额度
         holder.activity_item_text_amount.setText(GeneralUtils.getBigDecimalToTwo(list.get(position).getLeftAmount()));
         //已领取人数
@@ -165,6 +132,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         holder.activity_item_text_reward.setText(GeneralUtils.getBigDecimalToTwo(list.get(position).getRewardAmount()));
         //是否显示控件
         isContentVisible(list.get(position).getActivityForm(), holder);
+        //参与人头像
+        showUserPhoto(list.get(position).getUserList(), holder);
 
         //商家图片 点击
         holder.activity_item_member_logo.setOnClickListener(new View.OnClickListener() {
@@ -207,7 +176,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 intent.putExtra("id", list.get(position).getKid());
                 intent.putExtra("title", list.get(position).getName());
                 intent.putExtra("isNeedQRCode", list.get(position).getIfCheck());
-
                 context.startActivity(intent);
             }
         });
@@ -217,57 +185,13 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 if (antiShake.check(v.getId())) return;
-                //未登录
                 if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
-                    //已经收藏
-                    if (list.get(position).getFollow()) {
-                        //取消收藏
-                        Map<String, String> params = new HashMap<>();
-                        params.put("follow", "0");
-                        EBLog.i("tag", params.toString());
-                        EBLog.i("tag", list.get(position).getKid().toString());
-
-                        HttpUtil.post(String.format(Constants.URL.POST_ACTIVITY_FOLLOW, list.get(position).getKid()), params).subscribe(new BaseResponseObserver<String>() {
-                            @Override
-                            public void success(String result) {
-                                list.get(position).setFollow(false);
-                                holder.activity_item_text_collection.setImageResource(R.mipmap.collection_off);
-                                EBLog.i("tag", result.toString());
-                            }
-
-                            @Override
-                            public void error(Response<String> response) {
-                                EBLog.e("tag", response.getCode() + "");
-                                ToastUtil.makeText(context, response.getDesc());
-                            }
-                        });
+                    if (list.get(position).getFollow()) { //已经收藏，则取消收藏
+                        doFollow(position, 0, holder);
+                    } else {  //未收藏，则收藏
+                        doFollow(position, 1, holder);
                     }
-                    //未收藏
-                    else {
-                        //收藏
-                        Map<String, String> params = new HashMap<>();
-                        params.put("follow", "1");
-                        EBLog.i("tag", params.toString());
-                        EBLog.i("tag", list.get(position).getKid().toString());
-
-                        HttpUtil.post(String.format(Constants.URL.POST_ACTIVITY_FOLLOW, list.get(position).getKid()), params).subscribe(new BaseResponseObserver<String>() {
-                            @Override
-                            public void success(String result) {
-                                list.get(position).setFollow(true);
-                                holder.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
-                                EBLog.i("tag", result.toString());
-                            }
-
-                            @Override
-                            public void error(Response<String> response) {
-                                EBLog.e("tag", response.getCode() + "");
-                                ToastUtil.makeText(context, response.getDesc());
-                            }
-                        });
-                    }
-                }
-                //登录
-                else {
+                } else {  //未登陆
                     Intent intent = new Intent(context, LoginActivity.class);
                     context.startActivity(intent);
                 }
@@ -288,7 +212,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return list != null ? list.size() : 0;
+        return list.size();
     }
 
     //根据活动类型和状态判断控件内容是否显示
@@ -316,6 +240,43 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 holder.activity_item_member_area.setVisibility(View.GONE);
                 break;
         }
+    }
+
+    //显示报名用户的额头像
+    private void showUserPhoto(List<FinishUserResp> userList, ViewHolder holder) {
+        for (int i = 0; i < userList.size(); i++) {
+            ImageView imageView = (ImageView) holder.layout_user.getChildAt(i);
+            imageView.setVisibility(View.VISIBLE);
+            if (GeneralUtils.isNotNullOrZeroLenght(userList.get(i).getAvatar())) {
+                PictureLoadUtil.loadPicture(context, userList.get(i).getAvatar(), imageView);
+            }
+        }
+    }
+
+    //关注/取消关注
+    private void doFollow(int position, int state, ViewHolder holder) {
+        Map<String, String> params = new HashMap<>();
+        params.put("follow", state + "");
+        EBLog.i("tag", params.toString());
+
+        HttpUtil.post(String.format(Constants.URL.POST_ACTIVITY_FOLLOW, list.get(position).getKid()), params).subscribe(new BaseResponseObserver<String>() {
+            @Override
+            public void success(String result) {
+                if (state == 1) { //收藏
+                    list.get(position).setFollow(true);
+                    holder.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
+                } else if (state == 0) { //取消收藏
+                    list.get(position).setFollow(false);
+                    holder.activity_item_text_collection.setImageResource(R.mipmap.collection_off);
+                }
+            }
+
+            @Override
+            public void error(Response<String> response) {
+                EBLog.e("tag", response.getCode() + "");
+                ToastUtil.makeText(context, response.getDesc());
+            }
+        });
     }
 
     public void updata(List<ActivityResp> list) {
@@ -380,7 +341,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        //商家图片
+        //商家logo
         @BindView(R.id.activity_item_member_logo)
         ImageView activity_item_member_logo;
         //商家名称
@@ -404,15 +365,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         //视频活动播放
         @BindView(R.id.activity_item_img_vide)
         ImageView activity_item_img_vide;
-        //参与人0
-        @BindView(R.id.activity_item_text_user0)
-        ImageView activity_item_text_user0;
-        //参与人1
-        @BindView(R.id.activity_item_text_user1)
-        ImageView activity_item_text_user1;
-        //参与人2
-        @BindView(R.id.activity_item_text_user2)
-        ImageView activity_item_text_user2;
         //剩余额度
         @BindView(R.id.activity_item_text_amount)
         TextView activity_item_text_amount;
@@ -445,6 +397,9 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         //活动内容
         @BindView(R.id.layout_activity_content)
         LinearLayout layout_activity_content;
+        //报名的用户头像
+        @BindView(R.id.layout_user)
+        LinearLayout layout_user;
 
         View itemView;
 
