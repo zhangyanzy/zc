@@ -1,5 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.views.home;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -18,6 +20,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.pgyersdk.javabean.AppBean;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -88,10 +94,9 @@ public class HomeFragment extends BaseFragment {
     private Map<Integer, Fragment> fragments = new HashMap<>();
     private UserInfoResp userInfoResp;//用户个人信息
     private String areaName;//用户定位城市名称
-    private String areaCode;//用户定位城市Code
     private UserResp userResp;//用户
 
-    private boolean isFirst = true;
+    private boolean isFirst = true; //是否首次加载用户信息
     private AntiShake antiShake = new AntiShake();
 
     private static final String TAG = "首页";
@@ -160,9 +165,41 @@ public class HomeFragment extends BaseFragment {
         //加载首页头部用户数据
         getUserInfo();
 
-        /**
-         * 消息推送判断
-         */
+        //注册蒲公英版本更新监听
+        PgyUpdateManager.register(getActivity(), updateListener);
+    }
+
+    //首页获取用户信息
+    private void getUserInfo() {
+        //判断登录
+        if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
+            //获取用户信息
+            HttpUtil.get(String.format(Constants.URL.GET_ACTIVITY_USER)).subscribe(new BaseResponseObserver<UserInfoResp>() {
+                @Override
+                public void success(UserInfoResp result) {
+                    EBLog.i(TAG, "用户信息---" + result.toString());
+                    userInfoResp = result;
+                    //用户头像
+                    if (GeneralUtils.isNotNullOrZeroLenght(userInfoResp.getAvatar())) {
+                        PictureLoadUtil.loadPicture(getActivity(), userInfoResp.getAvatar(), home_title_user_img);
+                    }
+                    //用户昵称
+                    home_title_user_name.setText(userInfoResp.getNickname());
+                    //用户总收入
+                    home_title_user_income.setText(String.valueOf(userInfoResp.getGrossIncomeAmount()));
+                    //用户余额
+                    home_title_user_balance.setText(String.valueOf(userInfoResp.getAccountBalanceAmount()));
+                }
+
+                @Override
+                public void error(Response<UserInfoResp> response) {
+                }
+            });
+        }
+    }
+
+    //是否开启消息通知
+    private void openNotification() {
         NotificationManagerCompat manager = NotificationManagerCompat.from(this.getActivity());
         boolean isOpened = manager.areNotificationsEnabled();
         EBLog.i(TAG, "消息推送通知开关：" + isOpened);
@@ -201,26 +238,28 @@ public class HomeFragment extends BaseFragment {
                 });
             }
         }
+    }
 
-        /**
-         * 定位判断
-         */
+    //是否开启定位通知
+    private void openLocation() {
         areaName = (String) SpUtils.init(Constants.SPREF.FILE_APP_NAME).get(Constants.SPREF.AREA_NAME, Constants.CONFIG.AREA_NAME);
-        areaCode = (String) SpUtils.init(Constants.SPREF.FILE_APP_NAME).get(Constants.SPREF.AREA_CODE, Constants.CONFIG.AREA_CODE);
         //显示当前用户定位城市
         home_title_area_text.setText(areaName);
+        EBLog.i(TAG, "当前定位城市-" + areaName);
         Gps gps = LocationUtil.getGps();
-        if (gps.getOpen() && !areaName.equals(gps.getCity()) && (boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.SHOW_NEWER_ACTIVITY, true)) {
+        if (gps.getOpen() && !areaName.equals(gps.getCity())) {
             String content = String.format(getString(R.string.change_position), gps.getCity());
-            NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), null, content, "关闭", "切换");
-            normalDialog.isTitleShow(false);
+            NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "切换城市", content, "关闭", "切换");
+            normalDialog.setCanceledOnTouchOutside(false);
+            normalDialog.setCancelable(false);
             normalDialog.setOnBtnClickL(new OnBtnClickL() {
                 @Override
                 public void onBtnClick() {
                     EBLog.i(TAG, "您点击了取消");
-                    normalDialog.cancel();
-                    //获取新手任务
-                    userinfoFristpage();
+                    normalDialog.dismiss();
+
+                    //提示新手任务
+                    notifyNewTask();
                 }
             }, new OnBtnClickL() {
                 @Override
@@ -231,42 +270,14 @@ public class HomeFragment extends BaseFragment {
                     SpUtils.init(Constants.SPREF.FILE_APP_NAME).put(Constants.SPREF.AREA_CODE, gps.getAdCode());
                     EventBus.getDefault().post(new MessageEvent<String>("home_tab_0"));
                     normalDialog.dismiss();
-                    //获取新手任务
-                    userinfoFristpage();
+
+                    //提示新手任务
+                    notifyNewTask();
                 }
             });
         } else {
-            //获取新手任务
-            userinfoFristpage();
-        }
-    }
-
-    //首页获取用户信息
-    private void getUserInfo() {
-        //判断登录
-        if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
-            //获取用户信息
-            HttpUtil.get(String.format(Constants.URL.GET_ACTIVITY_USER)).subscribe(new BaseResponseObserver<UserInfoResp>() {
-                @Override
-                public void success(UserInfoResp result) {
-                    EBLog.i(TAG, "用户信息---" + result.toString());
-                    userInfoResp = result;
-                    //用户头像
-                    if (GeneralUtils.isNotNullOrZeroLenght(userInfoResp.getAvatar())) {
-                        PictureLoadUtil.loadPicture(getActivity(), userInfoResp.getAvatar(), home_title_user_img);
-                    }
-                    //用户昵称
-                    home_title_user_name.setText(userInfoResp.getNickname());
-                    //用户总收入
-                    home_title_user_income.setText(String.valueOf(userInfoResp.getGrossIncomeAmount()));
-                    //用户余额
-                    home_title_user_balance.setText(String.valueOf(userInfoResp.getAccountBalanceAmount()));
-                }
-
-                @Override
-                public void error(Response<UserInfoResp> response) {
-                }
-            });
+            //提示新手任务
+            notifyNewTask();
         }
     }
 
@@ -281,15 +292,15 @@ public class HomeFragment extends BaseFragment {
                 EBLog.i(TAG, "接收到定位切换消息");
             }
         }
-
     }
 
     /**
-     * 新手任务判断 USERINFO_FRISTPAGE
+     * 新手任务提示
      */
-    private void userinfoFristpage() {
+    private void notifyNewTask() {
         //判断登录
-        if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
+        if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)
+                && (boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.SHOW_NEWER_ACTIVITY, true)) {
             //获取新手任务
             HttpUtil.get(String.format(Constants.URL.GET_USERINFO_FRISTPAGE)).subscribe(new BaseResponseObserver<UserResp>() {
                 @Override
@@ -387,6 +398,58 @@ public class HomeFragment extends BaseFragment {
         return fragment;
     }
 
+    //蒲公英版本更新监听
+    private UpdateManagerListener updateListener = new UpdateManagerListener() {
+        @Override
+        public void onNoUpdateAvailable() { //不更新
+            openNotification();
+            openLocation();
+        }
+
+        @Override
+        public void onUpdateAvailable(String result) { //更新
+            // 将新版本信息封装到AppBean中
+            AlertDialog dialog = null;
+            final AppBean appBean = getAppBeanFromString(result);
+            if (PgyUpdateManager.isForced()) { //强制更新
+                dialog = new AlertDialog.Builder(getActivity())
+                        .setTitle("更新")
+                        .setMessage(appBean.getReleaseNote())
+                        .setPositiveButton("确定",
+                                new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        startDownloadTask(getActivity(), appBean.getDownloadURL());
+                                    }
+                                })
+                        .show();
+            } else { //非强制更新
+                dialog = new AlertDialog.Builder(getActivity())
+                        .setTitle("更新")
+                        .setMessage(appBean.getReleaseNote())
+                        .setPositiveButton("确定",
+                                new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        startDownloadTask(getActivity(), appBean.getDownloadURL());
+                                    }
+                                })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                openNotification();
+                                openLocation();
+                                dialog.dismiss();
+                            }
+                        }).show();
+            }
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
+        }
+    };
+
     @OnClick({R.id.home_title_search, R.id.home_title_user_cart, R.id.home_title_area_layout})
     public void onClick(View view) {
         if (antiShake.check(view.getId())) return;
@@ -410,100 +473,12 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         isFirst = true;
     }
-
-//    /**
-//     * 保存 app本地文件配置
-//     */
-//    public static void setShareApp(String key, Object object) {
-//        SharedPreferences sp = ZcApplication.getPreferencesApp();
-//        SharedPreferences.Editor editor = sp.edit();
-//
-//        if (object == null) return;
-//        if (object instanceof String) {
-//            editor.putString(key, (String) object);
-//        } else if (object instanceof Integer) {
-//            editor.putInt(key, (Integer) object);
-//        } else if (object instanceof Boolean) {
-//            editor.putBoolean(key, (Boolean) object);
-//        } else if (object instanceof Float) {
-//            editor.putFloat(key, (Float) object);
-//        } else if (object instanceof Long) {
-//            editor.putLong(key, (Long) object);
-//        } else {
-//            editor.putString(key, object.toString());
-//        }
-//
-//        SharedPreferencesCompat.apply(editor);
-//    }
-//
-//    /**
-//     * 返回 app本地文件配置
-//     */
-//    public static Object getShareApp(String key, Object defaultObject) {
-//        SharedPreferences sp = ZcApplication.getPreferencesApp();
-//
-//        if (defaultObject instanceof String) {
-//            return sp.getString(key, (String) defaultObject);
-//        } else if (defaultObject instanceof Integer) {
-//            return sp.getInt(key, (Integer) defaultObject);
-//        } else if (defaultObject instanceof Boolean) {
-//            return sp.getBoolean(key, (Boolean) defaultObject);
-//        } else if (defaultObject instanceof Float) {
-//            return sp.getFloat(key, (Float) defaultObject);
-//        } else if (defaultObject instanceof Long) {
-//            return sp.getLong(key, (Long) defaultObject);
-//        }
-//
-//        return null;
-//    }
-//
-//    /**
-//     * 创建一个解决SharedPreferencesCompat.apply方法的一个兼容类
-//     *
-//     * @author zhy
-//     */
-//    private static class SharedPreferencesCompat {
-//        private static final Method sApplyMethod = findApplyMethod();
-//
-//        /**
-//         * 反射查找apply的方法
-//         *
-//         * @return
-//         */
-//        @SuppressWarnings({"unchecked", "rawtypes"})
-//        private static Method findApplyMethod() {
-//            try {
-//                Class clz = SharedPreferences.Editor.class;
-//                return clz.getMethod("apply");
-//            } catch (NoSuchMethodException e) {
-//            }
-//
-//            return null;
-//        }
-//
-//        /**
-//         * 如果找到则使用apply执行，否则使用commit
-//         *
-//         * @param editor
-//         */
-//        public static void apply(SharedPreferences.Editor editor) {
-//            try {
-//                if (sApplyMethod != null) {
-//                    sApplyMethod.invoke(editor);
-//                    return;
-//                }
-//            } catch (IllegalArgumentException e) {
-//            } catch (IllegalAccessException e) {
-//            } catch (InvocationTargetException e) {
-//            }
-//            editor.commit();
-//        }
-//    }
 }
 
 

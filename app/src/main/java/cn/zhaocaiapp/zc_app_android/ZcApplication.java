@@ -8,6 +8,8 @@ import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.AccessToken;
+import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.update.PgyUpdateManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
@@ -120,6 +122,11 @@ public class ZcApplication extends MultiDexApplication {
 
         //用户首次进入，标记新手任务弹窗显示
         SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.SHOW_NEWER_ACTIVITY, true);
+
+        //注册蒲公英Crash反馈
+        PgyCrashManager.register(getApplicationContext());
+        //设置是否强制更新。true为强制更新；false为不强制更新（默认值）
+        PgyUpdateManager.setIsForced(false);
 
 //        //是否开启分享功能
 //        isShowShare();

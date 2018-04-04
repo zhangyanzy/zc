@@ -1,20 +1,8 @@
 package cn.zhaocaiapp.zc_app_android.util;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.Paint;
-import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
-import android.view.View;
-import android.view.View.MeasureSpec;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -127,50 +115,6 @@ public final class GeneralUtils {
     }
 
     /**
-     * <获取当前日期 格式 yyyyMMddHHmmss> <功能详细描述>
-     *
-     * @return String
-     * @see [类、类#方法、类#成员]
-     */
-    public static String getRightNowDateString() {
-        Calendar calendar = Calendar.getInstance(Locale.CHINA);
-        Date date = calendar.getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        return dateFormat.format(date);
-    }
-
-    /**
-     * <获取当前日期 格式 yyyy-MM-dd HH:mm:ss> <功能详细描述>
-     *
-     * @return String
-     * @see [类、类#方法、类#成员]
-     */
-    public static String getNowDateString() {
-        Calendar calendar = Calendar.getInstance(Locale.CHINA);
-        Date date = calendar.getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return dateFormat.format(date);
-    }
-
-    /**
-     * <获取当前时间 格式yyyyMMddHHmmss> <功能详细描述>
-     *
-     * @return Date
-     * @see [类、类#方法、类#成员]
-     */
-    public static Date getRightNowDateTime() {
-        Calendar calendar = Calendar.getInstance(Locale.CHINA);
-        Date date = calendar.getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        try {
-            return dateFormat.parse(dateFormat.format(date));
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
      * <保留两位有效数字> <功能详细描述>
      *
      * @param num String
@@ -179,6 +123,15 @@ public final class GeneralUtils {
      */
     public static String retained2SignificantFigures(String num) {
         return new BigDecimal(num).setScale(2, RoundingMode.HALF_UP).toString();
+    }
+
+    /**
+     * 保留小数点后两位，仅保留有效位
+     */
+    public static String getBigDecimalToTwo(BigDecimal bigDecimal) {
+        DecimalFormat df2 = new DecimalFormat("0.##");
+        String str2 = df2.format(bigDecimal);
+        return str2;
     }
 
     /**
@@ -245,18 +198,16 @@ public final class GeneralUtils {
     }
 
     /**
-     * <除法运算并保留两位有效数字> <功能详细描述>
+     * <获取当前日期 格式 yyyy-MM-dd HH:mm:ss> <功能详细描述>
      *
-     * @param divisor1 String
-     * @param divisor2 String
      * @return String
      * @see [类、类#方法、类#成员]
      */
-    public static String dividePoint1(String divisor1, String divisor2) {
-        BigDecimal div1 = new BigDecimal(divisor1);
-        BigDecimal div2 = new BigDecimal(divisor2);
-        BigDecimal result = div1.divide(div2, 1, RoundingMode.HALF_UP);
-        return result.toString();
+    public static String getNowDateString() {
+        Calendar calendar = Calendar.getInstance(Locale.CHINA);
+        Date date = calendar.getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(date);
     }
 
     /**
@@ -286,11 +237,9 @@ public final class GeneralUtils {
         if (isNullOrZeroLenght(str) || str.length() != 14) {
             return str;
         }
-
         String strs = "";
-        strs =
-                str.substring(0, 4) + "-" + str.substring(4, 6) + "-" + str.substring(6, 8) + " " + str.substring(8, 10)
-                        + ":" + str.substring(10, 12);
+        strs = str.substring(0, 4) + "-" + str.substring(4, 6) + "-" + str.substring(6, 8) + " "
+                + str.substring(8, 10) + ":" + str.substring(10, 12);
         return strs;
     }
 
@@ -338,24 +287,6 @@ public final class GeneralUtils {
     }
 
     /**
-     * <将YYYYMMDDHHmmss 转换为 YY-MM-DD hh:mm:ss> <功能详细描述>
-     *
-     * @param str
-     * @return
-     * @see [类、类#方法、类#成员]
-     */
-    public static String splitToYear(String str) {
-        if (isNullOrZeroLenght(str) || str.length() != 14) {
-            return str;
-        }
-
-        String strs = "";
-        strs = str.substring(2, 4) + "-" + str.substring(4, 6) + "-" + str.substring(6, 8) + " " + str.substring(8, 10)
-                        + ":" + str.substring(10, 12) + ":" + str.substring(12, 14);
-        return strs;
-    }
-
-    /**
      * <邮箱判断>
      * <功能详细描述>
      *
@@ -379,7 +310,7 @@ public final class GeneralUtils {
      * @see [类、类#方法、类#成员]
      */
     public static boolean isTel(String tel) {
-        String str = "^((13[0-9])|(15[0-9])|(14[0-9])|(17[0-9])|(18[0-9]))\\d{8}$";
+        String str = "^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9]))\\d{8}$";
         Pattern p = Pattern.compile(str);
         Matcher m = p.matcher(tel);
         return m.matches();
@@ -418,36 +349,6 @@ public final class GeneralUtils {
     }
 
     /**
-     * <密码位数判断>
-     * <功能详细描述>
-     *
-     * @param password
-     * @return
-     * @see [类、类#方法、类#成员]
-     */
-    public static boolean IsPasswordDigit(String password) {
-        String str = "^[^ ]{6,20}$";
-        Pattern p = Pattern.compile(str);
-        Matcher m = p.matcher(password);
-        return m.matches();
-    }
-
-    /**
-     * <密码位数判断>
-     * <功能详细描述>
-     *
-     * @param certificate
-     * @return
-     * @see [类、类#方法、类#成员]
-     */
-    public static boolean Iscertificate(String certificate) {
-        String str = "[0-9]{17}([0-9]|[xX])";
-        Pattern p = Pattern.compile(str);
-        Matcher m = p.matcher(certificate);
-        return m.matches();
-    }
-
-    /**
      * <获取imei>
      * <功能详细描述>
      *
@@ -460,15 +361,6 @@ public final class GeneralUtils {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
         return telephonyManager.getDeviceId();
-    }
-
-    /**
-     * 小数点后两位
-     */
-    public static String getBigDecimalToTwo(BigDecimal bigDecimal) {
-        DecimalFormat df2 = new DecimalFormat("#0.00"); // #.00 表示两位小数 #.0000四位小数
-        String str2 = df2.format(bigDecimal);
-        return str2;
     }
 
     /**
@@ -507,7 +399,7 @@ public final class GeneralUtils {
     }
 
     /**
-     * 根据用户名的不同长度，来进行替换 ，达到保密效果
+     * 根据用户名的不同长度来进行替换 ，达到保密效果
      *
      * @param userName 用户名
      * @return 替换后的用户名
@@ -559,7 +451,7 @@ public final class GeneralUtils {
     }
 
     /**
-     * 银行卡替换，保留后四位
+     * 银行卡号替换，保留后四位
      * <p>
      * 如果银行卡号为空 或者 null ,返回null ；否则，返回替换后的字符串；
      *

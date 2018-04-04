@@ -38,7 +38,6 @@ public class ToastUtil {
      * @param msg
      */
     public static void makeTextLong(Context context, String msg) {
-
         if (toast == null) {
             toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
         } else {

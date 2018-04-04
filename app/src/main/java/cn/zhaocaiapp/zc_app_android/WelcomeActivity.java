@@ -11,23 +11,19 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
+import android.widget.ImageView;
 import com.umeng.message.PushAgent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.PermissionUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
@@ -39,21 +35,22 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
     ViewPager viewPager;
     @BindView(R.id.btn_skip)
     Button btnSkip;
+    @BindView(R.id.btn_start)
+    Button btnStart;
 
     private MyViewPagerAdapter myViewPagerAdapter;
-    private TextView[] dots;
-    private int[] layouts;
     private String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE};
 
+    private List<ImageView> views = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //设置activity全屏显示，且状态栏隐藏
-        requestWindowFeature(Window.FEATURE_NO_TITLE);  //无title
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);  //全屏
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //动态申请权限
         PermissionUtil.checkPermission(this, perms, null);
@@ -71,26 +68,23 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
 
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
+        init();
 
         //初始化友盟推送
         PushAgent.getInstance(this).onAppStart();
-
-        init();
     }
 
     private void init() {
-        //添加欢迎页面
-        layouts = new int[]{
-                R.layout.activity_welcome_slide1,
-                R.layout.activity_welcome_slide2,
-                R.layout.activity_welcome_slide3
-        };
-
-        //让状态栏透明
+        //设置状态栏透明
         changeStatusBarColor();
 
-        myViewPagerAdapter = new MyViewPagerAdapter();
-        viewPager.setAdapter(myViewPagerAdapter);
+        int[]ids = new int[]{R.mipmap.welcome_slide1, R.mipmap.welcome_slide2, R.mipmap.welcome_slide3};
+        for (int i = 0; i < ids.length; i ++ ){
+            ImageView imageView = new ImageView(this);
+            imageView.setImageResource(ids[i]);
+            views.add(imageView);
+        }
+        viewPager.setAdapter(new MyViewPagerAdapter());
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
         btnSkip.setOnClickListener(new View.OnClickListener() {
@@ -101,19 +95,8 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
         });
     }
 
-
     /**
-     * 获取下一个页面
-     *
-     * @param i
-     * @return
-     */
-    private int getItem(int i) {
-        return viewPager.getCurrentItem() + i;
-    }
-
-    /**
-     * 跳过
+     * 跳过引导页
      */
     private void launchHomeScreen() {
         if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get((Constants.SPREF.IS_LOGIN), false))
@@ -124,7 +107,7 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
     }
 
     /**
-     * 让状态栏变透明
+     * 设置状态栏变透明
      */
     private void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -134,55 +117,40 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
         }
     }
 
-
+    //viewpager的滑动监听
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
 
         @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
         @Override
         public void onPageSelected(int position) {
-
+            if (position == views.size() - 1){
+                btnStart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        launchHomeScreen();
+                    }
+                });
+            }
         }
 
         @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
+        public void onPageScrollStateChanged(int state) {}
     };
 
     public class MyViewPagerAdapter extends PagerAdapter {
 
-        private LayoutInflater layoutInflater;
-
-        public MyViewPagerAdapter() {
-        }
-
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            View view = layoutInflater.inflate(layouts[position], container, false);
+            View view = views.get(position);
             container.addView(view);
-            view.findViewById(R.id.welcome_slide).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int current = getItem(+1);
-                    if (current < layouts.length) {
-                        viewPager.setCurrentItem(current);
-                    } else {
-                        launchHomeScreen();
-                    }
-                }
-            });
             return view;
         }
 
         @Override
         public int getCount() {
-            return layouts.length;
+            return views.size();
         }
 
         @Override

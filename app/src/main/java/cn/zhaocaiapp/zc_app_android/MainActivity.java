@@ -29,10 +29,13 @@ import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.AppUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.home.HomeFragment;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.views.member.MemberFragment;
 import cn.zhaocaiapp.zc_app_android.views.my.MyFragment;
+
+import static com.pgyersdk.update.UpdateManagerListener.startDownloadTask;
 
 /**
  * Created by ASUS on 2017/10/30.
@@ -58,23 +61,23 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         ActivityUtil.addActivity(this);
 
         umShareAPI = ZcApplication.getUMShareAPI();
-
         currentPosition = getIntent().getIntExtra("position", -1);
 
-        //注册蒲公英Crash反馈
-        PgyCrashManager.register(getApplicationContext());
-        //注册蒲公英版本更新
-        PgyUpdateManager.setIsForced(false); //设置是否强制更新。true为强制更新；false为不强制更新（默认值）。
-        PgyUpdateManager.register(this, updateListener);
-
-        initView();
-        //判断定位服务
-        isLocation();
-    }
-
-    private void initView() {
         groupBotton.setOnCheckedChangeListener(this);
         setCheckButton(currentPosition);
+
+        isLocationOpen(); //判断定位服务是否开启
+    }
+
+    /**
+     * 判断是否开启系统定位服务
+     */
+    private void isLocationOpen() {
+        Boolean isLocation = AppUtil.isLocation(this);
+        if (!isLocation){
+            ToastUtil.makeText(this, getString(R.string.open_location));
+        }
+        EBLog.i("tag", "定位服务是否开启，" + isLocation.toString());
     }
 
     public void setCheckButton(int position) {
@@ -164,41 +167,6 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         }
         return fragment;
     }
-
-    /**
-     * 判断是否开启系统定位服务
-     */
-    private void isLocation() {
-        Boolean isLocation = AppUtil.isLocation(this);
-        EBLog.i("tag", "定位服务是否开启，" + isLocation.toString());
-    }
-
-    //蒲公英版本更新监听器
-    private UpdateManagerListener updateListener = new UpdateManagerListener() {
-        @Override
-        public void onNoUpdateAvailable() { //不更新
-
-        }
-
-        @Override
-        public void onUpdateAvailable(String result) { //更新
-            // 将新版本信息封装到AppBean中
-            final AppBean appBean = getAppBeanFromString(result);
-            AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
-                    .setTitle("更新")
-                    .setMessage(appBean.getReleaseNote())
-                    .setNegativeButton("确定",
-                            new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    startDownloadTask(MainActivity.this, appBean.getDownloadURL());
-                                }
-                            }).show();
-            dialog.setCancelable(false);
-            dialog.setCanceledOnTouchOutside(false);
-        }
-    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
