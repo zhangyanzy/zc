@@ -58,6 +58,7 @@ import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.widget.AntiShake;
 
@@ -162,11 +163,11 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void loadData() {
-        //加载首页头部用户数据
-        getUserInfo();
-
         //注册蒲公英版本更新监听
         PgyUpdateManager.register(getActivity(), updateListener);
+
+        //加载首页头部用户数据
+        getUserInfo();
     }
 
     //首页获取用户信息
@@ -193,6 +194,8 @@ public class HomeFragment extends BaseFragment {
 
                 @Override
                 public void error(Response<UserInfoResp> response) {
+                    EBLog.i(TAG, response.getCode()+"");
+                    ToastUtil.makeText(getActivity(), response.getDesc());
                 }
             });
         }
@@ -310,7 +313,7 @@ public class HomeFragment extends BaseFragment {
                     //是否弹窗提示新手任务
                     if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.SHOW_NEWER_ACTIVITY, true))
                         //判断用户是否做新手任务
-                        if (userResp.getIsFinishActivity() == 0) {
+                        if (GeneralUtils.isNotNull(userResp.getIsFinishActivity()) && userResp.getIsFinishActivity() == 0) {
                             String content = getString(R.string.new_task_reward);
                             NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "新手奖励", content, "忽略", "任务详情");
                             //点击空白处,弹窗是否消失
@@ -340,6 +343,8 @@ public class HomeFragment extends BaseFragment {
 
                 @Override
                 public void error(Response<UserResp> response) {
+                    EBLog.i(TAG, response.getCode()+"");
+                    ToastUtil.makeText(getActivity(), response.getDesc());
                 }
             });
         }
@@ -421,6 +426,7 @@ public class HomeFragment extends BaseFragment {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         startDownloadTask(getActivity(), appBean.getDownloadURL());
+                                        SpUtils.init(Constants.SPREF.FILE_USER_NAME).clear();
                                     }
                                 })
                         .show();
@@ -434,6 +440,7 @@ public class HomeFragment extends BaseFragment {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         startDownloadTask(getActivity(), appBean.getDownloadURL());
+                                        SpUtils.init(Constants.SPREF.FILE_USER_NAME).clear();
                                     }
                                 })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -472,7 +479,6 @@ public class HomeFragment extends BaseFragment {
                 break;
         }
     }
-
 
     @Override
     public void onDestroy() {

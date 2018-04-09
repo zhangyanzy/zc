@@ -64,6 +64,8 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
         } else {
             SharedPreferences.Editor editor = sp.edit();
             editor.putBoolean("is_first_start", false).apply();
+            //用户首次进入，标记新手任务弹窗显示
+            SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.SHOW_NEWER_ACTIVITY, true);
         }
 
         setContentView(R.layout.activity_welcome);

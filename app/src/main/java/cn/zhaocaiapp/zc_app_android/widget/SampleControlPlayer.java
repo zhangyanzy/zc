@@ -36,7 +36,7 @@ public class SampleControlPlayer extends StandardGSYVideoPlayer {
 
     @Override
     protected void touchSurfaceMoveFullLogic(float absDeltaX, float absDeltaY) {
-        super.touchSurfaceMoveFullLogic(absDeltaX, absDeltaY);
+//        super.touchSurfaceMoveFullLogic(absDeltaX, absDeltaY);
         //不给触摸快进，如果需要，屏蔽下方代码即可
         mChangePosition = false;
 
