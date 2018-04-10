@@ -58,7 +58,8 @@
         android:singleLine="true"
         android:textColor="@color/colorFont6"
         android:textColorHint="@color/colorFont9"
-        android:textSize="@dimen/font_size_14" />
+        android:textSize="@dimen/font_size_14"
+        android:inputType="numberDecimal"/>
 
     <TextView
         android:id="@+id/tv_withdraw_all"

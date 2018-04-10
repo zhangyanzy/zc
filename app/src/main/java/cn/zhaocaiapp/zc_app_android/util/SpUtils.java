@@ -2,8 +2,6 @@ package cn.zhaocaiapp.zc_app_android.util;
 
 import android.content.SharedPreferences;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
 

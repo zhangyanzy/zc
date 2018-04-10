@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+
 import com.umeng.message.PushAgent;
 
 import java.util.ArrayList;
@@ -55,17 +56,15 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
         //动态申请权限
         PermissionUtil.checkPermission(this, perms, null);
 
-        //存储应用是否首次启动的信息
-        SharedPreferences sp = getSharedPreferences("first_start", Context.MODE_PRIVATE);
-        boolean isFirstStart = sp.getBoolean("is_first_start", true);
-        //不是第一次启动
+        //获取应用是否首次启动
+        boolean isFirstStart = (boolean) SpUtils.init(Constants.SPREF.FILE_APP_NAME).get("is_first_start", true);
+        //是否首次启动
         if (!isFirstStart) {
             launchHomeScreen();
         } else {
-            SharedPreferences.Editor editor = sp.edit();
-            editor.putBoolean("is_first_start", false).apply();
-            //用户首次进入，标记新手任务弹窗显示
+            //用户首次进入，弹窗显示新手任务
             SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.SHOW_NEWER_ACTIVITY, true);
+            SpUtils.init(Constants.SPREF.FILE_APP_NAME).put("is_first_start", false);
         }
 
         setContentView(R.layout.activity_welcome);
@@ -80,8 +79,8 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
         //设置状态栏透明
         changeStatusBarColor();
 
-        int[]ids = new int[]{R.mipmap.welcome_slide1, R.mipmap.welcome_slide2, R.mipmap.welcome_slide3};
-        for (int i = 0; i < ids.length; i ++ ){
+        int[] ids = new int[]{R.mipmap.welcome_slide1, R.mipmap.welcome_slide2, R.mipmap.welcome_slide3};
+        for (int i = 0; i < ids.length; i++) {
             ImageView imageView = new ImageView(this);
             imageView.setImageResource(ids[i]);
             views.add(imageView);
@@ -123,11 +122,12 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
 
         @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        }
 
         @Override
         public void onPageSelected(int position) {
-            if (position == views.size() - 1){
+            if (position == views.size() - 1) {
                 btnStart.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -138,7 +138,8 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
         }
 
         @Override
-        public void onPageScrollStateChanged(int state) {}
+        public void onPageScrollStateChanged(int state) {
+        }
     };
 
     public class MyViewPagerAdapter extends PagerAdapter {

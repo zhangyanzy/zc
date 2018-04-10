@@ -16,12 +16,13 @@
     <string name="input_old_pass">请输入新原密码</string>
     <string name="input_new_pass">请输入新密码</string>
     <string name="input_confirm_pass">请再次输入新密码</string>
+    <string name="confirm_pass">请再次输入密码</string>
     <string name="input_login_pass_word">请输入登录密码</string>
     <string name="compile_pass">两次输入的密码不一致，请重新输入</string>
     <string name="reset_pass">找回密码</string>
     <!--字符串中包含的第一个参数为整数d-->
     <string name="delay_time">%1$d秒</string>
-    <string name="input_edit_invite_code">请输入邀请码</string>
+    <string name="input_edit_invite_code">请输入邀请码（非必填）</string>
     <string name="agreement">我已阅读了《用户协议》</string>
     <string name="exit">退出登录</string>
     <string name="balance">当前可提现金额</string>
@@ -80,7 +81,7 @@
     <string name="account_merge">您已经注册过，已将账户合并</string>
     <string name="input">请输入</string>
     <string name="revise_pass_success">重置密码成功</string>
-    <string name="not_certification">您还未实名认证，请前往个人资料中进行实名认证！</string>
+    <string name="not_certification">您还未通过实名认证，请前往个人资料中进行实名认证！</string>
     <string name="confirm_clean_cache">确认清除缓存吗？</string>
     <string name="idcard_upload_failure">身份证上传失败</string>
     <string name="avater_upload_failure">用户头像上传失败</string>
@@ -112,6 +113,8 @@
     <string name="new_task_reward">完成新手任务即可领取奖励</string>
     <string name="invite_friend">邀请好友</string>
     <string name="open_location">手机定位未开启，将无法准确获取活动位置，请在设置中开启</string>
+    <string name="add_label">您还没有选择标签</string>
+
 
 
 </resources>

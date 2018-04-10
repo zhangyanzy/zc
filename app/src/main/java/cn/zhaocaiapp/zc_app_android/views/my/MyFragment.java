@@ -209,6 +209,7 @@ public class MyFragment extends BaseFragment {
             PictureLoadUtil.loadPicture(getActivity(), userInfo.getAvatar(), iv_user_photo);
         if (userInfo.getRealInfoAuditStatus() == 2)//通过实名认证
             SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.IS_CERTIFICATION, true);
+        else SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.IS_CERTIFICATION, false);
 
         SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.INVITE_CODE, userInfo.getInviteCode());
         SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.SERVICE_PHONE, userInfo.getCustomerPhone());

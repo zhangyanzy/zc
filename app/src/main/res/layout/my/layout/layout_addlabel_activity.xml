@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <include layout="@layout/layout_top_title"/>
+    <include layout="@layout/layout_top_title" />
 
     <com.zhy.view.flowlayout.TagFlowLayout
         android:id="@+id/label_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_top_title"
+        android:paddingBottom="30dp">
 
     </com.zhy.view.flowlayout.TagFlowLayout>
 
@@ -17,13 +18,13 @@
         android:id="@+id/tv_submit"
         android:layout_width="225dp"
         android:layout_height="40dp"
-        android:layout_marginTop="60dp"
-        android:text="提交"
-        android:textSize="@dimen/font_size_18"
-        android:textColor="@color/colorWhite"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/button_shape_orange_round"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/window_padding_bottom"
-        android:gravity="center"/>
+        android:background="@drawable/button_shape_orange_round"
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/font_size_18" />
 
-</LinearLayout>
+</RelativeLayout>

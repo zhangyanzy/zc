@@ -71,6 +71,8 @@ public class ApplyCashActivity extends BaseActivity {
     TextView withdraw_ali;
     @BindView(R.id.withdraw_bank)
     TextView withdraw_bank;
+    @BindView(R.id.tv_withdraw_limit)
+    TextView tv_withdraw_limit;
 
     private BigDecimal balance;
     private int type = -1;//提现方式    0 支付宝  1 微信   2 银行卡
@@ -214,9 +216,10 @@ public class ApplyCashActivity extends BaseActivity {
         }
     }
 
-    //校验输入的取现金额
+    //校验是否达到提现条件
     private void verifyAmount() {
         int limit = 20;
+        boolean isCertification = (boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_CERTIFICATION, false);
         if (GeneralUtils.isNotNullOrZeroLenght(edit_apply_cash.getText().toString())) {
             BigDecimal money = new BigDecimal(edit_apply_cash.getText().toString());
             if (selectType == 2) {
@@ -226,6 +229,8 @@ public class ApplyCashActivity extends BaseActivity {
                 ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_type));
             } else if (money.compareTo(new BigDecimal(limit)) == -1) {
                 ToastUtil.makeText(ApplyCashActivity.this, String.format(getString(R.string.withdraw_limit), String.valueOf(limit)));
+            }else if (!isCertification) {
+                ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.not_certification));
             } else {
                 amount = GeneralUtils.getBigDecimalToTwo(money);
                 inputDialog.show();
@@ -240,7 +245,7 @@ public class ApplyCashActivity extends BaseActivity {
             if (resId == R.id.tv_submit)
                 if (GeneralUtils.isNullOrZeroLenght(content)) {
                     ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.input_pass_word));
-                } else {
+                }else {
                     verifyPass(content);
                 }
             else inputDialog.dismiss();
@@ -280,8 +285,8 @@ public class ApplyCashActivity extends BaseActivity {
             case 2:
                 if (account.getBankIs()) selectType = 2;
                 break;
-                default:
-                    return;
+            default:
+                return;
         }
         setDrawable(selectType);
     }
@@ -312,6 +317,7 @@ public class ApplyCashActivity extends BaseActivity {
 
                 withdraw_wechat.setCompoundDrawables(null, null, unDrawable, null);
                 withdraw_ali.setCompoundDrawables(null, null, unDrawable, null);
+                tv_withdraw_limit.setText("提现金额200元起");
                 break;
         }
     }

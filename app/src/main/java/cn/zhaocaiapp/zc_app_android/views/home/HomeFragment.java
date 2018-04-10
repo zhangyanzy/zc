@@ -194,7 +194,7 @@ public class HomeFragment extends BaseFragment {
 
                 @Override
                 public void error(Response<UserInfoResp> response) {
-                    EBLog.i(TAG, response.getCode()+"");
+                    EBLog.i(TAG, response.getCode() + "");
                     ToastUtil.makeText(getActivity(), response.getDesc());
                 }
             });
@@ -229,7 +229,7 @@ public class HomeFragment extends BaseFragment {
                 }, new OnBtnClickL() {
                     @Override
                     public void onBtnClick() {
-                        EBLog.i(TAG, "您点击了确认");
+                        EBLog.i(TAG, "您点击了设置");
                         // 根据isOpened结果，判断是否需要提醒用户跳转AppInfo页面，去打开App通知权限
                         Intent intent = new Intent();
                         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -258,7 +258,7 @@ public class HomeFragment extends BaseFragment {
             normalDialog.setOnBtnClickL(new OnBtnClickL() {
                 @Override
                 public void onBtnClick() {
-                    EBLog.i(TAG, "您点击了取消");
+                    EBLog.i(TAG, "您点击了关闭");
                     normalDialog.dismiss();
 
                     //提示新手任务
@@ -267,7 +267,7 @@ public class HomeFragment extends BaseFragment {
             }, new OnBtnClickL() {
                 @Override
                 public void onBtnClick() {
-                    EBLog.i(TAG, "您点击了确认");
+                    EBLog.i(TAG, "您点击了切换");
                     home_title_area_text.setText(gps.getCity());
                     SpUtils.init(Constants.SPREF.FILE_APP_NAME).put(Constants.SPREF.AREA_NAME, gps.getCity());
                     SpUtils.init(Constants.SPREF.FILE_APP_NAME).put(Constants.SPREF.AREA_CODE, gps.getAdCode());
@@ -311,7 +311,7 @@ public class HomeFragment extends BaseFragment {
                     userResp = result;
 
                     //是否弹窗提示新手任务
-                    if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.SHOW_NEWER_ACTIVITY, true))
+                    if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.SHOW_NEWER_ACTIVITY, true)) {
                         //判断用户是否做新手任务
                         if (GeneralUtils.isNotNull(userResp.getIsFinishActivity()) && userResp.getIsFinishActivity() == 0) {
                             String content = getString(R.string.new_task_reward);
@@ -323,27 +323,28 @@ public class HomeFragment extends BaseFragment {
                             normalDialog.setOnBtnClickL(new OnBtnClickL() {
                                 @Override
                                 public void onBtnClick() {
-                                    EBLog.i(TAG, "您点击了取消");
-                                    SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.SHOW_NEWER_ACTIVITY, false);
+                                    EBLog.i(TAG, "您点击了忽略");
                                     normalDialog.cancel();
                                 }
                             }, new OnBtnClickL() {
                                 @Override
                                 public void onBtnClick() {
-                                    EBLog.i(TAG, "您点击了确认");
+                                    EBLog.i(TAG, "您点击了任务详情");
                                     Bundle bd = new Bundle();
                                     bd.putString("newbieAmount", GeneralUtils.getBigDecimalToTwo(userResp.getNewbieAmount()));
                                     openActivity(newbieTaskActivity.class, bd);
                                     normalDialog.dismiss();
                                 }
                             });
+                            SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.SHOW_NEWER_ACTIVITY, false);
                         }
+                    }
                     EBLog.i(TAG, result.toString());
                 }
 
                 @Override
                 public void error(Response<UserResp> response) {
-                    EBLog.i(TAG, response.getCode()+"");
+                    EBLog.i(TAG, response.getCode() + "");
                     ToastUtil.makeText(getActivity(), response.getDesc());
                 }
             });

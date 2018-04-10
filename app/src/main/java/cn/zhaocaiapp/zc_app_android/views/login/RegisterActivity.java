@@ -34,6 +34,7 @@ import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.common.UserAgreementActivity;
+import cn.zhaocaiapp.zc_app_android.views.my.AddLabelActivity;
 
 /**
  * Created by ASUS on 2017/11/6.
@@ -64,6 +65,8 @@ public class RegisterActivity extends BaseActivity {
     CheckBox check_agreement;
     @BindView(R.id.tv_agreement)
     TextView tv_agreement;
+    @BindView(R.id.confirm_pass_word)
+    EditText confirm_pass_word;
 
     private String phone;
     private String pass;
@@ -109,6 +112,7 @@ public class RegisterActivity extends BaseActivity {
                 openActivity(UserAgreementActivity.class);
                 break;
             case R.id.tv_register:
+                String repass = confirm_pass_word.getText().toString();
                 pass = edit_pass_word.getText().toString();
                 identifyCcode = edit_identify_code.getText().toString();
                 inviteCode = edit_invite_code.getText().toString();
@@ -117,6 +121,8 @@ public class RegisterActivity extends BaseActivity {
                         ToastUtil.makeText(RegisterActivity.this, getString(R.string.input_identify_code));
                     else if (!check_agreement.isChecked())
                         ToastUtil.makeText(RegisterActivity.this, getString(R.string.check_agreement));
+                    else if (!pass.equals(repass))
+                        ToastUtil.makeText(RegisterActivity.this, getString(R.string.compile_pass));
                     else doRegister();
                 }
                 break;
@@ -164,8 +170,8 @@ public class RegisterActivity extends BaseActivity {
                 saveUserData(result);
 
                 Bundle bundle = new Bundle();
-                bundle.putInt("position", 0);
-                openActivity(MainActivity.class, bundle);
+                bundle.putBoolean("isFirstAdd", true); //是否首次添加标签
+                openActivity(AddLabelActivity.class, bundle);
                 RegisterActivity.this.finish();
             }
 

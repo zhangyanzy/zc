@@ -29,6 +29,7 @@ import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.common.UserAgreementActivity;
+import cn.zhaocaiapp.zc_app_android.views.my.AddLabelActivity;
 
 /**
  * Created by Administrator on 2018/1/16.
@@ -51,6 +52,8 @@ public class RegistPhoneActivity extends BaseActivity {
     CheckBox check_agreement;
     @BindView(R.id.tv_agreement)
     TextView tv_agreement;
+    @BindView(R.id.confirm_pass)
+    EditText confirm_pass;
 
     private String pass;
     private String inviteCode;
@@ -86,11 +89,14 @@ public class RegistPhoneActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_submit:
+                String repass = confirm_pass.getText().toString();
                 pass = input_pass.getText().toString();
                 inviteCode = input_invite_code.getText().toString();
                 if (judgePass(pass)) {
                     if (!check_agreement.isChecked())
                         ToastUtil.makeText(RegistPhoneActivity.this, getString(R.string.check_agreement));
+                    else if (!pass.equals(repass))
+                        ToastUtil.makeText(RegistPhoneActivity.this, getString(R.string.compile_pass));
                     else doRegister();
                 }
                 break;
@@ -121,8 +127,8 @@ public class RegistPhoneActivity extends BaseActivity {
                 saveUserData(result);
 
                 Bundle bundle = new Bundle();
-                bundle.putInt("position", 0);
-                openActivity(MainActivity.class, bundle);
+                bundle.putBoolean("isFirstAdd", true); //是否首次添加标签
+                openActivity(AddLabelActivity.class, bundle);
                 RegistPhoneActivity.this.finish();
             }
 

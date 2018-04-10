@@ -21,6 +21,7 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.zhaocaiapp.zc_app_android.MainActivity;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
@@ -54,6 +55,8 @@ public class AddLabelActivity extends BaseActivity {
     List<UserLabelResp> ids = new ArrayList<>();
     public static final int RESULT_CODE = 2011;
 
+    private boolean isFirstAdd; //是否首次添加标签
+
     private static final String TAG = "添加个人标签";
 
     @Override
@@ -63,8 +66,12 @@ public class AddLabelActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        isFirstAdd = getIntent().getBooleanExtra("isFirstAdd", false);
+        if (isFirstAdd) iv_back.setVisibility(View.GONE);
+        else iv_back.setVisibility(View.VISIBLE);
         tv_title.setText("添加个人标签");
         iv_menu.setVisibility(View.GONE);
+
         getLabels();
     }
 
@@ -111,11 +118,11 @@ public class AddLabelActivity extends BaseActivity {
                 LabelResp label = labels.get(position);
                 if (label.getIsSelected() == 0) { // 未添加
                     View labelView = view.findViewById(R.id.layout_label);
-                    if (label.isChecked()){ // 已选中
+                    if (label.isChecked()) { // 已选中
                         labelView.setBackground(getResources().getDrawable(R.drawable.button_shape_orange_alpha1));
                         label.setChecked(false);
                         ids.remove(label);
-                    }else { // 未选中
+                    } else { // 未选中
                         labelView.setBackground(getResources().getDrawable(R.drawable.button_shape_orange_alpha6));
                         label.setChecked(true);
                         ids.add(new UserLabelResp(label.getKid()));
@@ -142,8 +149,15 @@ public class AddLabelActivity extends BaseActivity {
             public void success(CommonResp commonResp) {
                 EBLog.i(TAG, commonResp.getDesc());
                 ToastUtil.makeText(AddLabelActivity.this, commonResp.getDesc());
-                setResult(RESULT_CODE);
-                finish();
+
+                if (isFirstAdd) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("position", 0);
+                    openActivity(MainActivity.class, bundle);
+                } else {
+                    setResult(RESULT_CODE);
+                    finish();
+                }
             }
 
             @Override
@@ -161,20 +175,11 @@ public class AddLabelActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_submit:
-                addLabel(ids);
+                if (ids.size() > 0) addLabel(ids);
+                else ToastUtil.makeText(AddLabelActivity.this, getString(R.string.add_label));
                 break;
         }
     }
-
-//    private void getSelectedLabel() {
-//        Set<Integer> posSet = label_list.getSelectedList();
-//        List<UserLabelResp> ids = new ArrayList<>();
-//        for (int i : posSet) {
-//            UserLabelResp label = new UserLabelResp(labels.get(i).getKid());
-//            ids.add(label);
-//        }
-//        addLabel(ids.toArray());
-//    }
 
     public static class ViewHolder {
         @BindView(R.id.tv_label_name)
@@ -194,5 +199,8 @@ public class AddLabelActivity extends BaseActivity {
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        if (!isFirstAdd) finish();
+    }
 }
