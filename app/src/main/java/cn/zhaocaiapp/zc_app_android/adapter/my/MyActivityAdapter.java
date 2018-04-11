@@ -57,8 +57,20 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
     }
 
     @Override
+    public int getItemViewType(int position) {
+//        if (items.size() <= 0) return -1;
+        return super.getItemViewType(position);
+    }
+
+    @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.my_activitys_item, parent, false);
+        View view = null;
+        if (viewType == -1){
+            view = LayoutInflater.from(context).inflate(R.layout.layout_no_data, parent, false);
+        }else {
+            view = LayoutInflater.from(context).inflate(R.layout.my_activitys_item, parent, false);
+        }
+
         return new ViewHolder(view);
     }
 
