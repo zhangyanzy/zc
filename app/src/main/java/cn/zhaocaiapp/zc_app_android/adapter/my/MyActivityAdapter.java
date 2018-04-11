@@ -39,21 +39,19 @@ import cn.iwgang.countdownview.CountdownView.OnCountdownEndListener;
  */
 
 public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.ViewHolder> {
-    public static final int MYACTIVITY_ALL = 1001;
-    public static final int MYACTIVITY_DELIVER = 1002;
-    public static final int MYACTIVITY_VERIFY = 1003;
-    public static final int MYACTIVITY_REWARD = 1004;
-    public static final int MYACTIVITY_UNPASS = 1005;
+//    public static final int MYACTIVITY_ALL = 1001;
+//    public static final int MYACTIVITY_DELIVER = 1002;
+//    public static final int MYACTIVITY_VERIFY = 1003;
+//    public static final int MYACTIVITY_REWARD = 1004;
+//    public static final int MYACTIVITY_UNPASS = 1005;
 
     private Context context;
     private List<ActivityResp> items;
-    private int state; //活动状态
     private OnItemClickListener listener;
 
-    public MyActivityAdapter(Context context, List<ActivityResp> items, int state) {
+    public MyActivityAdapter(Context context, List<ActivityResp> items) {
         this.context = context;
         this.items = items;
-        this.state = state;
     }
 
     @Override
@@ -447,9 +445,6 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         //领钱
         @BindView(R.id.tv_reward)
         TextView tv_reward;
-        //进度条
-        @BindView(R.id.activity_item_text_centent)
-        LinearLayout activity_item_text_centent;
         //活动内容
         @BindView(R.id.layout_activity_content)
         LinearLayout layout_activity_content;

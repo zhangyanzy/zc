@@ -66,7 +66,7 @@ public class RewardActivityFragment extends BaseFragment implements OnRefreshLis
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         list.setLayoutManager(manager);
 
-        adapter = new MyActivityAdapter(getActivity(), activitys, MyActivityAdapter.MYACTIVITY_REWARD);
+        adapter = new MyActivityAdapter(getActivity(), activitys);
         list.setAdapter(adapter);
         adapter.setOnItemClickListener(listener);
     }

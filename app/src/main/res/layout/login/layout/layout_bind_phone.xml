@@ -55,7 +55,8 @@
             android:hint="@string/input_phone_number"
             android:textColor="@color/colorFont6"
             android:textColorHint="@color/colorLine"
-            android:textSize="@dimen/font_size_14" />
+            android:textSize="@dimen/font_size_14"
+            android:inputType="phone"/>
     </LinearLayout>
 
     <View
@@ -93,7 +94,8 @@
             android:hint="@string/input_identify_code"
             android:textColor="@color/colorFont6"
             android:textColorHint="@color/colorLine"
-            android:textSize="@dimen/font_size_14" />
+            android:textSize="@dimen/font_size_14"
+            android:inputType="number"/>
 
         <TextView
             android:id="@+id/tv_get_identify_code"

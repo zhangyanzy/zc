@@ -85,6 +85,7 @@ public class LoginActivity extends BaseFragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_login_main);
+
         if (getIntent().getBooleanExtra("signOut", false))
             ActivityUtil.finishAllActivity();
         if (ActivityUtil.getActivityStackSize() > 0)

@@ -66,7 +66,7 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         list.setLayoutManager(manager);
 
-        adapter = new MyActivityAdapter(getActivity(), activitys, MyActivityAdapter.MYACTIVITY_ALL);
+        adapter = new MyActivityAdapter(getActivity(), activitys);
         list.setAdapter(adapter);
         adapter.setOnItemClickListener(listener);
     }

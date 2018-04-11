@@ -66,7 +66,7 @@ public class DeliverActivityFragment extends BaseFragment implements OnRefreshLi
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         list.setLayoutManager(manager);
 
-        adapter = new MyActivityAdapter(getActivity(), activitys, MyActivityAdapter.MYACTIVITY_DELIVER);
+        adapter = new MyActivityAdapter(getActivity(), activitys);
         list.setAdapter(adapter);
         adapter.setOnItemClickListener(listener);
     }
