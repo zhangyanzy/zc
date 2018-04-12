@@ -24,6 +24,8 @@ public class MyIncomeAdapter extends RecyclerView.Adapter<MyIncomeAdapter.ViewHo
     private Context context;
     private List<IncomeResp> items;
     private int type;
+    private int viewType;
+
 
     public MyIncomeAdapter(Context context, List<IncomeResp> items, int type) {
         this.context = context;
@@ -37,48 +39,62 @@ public class MyIncomeAdapter extends RecyclerView.Adapter<MyIncomeAdapter.ViewHo
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.my_income_item, parent, false);
-        return new ViewHolder(view);
+    public int getItemViewType(int position) {
+        if (items.size() <= 0) return -1;
+        return super.getItemViewType(position);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tv_describe.setText(items.get(position).getBusinessName());
-        holder.tv_time.setText(items.get(position).getTimeStr());
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = null;
+        ViewHolder holder = null;
+        if (viewType == -1) {
+            view = LayoutInflater.from(context).inflate(R.layout.layout_no_data, parent, false);
+            holder = new EmptyViewHolder(view);
+        } else {
+            view = LayoutInflater.from(context).inflate(R.layout.my_income_item, parent, false);
+            holder = new IncomeViewHolder(view);
+        }
+        this.viewType = viewType;
+        return holder;
+    }
 
-        if (type == 1) {
-            if (items.get(position).getCashStatus() == 0) {//已提交
-                holder.tv_state.setText("已提交");
-            } else if (items.get(position).getCashStatus() == 1) {//提现中
-                holder.tv_state.setText("提现中");
-            } else if (items.get(position).getCashStatus() == 2) {//提现成功
-                holder.tv_state.setText("提现成功");
-            } else if (items.get(position).getCashStatus() == 3) {//提现失败
-                holder.tv_state.setText("提现失败");
+    @Override
+    public void onBindViewHolder(ViewHolder viewholder, int position) {
+        if (viewType != -1) {
+            IncomeViewHolder holder = (IncomeViewHolder) viewholder;
+
+            holder.tv_describe.setText(items.get(position).getBusinessName());
+            holder.tv_time.setText(items.get(position).getTimeStr());
+
+            if (type == 1) {
+                if (items.get(position).getCashStatus() == 0) {//已提交
+                    holder.tv_state.setText("已提交");
+                } else if (items.get(position).getCashStatus() == 1) {//提现中
+                    holder.tv_state.setText("提现中");
+                } else if (items.get(position).getCashStatus() == 2) {//提现成功
+                    holder.tv_state.setText("提现成功");
+                } else if (items.get(position).getCashStatus() == 3) {//提现失败
+                    holder.tv_state.setText("提现失败");
+                }
             }
-//            else if (items.get(position).getCashStatus() == 4) {//已到账
-//                holder.tv_state.setText("已到账");
-//            } else if (items.get(position).getCashStatus() == 5) {//转账失败
-//                holder.tv_state.setText("转账失败");
-//            }
-        }
-        if (items.get(position).getBillType() == 0) {//收入
-            holder.tv_income.setText("+" + items.get(position).getAmount());
-            holder.tv_income.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-        }
-        if (items.get(position).getBillType() == 1) {//提现
-            holder.tv_income.setText("-" + items.get(position).getAmount());
-            holder.tv_income.setTextColor(context.getResources().getColor(R.color.colorSuccess));
+            if (items.get(position).getBillType() == 0) {//收入
+                holder.tv_income.setText("+" + items.get(position).getAmount());
+                holder.tv_income.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+            }
+            if (items.get(position).getBillType() == 1) {//提现
+                holder.tv_income.setText("-" + items.get(position).getAmount());
+                holder.tv_income.setTextColor(context.getResources().getColor(R.color.colorSuccess));
+            }
         }
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return items.size() > 0 ? items.size() : 1;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class IncomeViewHolder extends ViewHolder {
         @BindView(R.id.tv_describe)
         TextView tv_describe;
         @BindView(R.id.tv_time)
@@ -88,9 +104,27 @@ public class MyIncomeAdapter extends RecyclerView.Adapter<MyIncomeAdapter.ViewHo
         @BindView(R.id.tv_state)
         TextView tv_state;
 
-        public ViewHolder(View itemView) {
+        public IncomeViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    public class EmptyViewHolder extends ViewHolder {
+        View itemView;
+
+        public EmptyViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+            this.itemView = itemView;
+        }
+    }
+
 }

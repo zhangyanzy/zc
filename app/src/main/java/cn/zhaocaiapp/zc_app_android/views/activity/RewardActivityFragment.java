@@ -98,17 +98,14 @@ public class RewardActivityFragment extends BaseFragment implements OnRefreshLis
                 EBLog.i(TAG, activityResps.toString());
                 if (currentResult == 0) {
                     activitys = activityResps;
-                    refresh_layout.setEnableLoadmore(false);
                 } else {
                     activitys.addAll(activityResps);
-                    refresh_layout.setEnableLoadmore(true);
                 }
                 adapter.refresh(activitys);
 
                 if (activityResps.size() < pageSize) {
                     //完成加载并标记没有更多数据
                     refresh_layout.finishLoadmoreWithNoMoreData();
-                    refresh_layout.setEnableFooterFollowWhenLoadFinished(true);
                 }
                 if (refresh_layout.isRefreshing())
                     refresh_layout.finishRefresh();

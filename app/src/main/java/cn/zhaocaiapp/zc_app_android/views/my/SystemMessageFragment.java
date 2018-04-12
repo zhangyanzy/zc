@@ -72,8 +72,21 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
         adapter.setOnItemCliclkListener(listener);
     }
 
+    //加载活动列表
     @Override
     public void loadData() {
+        /**
+         * 会导致首次进入时重复加载数据
+         * */
+        refresh_layout.autoRefresh();
+    }
+
+    /**
+     * 解决因懒加载和进入时的自动刷新导致的重复加载
+     * <p>
+     * 加载网络数据
+     */
+    private void initNetData() {
         Map<String, String> params = new HashMap<>();
         params.put("type", type + "");
         params.put("currentResult", currentResult + "");
@@ -91,7 +104,6 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
                 if (messageResps.size() < pageSize) {
                     //完成加载并标记没有更多数据
                     refresh_layout.finishLoadmoreWithNoMoreData();
-                    refresh_layout.setEnableFooterFollowWhenLoadFinished(true);
                 }
                 if (refresh_layout.isRefreshing())
                     refresh_layout.finishRefresh();
@@ -141,13 +153,13 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
     @Override
     public void onLoadmore(RefreshLayout refreshlayout) {
         currentResult += 10;
-        loadData();
+        initNetData();
     }
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         currentResult = 0;
-        loadData();
+        initNetData();
     }
 
     @Override

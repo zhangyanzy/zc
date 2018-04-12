@@ -98,17 +98,14 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
                 EBLog.i(TAG, activityResps.toString());
                 if (currentResult == 0) {
                     activitys = activityResps;
-                    refresh_layout.setEnableLoadmore(false);
                 } else {
                     activitys.addAll(activityResps);
-                    refresh_layout.setEnableLoadmore(true);
                 }
                 adapter.refresh(activitys);
 
                 if (activityResps.size() < pageSize) {
                     //完成加载并标记没有更多数据
                     refresh_layout.finishLoadmoreWithNoMoreData();
-                    refresh_layout.setEnableFooterFollowWhenLoadFinished(true);
                 }
                 if (refresh_layout.isRefreshing())
                     refresh_layout.finishRefresh();
@@ -172,9 +169,6 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
                     bundle.putString("title", activityTitle);
                     openActivity(ActivityDetailActivity.class, bundle);
                     break;
-//                case R.id.tv_cancel: // 取消活动报名
-//                    cancelActivity(activityId);
-//                    break;
                 case R.id.iv_logo: // 跳转商家详情
                 case R.id.tv_name:
                     long memberId = activitys.get(position).getMemberId();

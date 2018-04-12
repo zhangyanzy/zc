@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,6 +25,7 @@ public class MyFollowBusinerAdapter extends RecyclerView.Adapter<MyFollowBusiner
     private Context context;
     private OnItemCliclkListener listene;
     private List<MemberResp> members;
+    private int viewType;
 
     public MyFollowBusinerAdapter(Context context, List<MemberResp> members) {
         this.context = context;
@@ -37,55 +37,70 @@ public class MyFollowBusinerAdapter extends RecyclerView.Adapter<MyFollowBusiner
         notifyDataSetChanged();
     }
 
-
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.my_follow_businer_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+    public int getItemViewType(int position) {
+        if (members.size() <= 0) return  -1;
+        return super.getItemViewType(position);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tv_businer_name.setText(members.get(position).getName());
-        holder.tv_activity_count.setText("共" + members.get(position).getTotal() + "个活动");
-        PictureLoadUtil.loadPicture(context, members.get(position).getLogo(), holder.iv_logo);
-        if (members.get(position).getIsFollow() == 1) { // 已关注
-            holder.tv_followed.setBackground(context.getResources().getDrawable(R.drawable.member_follow_on));
-            holder.tv_followed.setTextColor(context.getResources().getColor(R.color.colorLine));
-            holder.tv_followed.setText("已关注");
-            holder.tv_followed.setCompoundDrawables(null, null, null, null);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = null;
+        ViewHolder holder = null;
+        if (viewType == -1){
+            view = LayoutInflater.from(context).inflate(R.layout.layout_no_data, parent, false);
+            holder = new EmptyViewHolder(view);
+        }else {
+            view = LayoutInflater.from(context).inflate(R.layout.my_follow_businer_item, parent, false);
+            holder = new BusinerViewHolder(view);
         }
-        if (members.get(position).getIsFollow() == 0) { // 未关注
-            holder.tv_followed.setBackground(context.getResources().getDrawable(R.drawable.member_follow_off));
-            holder.tv_followed.setTextColor(context.getResources().getColor(R.color.colorWhite));
-            holder.tv_followed.setText("关注");
-            Drawable drawable = context.getResources().getDrawable(R.mipmap.add);
-            drawable.setBounds(0, 0, 35, 35);
-            holder.tv_followed.setCompoundDrawables(drawable, null, null, null);
+        this.viewType = viewType;
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewholder, int position) {
+        if (viewType != -1){
+            BusinerViewHolder holder = (BusinerViewHolder) viewholder;
+            holder.tv_businer_name.setText(members.get(position).getName());
+            holder.tv_activity_count.setText("共" + members.get(position).getTotal() + "个活动");
+            PictureLoadUtil.loadPicture(context, members.get(position).getLogo(), holder.iv_logo);
+            if (members.get(position).getIsFollow() == 1) { // 已关注
+                holder.tv_followed.setBackground(context.getResources().getDrawable(R.drawable.member_follow_on));
+                holder.tv_followed.setTextColor(context.getResources().getColor(R.color.colorLine));
+                holder.tv_followed.setText("已关注");
+                holder.tv_followed.setCompoundDrawables(null, null, null, null);
+            }
+            if (members.get(position).getIsFollow() == 0) { // 未关注
+                holder.tv_followed.setBackground(context.getResources().getDrawable(R.drawable.member_follow_off));
+                holder.tv_followed.setTextColor(context.getResources().getColor(R.color.colorWhite));
+                holder.tv_followed.setText("关注");
+                Drawable drawable = context.getResources().getDrawable(R.mipmap.add);
+                drawable.setBounds(0, 0, 35, 35);
+                holder.tv_followed.setCompoundDrawables(drawable, null, null, null);
+            }
+
+            //点击item，跳转商家详情
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listene.onItemCliclk(holder.getLayoutPosition(), holder.itemView);
+                }
+            });
+
+            //点击已关注按钮，取消关注
+            holder.tv_followed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listene.onItemCliclk(holder.getLayoutPosition(), holder.tv_followed);
+                }
+            });
         }
-
-        //点击item，跳转商家详情
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listene.onItemCliclk(holder.getLayoutPosition(), holder.itemView);
-            }
-        });
-
-        //点击已关注按钮，取消关注
-        holder.tv_followed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listene.onItemCliclk(holder.getLayoutPosition(), holder.tv_followed);
-            }
-        });
-
     }
 
     @Override
     public int getItemCount() {
-        return members.size();
+        return members.size() > 0 ? members.size() : 1;
     }
 
     public interface OnItemCliclkListener {
@@ -96,7 +111,7 @@ public class MyFollowBusinerAdapter extends RecyclerView.Adapter<MyFollowBusiner
         this.listene = listener;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class BusinerViewHolder extends ViewHolder {
         @BindView(R.id.iv_logo)
         ImageView iv_logo;
         @BindView(R.id.tv_businer_name)
@@ -108,7 +123,24 @@ public class MyFollowBusinerAdapter extends RecyclerView.Adapter<MyFollowBusiner
 
         View itemView;
 
+        public BusinerViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+            this.itemView = itemView;
+        }
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
         public ViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    public class EmptyViewHolder extends ViewHolder {
+        View itemView;
+
+        public EmptyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             this.itemView = itemView;
