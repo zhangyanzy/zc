@@ -244,6 +244,12 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             initTransition();
             showPlayer(url, time);
         }
+
+        @JavascriptInterface
+        public void postUrl(String videoUrl) {
+            EBLog.i(TAG, "videoUrl---" + videoUrl);
+
+        }
     }
 
     //分享活动

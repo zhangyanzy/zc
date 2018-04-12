@@ -96,8 +96,13 @@ public class UnpassActivityFragment extends BaseFragment implements OnRefreshLis
             @Override
             public void success(List<ActivityResp> activityResps) {
                 EBLog.i(TAG, activityResps.toString());
-                if (currentResult == 0) activitys = activityResps;
-                else activitys.addAll(activityResps);
+                if (currentResult == 0) {
+                    activitys = activityResps;
+                    refresh_layout.setEnableLoadmore(false);
+                } else {
+                    activitys.addAll(activityResps);
+                    refresh_layout.setEnableLoadmore(true);
+                }
                 adapter.refresh(activitys);
 
                 if (activityResps.size() < pageSize) {

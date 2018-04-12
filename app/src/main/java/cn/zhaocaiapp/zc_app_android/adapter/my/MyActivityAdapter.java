@@ -48,6 +48,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
     private Context context;
     private List<ActivityResp> items;
     private OnItemClickListener listener;
+    private int viewType;
 
     public MyActivityAdapter(Context context, List<ActivityResp> items) {
         this.context = context;
@@ -56,147 +57,106 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
 
     @Override
     public int getItemViewType(int position) {
-//        if (items.size() <= 0) return -1;
+        if (items.size() <= 0) return -1;
         return super.getItemViewType(position);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
-        if (viewType == -1){
+        ViewHolder holder = null;
+        if (viewType == -1) {
             view = LayoutInflater.from(context).inflate(R.layout.layout_no_data, parent, false);
-        }else {
+            holder = new EmptyViewHolder(view);
+        } else {
             view = LayoutInflater.from(context).inflate(R.layout.my_activitys_item, parent, false);
+            holder = new ActivityViewHolder(view);
         }
-
-        return new ViewHolder(view);
+        this.viewType = viewType;
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        ActivityResp activity = items.get(position);
-        //商家logo
-        PictureLoadUtil.loadPicture(context, activity.getMemberImg(), holder.iv_logo);
-        //活动广告图
-        PictureLoadUtil.loadPicture(context, activity.getActivityImage1(), holder.activity_item_img);
-        //商家名称
-        holder.tv_name.setText(activity.getMemberName());
-        //活动进行状态
-        holder.item_img_state.setText(getOnlineState(activity.getOnline()));
-        //活动类型
-        holder.item_img_type.setText(getActivityType(activity.getActivityForm()));
-        //活动名称
-        SpannableStringBuilder spannableString = new SpannableStringBuilder("#" + getActivityType(activity.getActivityForm()) + "#" + activity.getName());
-        spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.item_text_title.setText(spannableString);
-        //活动地点距当前距离
-        if (activity.getActivityForm() != 1 && activity.getActivityForm() != 2 && LocationUtil.getGps().getOpen()) {
-            holder.item_text_area_text.setText(getDistance(activity));
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        if (viewType != -1){
+            ActivityViewHolder holder = (ActivityViewHolder) viewHolder;
+            ActivityResp activity = items.get(position);
+            //商家logo
+            PictureLoadUtil.loadPicture(context, activity.getMemberImg(), holder.iv_logo);
+            //活动广告图
+            PictureLoadUtil.loadPicture(context, activity.getActivityImage1(), holder.activity_item_img);
+            //商家名称
+            holder.tv_name.setText(activity.getMemberName());
+            //活动进行状态
+            holder.item_img_state.setText(getOnlineState(activity.getOnline()));
+            //活动类型
+            holder.item_img_type.setText(getActivityType(activity.getActivityForm()));
+            //活动名称
+            SpannableStringBuilder spannableString = new SpannableStringBuilder("#" + getActivityType(activity.getActivityForm()) + "#" + activity.getName());
+            spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            holder.item_text_title.setText(spannableString);
+            //活动地点距当前距离
+            if (activity.getActivityForm() != 1 && activity.getActivityForm() != 2 && LocationUtil.getGps().getOpen()) {
+                holder.item_text_area_text.setText(getDistance(activity));
+            }
+            //活动剩余额度
+            holder.item_text_amount.setText(GeneralUtils.getBigDecimalToTwo(activity.getLeftAmount()));
+            //剩余额度进度条
+            double leftAmount = activity.getLeftAmount().doubleValue();
+            double totalAmount = activity.getTotalAmount().doubleValue();
+            double amount = (leftAmount / totalAmount) * 100;
+            holder.item_text_amount_progress.setProgress((int) amount);
+            //已领取人数
+            holder.item_text_number.setText(activity.getActualUser() + "");
+            //已领取人数进度条
+            double actualUser = activity.getActualUser().intValue();
+            double getMaxUser = activity.getMaxUser().intValue();
+            double account = (actualUser / getMaxUser) * 100;
+            holder.item_text_number_progress.setProgress((int) account);
+            //活动奖励金额
+            holder.item_text_reward.setText(GeneralUtils.getBigDecimalToTwo(activity.getRewardAmount()));
+            if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
+                if (activity.getFollow())
+                    holder.item_text_collection.setImageResource(R.mipmap.collection_on);
+                else
+                    holder.item_text_collection.setImageResource(R.mipmap.collection_off);
+            }
+            isContentVisible(activity.getActivityForm(), holder);
+            setActivityButton(activity.getActivityStatus(), position, holder);
+            showUserPhoto(activity.getUserList(), holder);
+
+            //点击活动大图
+            setClickListener(holder.activity_item_img, holder.getLayoutPosition());
+
+            //点击提交活动按钮
+            setClickListener(holder.tv_submit, holder.getLayoutPosition());
+
+            //点击取消按钮
+            setClickListener(holder.tv_cancel, holder.getLayoutPosition());
+
+            //点击领钱按钮
+            setClickListener(holder.tv_reward, holder.getLayoutPosition());
+
+            //点击活动内容
+            setClickListener(holder.layout_activity_content, holder.getLayoutPosition());
+
+            //点击商家logo
+            setClickListener(holder.iv_logo, holder.getLayoutPosition());
+
+            //点击商家名称
+            setClickListener(holder.tv_name, holder.getLayoutPosition());
+
+            //点击关注活动
+            setClickListener(holder.item_text_collection, holder.getLayoutPosition());
+
+            //点击分享活动
+            setClickListener(holder.item_text_share, holder.getLayoutPosition());
         }
-        //活动剩余额度
-        holder.item_text_amount.setText(GeneralUtils.getBigDecimalToTwo(activity.getLeftAmount()));
-        //剩余额度进度条
-        double leftAmount = activity.getLeftAmount().doubleValue();
-        double totalAmount = activity.getTotalAmount().doubleValue();
-        double amount = (leftAmount / totalAmount) * 100;
-        holder.item_text_amount_progress.setProgress((int) amount);
-        //已领取人数
-        holder.item_text_number.setText(activity.getActualUser() + "");
-        //已领取人数进度条
-        double actualUser = activity.getActualUser().intValue();
-        double getMaxUser = activity.getMaxUser().intValue();
-        double account = (actualUser / getMaxUser) * 100;
-        holder.item_text_number_progress.setProgress((int) account);
-        //活动奖励金额
-        holder.item_text_reward.setText(GeneralUtils.getBigDecimalToTwo(activity.getRewardAmount()));
-        if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
-            if (activity.getFollow())
-                holder.item_text_collection.setImageResource(R.mipmap.collection_on);
-            else
-                holder.item_text_collection.setImageResource(R.mipmap.collection_off);
-        }
-        isContentVisible(activity.getActivityForm(), holder);
-        setActivityButton(activity.getActivityStatus(), position, holder);
-        showUserPhoto(activity.getUserList(), holder);
-
-        //点击活动大图
-        holder.activity_item_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(holder.getLayoutPosition(), holder.activity_item_img);
-            }
-        });
-
-        //点击提交活动按钮
-        holder.tv_submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(holder.getLayoutPosition(), holder.tv_submit);
-            }
-        });
-
-        //点击取消按钮
-        holder.tv_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(holder.getLayoutPosition(), holder.tv_cancel);
-            }
-        });
-
-        //点击领钱按钮
-        holder.tv_reward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(holder.getLayoutPosition(), holder.tv_reward);
-            }
-        });
-
-        //点击活动内容
-        holder.layout_activity_content.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(holder.getLayoutPosition(), holder.layout_activity_content);
-            }
-        });
-
-        //点击商家logo
-        holder.iv_logo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(holder.getLayoutPosition(), holder.iv_logo);
-            }
-        });
-
-        //点击商家名称
-        holder.tv_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(holder.getLayoutPosition(), holder.tv_name);
-            }
-        });
-
-        //点击关注活动
-        holder.item_text_collection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(holder.getLayoutPosition(), holder.item_text_collection);
-            }
-        });
-
-        //点击分享活动
-        holder.item_text_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                boolean isShowShare = (boolean) SpUtils.init(Constants.SPREF.FILE_APP_NAME).get(Constants.SPREF.IS_SHOW_SHARE, false);
-//                if (!isShowShare) return;
-                listener.onItemClick(holder.getLayoutPosition(), holder.item_text_share);
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return items.size() > 0 ? items.size() : 1;
     }
 
     public void refresh(List<ActivityResp> items) {
@@ -204,8 +164,18 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         notifyDataSetChanged();
     }
 
+    //监听点击事件
+    private void setClickListener(View view, int position){
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(position, view);
+            }
+        });
+    }
+
     //显示报名用户的头像
-    private void showUserPhoto(List<FinishUserResp> userList, ViewHolder holder) {
+    private void showUserPhoto(List<FinishUserResp> userList, ActivityViewHolder holder) {
         for (int i = 0; i < userList.size(); i++) {
             ImageView imageView = (ImageView) holder.layout_user.getChildAt(i);
             imageView.setVisibility(View.VISIBLE);
@@ -223,7 +193,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         startGps.setLongitude(LocationUtil.getGps().getLongitude());
         //结束位置 活动位置
         DPoint stopGps = new DPoint(31.235221, 121.499508);
-        if (GeneralUtils.isNotNull(activity.getLatitude()) && GeneralUtils.isNotNull(activity.getLongitude())){
+        if (GeneralUtils.isNotNull(activity.getLatitude()) && GeneralUtils.isNotNull(activity.getLongitude())) {
             stopGps.setLatitude(activity.getLatitude().doubleValue());
             stopGps.setLongitude(activity.getLongitude().doubleValue());
         }
@@ -233,7 +203,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
     }
 
     //根据活动类型和状态判断控件内容是否显示
-    private void isContentVisible(int activityType, ViewHolder holder) {
+    private void isContentVisible(int activityType, ActivityViewHolder holder) {
         switch (activityType) {
             case 0: //线下活动
                 holder.item_text_area_logo.setVisibility(View.VISIBLE);
@@ -254,7 +224,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
     }
 
     //设置活动列表中按钮是否显示
-    private void setActivityButton(int activityStatus, int position, ViewHolder holder) {
+    private void setActivityButton(int activityStatus, int position, ActivityViewHolder holder) {
         switch (activityStatus) { //0待交付 1待审核 2待领钱 3未通过 4已完成 5已关闭
             case 0:
                 holder.tv_state.setText("待交付");
@@ -301,7 +271,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         }
     }
 
-    private void setCountdown(int position, ViewHolder holder){
+    private void setCountdown(int position, ActivityViewHolder holder) {
         //启动倒计时
         long countdownTime = items.get(position).getDeadLine().getTime() - items.get(position).getNowDate().getTime();
         if (countdownTime > 0) {
@@ -367,7 +337,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         this.listener = listener;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ActivityViewHolder extends ViewHolder {
         //商家logo
         @BindView(R.id.iv_logo)
         CircleImageView iv_logo;
@@ -451,7 +421,24 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
 
         View itemView;
 
+        public ActivityViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+            this.itemView = itemView;
+        }
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
         public ViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    public class EmptyViewHolder extends ViewHolder {
+        View itemView;
+
+        public EmptyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             this.itemView = itemView;
