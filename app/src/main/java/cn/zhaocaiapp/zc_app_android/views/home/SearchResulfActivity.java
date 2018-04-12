@@ -98,7 +98,7 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
         EBLog.i(TAG, "接受到搜索名称：" + name);
 
         initView();
-        initData();
+        search_refresh.autoRefresh();
     }
 
     /**
