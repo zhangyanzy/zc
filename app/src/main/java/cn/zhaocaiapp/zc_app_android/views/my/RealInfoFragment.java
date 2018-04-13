@@ -76,7 +76,7 @@ public class RealInfoFragment extends BaseFragment {
     @BindView(R.id.edit_user_name)
     EditText edit_user_name;
     @BindView(R.id.edit_id_number)
-    EditText edit_id_number;
+    TextView edit_id_number;
     @BindView(R.id.tv_identify_state)
     TextView tv_identify_state;
 

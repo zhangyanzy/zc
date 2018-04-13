@@ -107,7 +107,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     private OrientationUtils orientationUtils;
     private Runnable runnable;
     private float curTime;//当前播放时间
-    private int isPlayComplete = 0;//是否播放完毕
+    private int isPlayComplete = 0;//是否播放完毕  0-未播放完毕  1-已播放完毕
     private GSYVideoOptionBuilder gsyVideoOption;
 
 
@@ -155,9 +155,6 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
                 return true;
             }
         });
-
-        //初始化播放器控件
-        initPlayer();
 
         //初始化takephoto
         photoHelper = PhotoHelper.of(rootView, true);
@@ -236,20 +233,30 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             shareActivity(webUrl);
         }
 
-        //全屏播放
-        @JavascriptInterface
-        public void enterFull(String url, float time) {
-            EBLog.i(TAG, "url---" + url + "\n time---" + time);
-
-            //初始化过渡动画
-            initTransition();
-            showPlayer(url, time);
-        }
-
+        //发送视频资源
         @JavascriptInterface
         public void postUrl(String videoUrl) {
             EBLog.i(TAG, "videoUrl---" + videoUrl);
 
+            //初始化播放器控件
+            initPlayer();
+            //初始化过渡动画
+            initTransition();
+            //配置播放器资源
+            startPlayer(videoUrl);
+        }
+
+        //点击全屏播放
+        @JavascriptInterface
+        public void enterFull(String url, float time) {
+            EBLog.i(TAG, "url---" + url + "\n time---" + time);
+
+            //外部辅助的旋转，帮助全屏
+            orientationUtils = new OrientationUtils(ActivityDetailActivity.this, vp_player);
+            //打开外部的旋转
+            orientationUtils.setEnable(true);
+            isPlayComplete = 0;
+            showPlayer(url, time);
         }
     }
 
@@ -282,39 +289,12 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         View view = vp_player.findViewById(R.id.progress);
         view.setEnabled(false);
 
-        //初始化播放器配置
-        gsyVideoOption = new GSYVideoOptionBuilder()
-                .setIsTouchWiget(false)
-                .setRotateViewAuto(false)
-                .setLockLand(false)
-                .setShowFullAnimation(true)
-                .setCacheWithPlay(false);
-
         backBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-    }
-
-    //显示全屏播放器
-    private void showPlayer(String url, float time) {
-        //外部辅助的旋转，帮助全屏
-        orientationUtils = new OrientationUtils(ActivityDetailActivity.this, vp_player);
-        //打开外部的旋转
-        orientationUtils.setEnable(true);
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                vp_player.setVisibility(View.VISIBLE);
-                orientationUtils.resolveByClick();
-                isPlayComplete = 0;
-                startPlayer(url, time);
-                EBLog.i(TAG, "切换至UI线程播放视频");
-            }
-        };
-        ActivityDetailActivity.this.runOnUiThread(runnable);
     }
 
     //初始化过渡动画
@@ -346,10 +326,16 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         return false;
     }
 
-    //开始全屏播放
-    private void startPlayer(String url, float time) {
-        gsyVideoOption.setIsTouchWigetFull(false)
-                .setSeekOnStart((long) time * 1000L)
+    //配置播放器资源
+    private void startPlayer(String url) {
+        //初始化播放器配置
+        gsyVideoOption = new GSYVideoOptionBuilder()
+                .setIsTouchWiget(false)
+                .setIsTouchWigetFull(false)
+                .setRotateViewAuto(false)
+                .setLockLand(false)
+                .setShowFullAnimation(true)
+                .setCacheWithPlay(false)
                 .setUrl(url)
                 .setVideoTitle(activityTitle)
                 .setVideoAllCallBack(new GSYSampleCallBack() {
@@ -390,8 +376,23 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
                         curTime = Float.valueOf(currentPosition / 1000 + "");
                     }
                 })
-                .setStartAfterPrepared(true)
-                .build(vp_player);
+                .setStartAfterPrepared(true);
+    }
+
+    //显示全屏播放器
+    private void showPlayer(String url, float time) {
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                vp_player.setVisibility(View.VISIBLE);
+                orientationUtils.resolveByClick();
+
+                gsyVideoOption.setSeekOnStart((long) time * 1000L).build(vp_player);
+                startBut.performClick();
+                EBLog.i(TAG, "切换至UI线程播放视频");
+            }
+        };
+        ActivityDetailActivity.this.runOnUiThread(runnable);
     }
 
     //由全屏返回小屏播放
