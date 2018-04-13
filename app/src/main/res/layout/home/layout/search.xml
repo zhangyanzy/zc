@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -19,7 +20,7 @@
             android:background="@drawable/search_activity"
             android:gravity="center_vertical"
             android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
+            android:paddingLeft="12dp"
             android:paddingRight="10dp"
             android:paddingTop="5dp">
 
@@ -33,7 +34,7 @@
                 android:id="@+id/search_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="6dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:background="@null"
@@ -79,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:gravity="center">
 
                 <TextView
@@ -88,7 +89,7 @@
                     android:layout_weight="1"
                     android:text="@string/search_history"
                     android:textColor="@color/colorFont3"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/font_size_16" />
 
                 <ImageView
                     android:id="@+id/search_history_clear"
@@ -110,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center">
 
                 <TextView
@@ -119,7 +120,7 @@
                     android:layout_weight="1"
                     android:text="@string/search_recommend"
                     android:textColor="@color/colorFont3"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/font_size_16" />
             </LinearLayout>
 
             <com.zhy.view.flowlayout.TagFlowLayout
@@ -134,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center">
 
                 <TextView
@@ -143,7 +144,7 @@
                     android:layout_weight="1"
                     android:text="@string/search_class"
                     android:textColor="@color/colorFont3"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/font_size_16" />
             </LinearLayout>
 
             <LinearLayout
@@ -160,7 +161,7 @@
                     android:gravity="center"
                     android:text="@string/activity_class_0"
                     android:textColor="@color/colorFont6"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/font_size_14" />
 
                 <TextView
                     android:id="@+id/activity_class_1"
@@ -173,7 +174,7 @@
                     android:gravity="center"
                     android:text="@string/activity_class_1"
                     android:textColor="@color/colorFont6"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/font_size_14" />
 
                 <TextView
                     android:id="@+id/activity_class_2"
@@ -185,7 +186,7 @@
                     android:gravity="center"
                     android:text="@string/activity_class_2"
                     android:textColor="@color/colorFont6"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/font_size_14" />
             </LinearLayout>
 
             <!--活动类型-->
@@ -193,7 +194,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center">
 
                 <TextView
@@ -202,7 +203,7 @@
                     android:layout_weight="1"
                     android:text="@string/search_type"
                     android:textColor="@color/colorFont3"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/font_size_16" />
             </LinearLayout>
 
             <LinearLayout
@@ -219,7 +220,7 @@
                     android:gravity="center"
                     android:text="@string/activity_type_1"
                     android:textColor="@color/colorFont6"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/font_size_14" />
 
                 <TextView
                     android:id="@+id/activity_type_2"
@@ -232,7 +233,7 @@
                     android:gravity="center"
                     android:text="@string/activity_type_2"
                     android:textColor="@color/colorFont6"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/font_size_14" />
 
                 <TextView
                     android:id="@+id/activity_type_0"
@@ -244,7 +245,7 @@
                     android:gravity="center"
                     android:text="@string/activity_type_0"
                     android:textColor="@color/colorFont6"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/font_size_14" />
             </LinearLayout>
 
             <!--奖励金额-->
@@ -252,7 +253,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center">
 
                 <TextView
@@ -261,7 +262,7 @@
                     android:layout_weight="1"
                     android:text="@string/search_money"
                     android:textColor="@color/colorFont3"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/font_size_16" />
             </LinearLayout>
 
             <LinearLayout
@@ -277,7 +278,7 @@
                     android:gravity="center"
                     android:text="@string/search_money_0"
                     android:textColor="@color/colorFont6"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/font_size_14" />
 
                 <TextView
                     android:id="@+id/search_money_1"
@@ -289,7 +290,7 @@
                     android:gravity="center"
                     android:text="@string/search_money_1"
                     android:textColor="@color/colorFont6"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/font_size_14" />
 
                 <TextView
                     android:id="@+id/search_money_2"
@@ -301,7 +302,7 @@
                     android:gravity="center"
                     android:text="@string/search_money_2"
                     android:textColor="@color/colorFont6"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/font_size_14" />
 
                 <TextView
                     android:id="@+id/search_money_3"
@@ -313,7 +314,7 @@
                     android:gravity="center"
                     android:text="@string/search_money_3"
                     android:textColor="@color/colorFont6"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/font_size_14" />
 
                 <TextView
                     android:id="@+id/search_money_4"
@@ -325,7 +326,7 @@
                     android:gravity="center"
                     android:text="@string/search_money_4"
                     android:textColor="@color/colorFont6"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/font_size_14" />
             </LinearLayout>
 
             <LinearLayout
@@ -346,7 +347,7 @@
                     android:singleLine="true"
                     android:textColor="@color/colorFont6"
                     android:textColorHint="@color/colorFont9"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/font_size_14" />
 
                 <View
                     android:layout_width="30dp"
@@ -368,7 +369,7 @@
                     android:singleLine="true"
                     android:textColor="@color/colorFont6"
                     android:textColorHint="@color/colorFont9"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/font_size_14" />
             </LinearLayout>
 
             <!--区域搜索-->
@@ -376,7 +377,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center">
 
                 <TextView
@@ -385,7 +386,7 @@
                     android:layout_weight="1"
                     android:text="@string/search_area"
                     android:textColor="@color/colorFont3"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/font_size_16" />
             </LinearLayout>
 
             <LinearLayout
@@ -408,7 +409,7 @@
                         android:layout_weight="0"
                         android:text="@string/search_area_0"
                         android:textColor="@color/colorFont9"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/font_size_14" />
 
                     <TextView
                         android:id="@+id/search_city_text"
@@ -417,7 +418,7 @@
                         android:layout_weight="1"
                         android:text="不限"
                         android:textColor="@color/colorFont6"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/font_size_14" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -436,7 +437,7 @@
                         android:layout_weight="0"
                         android:text="@string/search_area_0"
                         android:textColor="@color/colorFont9"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/font_size_14" />
 
                     <TextView
                         android:id="@+id/search_town_text"
@@ -445,7 +446,7 @@
                         android:layout_weight="1"
                         android:text="不限"
                         android:textColor="@color/colorFont6"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/font_size_14" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -467,7 +468,7 @@
             android:background="@drawable/search_btn_off"
             android:text="重置"
             android:textColor="@color/colorFont6"
-            android:textSize="18sp" />
+            android:textSize="@dimen/font_size_16" />
 
         <Button
             android:id="@+id/search_btn_on"
@@ -479,6 +480,6 @@
             android:background="@drawable/search_btn_on"
             android:text="完成"
             android:textColor="@color/colorPrimary"
-            android:textSize="18sp" />
+            android:textSize="@dimen/font_size_16" />
     </LinearLayout>
 </RelativeLayout>

@@ -236,6 +236,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             shareActivity(webUrl);
         }
 
+        //全屏播放
         @JavascriptInterface
         public void enterFull(String url, float time) {
             EBLog.i(TAG, "url---" + url + "\n time---" + time);

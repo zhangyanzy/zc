@@ -115,7 +115,6 @@ public class SearchActivity extends BaseActivity {
     private List<List<LocationResp>> towns;
     private OptionsPickerView optionsPickerView;
     private long city, town;
-    private Map<String, String> params = new HashMap<>();
 
 
     @Override
@@ -146,13 +145,9 @@ public class SearchActivity extends BaseActivity {
     }
 
     /**
-     * 初始化数据
+     * 获取推荐活动
      */
     private void initData() {
-        EBLog.i("tag", "活动");
-        /**
-         * 获取推荐活动
-         */
         HttpUtil.get(Constants.URL.GET_SEARCH_RECOMMEND).subscribe(new BaseResponseObserver<List<SearchRecommendResp>>() {
             @Override
             public void success(List<SearchRecommendResp> result) {
@@ -170,9 +165,8 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void initView() {
-
         /**
-         * 获取搜索历史
+         * 显示搜索历史
          */
         final LayoutInflater mInflater1 = LayoutInflater.from(SearchActivity.this);
         hisTagAdapter = new TagAdapter<String>(historyList) {
@@ -181,6 +175,7 @@ public class SearchActivity extends BaseActivity {
             public View getView(FlowLayout parent, int position, String s) {
                 View view = mInflater1.inflate(R.layout.search_item, search_history_list, false);
                 ViewHolder holder = new ViewHolder(view);
+                holder.search_item_text.setTextSize(14);
                 holder.search_item_text.setText(s);
                 EBLog.i("tag", s);
                 return view;
@@ -198,7 +193,7 @@ public class SearchActivity extends BaseActivity {
         });
 
         /**
-         * 获取热门推荐
+         * 显示热门推荐
          */
         final LayoutInflater mInflater = LayoutInflater.from(SearchActivity.this);
         tagAdapter = new TagAdapter<SearchRecommendResp>(searchRecommendRespList) {
@@ -207,6 +202,7 @@ public class SearchActivity extends BaseActivity {
             public View getView(FlowLayout parent, int position, SearchRecommendResp searchRecommendResp) {
                 View view = mInflater.inflate(R.layout.search_item, search_recommend_list, false);
                 ViewHolder holder = new ViewHolder(view);
+                holder.search_item_text.setTextSize(getResources().getDimension(R.dimen.font_size_14));
                 holder.search_item_text.setText(searchRecommendResp.getName());
                 EBLog.i("tag", searchRecommendResp.toString());
                 return view;
