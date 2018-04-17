@@ -16,9 +16,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/height_select_project"
         android:orientation="horizontal"
-        android:padding="15dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:background="@color/colorWhite">
 
         <TextView
@@ -26,22 +28,25 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorFont3"
             android:textSize="@dimen/font_size_14"
-            android:text="持卡人："/>
+            android:text="持  卡  人："/>
 
         <TextView
             android:id="@+id/user_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="15dp"
             android:textColor="@color/colorFont3"
-            android:textSize="@dimen/font_size_14"/>
+            android:textSize="@dimen/font_size_14"
+            android:gravity="center_vertical"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/height_select_project"
         android:orientation="horizontal"
-        android:padding="15dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:background="@color/colorWhite"
         android:layout_marginTop="10dp">
 
@@ -55,7 +60,8 @@
         <EditText
             android:id="@+id/card_number"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:background="@null"
             android:layout_marginStart="15dp"
             android:textColor="@color/colorFont3"
@@ -64,9 +70,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/height_select_project"
         android:orientation="horizontal"
-        android:padding="15dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:background="@color/colorWhite"
         android:layout_marginTop="10dp">
 
@@ -75,12 +83,13 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorFont3"
             android:textSize="@dimen/font_size_14"
-            android:text="开户行："/>
+            android:text="开  户  行："/>
 
         <TextView
             android:id="@+id/bank_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:layout_marginStart="15dp"
             android:textColor="@color/colorFont3"
             android:textSize="@dimen/font_size_14"/>
@@ -88,9 +97,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/height_select_project"
         android:orientation="horizontal"
-        android:padding="15dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:background="@color/colorWhite"
         android:layout_marginTop="10dp">
 
@@ -104,7 +115,8 @@
         <EditText
             android:id="@+id/bank_alias_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:background="@null"
             android:layout_marginStart="15dp"
             android:textColor="@color/colorFont3"

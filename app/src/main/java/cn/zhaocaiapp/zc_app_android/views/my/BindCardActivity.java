@@ -1,6 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,6 +28,7 @@ import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
@@ -53,7 +55,7 @@ public class BindCardActivity extends BaseActivity {
 
     private BindCardReq bindCardReq;
     private OptionsPickerView optionsPickerView;
-    private List<String>bankNames = new ArrayList<>();
+    private List<String> bankNames = new ArrayList<>();
 
     private UserDetailResp.RealInfoBean realInfoBean;
 
@@ -140,7 +142,7 @@ public class BindCardActivity extends BaseActivity {
         return true;
     }
 
-    private void setPickView(){
+    private void setPickView() {
         optionsPickerView = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
@@ -175,6 +177,8 @@ public class BindCardActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.bank_name:
+                if (KeyBoardUtils.isKeyBordVisiable(BindCardActivity.this))
+                    KeyBoardUtils.closeKeybord(tv_submit, BindCardActivity.this);
                 optionsPickerView.show();
                 break;
             case R.id.tv_submit:
@@ -182,5 +186,11 @@ public class BindCardActivity extends BaseActivity {
                     doBindCard();
                 break;
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        KeyBoardUtils.closeKeybord(tv_submit, this);
+        return super.onTouchEvent(event);
     }
 }

@@ -226,6 +226,21 @@ public final class GeneralUtils {
     }
 
     /**
+     * <将YYYYMMDDHHmmss 转换为 YYYY/MM/DD> <功能详细描述>
+     *
+     * @param str
+     * @return
+     * @see [类、类#方法、类#成员]
+     */
+    public static String splitTodateSprit(String str) {
+        String strs = "";
+        if (isNotNullOrZeroLenght(str)) {
+            strs = str.substring(0, 4) + "/" + str.substring(4, 6) + "/" + str.substring(6, 8);
+        }
+        return strs;
+    }
+
+    /**
      * <将YYYYMMDDHHmmss 转换为 YYYY-MM-DD hh:mm> <功能详细描述>
      *
      * @param str

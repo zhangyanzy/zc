@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -71,14 +72,20 @@ public class RealInfoFragment extends BaseFragment {
     TextView tv_birth_day;
     @BindView(R.id.tv_submit)
     TextView tv_submit;
-    @BindView(R.id.iv_scan_picture)
-    ImageView iv_scan_picture;
+    @BindView(R.id.iv_card_front)
+    ImageView iv_card_front;
     @BindView(R.id.edit_user_name)
-    EditText edit_user_name;
+    TextView edit_user_name;
     @BindView(R.id.edit_id_number)
     TextView edit_id_number;
     @BindView(R.id.tv_identify_state)
     TextView tv_identify_state;
+    @BindView(R.id.tv_validity)
+    TextView tv_validity;
+    @BindView(R.id.iv_card_behind)
+    ImageView iv_card_behind;
+    @BindView(R.id.confirm_card)
+    CheckBox confirm_card;
 
     private View rootView;
 
@@ -93,7 +100,8 @@ public class RealInfoFragment extends BaseFragment {
     private String userGender;
     private String birthDay;
     private String idNumber;
-    private String cardPath;
+    private String cardPathFront;
+    private String cardPathbehind;
 
     private String name;
     private String gender;
@@ -108,7 +116,6 @@ public class RealInfoFragment extends BaseFragment {
         super.onStart();
         //注册EventBus消息订阅者
         EventBus.getDefault().register(this);
-
     }
 
     @Override
@@ -119,8 +126,8 @@ public class RealInfoFragment extends BaseFragment {
 
     @Override
     public void init() {
-        setGenderPicker();
-        setDatePicker();
+//        setGenderPicker();
+//        setDatePicker();
 
         //监听点击空白处，隐藏软键盘
         rootView.setOnTouchListener(onTouchListener);
@@ -130,15 +137,19 @@ public class RealInfoFragment extends BaseFragment {
         switch (realInfoBean.getRealInfoAuditStatus()) {
             case 0:
                 tv_identify_state.setText("未认证");
+                tv_submit.setVisibility(View.VISIBLE);
                 break;
             case 1:
                 tv_identify_state.setText("待审核");
+                tv_submit.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 tv_identify_state.setText("已认证");
+//                tv_submit.setVisibility(View.GONE);
                 break;
             case 3:
                 tv_identify_state.setText("未通过");
+                tv_submit.setVisibility(View.VISIBLE);
                 break;
         }
 
@@ -149,7 +160,7 @@ public class RealInfoFragment extends BaseFragment {
             gender = "女";
         date = realInfoBean.getBirthdayStr();
         number = realInfoBean.getIdCard();
-        cardPath = realInfoBean.getIdCardPath();
+        cardPathFront = realInfoBean.getIdCardPath();
 
         if (GeneralUtils.isNotNullOrZeroLenght(name))
             edit_user_name.setText(name);
@@ -157,8 +168,8 @@ public class RealInfoFragment extends BaseFragment {
             tv_birth_day.setText(date);
         if (GeneralUtils.isNotNullOrZeroLenght(number))
             edit_id_number.setText(number);
-        if (GeneralUtils.isNotNullOrZeroLenght(cardPath))
-            PictureLoadUtil.loadPicture(getActivity(), cardPath, iv_scan_picture);
+        if (GeneralUtils.isNotNullOrZeroLenght(cardPathFront))
+            PictureLoadUtil.loadPicture(getActivity(), cardPathFront, iv_card_front);
         tv_user_gender.setText(gender);
     }
 
@@ -207,7 +218,7 @@ public class RealInfoFragment extends BaseFragment {
             params.put("sex", "1");
         params.put("birthdayStr", birthDay);
         params.put("idCard", idNumber);
-        params.put("idCardPath", cardPath);
+        params.put("idCardPath", cardPathFront);
 
         HttpUtil.put(Constants.URL.REVISE_REAL_INFO, params).subscribe(new BaseResponseObserver<CommonResp>() {
 
@@ -241,18 +252,18 @@ public class RealInfoFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.tv_user_gender, R.id.tv_birth_day, R.id.iv_scan_picture, R.id.tv_submit})
+    @OnClick({R.id.iv_card_front, R.id.tv_submit, R.id.iv_card_behind})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_user_gender:
-                manageKeyBord(tv_submit, getActivity());
-                optionsPickerView.show();
-                break;
-            case R.id.tv_birth_day:
-                manageKeyBord(tv_submit, getActivity());
-                timePickerView.show();
-                break;
-            case R.id.iv_scan_picture:
+//            case R.id.tv_user_gender:
+//                manageKeyBord(tv_submit, getActivity());
+//                optionsPickerView.show();
+//                break;
+//            case R.id.tv_birth_day:
+//                manageKeyBord(tv_submit, getActivity());
+//                timePickerView.show();
+//                break;
+            case R.id.iv_card_front:
                 if (GeneralUtils.isNullOrZeroLenght(ZcApplication.getLicenceToken())) {
                     ToastUtil.makeText(getActivity(), getString(R.string.getting_licence));
                 } else {
@@ -263,12 +274,25 @@ public class RealInfoFragment extends BaseFragment {
                     startActivityForResult(intent, REQUEST_CODE_CAMERA);
                 }
                 break;
+            case R.id.iv_card_behind:
+                if (GeneralUtils.isNullOrZeroLenght(ZcApplication.getLicenceToken())) {
+                    ToastUtil.makeText(getActivity(), getString(R.string.getting_licence));
+                } else {
+                    Intent intent = new Intent(getActivity(), CameraActivity.class);
+                    intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
+                            FileUtil.getSaveFile(getActivity()).getAbsolutePath());
+                    intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_ID_CARD_BACK);
+                    startActivityForResult(intent, REQUEST_CODE_CAMERA);
+                }
+                break;
             case R.id.tv_submit:
                 if (isNotEmpty() && isCanUpdate()) {
                     if (realInfoBean.getRealInfoAuditStatus() != 1) {
-                        if (realInfoBean.getRealInfoAlterCount() < 3)
-                            reviseRealInfo();
-                        else showNormalDialog();
+                        if (realInfoBean.getRealInfoAlterCount() < 3) {
+                            if (confirm_card.isChecked())
+                                reviseRealInfo();
+                            else ToastUtil.makeText(getActivity(), getString(R.string.confirm_card));
+                        } else showNormalDialog();
                     } else ToastUtil.makeText(getActivity(), getString(R.string.wait_verify));
                 }
                 break;
@@ -317,7 +341,7 @@ public class RealInfoFragment extends BaseFragment {
             ToastUtil.makeText(getActivity(), getString(R.string.useridnumber_not_empty));
             return false;
         }
-        if (GeneralUtils.isNullOrZeroLenght(cardPath)) {
+        if (GeneralUtils.isNullOrZeroLenght(cardPathFront)) {
             ToastUtil.makeText(getActivity(), getString(R.string.upload_idcard));
             return false;
         }
@@ -338,11 +362,11 @@ public class RealInfoFragment extends BaseFragment {
     }
 
     //识别身份证信息
-    private void recIDCard(String filePath) {
+    private void recIDCard(String filePath, String contentType) {
         IDCardParams param = new IDCardParams();
         param.setImageFile(new File(filePath));
         // 设置身份证正反面
-        param.setIdCardSide(IDCardParams.ID_CARD_SIDE_FRONT);
+        param.setIdCardSide(contentType);
         // 设置方向检测
         param.setDetectDirection(false);
         // 设置图像参数压缩质量0-100, 越大图像质量越好但是请求时间越长。 不设置则默认值为20
@@ -353,16 +377,20 @@ public class RealInfoFragment extends BaseFragment {
             public void onResult(IDCardResult result) {
                 EBLog.i(TAG, result.toString());
                 if (result != null) {
-                    if (GeneralUtils.isNotNull(result.getName()))
-                        edit_user_name.setText(result.getName().toString());
-                    if (GeneralUtils.isNotNull(result.getGender()))
-                        tv_user_gender.setText(result.getGender().toString());
-                    if (GeneralUtils.isNotNull(result.getBirthday()))
-                        tv_birth_day.setText(GeneralUtils.splitTodate(result.getBirthday().toString()));
-                    if (GeneralUtils.isNotNull(result.getIdNumber()))
-                        edit_id_number.setText(result.getIdNumber().toString());
-
-                    uploadImage(new File(filePath));
+                    if (contentType == IDCardParams.ID_CARD_SIDE_FRONT) {
+                        if (GeneralUtils.isNotNull(result.getName()))
+                            edit_user_name.setText(result.getName().toString());
+                        if (GeneralUtils.isNotNull(result.getGender()))
+                            tv_user_gender.setText(result.getGender().toString());
+                        if (GeneralUtils.isNotNull(result.getBirthday()))
+                            tv_birth_day.setText(GeneralUtils.splitTodate(result.getBirthday().toString()));
+                        if (GeneralUtils.isNotNull(result.getIdNumber()))
+                            edit_id_number.setText(result.getIdNumber().toString());
+                    } else if (contentType == IDCardParams.ID_CARD_SIDE_BACK) {
+                        tv_validity.setText(GeneralUtils.splitTodateSprit(result.getSignDate().toString())
+                                + "-" + GeneralUtils.splitTodateSprit(result.getExpiryDate().toString()));
+                    }
+                    uploadImage(new File(filePath), contentType);
                 }
             }
 
@@ -375,7 +403,7 @@ public class RealInfoFragment extends BaseFragment {
         });
     }
 
-    private void uploadImage(File file) {
+    private void uploadImage(File file, String contentType) {
         Map<String, String> map = new HashMap<>();
         map.put("postfix", ".jpg");
         map.put("base64Str", FileUtil.fileToStream(file));
@@ -389,9 +417,12 @@ public class RealInfoFragment extends BaseFragment {
                 stopProgressDialog();
                 if (GeneralUtils.isNullOrZeroLenght(s))
                     ToastUtil.makeText(getActivity(), getString(R.string.idcard_upload_failure));
-                else {
-                    cardPath = s;
-                    PictureLoadUtil.loadPicture(getActivity(), cardPath, iv_scan_picture);
+                else if (contentType == IDCardParams.ID_CARD_SIDE_FRONT) {
+                    cardPathFront = s;
+                    PictureLoadUtil.loadPicture(getActivity(), s, iv_card_front);
+                } else if (contentType == IDCardParams.ID_CARD_SIDE_BACK) {
+                    cardPathbehind = s;
+                    PictureLoadUtil.loadPicture(getActivity(), s, iv_card_behind);
                 }
             }
 
@@ -415,11 +446,13 @@ public class RealInfoFragment extends BaseFragment {
                 String filePath = FileUtil.getSaveFile(getActivity()).getAbsolutePath();
                 if (!contentType.isEmpty()) {
                     if (CameraActivity.CONTENT_TYPE_ID_CARD_FRONT.equals(contentType)) {
-                        recIDCard(filePath);
+                        recIDCard(filePath, IDCardParams.ID_CARD_SIDE_FRONT);
+                    } else if (CameraActivity.CONTENT_TYPE_ID_CARD_BACK.equals(contentType)) {
+                        recIDCard(filePath, IDCardParams.ID_CARD_SIDE_BACK);
                     }
                 }
-            }else stopProgressDialog();
-        }else stopProgressDialog();
+            } else stopProgressDialog();
+        } else stopProgressDialog();
     }
 
     @Override

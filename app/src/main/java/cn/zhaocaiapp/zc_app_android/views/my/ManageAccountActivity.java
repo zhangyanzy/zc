@@ -71,9 +71,7 @@ public class ManageAccountActivity extends BaseActivity {
     private NormalDialog dialog;
 
     private static final int REQUEST_CODE = 6001;
-//    private static final int SUCCESS = 6010;
-//    private static final int FAILURE = 6011;
-//    private int resultCode;
+//    private static final int RESULT_CODE = 6010;
 
     private static final String TAG = "管理账户";
 
@@ -208,6 +206,7 @@ public class ManageAccountActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_top_back:
+//                setResult(RESULT_CODE);
                 finish();
                 break;
             case R.id.layout_wechat://微信账户
@@ -346,7 +345,7 @@ public class ManageAccountActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         umShareAPI.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE){
+        if (requestCode == REQUEST_CODE) {
             getAccount();
         }
     }
