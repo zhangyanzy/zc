@@ -15,12 +15,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="200dp"
             android:background="@color/colorHeadLine"
             android:orientation="horizontal"
             android:paddingBottom="15dp"
             android:paddingTop="15dp"
-            android:weightSum="2">
+            android:weightSum="1">
 
             <ImageView
                 android:id="@+id/iv_card_front"
@@ -40,7 +40,8 @@
                 android:paddingLeft="6dp"
                 android:paddingRight="@dimen/window_padding"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/real_info" />
+                android:src="@mipmap/real_info"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <LinearLayout
@@ -49,7 +50,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/window_padding"
-            android:paddingRight="15dp">
+            android:paddingRight="@dimen/window_padding">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -62,7 +63,6 @@
                 android:id="@+id/edit_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
                 android:gravity="end"
                 android:paddingLeft="15dp"
                 android:text=""
@@ -91,8 +91,6 @@
                 android:id="@+id/tv_user_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:drawableRight="@mipmap/turn_right"
                 android:gravity="end"
                 android:paddingLeft="15dp"
                 android:text=""
@@ -122,8 +120,6 @@
                 android:id="@+id/tv_birth_day"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:drawableRight="@mipmap/turn_right"
                 android:gravity="end"
                 android:paddingLeft="15dp"
                 android:text=""
@@ -152,7 +148,6 @@
                 android:id="@+id/edit_id_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
                 android:gravity="end"
                 android:paddingLeft="15dp"
                 android:textColor="@color/colorFont6"
@@ -167,7 +162,8 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/window_padding"
-            android:paddingRight="@dimen/window_padding">
+            android:paddingRight="@dimen/window_padding"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -180,7 +176,6 @@
                 android:id="@+id/tv_validity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
                 android:gravity="end"
                 android:paddingLeft="15dp"
                 android:textColor="@color/colorFont6"
@@ -215,7 +210,7 @@
                 android:textSize="@dimen/font_size_14" />
         </LinearLayout>
 
-        <!--<View style="@style/horizontal_F0_line" />-->
+        <View style="@style/divider_8" />
 
         <CheckBox
             android:id="@+id/confirm_card"
@@ -230,7 +225,8 @@
             android:text="@string/confirm_card_info"
             android:drawablePadding="10dp"
             android:button="@null"
-            android:drawableStart="@drawable/checkbox_selector_agreement"/>
+            android:drawableStart="@drawable/checkbox_selector_agreement"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:layout_width="match_parent"

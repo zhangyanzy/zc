@@ -126,7 +126,7 @@ public class ZcApplication extends MultiDexApplication {
          * 设置是否强制更新。true为强制更新；false为不强制更新（默认值）
          * 发布新版本时，必须设置这个值
          * */
-        PgyUpdateManager.setIsForced(true);
+        PgyUpdateManager.setIsForced(false);
 
 //        //是否开启分享功能
 //        isShowShare();

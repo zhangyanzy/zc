@@ -94,11 +94,9 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
         cityCode = bd != null ? bd.getString("cityCode", "") : "";
         areaCode = bd != null ? bd.getString("areaCode", "") : "";
 
-
         EBLog.i(TAG, "接受到搜索名称：" + name);
 
         initView();
-        search_refresh.autoRefresh();
     }
 
     /**
@@ -153,17 +151,19 @@ public class SearchResulfActivity extends BaseActivity implements OnRefreshListe
     }
 
     private void initView() {
+        iv_top_edit.setFocusable(false);
+        iv_top_edit.setHint(getString(R.string.search_activity));
+        iv_top_edit.setText(name);
+
         search_recycler.setLayoutManager(new LinearLayoutManager(this));
         search_refresh.setOnRefreshListener(this);
         search_refresh.setOnLoadmoreListener(this);
+        search_refresh.setEnableLoadmoreWhenContentNotFull(false);
 
         activityAdapter = new ActivityAdapter(this, activityRespList);
         search_recycler.setAdapter(activityAdapter);
         activityAdapter.setOnItemCliclkListener(listener);
-
-        iv_top_edit.setFocusable(false);
-        iv_top_edit.setHint(getString(R.string.search_activity));
-        iv_top_edit.setText(name);
+        search_refresh.autoRefresh();
     }
 
     private ActivityAdapter.OnItemCliclkListener listener = new ActivityAdapter.OnItemCliclkListener() {

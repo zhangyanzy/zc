@@ -137,19 +137,18 @@ public class RealInfoFragment extends BaseFragment {
         switch (realInfoBean.getRealInfoAuditStatus()) {
             case 0:
                 tv_identify_state.setText("未认证");
-                tv_submit.setVisibility(View.VISIBLE);
                 break;
             case 1:
                 tv_identify_state.setText("待审核");
-                tv_submit.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 tv_identify_state.setText("已认证");
-//                tv_submit.setVisibility(View.GONE);
+                tv_submit.setVisibility(View.GONE);
+                iv_card_front.setEnabled(false);
+                iv_card_behind.setEnabled(false);
                 break;
             case 3:
                 tv_identify_state.setText("未通过");
-                tv_submit.setVisibility(View.VISIBLE);
                 break;
         }
 
@@ -289,9 +288,11 @@ public class RealInfoFragment extends BaseFragment {
                 if (isNotEmpty() && isCanUpdate()) {
                     if (realInfoBean.getRealInfoAuditStatus() != 1) {
                         if (realInfoBean.getRealInfoAlterCount() < 3) {
-                            if (confirm_card.isChecked())
-                                reviseRealInfo();
-                            else ToastUtil.makeText(getActivity(), getString(R.string.confirm_card));
+//                            if (confirm_card.isChecked())
+//                                reviseRealInfo();
+//                            else
+//                                ToastUtil.makeText(getActivity(), getString(R.string.confirm_card));
+                            reviseRealInfo();
                         } else showNormalDialog();
                     } else ToastUtil.makeText(getActivity(), getString(R.string.wait_verify));
                 }
@@ -387,8 +388,14 @@ public class RealInfoFragment extends BaseFragment {
                         if (GeneralUtils.isNotNull(result.getIdNumber()))
                             edit_id_number.setText(result.getIdNumber().toString());
                     } else if (contentType == IDCardParams.ID_CARD_SIDE_BACK) {
-                        tv_validity.setText(GeneralUtils.splitTodateSprit(result.getSignDate().toString())
-                                + "-" + GeneralUtils.splitTodateSprit(result.getExpiryDate().toString()));
+                        if (GeneralUtils.isNotNull(result.getSignDate()) && GeneralUtils.isNotNull(result.getExpiryDate())) {
+                            String signDate = GeneralUtils.splitTodateSprit(result.getSignDate().toString());
+                            String expiryDate = result.getExpiryDate().toString();
+                            if (expiryDate.length() >= 8) {
+                                expiryDate = GeneralUtils.splitTodateSprit(expiryDate);
+                            }
+                            tv_validity.setText(signDate + "-" + expiryDate);
+                        }
                     }
                     uploadImage(new File(filePath), contentType);
                 }

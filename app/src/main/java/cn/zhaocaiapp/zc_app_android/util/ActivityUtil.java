@@ -23,7 +23,7 @@ public class ActivityUtil {
      * 添加Activity到堆栈
      */
     public static void addActivity(Activity activity) {
-        if (activityStack.contains(activity)){
+        if (activityStack.contains(activity)) {
             activityStack.remove(activity);
         }
         activityStack.add(activity);
@@ -35,7 +35,9 @@ public class ActivityUtil {
      */
     public static Activity currentActivity() {
         EBLog.i(TAG, activityStack.toString());
-        Activity activity = activityStack.get(activityStack.size() - 1);
+        Activity activity = null;
+        if (activityStack.size() > 0)
+            activity = activityStack.get(activityStack.size() - 1);
         return activity;
     }
 
@@ -43,7 +45,9 @@ public class ActivityUtil {
      * 结束当前Activity（堆栈中最后一个压入的）
      */
     public static void finishActivity() {
-        Activity activity = activityStack.get(activityStack.size() - 1);
+        Activity activity = null;
+        if (activityStack.size() > 0)
+            activity = activityStack.get(activityStack.size() - 1);
         finishActivity(activity);
     }
 
@@ -98,8 +102,8 @@ public class ActivityUtil {
 
     /**
      * 获取activityStack的容量
-     * */
-    public static int getActivityStackSize(){
+     */
+    public static int getActivityStackSize() {
         return activityStack.size();
     }
 

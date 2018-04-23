@@ -202,7 +202,7 @@ public class SearchActivity extends BaseActivity {
             public View getView(FlowLayout parent, int position, SearchRecommendResp searchRecommendResp) {
                 View view = mInflater.inflate(R.layout.search_item, search_recommend_list, false);
                 ViewHolder holder = new ViewHolder(view);
-                holder.search_item_text.setTextSize(getResources().getDimension(R.dimen.font_size_14));
+                holder.search_item_text.setTextSize(14);
                 holder.search_item_text.setText(searchRecommendResp.getName());
                 EBLog.i("tag", searchRecommendResp.toString());
                 return view;

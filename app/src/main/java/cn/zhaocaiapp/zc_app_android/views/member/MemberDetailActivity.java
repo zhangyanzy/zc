@@ -125,6 +125,7 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
 
         member_detail_refresh.setOnRefreshListener(this);
         member_detail_refresh.setOnLoadmoreListener(this);
+        member_detail_refresh.setEnableLoadmoreWhenContentNotFull(false);
         member_detail_refresh.autoRefresh();
     }
 

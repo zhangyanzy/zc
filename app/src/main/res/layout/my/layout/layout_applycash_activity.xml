@@ -79,7 +79,8 @@
         android:layout_alignEnd="@+id/tv_withdraw_all"
         android:layout_alignStart="@+id/edit_apply_cash"
         android:layout_below="@+id/edit_apply_cash"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"
+        android:id="@+id/line"/>
 
     <TextView
         android:id="@+id/tv_withdraw_limit"
@@ -96,10 +97,10 @@
         android:id="@+id/layout_wechat"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_select_project"
-        android:layout_below="@+id/tv_withdraw_limit"
+        android:layout_below="@+id/line"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="80dp">
 
         <TextView
             android:id="@+id/tv_wechat"
@@ -213,16 +214,16 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
-        android:layout_marginTop="2dp"
-        android:textSize="@dimen/font_size_12"
-        android:textColor="@color/colorRemind"
-        android:text="@string/add_card_remaind"
-        android:layout_below="@+id/layout_bank"/>
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingLeft="30dp"-->
+        <!--android:paddingRight="30dp"-->
+        <!--android:layout_marginTop="2dp"-->
+        <!--android:textSize="@dimen/font_size_12"-->
+        <!--android:textColor="@color/colorRemind"-->
+        <!--android:text="@string/add_card_remaind"-->
+        <!--android:layout_below="@+id/layout_bank"/>-->
 
     <TextView
         android:id="@+id/tv_submit"

@@ -244,6 +244,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
     //显示报名用户的额头像
     private void showUserPhoto(List<FinishUserResp> userList, ViewHolder holder) {
+        EBLog.i("用户头像" + holder.getLayoutPosition(), userList.size() + "");
         for (int i = 0; i < userList.size(); i++) {
             ImageView imageView = (ImageView) holder.layout_user.getChildAt(i);
             imageView.setVisibility(View.VISIBLE);

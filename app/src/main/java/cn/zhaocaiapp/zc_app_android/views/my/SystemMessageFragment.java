@@ -64,6 +64,7 @@ public class SystemMessageFragment extends BaseFragment implements OnRefreshList
     public void init() {
         refresh_layout.setOnRefreshListener(this);
         refresh_layout.setOnLoadmoreListener(this);
+        refresh_layout.setEnableLoadmoreWhenContentNotFull(false);
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         list.setLayoutManager(manager);

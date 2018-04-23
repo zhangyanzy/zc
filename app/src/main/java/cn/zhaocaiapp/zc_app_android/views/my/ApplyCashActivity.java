@@ -303,6 +303,8 @@ public class ApplyCashActivity extends BaseActivity {
 
                 withdraw_wechat.setCompoundDrawables(null, null, unDrawable, null);
                 withdraw_bank.setCompoundDrawables(null, null, unDrawable, null);
+                tv_withdraw_limit.setText(getString(R.string.withdraw_min_limit));
+                tv_withdraw_limit.setTextColor(getResources().getColor(R.color.colorFont6));
                 break;
             case 1:
                 withdraw_wechat.setCompoundDrawables(null, null, selDrawable, null);
@@ -310,6 +312,8 @@ public class ApplyCashActivity extends BaseActivity {
 
                 withdraw_ali.setCompoundDrawables(null, null, unDrawable, null);
                 withdraw_bank.setCompoundDrawables(null, null, unDrawable, null);
+                tv_withdraw_limit.setText(getString(R.string.withdraw_min_limit));
+                tv_withdraw_limit.setTextColor(getResources().getColor(R.color.colorFont6));
                 break;
             case 2:
                 withdraw_bank.setCompoundDrawables(null, null, selDrawable, null);
@@ -317,8 +321,8 @@ public class ApplyCashActivity extends BaseActivity {
 
                 withdraw_wechat.setCompoundDrawables(null, null, unDrawable, null);
                 withdraw_ali.setCompoundDrawables(null, null, unDrawable, null);
-                tv_withdraw_limit.setText("提现金额200元起");
-                ToastUtil.makeTextLong(this, "选择银行卡提现时，手续费会从账户内直接扣除，请谨慎选择");
+                tv_withdraw_limit.setText(getString(R.string.add_card_remaind));
+                tv_withdraw_limit.setTextColor(getResources().getColor(R.color.colorRemind));
                 break;
         }
     }

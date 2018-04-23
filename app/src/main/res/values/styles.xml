@@ -66,6 +66,7 @@
     <style name="divider_8">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">8dp</item>
+        <item name="android:background">@color/colorHeadLine</item>
     </style>
 
 
