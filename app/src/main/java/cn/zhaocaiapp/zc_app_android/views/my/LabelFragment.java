@@ -92,7 +92,7 @@ public class LabelFragment extends BaseFragment {
 
     //显示标签数据
     private void initLabel() {
-        final LayoutInflater mInflater = LayoutInflater.from(getActivity());
+        LayoutInflater mInflater = LayoutInflater.from(getActivity());
         if (labels != null) {
             label_list.setAdapter(tagAdapter = new TagAdapter<UserLabelResp>(labels) {
 

@@ -79,9 +79,9 @@ public class AddLabelActivity extends BaseActivity {
         HttpUtil.get(Constants.URL.GET_LABELS).subscribe(new BaseResponseObserver<List<LabelResp>>() {
 
             @Override
-            public void success(List<LabelResp> LabelResps) {
-                EBLog.i(TAG, LabelResps.toString());
-                labels = LabelResps;
+            public void success(List<LabelResp> LabelResp) {
+                EBLog.i(TAG, LabelResp.toString());
+                labels = LabelResp;
                 initLabelTag();
             }
 
@@ -118,14 +118,19 @@ public class AddLabelActivity extends BaseActivity {
                 LabelResp label = labels.get(position);
                 if (label.getIsSelected() == 0) { // 未添加
                     View labelView = view.findViewById(R.id.layout_label);
-                    if (label.isChecked()) { // 已选中
+                    if (label.isChecked()) { // 已选中,点击取消选中
                         labelView.setBackground(getResources().getDrawable(R.drawable.button_shape_orange_alpha1));
                         label.setChecked(false);
-                        ids.remove(label);
-                    } else { // 未选中
+                        for (int i = 0; i < ids.size(); i++) {
+                            if (label.getKid() == ids.get(i).getTagId()) {
+                                ids.remove(i);
+                            }
+                        }
+                    } else { // 未选中，点击选中
                         labelView.setBackground(getResources().getDrawable(R.drawable.button_shape_orange_alpha6));
                         label.setChecked(true);
-                        ids.add(new UserLabelResp(label.getKid()));
+                        UserLabelResp userLabel = new UserLabelResp(label.getKid());
+                        ids.add(userLabel);
                     }
                 }
                 return false;
@@ -141,7 +146,6 @@ public class AddLabelActivity extends BaseActivity {
     }
 
     private void addLabel(List<UserLabelResp> ids) {
-        startProgressDialog();
         Map<String, Object[]> map = new HashMap<>();
         map.put("tagids", ids.toArray());
         HttpUtil.put(Constants.URL.ADD_LABEL, map).subscribe(new BaseResponseObserver<CommonResp>() {
@@ -159,7 +163,6 @@ public class AddLabelActivity extends BaseActivity {
                     setResult(RESULT_CODE);
                     finish();
                 }
-                stopProgressDialog();
             }
 
             @Override

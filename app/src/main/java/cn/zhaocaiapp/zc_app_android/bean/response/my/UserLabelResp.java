@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.bean.response.my;
 
+
 /**
  * Created by Administrator on 2018/1/23.
  */
