@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android;
 
+import android.*;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.multidex.MultiDexApplication;
@@ -44,6 +45,7 @@ import cn.zhaocaiapp.zc_app_android.util.AppUtil;
 import cn.zhaocaiapp.zc_app_android.util.AreaUtil;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
+import cn.zhaocaiapp.zc_app_android.util.PermissionUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 
 /**
@@ -58,7 +60,7 @@ public class ZcApplication extends MultiDexApplication {
         PlatformConfig.setQQZone("1106660590", "mh54ewnGH5QCRwPN");
         PlatformConfig.setSinaWeibo("2998825649", "9251f8e40b6ab489d56dbfd18f545297", "https://api.weibo.com/oauth2/default.html");
 
-
+        //配置SmartRefreshLayout的全局参数
         //设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater() {
             @Override
@@ -85,8 +87,7 @@ public class ZcApplication extends MultiDexApplication {
     private static String OCRToken;
     private static String umPushToken;
 
-
-    private static final String TAG = "找财app";
+//    private static final String TAG = "找财app";
 
     @Override
     public void onCreate() {
@@ -102,10 +103,6 @@ public class ZcApplication extends MultiDexApplication {
                 .setHttpMessage("message")//网络请求返回的message字段名称，默认为message
                 .setHttpResult("response"));//网络请求返回的result字段名称，默认为result
 
-        //初始化友盟组件
-        initUM();
-        Config.DEBUG = false;
-
         //存储用户相关信息
         spUser = getSharedPreferences(Constants.SPREF.FILE_USER_NAME, Context.MODE_PRIVATE);
         //存储应用相关信息
@@ -116,6 +113,10 @@ public class ZcApplication extends MultiDexApplication {
 
         //初始化省市区列表
         getAreasList();
+
+        //初始化友盟组件
+        initUM();
+        Config.DEBUG = false;
 
         //初始化OCR单例
         initAccessToken(getApplicationContext());
@@ -144,7 +145,6 @@ public class ZcApplication extends MultiDexApplication {
 
     //初始化白底身份识别授权
     private void initAccessToken(Context context) {
-
         OCR.getInstance().initAccessToken(new OnResultListener<AccessToken>() {
             @Override
             public void onResult(AccessToken accessToken) {

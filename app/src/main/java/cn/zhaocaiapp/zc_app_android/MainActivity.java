@@ -1,7 +1,5 @@
 package cn.zhaocaiapp.zc_app_android;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -12,11 +10,6 @@ import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.pgyersdk.crash.PgyCrashManager;
-import com.pgyersdk.javabean.AppBean;
-import com.pgyersdk.update.PgyUpdateManager;
-import com.pgyersdk.update.UpdateManagerListener;
-import com.umeng.commonsdk.stateless.UMSLEnvelopeBuild;
 import com.umeng.socialize.UMShareAPI;
 
 import java.util.HashMap;
@@ -35,8 +28,6 @@ import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.views.member.MemberFragment;
 import cn.zhaocaiapp.zc_app_android.views.my.MyFragment;
 
-import static com.pgyersdk.update.UpdateManagerListener.startDownloadTask;
-
 /**
  * Created by ASUS on 2017/10/30.
  */
@@ -53,6 +44,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
     private Map<Integer, Fragment> fragmentMap = new HashMap<>();
 
     private UMShareAPI umShareAPI;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -179,4 +171,5 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         super.onDestroy();
         umShareAPI.release();
     }
+
 }

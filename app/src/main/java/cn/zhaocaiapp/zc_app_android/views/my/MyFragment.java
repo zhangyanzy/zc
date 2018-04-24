@@ -224,7 +224,7 @@ public class MyFragment extends BaseFragment {
                 break;
             case R.id.tv_apply_cash: // 申请提现
                 bundle.clear();
-                bundle.putString("balance", userInfo.getAccountBalanceAmount() + "");
+                bundle.putString("balance", userInfo.getAccountBalanceAmount().toString());
                 openActivity(ApplyCashActivity.class, bundle);
                 break;
             case R.id.layout_invite: // 邀请好友

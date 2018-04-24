@@ -112,10 +112,11 @@
     <string name="change_position">定位到您当前位置为%s，是否切换？</string>
     <string name="new_task_reward">完成新手任务即可领取奖励</string>
     <string name="invite_friend">邀请好友</string>
-    <string name="open_location">手机定位未开启，将无法准确获取活动位置，请在设置中开启</string>
+    <string name="open_location">手机定位未开启，将无法准确获取活动位置，请先开启系统定位</string>
     <string name="add_label">您还没有选择标签</string>
     <string name="confirm_card_info">确认以上身份信息真实有效</string>
     <string name="confirm_card">请确认以上身份信息真实有效</string>
+    <string name="allow_permissions">应用缺少相应权限，请先获取权限</string>
 
 
 

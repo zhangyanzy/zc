@@ -54,7 +54,7 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //动态申请权限
-        PermissionUtil.checkPermission(this, perms, null);
+        PermissionUtil.checkPermission(this, perms, getString(R.string.allow_permissions));
 
         //获取应用是否首次启动
         boolean isFirstStart = (boolean) SpUtils.init(Constants.SPREF.FILE_APP_NAME).get("is_first_start", true);

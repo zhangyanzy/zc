@@ -141,6 +141,7 @@ public class AddLabelActivity extends BaseActivity {
     }
 
     private void addLabel(List<UserLabelResp> ids) {
+        startProgressDialog();
         Map<String, Object[]> map = new HashMap<>();
         map.put("tagids", ids.toArray());
         HttpUtil.put(Constants.URL.ADD_LABEL, map).subscribe(new BaseResponseObserver<CommonResp>() {
@@ -158,6 +159,7 @@ public class AddLabelActivity extends BaseActivity {
                     setResult(RESULT_CODE);
                     finish();
                 }
+                stopProgressDialog();
             }
 
             @Override

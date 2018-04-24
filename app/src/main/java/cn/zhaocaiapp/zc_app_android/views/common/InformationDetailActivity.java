@@ -35,6 +35,9 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
 
     private View rootView;
 
+    private long activityId;  // 活动id
+    private String activityTitle; // 活动名称
+
     @Override
     public int getContentViewResId() {
         rootView = LayoutInflater.from(this).inflate(R.layout.activity_detail, null);
@@ -43,6 +46,11 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
 
     @Override
     public void init(Bundle savedInstanceState) {
+        activityId = getIntent().getLongExtra("id", -1);
+        activityTitle = getIntent().getStringExtra("title");
+        tv_title.setText(activityTitle);
+        iv_menu.setImageResource(R.mipmap.share);
+
         //加载H5活动详情
         activity_detail_webView.loadUrl("file:///android_asset/h5-assets/index.html");
         WebSettings settings = activity_detail_webView.getSettings();

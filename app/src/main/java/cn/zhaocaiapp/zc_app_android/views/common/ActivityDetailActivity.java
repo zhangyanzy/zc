@@ -214,7 +214,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
                     Intent intent = new Intent(ActivityDetailActivity.this, CaptureActivity.class);
                     startActivityForResult(intent, REQUEST_CODE);
                 } else {
-                    EasyPermissions.requestPermissions(ActivityDetailActivity.this, null, REQUEST_CODE, new String[]{Manifest.permission.CAMERA});
+                    EasyPermissions.requestPermissions(ActivityDetailActivity.this, "应用缺少拍照权限，请获取拍照权限", REQUEST_CODE, new String[]{Manifest.permission.CAMERA});
                 }
             }
         }
