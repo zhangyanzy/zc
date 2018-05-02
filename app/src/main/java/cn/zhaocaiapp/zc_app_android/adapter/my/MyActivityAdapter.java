@@ -220,6 +220,11 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
                 holder.item_text_area_text.setVisibility(View.GONE);
                 holder.item_img_vide.setVisibility(View.GONE);
                 break;
+            case 3: //资讯活动
+                holder.item_text_area_logo.setVisibility(View.GONE);
+                holder.item_text_area_text.setVisibility(View.GONE);
+                holder.item_img_vide.setVisibility(View.GONE);
+                break;
         }
     }
 
@@ -323,8 +328,8 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
             case 2:
                 type = context.getString(R.string.activity_type_2);
                 break;
-            default:
-                type = context.getString(R.string.activity_type_0);
+            case 3:
+                type = context.getString(R.string.activity_type_3);
         }
         return type;
     }

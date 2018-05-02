@@ -76,11 +76,14 @@ public class AddLabelActivity extends BaseActivity {
     }
 
     private void getLabels() {
+        startProgressDialog();
         HttpUtil.get(Constants.URL.GET_LABELS).subscribe(new BaseResponseObserver<List<LabelResp>>() {
 
             @Override
             public void success(List<LabelResp> LabelResp) {
                 EBLog.i(TAG, LabelResp.toString());
+                stopProgressDialog();
+
                 labels = LabelResp;
                 initLabelTag();
             }
@@ -89,6 +92,7 @@ public class AddLabelActivity extends BaseActivity {
             public void error(Response<List<LabelResp>> response) {
                 EBLog.e(TAG, response.getCode() + "");
                 ToastUtil.makeText(AddLabelActivity.this, response.getDesc());
+                stopProgressDialog();
             }
         });
     }
@@ -146,6 +150,7 @@ public class AddLabelActivity extends BaseActivity {
     }
 
     private void addLabel(List<UserLabelResp> ids) {
+        startProgressDialog();
         Map<String, Object[]> map = new HashMap<>();
         map.put("tagids", ids.toArray());
         HttpUtil.put(Constants.URL.ADD_LABEL, map).subscribe(new BaseResponseObserver<CommonResp>() {
@@ -154,6 +159,7 @@ public class AddLabelActivity extends BaseActivity {
             public void success(CommonResp commonResp) {
                 EBLog.i(TAG, commonResp.getDesc());
                 ToastUtil.makeText(AddLabelActivity.this, commonResp.getDesc());
+                stopProgressDialog();
 
                 if (isFirstAdd) {
                     Bundle bundle = new Bundle();
@@ -169,6 +175,7 @@ public class AddLabelActivity extends BaseActivity {
             public void error(Response<CommonResp> response) {
                 EBLog.i(TAG, response.getCode() + "");
                 ToastUtil.makeText(AddLabelActivity.this, response.getDesc());
+                stopProgressDialog();
             }
         });
     }

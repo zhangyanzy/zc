@@ -255,7 +255,11 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
     private MemberActivityAdapter.OnItemClickListener listener = new MemberActivityAdapter.OnItemClickListener() {
         @Override
         public void onItemClick(int position) {
-            String webUrl = String.format(Constants.URL.SHARE_ACTIVITY_URL, activityRespList.get(position).getKid());
+            String webUrl = "";
+            if (activityRespList.get(position).getActivityForm() == 3)
+                webUrl = String.format(Constants.URL.SHARE_INFORMATION_ACTIVITY_URL, activityRespList.get(position).getKid(), 3);
+            else
+                webUrl = String.format(Constants.URL.SHARE_ACTIVITY_URL, activityRespList.get(position).getKid());
             String shareTitle = activityRespList.get(position).getName();
             String desc = getString(R.string.share_desc);
             ShareUtil.init(MemberDetailActivity.this)

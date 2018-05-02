@@ -10,6 +10,7 @@ import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -40,6 +41,7 @@ import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.common.ActivityDetailActivity;
+import cn.zhaocaiapp.zc_app_android.views.common.InformationDetailActivity;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.views.member.MemberDetailActivity;
 import cn.zhaocaiapp.zc_app_android.widget.AntiShake;
@@ -159,8 +161,13 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         holder.activity_item_img_i.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = null;
                 if (antiShake.check(v.getId())) return;
-                Intent intent = new Intent(context, ActivityDetailActivity.class);
+                if (list.get(position).getActivityForm() == 3){ //资讯活动
+                    intent = new Intent(context, InformationDetailActivity.class);
+                }else {
+                    intent = new Intent(context, ActivityDetailActivity.class);
+                }
                 intent.putExtra("id", list.get(position).getKid());
                 intent.putExtra("title", list.get(position).getName());
                 intent.putExtra("isNeedQRCode", list.get(position).getIfCheck());
@@ -171,8 +178,13 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         holder.layout_activity_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = null;
                 if (antiShake.check(v.getId())) return;
-                Intent intent = new Intent(context, ActivityDetailActivity.class);
+                if (list.get(position).getActivityForm() == 3){ //资讯活动
+                    intent = new Intent(context, InformationDetailActivity.class);
+                }else {
+                    intent = new Intent(context, ActivityDetailActivity.class);
+                }
                 intent.putExtra("id", list.get(position).getKid());
                 intent.putExtra("title", list.get(position).getName());
                 intent.putExtra("isNeedQRCode", list.get(position).getIfCheck());
@@ -202,8 +214,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         holder.activity_item_text_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                boolean isShowShare = (boolean) SpUtils.init(Constants.SPREF.FILE_APP_NAME).get(Constants.SPREF.IS_SHOW_SHARE, false);
-//                if (!isShowShare) return;
                 if (antiShake.check(v.getId())) return;
                 listener.onItemCliclk(holder.getLayoutPosition());
             }
@@ -233,6 +243,13 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
                 holder.activity_item_member_area.setVisibility(View.GONE);
                 break;
             case 2: //问卷活动
+                holder.activity_item_text_area_logo.setVisibility(View.GONE);
+                holder.activity_item_text_area_text.setVisibility(View.GONE);
+                holder.activity_item_img_vide.setVisibility(View.GONE);
+                holder.tv_member_area_logo.setVisibility(View.GONE);
+                holder.activity_item_member_area.setVisibility(View.GONE);
+                break;
+            case 3: //资讯活动
                 holder.activity_item_text_area_logo.setVisibility(View.GONE);
                 holder.activity_item_text_area_text.setVisibility(View.GONE);
                 holder.activity_item_img_vide.setVisibility(View.GONE);
@@ -324,7 +341,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
      * @return
      */
     private String getActivityFormString(Integer t) {
-        String type;
+        String type = "";
         switch (t) {
             case 0:
                 type = context.getString(R.string.activity_type_0);
@@ -335,8 +352,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             case 2:
                 type = context.getString(R.string.activity_type_2);
                 break;
-            default:
-                type = context.getString(R.string.activity_type_0);
+            case 3:
+                type = context.getString(R.string.activity_type_3);
         }
         return type;
     }

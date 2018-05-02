@@ -1,5 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.views.common;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +13,25 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.umeng.socialize.UMShareAPI;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
+import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.capabilities.json.GsonHelper;
+import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
+import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
+import cn.zhaocaiapp.zc_app_android.util.DeviceUtil;
+import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
+import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
+import cn.zhaocaiapp.zc_app_android.util.SpUtils;
+import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.widget.SampleControlPlayer;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -22,8 +40,6 @@ import pub.devrel.easypermissions.EasyPermissions;
  */
 
 public class InformationDetailActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
-    @BindView(R.id.iv_top_back)
-    ImageView iv_back;
     @BindView(R.id.tv_top_title)
     TextView tv_title;
     @BindView(R.id.iv_top_menu)
@@ -37,6 +53,9 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
 
     private long activityId;  // 活动id
     private String activityTitle; // 活动名称
+    private UMShareAPI shareAPI;
+
+    private static final String TAG = "资讯详情页";
 
     @Override
     public int getContentViewResId() {
@@ -46,8 +65,17 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
 
     @Override
     public void init(Bundle savedInstanceState) {
+        ActivityUtil.addActivity(this);
+
         activityId = getIntent().getLongExtra("id", -1);
         activityTitle = getIntent().getStringExtra("title");
+
+        //从浏览器跳转回活动详情
+        Uri uri = getIntent().getData();
+        if (uri != null) {
+            activityId = Long.valueOf(uri.getQueryParameter("id"));
+            activityTitle = uri.getQueryParameter("name");
+        }
         tv_title.setText(activityTitle);
         iv_menu.setImageResource(R.mipmap.share);
 
@@ -72,13 +100,96 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
             }
         });
 
+        shareAPI = ZcApplication.getUMShareAPI();
+
     }
 
     public class JavaScriptInterfaces {
+        /**
+         * 获取访问的页面
+         *
+         * @return
+         */
+        @JavascriptInterface
+        public String getPage() {
+            Map<String, String> params = new HashMap<>();
+            //活动详情id
+            params.put("id", activityId + "");
+            //用戶token
+            params.put("token", (String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.TOKEN, ""));
+            params.put("type", "3");
+            //手机唯一识别码
+            params.put("deviceUUID", DeviceUtil.getDeviceModel());
+            //经度
+            params.put("longitude", String.valueOf(LocationUtil.getGps().getLongitude()));
+            //经度
+            params.put("latitude", String.valueOf(LocationUtil.getGps().getLatitude()));
+
+            EBLog.i(TAG, GsonHelper.toJson(params));
+
+            return GsonHelper.toJson(params);
+        }
 
         @JavascriptInterface
-        public void getH5Page() {
+        public String getUser() {
+            Map<String, String> params = new HashMap<>();
+            //用戶token
+            params.put("token", (String) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.TOKEN, ""));
+            EBLog.i(TAG, GsonHelper.toJson(params));
 
+            return GsonHelper.toJson(params);
+        }
+
+        //跳轉登錄
+        @JavascriptInterface
+        public void goLogin() {
+            if (!(boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false))
+                turnToLogin();
         }
     }
+
+    //未登录，跳转至登录页
+    private void turnToLogin() {
+        Bundle bundle = new Bundle();
+        bundle.putLong("id", activityId);
+        bundle.putString("title", activityTitle);
+        openActivity(LoginActivity.class, bundle);
+    }
+
+    //分享活动
+    private void shareActivity(String webUrl) {
+        String shareDesc = getString(R.string.share_desc);
+        ShareUtil.init(this)
+                .setUrl(webUrl)
+                .setSourceId(R.mipmap.icon_launcher)
+                .setTitle(activityTitle)
+                .setDesc(shareDesc);
+        ShareUtil.openShare();
+    }
+
+    @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_top_back:
+                ActivityUtil.finishActivity(this);
+                break;
+            case R.id.iv_top_menu:
+                String webUrl = String.format(Constants.URL.SHARE_INFORMATION_ACTIVITY_URL, activityId, 3);
+                shareActivity(webUrl);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        shareAPI.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        shareAPI.release();
+    }
+
 }

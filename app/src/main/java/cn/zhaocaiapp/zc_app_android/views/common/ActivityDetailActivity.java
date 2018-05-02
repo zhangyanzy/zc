@@ -124,8 +124,6 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
         activityId = getIntent().getLongExtra("id", -1);
         activityTitle = getIntent().getStringExtra("title");
-        tv_title.setText(activityTitle);
-        iv_menu.setImageResource(R.mipmap.share);
 
         //从浏览器跳转回活动详情
         Uri uri = getIntent().getData();
@@ -134,6 +132,9 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             inviteCode = uri.getQueryParameter("code");
             activityTitle = uri.getQueryParameter("name");
         }
+        tv_title.setText(activityTitle);
+        iv_menu.setImageResource(R.mipmap.share);
+
 
         //加载H5活动详情
         activity_detail_webView.loadUrl("file:///android_asset/h5-assets/index.html");

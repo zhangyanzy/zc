@@ -32,6 +32,7 @@ import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.common.ActivityDetailActivity;
+import cn.zhaocaiapp.zc_app_android.views.common.InformationDetailActivity;
 import cn.zhaocaiapp.zc_app_android.views.member.MemberDetailActivity;
 
 /**
@@ -168,7 +169,10 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
                     bundle.clear();
                     bundle.putLong("id", activityId);
                     bundle.putString("title", activityTitle);
-                    openActivity(ActivityDetailActivity.class, bundle);
+                    if (activitys.get(position).getActivityForm() == 3)
+                        openActivity(InformationDetailActivity.class, bundle);
+                    else
+                        openActivity(ActivityDetailActivity.class, bundle);
                     break;
                 case R.id.iv_logo: // 跳转商家详情
                 case R.id.tv_name:
@@ -181,7 +185,11 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
                     doFollow(position, view);
                     break;
                 case R.id.activity_item_text_share: //活动分享
-                    String webUrl = String.format(Constants.URL.SHARE_ACTIVITY_URL, activityId);
+                    String webUrl = "";
+                    if (activitys.get(position).getActivityForm() == 3)
+                        webUrl = String.format(Constants.URL.SHARE_INFORMATION_ACTIVITY_URL, activityId, 3);
+                    else
+                        webUrl = String.format(Constants.URL.SHARE_ACTIVITY_URL, activityId);
                     String shareTitle = activitys.get(position).getName();
                     String shareDesc = getString(R.string.share_desc);
                     ShareUtil.init(getActivity())

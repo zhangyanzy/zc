@@ -197,7 +197,11 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
     private ActivityAdapter.OnItemCliclkListener listener = new ActivityAdapter.OnItemCliclkListener() {
         @Override
         public void onItemCliclk(int position) {
-            String webUrl = String.format(Constants.URL.SHARE_ACTIVITY_URL, activityRespList.get(position).getKid());
+            String webUrl = "";
+            if (activityRespList.get(position).getActivityForm() == 3)
+                webUrl = String.format(Constants.URL.SHARE_INFORMATION_ACTIVITY_URL, activityRespList.get(position).getKid(), 3);
+            else
+                webUrl = String.format(Constants.URL.SHARE_ACTIVITY_URL, activityRespList.get(position).getKid());
             String shareTitle = activityRespList.get(position).getName();
             String desc = getString(R.string.share_desc);
             ShareUtil.init(getActivity())

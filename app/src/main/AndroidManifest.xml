@@ -92,7 +92,21 @@
                 <data android:scheme="com.zc.zcapp" />
             </intent-filter>
         </activity>
+        <!--资讯活动详情-->
+        <activity
+            android:name=".views.common.InformationDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="com.zc.zhaocaiapp" />
+            </intent-filter>
+        </activity>
 
         <!--登录-->
         <activity
