@@ -58,7 +58,7 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder viewholder, int position) {
-        if (viewType != -1) {
+        if (viewType != -1 && viewholder instanceof MessageViewHolder) {
             MessageViewHolder holder = (MessageViewHolder) viewholder;
             if (type == 0) holder.iv_logo.setImageResource(R.mipmap.message_logo);
             if (type == 1) holder.iv_logo.setImageResource(R.mipmap.message_logo);

@@ -61,7 +61,7 @@ public class MyIncomeAdapter extends RecyclerView.Adapter<MyIncomeAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewholder, int position) {
-        if (viewType != -1) {
+        if (viewType != -1 && viewholder instanceof IncomeViewHolder) {
             IncomeViewHolder holder = (IncomeViewHolder) viewholder;
 
             holder.tv_describe.setText(items.get(position).getBusinessName());

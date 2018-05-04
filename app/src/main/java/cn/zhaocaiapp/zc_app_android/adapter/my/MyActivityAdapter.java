@@ -78,7 +78,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        if (viewType != -1){
+        if (viewType != -1 && viewHolder instanceof ActivityViewHolder){
             ActivityViewHolder holder = (ActivityViewHolder) viewHolder;
             ActivityResp activity = items.get(position);
             //商家logo

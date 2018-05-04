@@ -60,7 +60,7 @@ public class MyFollowBusinerAdapter extends RecyclerView.Adapter<MyFollowBusiner
 
     @Override
     public void onBindViewHolder(ViewHolder viewholder, int position) {
-        if (viewType != -1){
+        if (viewType != -1 && viewholder instanceof BusinerViewHolder){
             BusinerViewHolder holder = (BusinerViewHolder) viewholder;
             holder.tv_businer_name.setText(members.get(position).getName());
             holder.tv_activity_count.setText("共" + members.get(position).getTotal() + "个活动");
