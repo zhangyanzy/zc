@@ -31,28 +31,9 @@
             android:id="@+id/layout_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
-            <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
-                android:id="@+id/activity_item_text_user0"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/user_default"
-                android:visibility="gone" />
-
-            <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
-                android:id="@+id/activity_item_text_user1"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/user_default"
-                android:visibility="gone" />
-
-            <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
-                android:id="@+id/activity_item_text_user2"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/user_default"
-                android:visibility="gone" />
         </LinearLayout>
 
         <ImageView
@@ -178,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0"
-                    android:text="@string/activity_received_number"
+                    android:text="@string/activity_finished_number"
                     android:textColor="@color/colorFont6"
                     android:textSize="12sp" />
             </LinearLayout>

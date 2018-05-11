@@ -41,6 +41,7 @@
     <string name="activity_state_2">已结束</string>
     <string name="activity_surplus_amount">剩余额度</string>
     <string name="activity_received_number">已领取人数</string>
+    <string name="activity_finished_number">已完成人数</string>
     <string name="activity_sort_time">发布时间</string>
     <string name="activity_sort_money">奖励金额</string>
     <string name="activity_sort_area">距离最近</string>

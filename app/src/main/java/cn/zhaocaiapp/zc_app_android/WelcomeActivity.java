@@ -63,7 +63,7 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
             launchHomeScreen();
         } else {
             //用户首次进入，弹窗显示新手任务
-            SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.SHOW_NEWER_ACTIVITY, true);
+            SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.SHOW_NEWER_ACTIVITY, false);
             SpUtils.init(Constants.SPREF.FILE_APP_NAME).put("is_first_start", false);
         }
 

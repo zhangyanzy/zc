@@ -27,6 +27,7 @@ import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.FinishUserResp;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.DensityUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
@@ -176,12 +177,20 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
 
     //显示报名用户的头像
     private void showUserPhoto(List<FinishUserResp> userList, ActivityViewHolder holder) {
+        holder.layout_user.removeAllViewsInLayout();
         for (int i = 0; i < userList.size(); i++) {
-            ImageView imageView = (ImageView) holder.layout_user.getChildAt(i);
-            imageView.setVisibility(View.VISIBLE);
+            CircleImageView imageView = new CircleImageView(context);
+            int width = DensityUtil.dip2px(context, 30);
+            int height = DensityUtil.dip2px(context, 30);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
+            imageView.setLayoutParams(params);
+
             if (GeneralUtils.isNotNullOrZeroLenght(userList.get(i).getAvatar())) {
                 PictureLoadUtil.loadPicture(context, userList.get(i).getAvatar(), imageView);
+            }else {
+                imageView.setImageResource(R.mipmap.user_default);
             }
+            holder.layout_user.addView(imageView);
         }
     }
 
@@ -370,15 +379,15 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         //参与用户
         @BindView(R.id.layout_user)
         LinearLayout layout_user;
-        //参与用户头像
-        @BindView(R.id.activity_item_text_user0)
-        CircleImageView item_text_user0;
-        //参与用户头像
-        @BindView(R.id.activity_item_text_user1)
-        CircleImageView item_text_user1;
-        //参与用户头像
-        @BindView(R.id.activity_item_text_user2)
-        CircleImageView item_text_user2;
+//        //参与用户头像
+//        @BindView(R.id.activity_item_text_user0)
+//        CircleImageView item_text_user0;
+//        //参与用户头像
+//        @BindView(R.id.activity_item_text_user1)
+//        CircleImageView item_text_user1;
+//        //参与用户头像
+//        @BindView(R.id.activity_item_text_user2)
+//        CircleImageView item_text_user2;
         //活动定位标识
         @BindView(R.id.activity_item_text_area_logo)
         ImageView item_text_area_logo;

@@ -304,10 +304,10 @@ public class UserInfoFragment extends BaseFragment {
             ToastUtil.makeText(getActivity(), "家庭地址不能为空");
             return false;
         }
-        if (GeneralUtils.isNullOrZeroLenght(companyAddress) || GeneralUtils.isNullOrZeroLenght(companyAddressDetail)) {
-            ToastUtil.makeText(getActivity(), "公司地址不能为空");
-            return false;
-        }
+//        if (GeneralUtils.isNullOrZeroLenght(companyAddress) || GeneralUtils.isNullOrZeroLenght(companyAddressDetail)) {
+//            ToastUtil.makeText(getActivity(), "公司地址不能为空");
+//            return false;
+//        }
         return true;
 
     }

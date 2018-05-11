@@ -32,6 +32,7 @@ import cn.zhaocaiapp.zc_app_android.bean.response.common.ActivityResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.FinishUserResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.DensityUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
@@ -41,6 +42,7 @@ import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.common.ActivityDetailActivity;
 import cn.zhaocaiapp.zc_app_android.views.common.InformationDetailActivity;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
+import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
 
 
 /**
@@ -229,12 +231,20 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
 
     //显示报名用户的额头像
     private void showUserPhoto(List<FinishUserResp> userList, ViewHolder holder) {
+        holder.layout_user.removeAllViewsInLayout();
         for (int i = 0; i < userList.size(); i++) {
-            ImageView imageView = (ImageView) holder.layout_user.getChildAt(i);
-            imageView.setVisibility(View.VISIBLE);
+            CircleImageView imageView = new CircleImageView(context);
+            int width = DensityUtil.dip2px(context, 30);
+            int height = DensityUtil.dip2px(context, 30);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
+            imageView.setLayoutParams(params);
+
             if (GeneralUtils.isNotNullOrZeroLenght(userList.get(i).getAvatar())) {
                 PictureLoadUtil.loadPicture(context, userList.get(i).getAvatar(), imageView);
+            }else {
+                imageView.setImageResource(R.mipmap.user_default);
             }
+            holder.layout_user.addView(imageView);
         }
     }
 
