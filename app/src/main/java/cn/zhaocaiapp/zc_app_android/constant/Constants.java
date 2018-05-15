@@ -61,16 +61,16 @@ public interface Constants {
          * <p>
          * 必须以／结尾否则初始化会报错
          */
-//        String SERVER = "http://appapi.zhaocaiapp.local/"; //开发环境
-        String SERVER = "https://appapi.zhaocaiapp.cn/"; //生产环境
+        String SERVER = "http://appapi.zhaocaiapp.local/"; //开发环境
+//        String SERVER = "https://appapi.zhaocaiapp.cn/"; //生产环境
 //        String SERVER = "https://appapi-pre.zhaocaiapp.cn/"; //预生产环境
-//        String SERVER = "http://192.168.1.159:8083/"; //测试环境
+//        String SERVER = "http://192.168.1.126:9090/"; //测试环境
 
         /**
          * H5页面地址
          */
-//        String H5_URL = "http://m.zhaocaiapp.local"; //开发环境
-        String H5_URL = "https://m.zhaocaiapp.cn"; //生产环境
+        String H5_URL = "http://m.zhaocaiapp.local"; //开发环境
+//        String H5_URL = "https://m.zhaocaiapp.cn"; //生产环境
 //        String H5_URL = "https://m-pre.zhaocaiapp.cn"; //预生产环境
 
         /**

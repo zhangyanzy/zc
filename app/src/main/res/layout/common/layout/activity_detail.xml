@@ -9,7 +9,7 @@
         android:id="@+id/activity_detail_webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/layout_top_title" />
+        android:layout_below="@+id/layout_top_title"/>
 
     <cn.zhaocaiapp.zc_app_android.widget.SampleControlPlayer
         android:id="@+id/vp_player"

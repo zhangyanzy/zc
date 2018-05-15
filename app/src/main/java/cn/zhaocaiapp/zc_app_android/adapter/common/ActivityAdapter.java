@@ -98,7 +98,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         holder.activity_item_text_title.setText(spannableString);
         //剩余额度
         holder.activity_item_text_amount.setText(GeneralUtils.getBigDecimalToTwo(list.get(position).getLeftAmount()));
-        //已领取人数
+        //已完成人数
         holder.activity_item_text_number.setText(String.valueOf(list.get(position).getActualUser()));
         //剩余额度进度条
         double leftAmount = list.get(position).getLeftAmount().doubleValue();
@@ -261,7 +261,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         }
     }
 
-    //显示报名用户的头像
+    //显示完成用户的头像
     private void showUserPhoto(List<FinishUserResp> userList, ViewHolder holder) {
         EBLog.i("用户头像" + holder.getLayoutPosition(), userList.size() + "");
         holder.layout_user.removeAllViewsInLayout();

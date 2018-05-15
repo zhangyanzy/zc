@@ -175,7 +175,7 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         });
     }
 
-    //显示报名用户的头像
+    //显示完成用户的头像
     private void showUserPhoto(List<FinishUserResp> userList, ActivityViewHolder holder) {
         holder.layout_user.removeAllViewsInLayout();
         for (int i = 0; i < userList.size(); i++) {
