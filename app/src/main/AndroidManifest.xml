@@ -222,7 +222,9 @@
         <!--消息详情-->
         <activity android:name=".views.my.MessageDetailActivity"
             android:screenOrientation="portrait"/>
-
+        <!--意见反馈-->
+        <activity android:name=".views.my.FeedbackActivity"
+            android:screenOrientation="portrait"/>
 
 
 

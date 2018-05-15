@@ -170,34 +170,35 @@ public class MyFragment extends BaseFragment {
         tv_failed_msg.setText(userInfo.getUnPass() + "");
         if (userInfo.getMessage() > 0) {
             tv_msg.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             tv_msg.setVisibility(View.GONE);
         }
         if (userInfo.getSubmit() > 0) {
             tv_deliver_msg.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             tv_deliver_msg.setVisibility(View.GONE);
         }
         if (userInfo.getAudit() > 0) {
             tv_verify_msg.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             tv_verify_msg.setVisibility(View.GONE);
         }
         if (userInfo.getPay() > 0) {
             tv_reward_msg.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             tv_reward_msg.setVisibility(View.GONE);
         }
         if (userInfo.getUnPass() > 0) {
             tv_failed_msg.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             tv_failed_msg.setVisibility(View.GONE);
         }
         if (GeneralUtils.isNotNullOrZeroLenght(userInfo.getAvatar()))
             PictureLoadUtil.loadPicture(getActivity(), userInfo.getAvatar(), iv_user_photo);
         if (userInfo.getRealInfoAuditStatus() == 2)//通过实名认证
             SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.IS_CERTIFICATION, true);
-        else SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.IS_CERTIFICATION, false);
+        else
+            SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.IS_CERTIFICATION, false);
 
         SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.INVITE_CODE, userInfo.getInviteCode());
         SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.SERVICE_PHONE, userInfo.getCustomerPhone());
@@ -205,7 +206,8 @@ public class MyFragment extends BaseFragment {
 
     @OnClick({R.id.iv_top_menu, R.id.iv_user_photo, R.id.tv_user_identify, R.id.tv_apply_cash, R.id.layout_all_task, R.id.layout_deliver_task,
             R.id.layout_verify_task, R.id.layout_reward_task, R.id.layout_failed_task, R.id.layout_invite, R.id.tv_account_manager,
-            R.id.tv_follow, R.id.layout_contact, R.id.layout_email, R.id.tv_setting, R.id.tv_exit, R.id.tv_user_balance, R.id.tv_user_income})
+            R.id.tv_follow, R.id.layout_contact, R.id.layout_email, R.id.tv_setting, R.id.tv_exit, R.id.tv_user_balance, R.id.tv_user_income,
+            R.id.tv_feedback})
     public void onClick(View view) {
         Bundle bundle = new Bundle();
         Intent intent = null;
@@ -214,7 +216,6 @@ public class MyFragment extends BaseFragment {
             openActivity(LoginActivity.class);
             return;
         }
-
         switch (view.getId()) {
             case R.id.iv_user_photo: //个人资料
                 openActivity(UserInfoActivity.class);
@@ -241,7 +242,7 @@ public class MyFragment extends BaseFragment {
             case R.id.layout_contact: // 联系客服
                 intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + userInfo.getCustomerPhone()));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getActivity().startActivity(intent);
+                startActivity(intent);
                 break;
             case R.id.tv_setting: // 设置
                 openActivity(SettingActivity.class);
@@ -282,6 +283,10 @@ public class MyFragment extends BaseFragment {
             case R.id.tv_user_balance: // 收支明细
             case R.id.tv_user_income:
                 openActivity(IncomeActivity.class);
+                break;
+            case R.id.tv_feedback: // 意见反馈
+                intent = new Intent(getActivity(), FeedbackActivity.class);
+                startActivity(intent);
                 break;
         }
     }

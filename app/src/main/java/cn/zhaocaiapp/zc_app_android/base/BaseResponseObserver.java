@@ -24,6 +24,7 @@ import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.refer.BusinessEnum;
 import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
+import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
@@ -69,23 +70,22 @@ public abstract class BaseResponseObserver<T> implements Observer<JsonObject> {
 
         if (response.getCode().equals(BusinessEnum.SUCCESS.getCode())) {
             JsonElement data = result.get("data");
-
             //获取范型类型
             ParameterizedType pt = (ParameterizedType) this.getClass().getGenericSuperclass();
-            //判断data类型
-           if (data.isJsonNull()) {
-                //TODO
-            }else if (data.isJsonArray()) {
 
+            //判断data类型
+            if (GeneralUtils.isNull(data)) {
+                T t = (T) new String(response.getDesc());
+                this.success(t);
+            } else if (data.isJsonArray()) {
                 Type[] pts = (Type[]) pt.getActualTypeArguments();
                 T t = (T) gson.fromJson(data.getAsJsonArray(), pts[0]);
                 this.success(t);
             } else if (data.isJsonObject()) {
-
                 Class<T> cls = (Class<T>) pt.getActualTypeArguments()[0];
                 T t = gson.fromJson(data.getAsJsonObject(), cls);
                 this.success(t);
-            }else if (data.isJsonPrimitive()) {
+            } else if (data.isJsonPrimitive()) {
                 Class<T> cls = (Class<T>) pt.getActualTypeArguments()[0];
                 T t = (T) gson.fromJson(data.getAsJsonPrimitive(), cls);
                 this.success(t);

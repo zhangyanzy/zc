@@ -300,6 +300,10 @@ public interface Constants {
          * 是否开启分享功能
          */
         String IS_SHOW_SHARE = "app/config/ios?appVersion=%s";
+        /**
+         * 反馈意见
+         * */
+        String FEEDBACK = "userinfo/insertSuggestion";
     }
 
     interface SPREF {

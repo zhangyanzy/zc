@@ -472,6 +472,23 @@
 
             <View style="@style/horizontal_F0_line" />
 
+            <TextView
+                android:id="@+id/tv_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_select_project"
+                android:background="@color/colorWhite"
+                android:drawableLeft="@mipmap/feedback"
+                android:drawablePadding="10dp"
+                android:drawableRight="@mipmap/turn_right"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/window_padding"
+                android:paddingRight="@dimen/window_padding"
+                android:text="意见反馈"
+                android:textColor="@color/colorFont6"
+                android:textSize="14sp" />
+
+            <View style="@style/horizontal_F0_line" />
+
             <RelativeLayout
                 android:id="@+id/layout_email"
                 android:layout_width="match_parent"

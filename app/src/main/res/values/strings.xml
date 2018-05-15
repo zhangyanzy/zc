@@ -119,8 +119,9 @@
     <string name="confirm_card_info">确认以上身份信息真实有效</string>
     <string name="confirm_card">请确认以上身份信息真实有效</string>
     <string name="allow_permissions">应用缺少相应权限，请先获取权限</string>
-
-
+    <string name="feedback">意见反馈</string>
+    <string name="feedback_hint">找财的每个进步，都离不开你的宝贵意见和建议</string>
+    <string name="feedback_empty">反馈意见不能为空</string>
 
 
 
