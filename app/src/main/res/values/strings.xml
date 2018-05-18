@@ -34,6 +34,7 @@
     <string name="activity_type_1">视频活动</string>
     <string name="activity_type_2">问卷活动</string>
     <string name="activity_type_3">资讯活动</string>
+    <string name="activity_type_4">竞猜活动</string>
     <string name="activity_region">活动地区：</string>
     <string name="activity_state">活动总数</string>
     <string name="activity_state_0">未开始</string>

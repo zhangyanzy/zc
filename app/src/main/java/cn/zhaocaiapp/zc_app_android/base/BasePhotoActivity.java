@@ -94,4 +94,13 @@ public abstract class BasePhotoActivity extends TakePhotoActivity {
         startActivityForResult(intent, requestCode);
     }
 
+    /**
+     * activity跳转
+     * */
+    public void openActivityForResult(Class<?> mClass,Bundle bundle, int requestCode) {
+        Intent intent = new Intent(this, mClass);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, requestCode);
+    }
+
 }

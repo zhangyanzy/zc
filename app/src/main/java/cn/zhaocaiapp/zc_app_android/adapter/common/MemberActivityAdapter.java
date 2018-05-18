@@ -226,6 +226,13 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
                 holder.tv_member_area_logo.setVisibility(View.GONE);
                 holder.activity_item_member_area.setVisibility(View.GONE);
                 break;
+            case 4: //竞猜活动
+                holder.activity_item_text_area_logo.setVisibility(View.GONE);
+                holder.activity_item_text_area_text.setVisibility(View.GONE);
+                holder.activity_item_img_vide.setVisibility(View.GONE);
+                holder.tv_member_area_logo.setVisibility(View.GONE);
+                holder.activity_item_member_area.setVisibility(View.GONE);
+                break;
         }
     }
 
@@ -331,6 +338,10 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
                 break;
             case 3:
                 type = context.getString(R.string.activity_type_3);
+                break;
+            case 4:
+                type = context.getString(R.string.activity_type_4);
+                break;
         }
         return type;
     }

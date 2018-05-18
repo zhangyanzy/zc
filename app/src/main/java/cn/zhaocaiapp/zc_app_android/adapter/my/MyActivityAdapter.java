@@ -234,6 +234,11 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
                 holder.item_text_area_text.setVisibility(View.GONE);
                 holder.item_img_vide.setVisibility(View.GONE);
                 break;
+            case 4: //竞猜活动
+                holder.item_text_area_logo.setVisibility(View.GONE);
+                holder.item_text_area_text.setVisibility(View.GONE);
+                holder.item_img_vide.setVisibility(View.GONE);
+                break;
         }
     }
 
@@ -339,6 +344,10 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
                 break;
             case 3:
                 type = context.getString(R.string.activity_type_3);
+                break;
+            case 4:
+                type = context.getString(R.string.activity_type_4);
+                break;
         }
         return type;
     }

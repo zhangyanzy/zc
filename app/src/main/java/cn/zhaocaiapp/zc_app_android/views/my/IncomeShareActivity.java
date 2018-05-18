@@ -4,13 +4,18 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.umeng.socialize.UMShareAPI;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -22,9 +27,11 @@ import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.MyResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
+import cn.zhaocaiapp.zc_app_android.util.GsonUtil;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.views.common.ActivityDetailActivity;
 
 /**
  * Created by Administrator on 2018/3/8.
@@ -40,7 +47,7 @@ public class IncomeShareActivity extends BaseActivity {
     @BindView(R.id.web)
     WebView web;
 
-    private String webUrl;
+//    private String webUrl;
     private String income;
     private UMShareAPI umShareAPI;
 
@@ -79,7 +86,7 @@ public class IncomeShareActivity extends BaseActivity {
         });
     }
 
-    private void loadWeb(){
+    private void loadWeb() {
         WebSettings webSettings = web.getSettings();
         //设置自适应屏幕，两者合用
         webSettings.setUseWideViewPort(true); //将图片调整到适合webview的大小
@@ -87,31 +94,53 @@ public class IncomeShareActivity extends BaseActivity {
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);   //不使用缓存
         webSettings.setAllowUniversalAccessFromFileURLs(true); //跨域
         webSettings.setJavaScriptEnabled(true);    //js支持
+        //绑定js方法
+        web.addJavascriptInterface(new JavaScriptInterfaces(), "native");
+        web.requestFocusFromTouch();
+
         if (Build.VERSION.SDK_INT >= 21) {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
 
-        webUrl = String.format(Constants.URL.INCOME_SHARE, income);
-        web.loadUrl(Constants.URL.H5_URL + webUrl);
-        EBLog.i("TAG", Constants.URL.H5_URL + webUrl);
+//        webUrl = String.format(Constants.URL.INCOME_SHARE, income);
+//        web.loadUrl(Constants.URL.H5_URL + webUrl);
+        web.loadUrl("file:///android_asset/h5-assets/index.html");
         web.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                EBLog.i(TAG, url);
                 view.loadUrl(url);
                 return true;
             }
         });
     }
 
+    //预留给js调用的回调
+    class JavaScriptInterfaces {
+        @JavascriptInterface
+        public String getPage() {
+            Map<String, String> map = new HashMap<>();
+            map.put("type", "4");
+            map.put("income", income);
+            return new Gson().toJson(map);
+        }
+
+        @JavascriptInterface
+        public void shareIncome() {
+            onClick(iv_top_menu);
+        }
+    }
+
     @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
-    public void onClick(View view){
-        switch (view.getId()){
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.iv_top_back:
                 finish();
                 break;
             case R.id.iv_top_menu:
                 String shareTitle = getString(R.string.app_name);
                 String shareDesc = getString(R.string.share_desc);
+                String webUrl = String.format(Constants.URL.INCOME_SHARE, income);
                 ShareUtil.init(this)
                         .setUrl(webUrl)
                         .setSourceId(R.mipmap.icon_launcher)

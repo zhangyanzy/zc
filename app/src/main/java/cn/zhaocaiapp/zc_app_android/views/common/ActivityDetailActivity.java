@@ -25,6 +25,7 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.autonavi.rtbt.IFrameForRTBT;
 import com.google.gson.Gson;
 import com.jph.takephoto.model.TResult;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
@@ -429,7 +430,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         Bundle bundle = new Bundle();
         bundle.putLong("id", activityId);
         bundle.putString("title", activityTitle);
-        openActivity(LoginActivity.class, bundle);
+        openActivityForResult(LoginActivity.class, bundle, REQUEST_CODE);
     }
 
     //上傳圖片至圖片服務器
@@ -463,6 +464,16 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
                 if (value.equals("false")) {
                     ActivityUtil.finishActivity(ActivityDetailActivity.this);
                 }
+            }
+        });
+    }
+
+    //登陆成功回调H5,通知刷新
+    private void refresh() {
+        activity_detail_webView.evaluateJavascript("javascript:getHadLogin()", new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String value) {
+                EBLog.i(TAG, "刷新---" + value);
             }
         });
     }
@@ -518,10 +529,11 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         shareAPI.onActivityResult(requestCode, resultCode, data);
-        /**
-         * 处理二维码扫描结果
-         */
         if (requestCode == REQUEST_CODE) {
+            if (resultCode == LoginActivity.RESULT_CODE) {
+                refresh();
+                return;
+            }
             //处理扫描结果（在界面上显示）
             if (null != data) {
                 Bundle bundle = data.getExtras();

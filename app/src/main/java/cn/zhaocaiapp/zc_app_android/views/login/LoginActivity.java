@@ -80,6 +80,7 @@ public class LoginActivity extends BaseFragmentActivity {
     private Activity lastActivity;//当前activity的上一个activity
 
     private static final String TAG = "登录";
+    public static final int RESULT_CODE = 2010;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -156,6 +157,7 @@ public class LoginActivity extends BaseFragmentActivity {
                 saveUserData(result);
 
                 if (lastActivity != null){
+                    setResult(RESULT_CODE);
                     ActivityUtil.finishActivity(LoginActivity.this);
                 }
                 else {
