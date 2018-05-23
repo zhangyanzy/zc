@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:fillViewport="true"
     android:scrollbars="none">
 
@@ -182,7 +182,7 @@
                 android:textSize="@dimen/font_size_14" />
         </LinearLayout>
 
-        <View style="@style/horizontal_F0_line" />
+        <!--<View style="@style/horizontal_F0_line" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -210,41 +210,32 @@
                 android:textSize="@dimen/font_size_14" />
         </LinearLayout>
 
-        <View style="@style/divider_8" />
+        <View style="@style/horizontal_F0_line" />
 
-        <CheckBox
+        <TextView
             android:id="@+id/confirm_card"
             android:layout_width="match_parent"
             android:layout_height="26dp"
-            android:background="@color/colorHeadLine"
             android:paddingLeft="@dimen/window_padding"
             android:paddingRight="@dimen/window_padding"
             android:gravity="center_vertical"
             android:textSize="@dimen/font_size_12"
-            android:textColor="@color/colorFont6"
-            android:text="@string/confirm_card_info"
-            android:drawablePadding="10dp"
-            android:button="@null"
-            android:drawableStart="@drawable/checkbox_selector_agreement"
-            android:visibility="gone"/>
+            android:textColor="@color/colorPrimary"
+            android:text="@string/confirm_card_info" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal">
+        <View style="@style/divider_8"/>
 
-            <TextView
-                android:id="@+id/tv_submit"
-                android:layout_width="225dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="30dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/button_shape_orange_round"
-                android:gravity="center"
-                android:text="提交"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/font_size_18" />
+        <TextView
+            android:id="@+id/tv_submit"
+            android:layout_width="225dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/button_shape_orange_round"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:text="提交"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/font_size_18" />
 
-        </LinearLayout>
     </LinearLayout>
 </ScrollView>

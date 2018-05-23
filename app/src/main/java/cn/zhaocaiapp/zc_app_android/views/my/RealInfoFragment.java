@@ -85,7 +85,7 @@ public class RealInfoFragment extends BaseFragment {
     @BindView(R.id.iv_card_behind)
     ImageView iv_card_behind;
     @BindView(R.id.confirm_card)
-    CheckBox confirm_card;
+    TextView confirm_card;
 
     private View rootView;
 

@@ -100,8 +100,8 @@ public class LoginActivity extends BaseFragmentActivity {
     @OnClick({R.id.tv_skip_login, R.id.tv_register, R.id.tv_forget_pass, R.id.tv_login,
             R.id.login_wechat, R.id.login_qq, R.id.login_sina})
     public void onClick(View view) {
-        phone = edit_phone_number.getText().toString();
-        pass = edit_pass_word.getText().toString();
+        phone = edit_phone_number.getText().toString().trim();
+        pass = edit_pass_word.getText().toString().trim();
         switch (view.getId()) {
             case R.id.tv_skip_login: //跳过登陆
                 if (lastActivity != null) {

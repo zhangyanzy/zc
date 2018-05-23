@@ -33,7 +33,7 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <!--手机震动权限-->
-    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
 
     <application
@@ -42,25 +42,25 @@
         android:icon="@mipmap/icon_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/icon_launcher_round"
-        tools:replace="android:icon,android:theme"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon,android:theme">
         <activity
             android:name=".WelcomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+            </intent-filter>
 
         </activity>
         <!-- 首页 -->
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <!--定位-->
         <activity
             android:name=".views.home.LocationActivity"
@@ -73,7 +73,7 @@
         <activity
             android:name=".views.home.SearchActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <!--搜索结果页-->
         <activity
             android:name=".views.home.SearchResulfActivity"
@@ -82,8 +82,8 @@
         <activity
             android:name=".views.common.ActivityDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            android:hardwareAccelerated="true">
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -97,8 +97,8 @@
         <activity
             android:name=".views.common.InformationDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            android:hardwareAccelerated="true">
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -203,29 +203,29 @@
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
             android:name="com.alipay.sdk.app.H5AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <!--商家详情-->
         <activity
             android:name=".views.member.MemberDetailActivity"
             android:screenOrientation="portrait" />
         <!--收入分享-->
-        <activity android:name=".views.my.IncomeShareActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".views.my.IncomeShareActivity"
+            android:screenOrientation="portrait" />
         <!--消息详情-->
-        <activity android:name=".views.my.MessageDetailActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".views.my.MessageDetailActivity"
+            android:screenOrientation="portrait" />
         <!--意见反馈-->
-        <activity android:name=".views.my.FeedbackActivity"
-            android:screenOrientation="portrait"/>
-
+        <activity
+            android:name=".views.my.FeedbackActivity"
+            android:screenOrientation="portrait" />
 
 
         <!--注册友盟sdk需要的activity-->
@@ -263,8 +263,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity
             android:name="com.sina.weibo.sdk.share.WbShareTransActivity"
             android:launchMode="singleTask"
@@ -282,10 +281,10 @@
         <!--注册友盟appkey和渠道id-->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5a4c6b93a40fa36a3900036f" />
+            android:value="5a72be74f29d981732000057" />     <!--5a4c6b93a40fa36a3900036f-->
         <meta-data
             android:name="UMENG_MESSAGE_SECRET"
-            android:value="3a2be7cb8ebe1edc38b2eef221487361" />
+            android:value="d48fd4bf9b2c08b4081ed00e5fcf0c1a" />   <!-- 3a2be7cb8ebe1edc38b2eef221487361-->
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="yingyongbao" />

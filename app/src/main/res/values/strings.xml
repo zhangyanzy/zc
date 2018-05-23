@@ -76,7 +76,7 @@
     <string name="bankaliasname_not_null">开户支行不能为空</string>
     <string name="withdraw_success">提现申请成功，请等待审核</string>
     <string name="withdraw_limit">提现金额不能小于%s元</string>
-    <string name="withdraw_min_limit">提现金额20元起</string>
+    <string name="withdraw_min_limit">提现金额30元起&#160;&#160;&#160;&#160;注：请确保您的认证信息的正确性，否则不予提现</string>
     <string name="withdraw_type">请选择提现方式</string>
     <string name="account_closure">您的账号已被封禁，请联系客服解封</string>
     <string name="check_agreement">请点击接受用户协议</string>
@@ -117,7 +117,7 @@
     <string name="invite_friend">邀请好友</string>
     <string name="open_location">手机定位未开启，将无法准确获取活动位置，请先开启系统定位</string>
     <string name="add_label">您还没有选择标签</string>
-    <string name="confirm_card_info">确认以上身份信息真实有效</string>
+    <string name="confirm_card_info">请确保身份证与手机号是同一人信息，如不统一审核将不予通过</string>
     <string name="confirm_card">请确认以上身份信息真实有效</string>
     <string name="allow_permissions">应用缺少相应权限，请先获取权限</string>
     <string name="feedback">意见反馈</string>

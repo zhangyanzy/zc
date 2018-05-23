@@ -20,6 +20,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
 import com.umeng.socialize.Config;
@@ -172,7 +173,7 @@ public class ZcApplication extends MultiDexApplication {
                 //注册成功会返回device token
                 umPushToken = deviceToken;
                 SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.DEVICE_TOKEN, umPushToken);
-//                EBLog.i(TAG, "友盟token---" + umPushToken);
+                EBLog.i("youmeng", "友盟token---" + umPushToken);
             }
 
             @Override
