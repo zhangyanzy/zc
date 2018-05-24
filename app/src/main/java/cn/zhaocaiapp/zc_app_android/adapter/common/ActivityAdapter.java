@@ -10,12 +10,10 @@ import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 
 import com.amap.api.location.CoordinateConverter;
 import com.amap.api.location.DPoint;
@@ -165,7 +163,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             public void onClick(View v) {
                 Intent intent = null;
                 if (antiShake.check(v.getId())) return;
-                if (list.get(position).getActivityForm() == 3){ //资讯活动
+                if (list.get(position).getActivityForm() == 3 || list.get(position).getActivityForm() == 4){ //资讯活动 竞猜活动
                     intent = new Intent(context, InformationDetailActivity.class);
                 }else {
                     intent = new Intent(context, ActivityDetailActivity.class);
@@ -182,7 +180,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             public void onClick(View v) {
                 Intent intent = null;
                 if (antiShake.check(v.getId())) return;
-                if (list.get(position).getActivityForm() == 3){ //资讯活动
+                if (list.get(position).getActivityForm() == 3 || list.get(position).getActivityForm() == 4){ //资讯活动 竞猜活动
                     intent = new Intent(context, InformationDetailActivity.class);
                 }else {
                     intent = new Intent(context, ActivityDetailActivity.class);

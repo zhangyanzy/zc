@@ -136,7 +136,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
             @Override
             public void onClick(View v) {
                 Intent intent = null;
-                if (list.get(position).getActivityForm() == 3) { //资讯活动
+                if (list.get(position).getActivityForm() == 3 || list.get(position).getActivityForm() == 4) { //资讯活动
                     intent = new Intent(context, InformationDetailActivity.class);
                 } else {
                     intent = new Intent(context, ActivityDetailActivity.class);
@@ -152,7 +152,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
             @Override
             public void onClick(View v) {
                 Intent intent = null;
-                if (list.get(position).getActivityForm() == 3) { //资讯活动
+                if (list.get(position).getActivityForm() == 3 || list.get(position).getActivityForm() == 4) { //资讯活动
                     intent = new Intent(context, InformationDetailActivity.class);
                 } else {
                     intent = new Intent(context, ActivityDetailActivity.class);

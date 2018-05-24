@@ -169,7 +169,7 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
                     bundle.clear();
                     bundle.putLong("id", activityId);
                     bundle.putString("title", activityTitle);
-                    if (activitys.get(position).getActivityForm() == 3)
+                    if (activitys.get(position).getActivityForm() == 3 || activitys.get(position).getActivityForm() == 4)
                         openActivity(InformationDetailActivity.class, bundle);
                     else
                         openActivity(ActivityDetailActivity.class, bundle);
