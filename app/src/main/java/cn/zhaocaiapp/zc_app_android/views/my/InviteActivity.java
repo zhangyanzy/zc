@@ -35,8 +35,6 @@ public class InviteActivity extends BaseActivity {
     @BindView(R.id.web)
     WebView web;
 
-    private String inviteUrl = "/invite/user?code=%s";
-
     private UMShareAPI umShareAPI;
     private String inviteCode; //邀请码
     private String webUrl; //分享链接
@@ -65,7 +63,7 @@ public class InviteActivity extends BaseActivity {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
 
-        webUrl = String.format(inviteUrl, inviteCode);
+        webUrl = String.format(Constants.URL.INVITE_URL, inviteCode);
         web.loadUrl(Constants.URL.H5_URL + webUrl);
         EBLog.i("TAG", Constants.URL.H5_URL + webUrl);
         web.setWebViewClient(new WebViewClient() {
@@ -86,8 +84,9 @@ public class InviteActivity extends BaseActivity {
             case R.id.iv_top_menu:
                 String shareTitle = getString(R.string.app_name);
                 String shareDesc = getString(R.string.share_desc);
+                String inviteUrl = String.format(Constants.URL.SHARE_REGISTER, inviteCode);
                 ShareUtil.init(this)
-                        .setUrl(webUrl)
+                        .setUrl(inviteUrl)
                         .setSourceId(R.mipmap.icon_launcher)
                         .setTitle(shareTitle)
                         .setDesc(shareDesc);

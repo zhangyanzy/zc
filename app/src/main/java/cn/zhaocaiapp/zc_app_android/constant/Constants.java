@@ -231,6 +231,10 @@ public interface Constants {
          * 提现校验密码
          */
         String WITHDRAW_VERIFU_PASS = "userinfo/check/witdraw/password";
+        /**
+         * 分享注册
+         * */
+        String SHARE_REGISTER = "/register/goRegister.html?code=%s";
 
 
         /**

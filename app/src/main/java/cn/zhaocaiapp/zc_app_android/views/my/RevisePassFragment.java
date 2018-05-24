@@ -1,10 +1,8 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -23,7 +21,6 @@ import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
-import cn.zhaocaiapp.zc_app_android.bean.response.common.FinishUserResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
@@ -89,8 +86,12 @@ public class RevisePassFragment extends BaseFragment {
             @Override
             public void success(CommonResp commonResp) {
                 ToastUtil.makeText(getActivity(), getString(R.string.revise_pass_success));
+                SpUtils.init(Constants.SPREF.FILE_USER_NAME).clear();
                 deleteAlias();
-                openActivity(LoginActivity.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("signOut", true);
+                openActivity(LoginActivity.class, bundle);
                 getActivity().finish();
             }
 

@@ -6,9 +6,11 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.umeng.socialize.UMShareAPI;
 
@@ -17,10 +19,14 @@ import java.util.Map;
 
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragmentActivity;
+import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
+import cn.zhaocaiapp.zc_app_android.bean.Response;
+import cn.zhaocaiapp.zc_app_android.bean.response.my.MyResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.AppUtil;
+import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.home.HomeFragment;
@@ -37,14 +43,24 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
     FrameLayout container;
     @BindView(R.id.layout_group_button)
     RadioGroup groupBotton;
+    @BindView(R.id.tv_msg)
+    TextView tv_msg;
 
     private int currentPosition;
     private final String[] tags = {"task", "partner", "personal"};
     private int currentIndex = -1;
     private Map<Integer, Fragment> fragmentMap = new HashMap<>();
+    private MyResp userInfo;
 
     private UMShareAPI umShareAPI;
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false))
+            loadData();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,11 +78,37 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
     }
 
     /**
+     * 获取用户未读消息
+     */
+    public void loadData() {
+        HttpUtil.get(Constants.URL.GET_BRIEF_USER_INFO).subscribe(new BaseResponseObserver<MyResp>() {
+
+            @Override
+            public void success(MyResp result) {
+                userInfo = result;
+                showMessage();
+            }
+
+            @Override
+            public void error(Response<MyResp> response) {
+                ToastUtil.makeText(MainActivity.this, response.getDesc());
+            }
+        });
+    }
+
+    private void showMessage() {
+        if (userInfo.getMessage() > 0) {
+            tv_msg.setText(userInfo.getMessage() + "");
+            tv_msg.setVisibility(View.VISIBLE);
+        } else tv_msg.setVisibility(View.GONE);
+    }
+
+    /**
      * 判断是否开启系统定位服务
      */
     private void isLocationOpen() {
         Boolean isLocation = AppUtil.isLocation(this);
-        if (!isLocation){
+        if (!isLocation) {
             ToastUtil.makeText(this, getString(R.string.open_location));
         }
         EBLog.i("tag", "定位服务是否开启，" + isLocation.toString());

@@ -142,7 +142,6 @@ public class LabelFragment extends BaseFragment {
                 dialog.dismiss();
             }
         });
-
     }
 
     private void setLabelGrade(int grade, ViewHolder holder) {
