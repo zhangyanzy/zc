@@ -1,25 +1,33 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.umeng.socialize.UMShareAPI;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
-import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
  * Created by Administrator on 2018/1/11.
@@ -37,7 +45,6 @@ public class InviteActivity extends BaseActivity {
 
     private UMShareAPI umShareAPI;
     private String inviteCode; //邀请码
-    private String webUrl; //分享链接
 
     @Override
     public int getContentViewResId() {
@@ -59,13 +66,14 @@ public class InviteActivity extends BaseActivity {
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);   //不使用缓存
         webSettings.setAllowUniversalAccessFromFileURLs(true); //跨域
         webSettings.setJavaScriptEnabled(true);    //js支持
+        //绑定js方法
+        web.addJavascriptInterface(new JavaScriptInterfaces(), "native");
+        web.requestFocusFromTouch();
         if (Build.VERSION.SDK_INT >= 21) {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
 
-        webUrl = String.format(Constants.URL.INVITE_URL, inviteCode);
-        web.loadUrl(Constants.URL.H5_URL + webUrl);
-        EBLog.i("TAG", Constants.URL.H5_URL + webUrl);
+        web.loadUrl("file:///android_asset/h5-assets/index.html");
         web.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -73,6 +81,34 @@ public class InviteActivity extends BaseActivity {
                 return true;
             }
         });
+    }
+
+    //预留给js调用的回调
+    class JavaScriptInterfaces {
+
+        @JavascriptInterface
+        public String getPage() {
+            Map<String, String> params = new HashMap<>();
+            params.put("type", "5");
+            params.put("code", inviteCode);
+            return new Gson().toJson(params);
+        }
+
+        @JavascriptInterface
+        public void inviteUser() { //邀请好友
+            onClick(iv_top_menu);
+        }
+
+        @JavascriptInterface
+        public void copy() { //复制邀请码
+            //获取剪贴板管理器
+            ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            //创建普通字符型ClipData对象
+            ClipData mClipData = ClipData.newPlainText("Label", inviteCode);//‘Label’是任意文字标签
+            // 将ClipData内容放到系统剪贴板里。
+            cm.setPrimaryClip(mClipData);
+            ToastUtil.makeText(InviteActivity.this, "已复制邀请码");
+        }
     }
 
     @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
@@ -92,15 +128,6 @@ public class InviteActivity extends BaseActivity {
                         .setDesc(shareDesc);
                 ShareUtil.openShare();
                 break;
-//            case R.id.tv_top_btu:
-//                //获取剪贴板管理器
-//                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-//                //创建普通字符型ClipData对象
-//                ClipData mClipData = ClipData.newPlainText("Label", inviteCode);//‘Label’是任意文字标签
-//                // 将ClipData内容放到系统剪贴板里。
-//                cm.setPrimaryClip(mClipData);
-//                ToastUtil.makeText(InviteActivity.this, "已复制邀请码");
-//                break;
         }
     }
 

@@ -60,6 +60,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         super.onResume();
         if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false))
             loadData();
+        else return;
     }
 
     @Override

@@ -7,7 +7,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.media.VolumeProvider;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,7 +24,6 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.autonavi.rtbt.IFrameForRTBT;
 import com.google.gson.Gson;
 import com.jph.takephoto.model.TResult;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
@@ -33,7 +31,6 @@ import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
 import com.shuyu.gsyvideoplayer.listener.GSYVideoProgressListener;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
-import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
 import com.umeng.socialize.UMShareAPI;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
@@ -58,16 +55,15 @@ import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.DeviceUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
+import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
 import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
-import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.widget.OnTransitionListener;
 import cn.zhaocaiapp.zc_app_android.widget.SampleControlPlayer;
 import pub.devrel.easypermissions.EasyPermissions;
-import retrofit2.http.PUT;
 
 public class ActivityDetailActivity extends BasePhotoActivity implements EasyPermissions.PermissionCallbacks {
     @BindView(R.id.iv_top_back)
@@ -150,6 +146,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         activity_detail_webView.requestFocusFromTouch();
         activity_detail_webView.setWebChromeClient(new WebChromeClient());//解决alert不弹出问题
         activity_detail_webView.setWebViewClient(new WebViewClient() {
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 //返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
