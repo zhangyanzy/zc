@@ -1,6 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.views.common;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -54,6 +55,7 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
     private long activityId;  // 活动id
     private String activityTitle; // 活动名称
     private UMShareAPI shareAPI;
+    private MediaPlayer mMediaPlayer;
 
     private static final String TAG = "资讯详情页";
 
@@ -102,6 +104,9 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
 
         shareAPI = ZcApplication.getUMShareAPI();
 
+        //初始化音频播放器
+        mMediaPlayer =MediaPlayer.create(this, R.raw.radio);
+
     }
 
     public class JavaScriptInterfaces {
@@ -145,6 +150,12 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
         public void goLogin() {
             if (!(boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false))
                 turnToLogin();
+        }
+
+        @JavascriptInterface
+        public void playMedia(){
+//            EBLog.i(TAG, "这是一个音频");
+            mMediaPlayer.start();
         }
     }
 
@@ -190,6 +201,7 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
     protected void onDestroy() {
         super.onDestroy();
         shareAPI.release();
+        mMediaPlayer.release();
     }
 
 }

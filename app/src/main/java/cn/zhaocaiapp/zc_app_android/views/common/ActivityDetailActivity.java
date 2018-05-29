@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -106,6 +107,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     private float curTime;//当前播放时间
     private int isPlayComplete = 0;//是否播放完毕  0-未播放完毕  1-已播放完毕
     private GSYVideoOptionBuilder gsyVideoOption;
+    private MediaPlayer mMediaPlayer;
 
 
     @Override
@@ -161,6 +163,8 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         //初始化扫描二维码组件
         ZXingLibrary.initDisplayOpinion(this);
 
+        //初始化音频播放器
+        mMediaPlayer =MediaPlayer.create(this, R.raw.radio);
     }
 
     //预留给js调用的回调
@@ -256,6 +260,12 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             orientationUtils.setEnable(true);
             isPlayComplete = 0;
             showPlayer(url, time);
+        }
+
+        @JavascriptInterface
+        public void playMedia(){
+//            EBLog.i(TAG, "这是一个音频");
+            mMediaPlayer.start();
         }
     }
 
@@ -608,6 +618,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         super.onDestroy();
         shareAPI.release();
         vp_player.release();
+        mMediaPlayer.release();
         if (orientationUtils != null)
             orientationUtils.releaseListener();
     }
