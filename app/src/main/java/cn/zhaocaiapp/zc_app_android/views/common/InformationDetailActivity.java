@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -56,6 +57,7 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
     private String activityTitle; // 活动名称
     private UMShareAPI shareAPI;
     private MediaPlayer mMediaPlayer;
+    private static final int REQUEST_CODE = 2002;
 
     private static final String TAG = "资讯详情页";
 
@@ -105,7 +107,7 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
         shareAPI = ZcApplication.getUMShareAPI();
 
         //初始化音频播放器
-        mMediaPlayer =MediaPlayer.create(this, R.raw.radio);
+        mMediaPlayer = MediaPlayer.create(this, R.raw.radio);
 
     }
 
@@ -153,7 +155,7 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
         }
 
         @JavascriptInterface
-        public void playMedia(){
+        public void playMedia() {
 //            EBLog.i(TAG, "这是一个音频");
             mMediaPlayer.start();
         }
@@ -178,6 +180,16 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
         ShareUtil.openShare();
     }
 
+    //登陆成功回调H5,通知刷新
+    private void refresh() {
+        activity_detail_webView.evaluateJavascript("javascript:getHadLogin()", new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String value) {
+                EBLog.i(TAG, "刷新---" + value);
+            }
+        });
+    }
+
     @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -195,6 +207,12 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         shareAPI.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == LoginActivity.RESULT_CODE) {
+                refresh();
+                return;
+            }
+        }
     }
 
     @Override
