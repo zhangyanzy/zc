@@ -476,14 +476,14 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     }
 
     //登陆成功回调H5,通知刷新
-    private void refresh() {
-        activity_detail_webView.evaluateJavascript("javascript:getHadLogin()", new ValueCallback<String>() {
-            @Override
-            public void onReceiveValue(String value) {
-                EBLog.i(TAG, "刷新---" + value);
-            }
-        });
-    }
+//    private void refresh() {
+//        activity_detail_webView.evaluateJavascript("javascript:getHadLogin()", new ValueCallback<String>() {
+//            @Override
+//            public void onReceiveValue(String value) {
+//                EBLog.i(TAG, "刷新---" + value);
+//            }
+//        });
+//    }
 
     //交付任務，提交二維碼解析結果及圖片地址
     private void getPicture(String imgUrl, String code) {
@@ -538,7 +538,8 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         shareAPI.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE) {
             if (resultCode == LoginActivity.RESULT_CODE) {
-                refresh();
+//                refresh();
+                activity_detail_webView.reload();
                 return;
             }
             //处理扫描结果（在界面上显示）

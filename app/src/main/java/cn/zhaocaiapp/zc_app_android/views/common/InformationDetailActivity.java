@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.JavascriptInterface;
-import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -181,14 +180,14 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
     }
 
     //登陆成功回调H5,通知刷新
-    private void refresh() {
-        activity_detail_webView.evaluateJavascript("javascript:getHadLogin()", new ValueCallback<String>() {
-            @Override
-            public void onReceiveValue(String value) {
-                EBLog.i(TAG, "刷新---" + value);
-            }
-        });
-    }
+//    private void refresh() {
+//        activity_detail_webView.evaluateJavascript("javascript:getHadLogin()", new ValueCallback<String>() {
+//            @Override
+//            public void onReceiveValue(String value) {
+//                EBLog.i(TAG, "刷新---" + value);
+//            }
+//        });
+//    }
 
     @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
     public void onClick(View view) {
@@ -209,7 +208,8 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
         shareAPI.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE) {
             if (resultCode == LoginActivity.RESULT_CODE) {
-                refresh();
+//                refresh();
+                activity_detail_webView.reload();
                 return;
             }
         }
