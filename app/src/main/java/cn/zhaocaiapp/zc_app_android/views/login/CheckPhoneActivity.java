@@ -7,7 +7,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alibaba.idst.nls.NlsClient;
 import com.umeng.message.PushAgent;
 import com.umeng.message.UTrack;
 
@@ -22,7 +21,6 @@ import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.ObtainCodeResp;
-import cn.zhaocaiapp.zc_app_android.bean.response.login.SignupResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.VerifyCodeResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
@@ -109,7 +107,7 @@ public class CheckPhoneActivity extends BaseActivity {
         phone = input_phone.getText().toString();
         switch (view.getId()) {
             case R.id.iv_top_back:
-                finish();
+                onBackPressed();
                 break;
             case R.id.iv_top_menu:
 
@@ -215,4 +213,8 @@ public class CheckPhoneActivity extends BaseActivity {
             SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.ALIAS, result.get("alias"));
     }
 
+    @Override
+    public void onBackPressed() {
+        ActivityUtil.finishActivity(this);
+    }
 }

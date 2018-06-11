@@ -193,7 +193,7 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_top_back:
-                ActivityUtil.finishActivity(this);
+                onBackPressed();
                 break;
             case R.id.iv_top_menu:
                 String webUrl = String.format(Constants.URL.SHARE_INFORMATION_ACTIVITY_URL, activityId, 3);
@@ -213,6 +213,11 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
                 return;
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        ActivityUtil.finishActivity(this);
     }
 
     @Override
