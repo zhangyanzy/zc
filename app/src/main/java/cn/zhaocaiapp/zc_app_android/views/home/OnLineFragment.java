@@ -49,22 +49,6 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
     RefreshLayout home_refresh;
     @BindView(R.id.home_recycler)
     RecyclerView home_recycler;
-    @BindView(R.id.home_sort_time_layout)
-    LinearLayout home_sort_time_layout;
-    @BindView(R.id.home_sort_money_layout)
-    LinearLayout home_sort_money_layout;
-    @BindView(R.id.home_sort_area_layout)
-    LinearLayout home_sort_area_layout;
-    @BindView(R.id.home_sort_time_img)
-    ImageView home_sort_time_img;
-    @BindView(R.id.home_sort_money_img)
-    ImageView home_sort_money_img;
-    @BindView(R.id.home_sort_time_text)
-    TextView home_sort_time_text;
-    @BindView(R.id.home_sort_money_text)
-    TextView home_sort_money_text;
-    @BindView(R.id.home_sort_area_text)
-    TextView home_sort_area_text;
     @BindView(R.id.list_null)
     LinearLayout list_null;
 
@@ -107,8 +91,6 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
 
     @Override
     public void loadData() {
-        //初始化筛选条件
-        setSort();
         /**
          * 会导致首次进入时重复加载数据
          * */
@@ -167,27 +149,17 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
         });
     }
 
-    /**
-     * 初始化数据
-     */
-    public void initSort() {
-        listType = 3;//最新活动 1最新活动 2线下活动 3线上活动 4历史活动
-        pageNumber = 1;//分页
-        sortRule = 2;//降序 1升序 2降序
-        sortType = 0;//默认 0默认 1时间 2金额 3距离
-        longitude = "";//经度
-        latitude = "";//纬度
-    }
-
     //接收EventBus发送的消息，并处理
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(MessageEvent<String> event) {
-        if (event.getMessage() instanceof String) {
-            if (event.getMessage().equals("home_tab_1")) {
+    public void onEvent(MessageEvent event) {
+        if (event.getMessage() instanceof Map) {
+            Map<String, Integer>map = (Map<String, Integer>) event.getMessage();
+            if (map.get("tabCurPosition") == 1) {
                 EBLog.i(TAG, "接受到更新通知");
+                pageNumber = map.get("pageNumber");
+                sortType = map.get("sortType");
+                sortRule = map.get("sortRule");
                 home_recycler.scrollToPosition(0);//回到顶部
-                initSort();
-                setSort();
                 home_refresh.autoRefresh();
             }
         }
@@ -211,73 +183,6 @@ public class OnLineFragment extends BaseFragment implements OnRefreshListener, O
             ShareUtil.openShare();
         }
     };
-
-    @OnClick({R.id.home_sort_time_layout, R.id.home_sort_money_layout, R.id.home_sort_area_layout})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.home_sort_time_layout:
-                if (sortType == 1) {
-                    sortRule = sortRule == 2 ? 1 : 2;
-                } else {
-                    sortType = 1;
-                    sortRule = 2;
-                }
-                home_recycler.scrollToPosition(0);//回到顶部
-                setSort();
-                home_refresh.autoRefresh();
-                break;
-            case R.id.home_sort_money_layout:
-                if (sortType == 2) {
-                    sortRule = sortRule == 2 ? 1 : 2;
-                } else {
-                    sortType = 2;
-                    sortRule = 2;
-                }
-                home_recycler.scrollToPosition(0);//回到顶部
-                setSort();
-                home_refresh.autoRefresh();
-                break;
-        }
-    }
-
-    /**
-     * 筛选状态
-     */
-    private void setSort() {
-        if (sortType == 0) {
-            home_sort_time_img.setVisibility(View.INVISIBLE);
-            home_sort_money_img.setVisibility(View.INVISIBLE);
-            home_sort_time_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
-            home_sort_money_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
-        } else if (sortType == 1) {
-            home_sort_time_img.setVisibility(View.VISIBLE);
-            if (sortRule == 1) {
-                home_sort_time_img.setImageResource(R.mipmap.sort_up);
-            } else {
-                home_sort_time_img.setImageResource(R.mipmap.sort_down);
-            }
-            home_sort_money_img.setVisibility(View.INVISIBLE);
-            home_sort_time_text.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
-            home_sort_money_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
-        } else if (sortType == 2) {
-            home_sort_money_img.setVisibility(View.VISIBLE);
-            if (sortRule == 1) {
-                home_sort_money_img.setImageResource(R.mipmap.sort_up);
-            } else {
-                home_sort_money_img.setImageResource(R.mipmap.sort_down);
-            }
-            home_sort_time_img.setVisibility(View.INVISIBLE);
-            home_sort_time_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
-            home_sort_money_text.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
-        } else {
-            home_sort_time_img.setVisibility(View.INVISIBLE);
-            home_sort_money_img.setVisibility(View.INVISIBLE);
-            home_sort_time_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
-            home_sort_money_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
-        }
-        home_sort_area_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont9));
-    }
-
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {

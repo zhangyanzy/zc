@@ -43,7 +43,6 @@ import cn.zhaocaiapp.zc_app_android.views.common.ActivityDetailActivity;
 import cn.zhaocaiapp.zc_app_android.views.common.InformationDetailActivity;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.views.member.MemberDetailActivity;
-import cn.zhaocaiapp.zc_app_android.widget.AntiShake;
 import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
 
 
@@ -57,7 +56,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     private Context context;
     private OnItemCliclkListener listener;
     private int type; //1首页默认列表 2商家详情列表
-    private AntiShake antiShake = new AntiShake();
 
     public ActivityAdapter(Context context, List<ActivityResp> list) {
         this.list = list;
@@ -141,7 +139,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         holder.activity_item_member_logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (antiShake.check(v.getId())) return;
                 Intent intent = new Intent(context, MemberDetailActivity.class);
                 intent.putExtra("memberId", list.get(position).getMemberId());
                 context.startActivity(intent);
@@ -151,7 +148,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         holder.activity_item_member_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (antiShake.check(v.getId())) return;
                 Intent intent = new Intent(context, MemberDetailActivity.class);
                 intent.putExtra("memberId", list.get(position).getMemberId());
                 context.startActivity(intent);
@@ -162,7 +158,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Intent intent = null;
-                if (antiShake.check(v.getId())) return;
                 if (list.get(position).getActivityForm() == 3 || list.get(position).getActivityForm() == 4){ //资讯活动 竞猜活动
                     intent = new Intent(context, InformationDetailActivity.class);
                 }else {
@@ -179,7 +174,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Intent intent = null;
-                if (antiShake.check(v.getId())) return;
                 if (list.get(position).getActivityForm() == 3 || list.get(position).getActivityForm() == 4){ //资讯活动 竞猜活动
                     intent = new Intent(context, InformationDetailActivity.class);
                 }else {
@@ -196,7 +190,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         holder.activity_item_text_collection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (antiShake.check(v.getId())) return;
                 if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
                     if (list.get(position).getFollow()) { //已经收藏，则取消收藏
                         doFollow(position, 0, holder);
@@ -214,7 +207,6 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         holder.activity_item_text_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (antiShake.check(v.getId())) return;
                 listener.onItemCliclk(holder.getLayoutPosition());
             }
         });

@@ -91,6 +91,23 @@ public class HomeFragment extends BaseFragment {
     TextView home_title_area_text;
     @BindView(R.id.home_title_area_layout)
     LinearLayout home_title_area_layout;
+    @BindView(R.id.home_sort_time_layout)
+    LinearLayout home_sort_time_layout;
+    @BindView(R.id.home_sort_money_layout)
+    LinearLayout home_sort_money_layout;
+    @BindView(R.id.home_sort_area_layout)
+    LinearLayout home_sort_area_layout;
+    @BindView(R.id.home_sort_time_img)
+    ImageView home_sort_time_img;
+    @BindView(R.id.home_sort_money_img)
+    ImageView home_sort_money_img;
+    @BindView(R.id.home_sort_time_text)
+    TextView home_sort_time_text;
+    @BindView(R.id.home_sort_money_text)
+    TextView home_sort_money_text;
+    @BindView(R.id.home_sort_area_text)
+    TextView home_sort_area_text;
+
 
     private String[] tabTitles = new String[]{"最新活动", "线上活动", "线下活动", "历史活动"};
     private Map<Integer, Fragment> fragments = new HashMap<>();
@@ -99,7 +116,16 @@ public class HomeFragment extends BaseFragment {
     private UserResp userResp;//用户
 
     private boolean isFirst = true; //是否首次加载用户信息
-    private AntiShake antiShake = new AntiShake();
+
+    private int listType = 1;//最新活动 1最新活动 2线下活动 3线上活动 4历史活动
+    private int pageNumber = 1;//分页
+    private int sortRule = 2;//降序 1升序 2降序(发布时间降序)
+    private int sortType = 0;//默认 0默认 1时间 2金额 3距离
+    private String longitude = "";//经度
+    private String latitude = "";//纬度
+
+    private int tabCurPosition;//当前tab位置
+    private Map<String, Integer> tabMap = new HashMap<>();
 
     private static final String TAG = "首页";
 
@@ -141,6 +167,17 @@ public class HomeFragment extends BaseFragment {
                 TextView textView = (TextView) tab.getCustomView().findViewById(R.id.activity_tab_text);
                 textView.setTextColor(getActivity().getResources().getColor(R.color.colorWhite));
                 textView.setBackground(getActivity().getResources().getDrawable(R.drawable.home_tab_on));
+
+                tabCurPosition = tab.getPosition();
+                if (tabCurPosition == 2) {
+                    home_sort_area_text.setEnabled(true);
+                    home_sort_area_layout.setEnabled(true);
+                }else {
+                    home_sort_area_layout.setEnabled(false);
+                    home_sort_area_text.setEnabled(false);
+                }
+                initSort();
+                setSort();
             }
 
             //未选中tab的逻辑
@@ -155,10 +192,17 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 EBLog.i(TAG, "您再次点击了---" + tab.getText());
-                EventBus.getDefault().post(new MessageEvent<String>("home_tab_" + tab.getPosition()));
+                tabCurPosition = tab.getPosition();
+                initSort();
+                setSort();
+                setPara();
+                EventBus.getDefault().post(new MessageEvent<Map<String, Integer>>(tabMap));
             }
         });
         home_view.setCurrentItem(0);
+        home_sort_area_layout.setEnabled(false);
+        home_sort_area_text.setEnabled(false);
+
     }
 
 
@@ -459,9 +503,9 @@ public class HomeFragment extends BaseFragment {
         }
     };
 
-    @OnClick({R.id.home_title_search, R.id.home_title_user_cart, R.id.home_title_area_layout})
+    @OnClick({R.id.home_title_search, R.id.home_title_user_cart, R.id.home_title_area_layout,R.id.home_sort_time_layout,
+            R.id.home_sort_money_layout,R.id.home_sort_area_layout})
     public void onClick(View view) {
-        if (antiShake.check(view.getId())) return;
         switch (view.getId()) {
             case R.id.home_title_search: //搜索
                 openActivity(SearchActivity.class);
@@ -479,6 +523,115 @@ public class HomeFragment extends BaseFragment {
                     openActivity(LoginActivity.class);
                 }
                 break;
+            case R.id.home_sort_time_layout:
+                if (sortType == 1) {
+                    sortRule = sortRule == 2 ? 1 : 2;
+                } else {
+                    sortType = 1;
+                    sortRule = 2;
+                }
+                setSort();
+                setPara();
+                EventBus.getDefault().post(new MessageEvent<Map<String, Integer>>(tabMap));
+                break;
+            case R.id.home_sort_money_layout:
+                if (sortType == 2) {
+                    sortRule = sortRule == 2 ? 1 : 2;
+                } else {
+                    sortType = 2;
+                    sortRule = 2;
+                }
+                setSort();
+                setPara();
+                EventBus.getDefault().post(new MessageEvent<Map<String, Integer>>(tabMap));
+                break;
+            case R.id.home_sort_area_layout:
+                Gps gps = LocationUtil.getGps();
+                if (gps.getOpen()) {
+                    sortType = 3;
+                    sortRule = 1;
+                    setSort();
+                    setPara();
+                    EventBus.getDefault().post(new MessageEvent<Map<String, Integer>>(tabMap));
+                } else {
+                    NormalDialog normalDialog = DialogUtil.showDialogTwoBut(getActivity(), "提示", "请在系统设置中开启定位服务！", "取消", "确认");
+                    normalDialog.setOnBtnClickL(new OnBtnClickL() {
+                        @Override
+                        public void onBtnClick() {
+                            EBLog.i(TAG, "您点击了取消");
+                            normalDialog.cancel();
+                        }
+                    }, new OnBtnClickL() {
+                        @Override
+                        public void onBtnClick() {
+                            EBLog.i(TAG, "您点击了确认");
+                            normalDialog.dismiss();
+                        }
+                    });
+                }
+                break;
+        }
+    }
+
+    private void setPara(){
+        tabMap.clear();
+        tabMap.put("tabCurPosition", tabCurPosition);
+        tabMap.put("pageNumber", pageNumber);
+        tabMap.put("sortRule", sortRule);
+        tabMap.put("sortType", sortType);
+    }
+
+    /**
+     * 初始化筛选条件
+     */
+    public void initSort() {
+        listType = 1;//最新活动 1最新活动 2线下活动 3线上活动 4历史活动
+        pageNumber = 1;//分页
+        sortRule = 2;//降序 1升序 2降序
+        sortType = 0;//默认 0默认 1时间 2金额 3距离
+        longitude = "";//经度
+        latitude = "";//纬度
+    }
+
+    /**
+     * 筛选状态
+     */
+    private void setSort() {
+        if (sortType == 0) {
+            home_sort_time_img.setVisibility(View.INVISIBLE);
+            home_sort_money_img.setVisibility(View.INVISIBLE);
+            home_sort_time_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
+            home_sort_money_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
+        } else if (sortType == 1) {
+            home_sort_time_img.setVisibility(View.VISIBLE);
+            if (sortRule == 1) {
+                home_sort_time_img.setImageResource(R.mipmap.sort_up);
+            } else {
+                home_sort_time_img.setImageResource(R.mipmap.sort_down);
+            }
+            home_sort_money_img.setVisibility(View.INVISIBLE);
+            home_sort_time_text.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
+            home_sort_money_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
+        } else if (sortType == 2) {
+            home_sort_money_img.setVisibility(View.VISIBLE);
+            if (sortRule == 1) {
+                home_sort_money_img.setImageResource(R.mipmap.sort_up);
+            } else {
+                home_sort_money_img.setImageResource(R.mipmap.sort_down);
+            }
+            home_sort_time_img.setVisibility(View.INVISIBLE);
+            home_sort_time_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
+            home_sort_money_text.setTextColor(getActivity().getResources().getColor(R.color.colorPrimary));
+        } else {
+            home_sort_time_img.setVisibility(View.INVISIBLE);
+            home_sort_money_img.setVisibility(View.INVISIBLE);
+            home_sort_time_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
+            home_sort_money_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
+        }
+        if (tabCurPosition == 2){
+            home_sort_area_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
+        }else {
+            home_sort_area_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont9));
         }
     }
 
