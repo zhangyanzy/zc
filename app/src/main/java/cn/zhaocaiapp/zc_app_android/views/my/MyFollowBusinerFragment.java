@@ -183,6 +183,7 @@ public class MyFollowBusinerFragment extends BaseFragment implements OnRefreshLi
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
+        refresh_layout.resetNoMoreData();
         currentResult = 0;
         initNetData();
     }

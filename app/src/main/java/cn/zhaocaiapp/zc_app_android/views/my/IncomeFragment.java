@@ -7,14 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-
-import org.greenrobot.eventbus.util.AsyncExecutor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.adapter.my.MyIncomeAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
@@ -123,6 +119,7 @@ public class IncomeFragment extends BaseFragment implements OnRefreshListener, O
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
+        refresh_layout.resetNoMoreData();
         currentResult = 0;
         initNetData();
     }

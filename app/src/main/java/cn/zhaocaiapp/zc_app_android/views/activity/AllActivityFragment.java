@@ -211,6 +211,7 @@ public class AllActivityFragment extends BaseFragment implements OnRefreshListen
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
+        refresh_layout.resetNoMoreData();
         currentResult = 0;
         initNetData();
     }

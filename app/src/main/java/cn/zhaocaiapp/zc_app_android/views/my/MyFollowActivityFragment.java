@@ -141,6 +141,7 @@ public class MyFollowActivityFragment extends BaseFragment implements OnRefreshL
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
+        refresh_layout.resetNoMoreData();
         currentResult = 0;
         initNetData();
     }

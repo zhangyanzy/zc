@@ -117,7 +117,7 @@ public class VerifyActivityFragment extends BaseFragment implements OnRefreshLis
 
             @Override
             public void error(Response<List<ActivityResp>> response) {
-                EBLog.e(TAG, response.getCode()+"");
+                EBLog.e(TAG, response.getCode() + "");
                 ToastUtil.makeText(getActivity(), response.getDesc());
             }
         });
@@ -136,18 +136,18 @@ public class VerifyActivityFragment extends BaseFragment implements OnRefreshLis
 
             @Override
             public void success(String s) {
-                if (activity.getFollow()){ //已关注
+                if (activity.getFollow()) { //已关注
                     activity.setFollow(false);
-                    ((ImageView)view).setImageResource(R.mipmap.collection_off);
-                }else { //未关注
+                    ((ImageView) view).setImageResource(R.mipmap.collection_off);
+                } else { //未关注
                     activity.setFollow(true);
-                    ((ImageView)view).setImageResource(R.mipmap.collection_on);
+                    ((ImageView) view).setImageResource(R.mipmap.collection_on);
                 }
             }
 
             @Override
             public void error(Response<String> response) {
-                EBLog.e(TAG, response.getCode()+"");
+                EBLog.e(TAG, response.getCode() + "");
                 ToastUtil.makeText(getActivity(), response.getDesc());
             }
         });
@@ -208,6 +208,7 @@ public class VerifyActivityFragment extends BaseFragment implements OnRefreshLis
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
+        refresh_layout.resetNoMoreData();
         currentResult = 0;
         initNetData();
     }

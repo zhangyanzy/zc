@@ -4,18 +4,13 @@ import com.google.gson.JsonObject;
 
 import java.util.Map;
 
-import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import io.reactivex.Observable;
-
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.FieldMap;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import retrofit2.http.Url;

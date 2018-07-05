@@ -210,6 +210,7 @@ public class RewardActivityFragment extends BaseFragment implements OnRefreshLis
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
+        refresh_layout.resetNoMoreData();
         currentResult = 0;
         initNetData();
     }
