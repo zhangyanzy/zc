@@ -1,7 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.views.login;
 
 import android.app.Activity;
-import android.app.ExpandableListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -37,7 +36,6 @@ import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
-import cn.zhaocaiapp.zc_app_android.views.common.ActivityDetailActivity;
 import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
 
 
@@ -155,6 +153,7 @@ public class LoginActivity extends BaseFragmentActivity {
 
                 setAlias(result);
                 saveUserData(result);
+                notifyWake();
 
                 if (lastActivity != null){
                     setResult(RESULT_CODE);
@@ -204,6 +203,25 @@ public class LoginActivity extends BaseFragmentActivity {
         SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.USER_PHONE, loginResp.getPhone());
         SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.USER_ID, loginResp.getKid());
         SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.ALIAS, loginResp.getAlias());
+    }
+
+    //通知服务器，应用已唤醒
+    private void notifyWake(){
+        Map<String, Integer>map = new HashMap<>();
+        map.put("type", 1);
+        HttpUtil.get(Constants.URL.APP_WAKE, map).subscribe(new BaseResponseObserver<String>() {
+
+            @Override
+            public void success(String s) {
+                EBLog.i(TAG, s);
+            }
+
+            @Override
+            public void error(Response<String> response) {
+                EBLog.i(TAG, response.getCode()+"");
+                ToastUtil.makeText(getApplicationContext(), response.getDesc());
+            }
+        });
     }
 
     //检测是否安装三方应用

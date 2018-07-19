@@ -151,7 +151,6 @@ public class CheckPhoneActivity extends BaseActivity {
 
     //校验手机号是否存在
     private void verifyPhone() {
-
         Map<String, String> params = new HashMap<>();
         params.put("type", type + "");
         params.put("phone", phone);
@@ -176,6 +175,8 @@ public class CheckPhoneActivity extends BaseActivity {
                         setAlias((Map<String, String>) response.getData());
                         saveUserData((Map<String, String>) response.getData());
                     }
+                    notifyWake();
+
                     Bundle bundle = new Bundle();
                     bundle.putInt("position", 0);
                     openActivity(MainActivity.class, bundle);
@@ -211,6 +212,25 @@ public class CheckPhoneActivity extends BaseActivity {
             SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.USER_ID, result.get("kid"));
         if (GeneralUtils.isNotNullOrZeroLenght(result.get("alias")))
             SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.ALIAS, result.get("alias"));
+    }
+
+    //通知服务器，应用已唤醒
+    private void notifyWake(){
+        Map<String, Integer>map = new HashMap<>();
+        map.put("type", 1);
+        HttpUtil.get(Constants.URL.APP_WAKE, map).subscribe(new BaseResponseObserver<String>() {
+
+            @Override
+            public void success(String s) {
+                EBLog.i(TAG, s);
+            }
+
+            @Override
+            public void error(Response<String> response) {
+                EBLog.i(TAG, response.getCode()+"");
+                ToastUtil.makeText(getApplicationContext(), response.getDesc());
+            }
+        });
     }
 
     @Override

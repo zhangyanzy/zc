@@ -1,8 +1,9 @@
 package cn.zhaocaiapp.zc_app_android;
 
-import android.*;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.multidex.MultiDexApplication;
 
 import com.baidu.ocr.sdk.OCR;
@@ -20,7 +21,6 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
 import com.umeng.socialize.Config;
@@ -28,26 +28,23 @@ import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.zhaocaiapp.zc_app_android.base.BaseAndroid;
 import cn.zhaocaiapp.zc_app_android.base.BaseConfig;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
-import cn.zhaocaiapp.zc_app_android.bean.response.common.UiShowResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.LocationResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
-import cn.zhaocaiapp.zc_app_android.util.AppUtil;
 import cn.zhaocaiapp.zc_app_android.util.AreaUtil;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
-import cn.zhaocaiapp.zc_app_android.util.PermissionUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 
 /**
  * Created by jinxunmediapty.ltd on 2018/1/3.
@@ -88,7 +85,7 @@ public class ZcApplication extends MultiDexApplication {
     private static String OCRToken;
     private static String umPushToken;
 
-//    private static final String TAG = "找财app";
+    private static final String TAG = "找财app";
 
     @Override
     public void onCreate() {
@@ -130,6 +127,7 @@ public class ZcApplication extends MultiDexApplication {
          * */
         PgyUpdateManager.setIsForced(true);
 
+        setWakeAppListener();
     }
 
     //开启子线程解析城市数据
@@ -152,7 +150,8 @@ public class ZcApplication extends MultiDexApplication {
             }
 
             @Override
-            public void onError(OCRError error) {}
+            public void onError(OCRError error) {
+            }
         }, context);
     }
 
@@ -177,34 +176,77 @@ public class ZcApplication extends MultiDexApplication {
             }
 
             @Override
-            public void onFailure(String s, String s1) {}
+            public void onFailure(String s, String s1) {
+            }
         });
     }
 
-//    /**
-//     * 获取开关，设置是否开启分享功能
-//     * */
-//    private void isShowShare(){
-//        String version = AppUtil.getAppVersionName(this);
-//        HttpUtil.get(String.format(Constants.URL.IS_SHOW_SHARE, version)).subscribe(new BaseResponseObserver<UiShowResp>() {
-//
-//            @Override
-//            public void success(UiShowResp uiShowResp) {
-//                EBLog.i(TAG, uiShowResp.toString());
-//                String content = uiShowResp.getContent();
-//                try {
-//                    JSONObject object = new JSONObject(content);
-//                    boolean uiShow = object.getBoolean("uiShow");
-//                    SpUtils.init(Constants.SPREF.FILE_APP_NAME).put(Constants.SPREF.IS_SHOW_SHARE, uiShow);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void error(Response<UiShowResp> response) {}
-//        });
-//    }
+    /**
+     * 监听应用的活动状态
+     */
+    private int account = -1;
+    private void setWakeAppListener() {
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+                account++;
+                boolean isLogin = (boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false);
+                if (account == 0 && isLogin) { //应用被唤醒
+                    EBLog.i(TAG, "我被唤醒了");
+                    notifyWake();
+                }
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+                account--;
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+
+            }
+        });
+    }
+
+    //通知服务器，应用已唤醒
+    private void notifyWake(){
+        Map<String, Integer>map = new HashMap<>();
+        map.put("type", 1);
+        HttpUtil.get(Constants.URL.APP_WAKE, map).subscribe(new BaseResponseObserver<String>() {
+
+            @Override
+            public void success(String s) {
+                EBLog.i(TAG, s);
+            }
+
+            @Override
+            public void error(Response<String> response) {
+                EBLog.i(TAG, response.getCode()+"");
+                ToastUtil.makeText(getApplicationContext(), response.getDesc());
+            }
+        });
+    }
 
     /**
      * 退出程序 清理内存
@@ -217,7 +259,7 @@ public class ZcApplication extends MultiDexApplication {
 
     /**
      * 通知垃圾回收
-     * */
+     */
     @Override
     public void onLowMemory() {
         super.onLowMemory();

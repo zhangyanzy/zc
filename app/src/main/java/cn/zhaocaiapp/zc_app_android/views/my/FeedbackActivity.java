@@ -18,7 +18,6 @@ import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
-import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
@@ -81,7 +80,6 @@ public class FeedbackActivity extends BaseActivity {
             @Override
             public void success(String s) {
                 EBLog.i(TAG, s);
-                ToastUtil.makeText(FeedbackActivity.this, s);
             }
 
             @Override

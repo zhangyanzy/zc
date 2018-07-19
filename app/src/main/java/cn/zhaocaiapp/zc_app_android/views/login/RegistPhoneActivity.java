@@ -16,7 +16,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import cn.zhaocaiapp.zc_app_android.MainActivity;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
@@ -125,6 +124,7 @@ public class RegistPhoneActivity extends BaseActivity {
 
                 setAlias(result);
                 saveUserData(result);
+                notifyWake();
 
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isFirstAdd", true); //是否首次添加标签
@@ -160,6 +160,25 @@ public class RegistPhoneActivity extends BaseActivity {
         SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.USER_PHONE, result.getPhone());
         SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.USER_ID, result.getKid());
         SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.ALIAS, result.getAlias());
+    }
+
+    //通知服务器，应用已唤醒
+    private void notifyWake(){
+        Map<String, Integer>map = new HashMap<>();
+        map.put("type", 1);
+        HttpUtil.get(Constants.URL.APP_WAKE, map).subscribe(new BaseResponseObserver<String>() {
+
+            @Override
+            public void success(String s) {
+                EBLog.i(TAG, s);
+            }
+
+            @Override
+            public void error(Response<String> response) {
+                EBLog.i(TAG, response.getCode()+"");
+                ToastUtil.makeText(getApplicationContext(), response.getDesc());
+            }
+        });
     }
 
     @Override
