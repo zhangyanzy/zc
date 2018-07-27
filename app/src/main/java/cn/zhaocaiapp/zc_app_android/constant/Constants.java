@@ -61,10 +61,10 @@ public interface Constants {
          * <p>
          * 必须以／结尾否则初始化会报错
          */
-//        String SERVER = "http://appapi.zhaocaiapp.local/"; //开发环境
+        String SERVER = "http://appapi.zhaocaiapp.local/"; //开发环境
 //        String SERVER = "https://appapi-pre.zhaocaiapp.cn/"; //预生产环境
 //        String SERVER = "https://appapi.zhaocaiapp.cn/"; //生产环境
-        String SERVER = "http://192.168.1.118:9090/"; //本地测试环境
+//        String SERVER = "http://192.168.1.119:9090/"; //本地测试环境
 
         /**
          * H5页面地址
@@ -74,7 +74,7 @@ public interface Constants {
 //        String H5_URL = "https://m.zhaocaiapp.cn"; //生产环境
 
         /**
-         * 注册 、
+         * 注册
          */
         String REGISTER = "register/signup";
 
@@ -98,9 +98,7 @@ public interface Constants {
          * 校验验证码
          */
         String VERIFY_CODE = "register/check/code";
-        /**】、
-         *
-         *
+        /**
          * 重置密码
          */
         String UPDATE_PASS = "user/updatepassword";
