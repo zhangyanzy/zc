@@ -2,6 +2,7 @@ package cn.zhaocaiapp.zc_app_android.views.my;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.autonavi.rtbt.IFrameForRTBT;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.jph.takephoto.model.TResult;
 
@@ -34,6 +34,7 @@ import cn.zhaocaiapp.zc_app_android.bean.MessageEvent;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.LocationResp;
+import cn.zhaocaiapp.zc_app_android.bean.response.login.ObtainCodeResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.UserDetailResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalInputDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
@@ -78,6 +79,8 @@ public class UserInfoFragment extends BaseFragment {
     @BindView(R.id.iv_select_ca)
     ImageView iv_select_ca;
 
+    private TextView identify_code;
+
     private View rootView;
     private PhotoHelper photoHelper;
 
@@ -111,7 +114,6 @@ public class UserInfoFragment extends BaseFragment {
     private String cDetail;//公司详细地址
     private String name;//用户昵称
     private String imgUrl;//用户头像地址
-
 
     private int addressType; // 0-家庭住址  1-公司地址
 
@@ -391,23 +393,53 @@ public class UserInfoFragment extends BaseFragment {
 
     private NormalInputDialog.OnDialogClickListener inputListener = new NormalInputDialog.OnDialogClickListener() {
         @Override
-        public void onDialogClick(int resId, @Nullable String content) {
-            if (resId == R.id.tv_submit)
-                if (GeneralUtils.isNullOrZeroLenght(content)) {
-                    ToastUtil.makeText(getActivity(), getString(R.string.input_pass_word));
+        public void onDialogClick(View view, @Nullable String str1, String str2) {
+            String phone = str1;
+            String code = str2;
+            if (view.getId() == R.id.tv_get_idntify_code) {
+                if (GeneralUtils.isNullOrZeroLenght(phone)) {
+                    ToastUtil.makeText(getActivity(), getString(R.string.input_phone_number));
                 } else {
-                    verifyPass(content);
+                    waitTimer((TextView) view);
+                    requestIdentifyCode(phone);
                 }
-            else inputDialog.dismiss();
+            }
+            if (view.getId() == R.id.tv_next) {
+                if (GeneralUtils.isNullOrZeroLenght(phone))
+                    ToastUtil.makeText(getActivity(), getString(R.string.input_phone_number));
+                else if (GeneralUtils.isNullOrZeroLenght(code))
+                    ToastUtil.makeText(getActivity(), getString(R.string.input_identify_code));
+                else verifyPhone(phone, code);
+            }
         }
     };
 
-    //校验密码
-    private void verifyPass(String content) {
+    //获取验证码
+    private void requestIdentifyCode(String phone) {
+        Map<String, String> params = new HashMap<>();
+        params.put("phone", phone);
+        HttpUtil.post(Constants.URL.GET_IDENTIFY_CODE, params).subscribe(new BaseResponseObserver<ObtainCodeResp>() {
+
+            @Override
+            public void success(ObtainCodeResp result) {
+                EBLog.i(TAG, result.toString());
+                ToastUtil.makeText(getActivity(), result.getDesc());
+            }
+
+            @Override
+            public void error(Response<ObtainCodeResp> response) {
+                ToastUtil.makeText(getActivity(), response.getDesc());
+                EBLog.i(TAG, response.getCode() + "");
+            }
+        });
+    }
+
+    //校验手机号
+    private void verifyPhone(String phone, String code) {
         Map<String, String> params = new HashMap<>();
         params.put("phone", baseInfoBean.getPhone());
-        params.put("password", content);
-        HttpUtil.post(Constants.URL.VERIFY_PASS, params).subscribe(new BaseResponseObserver<CommonResp>() {
+        params.put("code", code);
+        HttpUtil.post(Constants.URL.VEIRFY_CODE, params).subscribe(new BaseResponseObserver<CommonResp>() {
 
             @Override
             public void success(CommonResp commonResp) {
@@ -451,6 +483,32 @@ public class UserInfoFragment extends BaseFragment {
             edit_user_phone.setText(phone);
         }
     }
+
+    /**
+     * 开启计时器
+     * */
+    protected void waitTimer(TextView identify_code) {
+        this.identify_code = identify_code;
+        identify_code.setBackgroundResource(R.drawable.button_shape_gray_bg);
+        identify_code.setEnabled(false);
+        timer.start();
+    }
+
+    private CountDownTimer timer = new CountDownTimer(61000, 1000) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+            long delayTime = millisUntilFinished / 1000;
+            identify_code.setText(String.format(getString(R.string.delay_time), delayTime));
+        }
+
+        @Override
+        public void onFinish() {
+            identify_code.setBackgroundResource(R.drawable.button_shape_orange_bg);
+            identify_code.setText(getString(R.string.get_identify_code));
+            identify_code.setEnabled(true);
+            cancel();
+        }
+    };
 
     @Override
     public void onStop() {

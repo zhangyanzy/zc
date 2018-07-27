@@ -2,25 +2,17 @@ package cn.zhaocaiapp.zc_app_android.views.my;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.media.MediaExtractor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.BoringLayout;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
-import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.math.BigDecimal;
-import java.nio.file.attribute.PosixFilePermission;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,13 +24,13 @@ import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
+import cn.zhaocaiapp.zc_app_android.bean.response.login.ObtainCodeResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.AccountResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.dialog.listener.OnBtnClickL;
 import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalInputDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
-import cn.zhaocaiapp.zc_app_android.util.AppUtil;
 import cn.zhaocaiapp.zc_app_android.util.DialogUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
@@ -241,22 +233,53 @@ public class ApplyCashActivity extends BaseActivity {
 
     private NormalInputDialog.OnDialogClickListener inputListener = new NormalInputDialog.OnDialogClickListener() {
         @Override
-        public void onDialogClick(int resId, @Nullable String content) {
-            if (resId == R.id.tv_submit)
-                if (GeneralUtils.isNullOrZeroLenght(content)) {
-                    ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.input_pass_word));
-                }else {
-                    verifyPass(content);
+        public void onDialogClick(View view, @Nullable String str1, String str2) {
+            String phone = str1;
+            String code = str2;
+            if (view.getId() == R.id.tv_get_idntify_code) {
+                if (GeneralUtils.isNullOrZeroLenght(phone)) {
+                    ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.input_phone_number));
+                } else {
+                    waitTimer((TextView) view);
+                    requestIdentifyCode(phone);
                 }
-            else inputDialog.dismiss();
+            }
+            if (view.getId() == R.id.tv_next) {
+                if (GeneralUtils.isNullOrZeroLenght(phone))
+                    ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.input_phone_number));
+                else if (GeneralUtils.isNullOrZeroLenght(code))
+                    ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.input_identify_code));
+                else verifyPhone(phone, code);
+            }
         }
     };
 
-    //校验密码
-    private void verifyPass(String content) {
+    //获取验证码
+    private void requestIdentifyCode(String phone) {
         Map<String, String> params = new HashMap<>();
-        params.put("password", content);
-        HttpUtil.post(Constants.URL.WITHDRAW_VERIFU_PASS, params).subscribe(new BaseResponseObserver<CommonResp>() {
+        params.put("phone", phone);
+        HttpUtil.post(Constants.URL.GET_IDENTIFY_CODE, params).subscribe(new BaseResponseObserver<ObtainCodeResp>() {
+
+            @Override
+            public void success(ObtainCodeResp result) {
+                EBLog.i(TAG, result.toString());
+                ToastUtil.makeText(ApplyCashActivity.this, result.getDesc());
+            }
+
+            @Override
+            public void error(Response<ObtainCodeResp> response) {
+                ToastUtil.makeText(ApplyCashActivity.this, response.getDesc());
+                EBLog.i(TAG, response.getCode() + "");
+            }
+        });
+    }
+
+    //校验密码
+    private void verifyPhone(String phone, String code) {
+        Map<String, String> params = new HashMap<>();
+        params.put("phone", phone);
+        params.put("code", code);
+        HttpUtil.post(Constants.URL.VEIRFY_CODE, params).subscribe(new BaseResponseObserver<CommonResp>() {
 
             @Override
             public void success(CommonResp commonResp) {

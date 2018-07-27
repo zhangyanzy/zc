@@ -1,5 +1,7 @@
 package cn.zhaocaiapp.zc_app_android.bean.response.login;
 
+import android.support.annotation.Nullable;
+
 /**
  * @author 林子
  * @filename OrderResp.java
@@ -26,6 +28,15 @@ public class LoginResp {
     private long kid;
     private String uid;
     private String alias;
+    private String desc;
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 
     public String getAlias() {
         return alias;
@@ -63,7 +74,7 @@ public class LoginResp {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(@Nullable String avatar) {
         this.avatar = avatar;
     }
 

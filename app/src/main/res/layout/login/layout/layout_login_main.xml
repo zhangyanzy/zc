@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="20dp"
-    android:paddingBottom="30dp">
+    android:paddingBottom="30dp"
+    android:paddingTop="20dp">
 
     <TextView
         android:id="@+id/tv_skip_login"
@@ -35,7 +35,7 @@
         android:layout_marginLeft="@dimen/window_padding_bottom"
         android:layout_marginTop="50dp"
         android:gravity="center"
-        android:text="账号"
+        android:text="账    号"
         android:textColor="@color/colorFont3"
         android:textSize="@dimen/font_size_16" />
 
@@ -63,64 +63,186 @@
         android:layout_below="@+id/edit_phone_number"
         android:layout_marginLeft="@dimen/window_padding_bottom"
         android:layout_marginRight="@dimen/window_padding_bottom"
-        android:layout_marginTop="@dimen/edit_line_top"/>
+        android:layout_marginTop="@dimen/edit_line_top" />
+
+    <!--<TextView-->
+        <!--android:id="@+id/tv_pass"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/line_phone"-->
+        <!--android:layout_marginLeft="@dimen/window_padding_bottom"-->
+        <!--android:layout_marginTop="30dp"-->
+        <!--android:gravity="center"-->
+        <!--android:text="密码"-->
+        <!--android:textColor="@color/colorFont3"-->
+        <!--android:textSize="@dimen/font_size_16" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/edit_pass_word"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignBottom="@+id/tv_pass"-->
+        <!--android:layout_alignTop="@+id/tv_pass"-->
+        <!--android:layout_marginLeft="@dimen/edit_margin"-->
+        <!--android:layout_marginRight="@dimen/edit_margin"-->
+        <!--android:layout_toEndOf="@+id/tv_pass"-->
+        <!--android:layout_toStartOf="@+id/tv_forget_pass"-->
+        <!--android:background="@null"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:hint="@string/input_pass_word"-->
+        <!--android:inputType="textPassword"-->
+        <!--android:maxLines="1"-->
+        <!--android:textColor="@color/colorFont6"-->
+        <!--android:textColorHint="@color/colorLine"-->
+        <!--android:textSize="@dimen/font_size_14" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/tv_forget_pass"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignTop="@+id/tv_pass"-->
+        <!--android:layout_marginRight="@dimen/window_padding_bottom"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/forget_pass_word"-->
+        <!--android:textColor="@color/colorFont9"-->
+        <!--android:textSize="@dimen/font_size_14" />-->
+
+    <!--<View-->
+        <!--android:id="@+id/line_pass"-->
+        <!--style="@style/horizontal_F0_line"-->
+        <!--android:layout_below="@+id/edit_pass_word"-->
+        <!--android:layout_marginLeft="@dimen/window_padding_bottom"-->
+        <!--android:layout_marginRight="@dimen/window_padding_bottom"-->
+        <!--android:layout_marginTop="@dimen/edit_line_top" />-->
 
     <TextView
-        android:id="@+id/tv_pass"
+        android:id="@+id/tv_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/line_phone"
-        android:layout_marginLeft="@dimen/window_padding_bottom"
+        android:layout_below="@id/line_phone"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
-        android:gravity="center"
-        android:text="密码"
+        android:text="验证码"
         android:textColor="@color/colorFont3"
         android:textSize="@dimen/font_size_16" />
 
     <EditText
-        android:id="@+id/edit_pass_word"
+        android:id="@+id/edit_identify_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/tv_pass"
-        android:layout_alignBottom="@+id/tv_pass"
         android:layout_marginLeft="@dimen/edit_margin"
         android:layout_marginRight="@dimen/edit_margin"
-        android:layout_toEndOf="@+id/tv_pass"
-        android:layout_toStartOf="@+id/tv_forget_pass"
+        android:layout_toEndOf="@+id/tv_code"
+        android:layout_toStartOf="@+id/send_identify_code"
+        android:layout_alignTop="@id/tv_code"
+        android:layout_alignBottom="@id/tv_code"
         android:background="@null"
-        android:gravity="center_vertical"
-        android:hint="@string/input_pass_word"
-        android:inputType="textPassword"
+        android:hint="@string/input_identify_code"
+        android:inputType="number"
         android:maxLines="1"
         android:textColor="@color/colorFont6"
         android:textColorHint="@color/colorLine"
         android:textSize="@dimen/font_size_14" />
 
     <TextView
-        android:id="@+id/tv_forget_pass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/send_identify_code"
+        android:layout_width="96dp"
+        android:layout_height="36dp"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/tv_pass"
-        android:layout_marginRight="@dimen/window_padding_bottom"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/button_shape_orange_bg"
         android:gravity="center"
-        android:text="@string/forget_pass_word"
-        android:textColor="@color/colorFont9"
-        android:textSize="@dimen/font_size_14" />
+        android:text="@string/get_identify_code"
+        android:textColor="@color/colorBg"
+        android:textSize="@dimen/font_size_14"
+        android:layout_alignBottom="@id/edit_identify_code"/>
 
     <View
-        android:id="@+id/line_pass"
         style="@style/horizontal_F0_line"
-        android:layout_below="@+id/edit_pass_word"
+        android:layout_below="@+id/send_identify_code"
+        android:layout_toStartOf="@+id/send_identify_code"
+        android:layout_marginLeft="@dimen/window_padding_bottom"
+        android:layout_marginTop="@dimen/edit_line_top"/>
+
+    <LinearLayout
+        android:id="@+id/layout_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/tv_code"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/window_padding_bottom"
+        android:paddingStart="@dimen/window_padding_bottom">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="邀请码"
+            android:textColor="@color/colorFont3"
+            android:textSize="@dimen/font_size_16" />
+
+        <EditText
+            android:id="@+id/edit_invite_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/edit_margin"
+            android:hint="@string/input_edit_invite_code"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@color/colorFont6"
+            android:textColorHint="@color/colorLine"
+            android:textSize="@dimen/font_size_14" />
+
+    </LinearLayout>
+
+    <View
+        style="@style/horizontal_F0_line"
+        android:layout_below="@+id/layout_code"
         android:layout_marginLeft="@dimen/window_padding_bottom"
         android:layout_marginRight="@dimen/window_padding_bottom"
         android:layout_marginTop="@dimen/edit_line_top"/>
+
+    <LinearLayout
+        android:id="@+id/layout_agreement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/window_padding_bottom"
+        android:layout_marginRight="@dimen/window_padding_bottom"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/layout_code"
+        android:layout_alignParentRight="true">
+
+        <CheckBox
+            android:id="@+id/check_agreement"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@drawable/checkbox_selector_agreement"
+            android:button="@null"
+            android:checked="true"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/tv_agreement"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginLeft="@dimen/edit_margin"
+            android:gravity="center_vertical"
+            android:text="@string/agreement"
+            android:textColor="@color/colorFont9"
+            android:textSize="@dimen/font_size_12" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_login"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@+id/line_pass"
+        android:layout_below="@+id/layout_agreement"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="@dimen/window_padding_bottom"
         android:layout_marginRight="@dimen/window_padding_bottom"
@@ -144,7 +266,8 @@
         android:gravity="center"
         android:text="注册"
         android:textColor="@color/colorFont3"
-        android:textSize="@dimen/font_size_18" />
+        android:textSize="@dimen/font_size_18"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_social_login"
@@ -175,7 +298,7 @@
             android:layout_marginEnd="25dp"
             android:src="@drawable/umeng_socialize_wechat"
             app:civ_border_color="@color/colorLine"
-            app:civ_border_width="1dp"/>
+            app:civ_border_width="1dp" />
 
         <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
             android:id="@+id/login_qq"
@@ -184,7 +307,7 @@
             android:layout_marginEnd="25dp"
             android:src="@drawable/umeng_socialize_qq"
             app:civ_border_color="@color/colorLine"
-            app:civ_border_width="1dp"/>
+            app:civ_border_width="1dp" />
 
         <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
             android:id="@+id/login_sina"
@@ -192,6 +315,6 @@
             android:layout_height="36dp"
             android:src="@drawable/umeng_socialize_sina"
             app:civ_border_color="@color/colorLine"
-            app:civ_border_width="1dp"/>
+            app:civ_border_width="1dp" />
     </LinearLayout>
 </RelativeLayout>

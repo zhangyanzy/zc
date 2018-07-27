@@ -19,14 +19,18 @@ import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
  */
 
 public class NormalInputDialog extends BasesOsDialog<NormalInputDialog> {
+    @BindView(R.id.edit_phone_number)
+    EditText edit_phone_number;
+    @BindView(R.id.edit_identify_code)
+    EditText edit_identify_code;
+    @BindView(R.id.tv_get_idntify_code)
+    TextView tv_get_code;
+    @BindView(R.id.tv_next)
+    TextView tv_next;
     @BindView(R.id.tv_title)
     TextView tv_title;
-    @BindView(R.id.content)
-    EditText content;
-    @BindView(R.id.tv_cancel)
-    TextView tv_cancel;
-    @BindView(R.id.tv_submit)
-    TextView tv_submit;
+
+    private String title;
 
     private OnDialogClickListener listener;
 
@@ -58,33 +62,36 @@ public class NormalInputDialog extends BasesOsDialog<NormalInputDialog> {
 
     public void setTitle(@Nullable String title) {
         if (GeneralUtils.isNullOrZeroLenght(title))
-            title = content.getResources().getString(R.string.input);
-        tv_title.setText(title);
+            this.title = title;
+        tv_title.setText(this.title);
     }
 
     @Override
     public void setUiBeforShow() {
-        setCanceledOnTouchOutside(false);
-        setCancelable(false);
-        content.setText("");
+//        setCanceledOnTouchOutside(false);
+//        setCancelable(false);
+        edit_phone_number.setText("");
+        edit_identify_code.setText("");
 
-        tv_cancel.setOnClickListener(new View.OnClickListener() {
+        tv_get_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onDialogClick(v.getId(), null);
+                String phone = edit_phone_number.getText().toString();
+                listener.onDialogClick(v, phone, null);
             }
         });
-        tv_submit.setOnClickListener(new View.OnClickListener() {
+        tv_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String str = content.getText().toString();
-                listener.onDialogClick(v.getId(), str);
+                String phone = edit_phone_number.getText().toString();
+                String code = edit_identify_code.getText().toString();
+                listener.onDialogClick(v, phone, code);
             }
         });
     }
 
     public interface OnDialogClickListener {
-        void onDialogClick(int resId, @Nullable String content);
+        void onDialogClick(View view, @Nullable String str1, @Nullable String str2);
     }
 
     public void setOnDialogClickListener(OnDialogClickListener listener) {

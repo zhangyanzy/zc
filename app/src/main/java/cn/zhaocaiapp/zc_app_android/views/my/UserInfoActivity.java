@@ -14,9 +14,7 @@ import android.widget.TextView;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -50,7 +48,7 @@ public class UserInfoActivity extends BaseActivity {
 
     private static final String TAG = "我的资料";
 
-    private String[] tabTitles = {"个人资料", "实名信息", "相关信息", "个人标签", "修改密码"};
+    private String[] tabTitles = {"个人资料", "实名信息", "相关信息", "个人标签"};
     private List<Fragment> fragments = new ArrayList<>();
 
     private UserDetailResp.ActivityInfoBean activityInfoBean;
@@ -74,7 +72,7 @@ public class UserInfoActivity extends BaseActivity {
         fragments.add(new RealInfoFragment());
         fragments.add(new RelativeInfoFragment());
         fragments.add(new LabelFragment());
-        fragments.add(new RevisePassFragment());
+//        fragments.add(new RevisePassFragment());
 
         pager_user_info.setOffscreenPageLimit(tabTitles.length);
         pager_user_info.setAdapter(new UserinfoFragmentPagerAdapter(getSupportFragmentManager()));

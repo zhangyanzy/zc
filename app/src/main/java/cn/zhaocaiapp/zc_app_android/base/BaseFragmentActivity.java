@@ -2,9 +2,11 @@ package cn.zhaocaiapp.zc_app_android.base;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.widget.TextView;
 
 import com.umeng.message.PushAgent;
 
@@ -12,11 +14,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.ButterKnife;
+import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.widget.LoadingDialog;
 
 public class BaseFragmentActivity extends FragmentActivity {
+
+    private TextView identify_code;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,6 +80,32 @@ public class BaseFragmentActivity extends FragmentActivity {
         intent.putExtras(bundle);
         startActivity(intent);
     }
+
+    /**
+     * 开启计时器
+     * */
+    protected void waitTimer(TextView identify_code) {
+        this.identify_code = identify_code;
+        identify_code.setBackgroundResource(R.drawable.button_shape_gray_bg);
+        identify_code.setEnabled(false);
+        timer.start();
+    }
+
+    private CountDownTimer timer = new CountDownTimer(61000, 1000) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+            long delayTime = millisUntilFinished / 1000;
+            identify_code.setText(String.format(getString(R.string.delay_time), delayTime));
+        }
+
+        @Override
+        public void onFinish() {
+            identify_code.setBackgroundResource(R.drawable.button_shape_orange_bg);
+            identify_code.setText(getString(R.string.get_identify_code));
+            identify_code.setEnabled(true);
+            cancel();
+        }
+    };
 
     /**
      * 双击退出应用

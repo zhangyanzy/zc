@@ -61,10 +61,10 @@ public interface Constants {
          * <p>
          * 必须以／结尾否则初始化会报错
          */
-        String SERVER = "http://appapi.zhaocaiapp.local/"; //开发环境
+//        String SERVER = "http://appapi.zhaocaiapp.local/"; //开发环境
 //        String SERVER = "https://appapi-pre.zhaocaiapp.cn/"; //预生产环境
 //        String SERVER = "https://appapi.zhaocaiapp.cn/"; //生产环境
-//        String SERVER = "http://192.168.1.119:9090/"; //本地测试环境
+        String SERVER = "http://192.168.1.118:9090/"; //本地测试环境
 
         /**
          * H5页面地址
@@ -313,6 +313,10 @@ public interface Constants {
          * 通知后台，应用已唤醒
          * */
         String APP_WAKE = "userinfo/insertUserActive?type=s%";
+        /**
+         * 校验手机号和验证码
+         * */
+        String VEIRFY_CODE = "/userinfo/checkOriginCode";
 
     }
 
@@ -347,12 +351,13 @@ public interface Constants {
         String IS_CERTIFICATION = "realInfoAuditStatus"; //是否通过实名认证
 
 
-        int TYPE_PHONE = 0;    //手机登录
+//        int TYPE_PHONE = 0;    //手机登录
         int TYPE_WECHAT = 1;   //微信登录
         int TYPE_QQ = 2;       //qq登陆
         int TYPE_SINA = 3;     //新浪微博登录
         int TYPE_ALI = 4;      //支付宝账户
         int TYPE_BANK = 5;     //银行卡账户
+        int TYPE_PHONE = 6;    //手机登录
 
         String SERVICE_PHONE = "servicePhone";      //客服电话
         String SEARCH_HISTORY = "searchHistory"; //搜索历史
