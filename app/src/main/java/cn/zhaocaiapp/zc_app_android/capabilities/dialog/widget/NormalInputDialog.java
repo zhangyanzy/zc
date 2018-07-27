@@ -30,7 +30,8 @@ public class NormalInputDialog extends BasesOsDialog<NormalInputDialog> {
     @BindView(R.id.tv_title)
     TextView tv_title;
 
-    private String title;
+    private String title = "提示";
+    private String butText = "下一步";
 
     private OnDialogClickListener listener;
 
@@ -56,20 +57,26 @@ public class NormalInputDialog extends BasesOsDialog<NormalInputDialog> {
         view.setBackgroundDrawable(
                 CornerUtils.cornerDrawable(Color.parseColor("#ffffff"), dp2px(5)));
 
-
         return view;
     }
 
     public void setTitle(@Nullable String title) {
-        if (GeneralUtils.isNullOrZeroLenght(title))
+        if (GeneralUtils.isNotNullOrZeroLenght(title))
             this.title = title;
-        tv_title.setText(this.title);
+    }
+
+    public void setButton(@Nullable String butText){
+        if (GeneralUtils.isNotNullOrZeroLenght(butText))
+            this.butText = butText;
     }
 
     @Override
     public void setUiBeforShow() {
-//        setCanceledOnTouchOutside(false);
+        setCanceledOnTouchOutside(false);
 //        setCancelable(false);
+
+        tv_title.setText(title);
+        tv_next.setText(butText);
         edit_phone_number.setText("");
         edit_identify_code.setText("");
 

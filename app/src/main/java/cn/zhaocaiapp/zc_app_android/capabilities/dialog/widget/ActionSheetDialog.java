@@ -158,8 +158,6 @@ public class ActionSheetDialog extends BottomBasesOsDialog {
 
     @Override
     public View onCreateView() {
-
-
         LinearLayout ll_container = new LinearLayout(context);
         ll_container.setOrientation(LinearLayout.VERTICAL);
         ll_container.setBackgroundColor(Color.TRANSPARENT);

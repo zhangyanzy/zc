@@ -36,6 +36,7 @@ import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.LocationResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.login.ObtainCodeResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.UserDetailResp;
+import cn.zhaocaiapp.zc_app_android.capabilities.dialog.animation.slide.SlideRightEnter;
 import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.NormalInputDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.capabilities.takephoto.PhotoHelper;
@@ -117,7 +118,8 @@ public class UserInfoFragment extends BaseFragment {
 
     private int addressType; // 0-家庭住址  1-公司地址
 
-    private NormalInputDialog inputDialog;
+    private NormalInputDialog inputDialog1;
+    private NormalInputDialog inputDialog2;
     private static final int REQUEST_CODE = 3001;
 
     private static final String TAG = "个人资料";
@@ -149,8 +151,9 @@ public class UserInfoFragment extends BaseFragment {
         rootView.setOnTouchListener(onTouchListener);
 
         //初始化输入框弹窗
-        inputDialog = new NormalInputDialog(getActivity());
-        inputDialog.setOnDialogClickListener(inputListener);
+        inputDialog1 = new NormalInputDialog(getActivity());
+        inputDialog1.setTitle("验证原手机");
+        inputDialog1.setOnDialogClickListener(inputListener1);
     }
 
     //城市选择器初始化和设置
@@ -278,7 +281,7 @@ public class UserInfoFragment extends BaseFragment {
                 optionsPickerView.show();
                 break;
             case R.id.tv_revise_phone: // 更换手机号
-                inputDialog.show();
+                inputDialog1.show();
                 break;
             case R.id.tv_submit:
                 if (isNotEmpty() && isCanUpdate()) reviceBaseInfo();
@@ -391,7 +394,7 @@ public class UserInfoFragment extends BaseFragment {
         });
     }
 
-    private NormalInputDialog.OnDialogClickListener inputListener = new NormalInputDialog.OnDialogClickListener() {
+    private NormalInputDialog.OnDialogClickListener inputListener1 = new NormalInputDialog.OnDialogClickListener() {
         @Override
         public void onDialogClick(View view, @Nullable String str1, String str2) {
             String phone = str1;
@@ -410,6 +413,29 @@ public class UserInfoFragment extends BaseFragment {
                 else if (GeneralUtils.isNullOrZeroLenght(code))
                     ToastUtil.makeText(getActivity(), getString(R.string.input_identify_code));
                 else verifyPhone(phone, code);
+            }
+        }
+    };
+
+    private NormalInputDialog.OnDialogClickListener inputListener2 = new NormalInputDialog.OnDialogClickListener() {
+        @Override
+        public void onDialogClick(View view, @Nullable String str1, String str2) {
+            String phone = str1;
+            String code = str2;
+            if (view.getId() == R.id.tv_get_idntify_code) {
+                if (GeneralUtils.isNullOrZeroLenght(phone)) {
+                    ToastUtil.makeText(getActivity(), getString(R.string.input_phone_number));
+                } else {
+                    waitTimer((TextView) view);
+                    requestIdentifyCode(phone);
+                }
+            }
+            if (view.getId() == R.id.tv_next) {
+                if (GeneralUtils.isNullOrZeroLenght(phone))
+                    ToastUtil.makeText(getActivity(), getString(R.string.input_phone_number));
+                else if (GeneralUtils.isNullOrZeroLenght(code))
+                    ToastUtil.makeText(getActivity(), getString(R.string.input_identify_code));
+                else doRevisePhone(phone, code);
             }
         }
     };
@@ -437,15 +463,44 @@ public class UserInfoFragment extends BaseFragment {
     //校验手机号
     private void verifyPhone(String phone, String code) {
         Map<String, String> params = new HashMap<>();
-        params.put("phone", baseInfoBean.getPhone());
+        params.put("phone", phone);
         params.put("code", code);
         HttpUtil.post(Constants.URL.VEIRFY_CODE, params).subscribe(new BaseResponseObserver<CommonResp>() {
 
             @Override
             public void success(CommonResp commonResp) {
                 EBLog.i(TAG, commonResp.getDesc());
-                inputDialog.dismiss();
-                openActivityForResult(ChangePhoneActivity.class, REQUEST_CODE);
+
+                inputDialog1.dismiss();
+                inputDialog2 = new NormalInputDialog(getActivity());
+                inputDialog2.setTitle("绑定新手机");
+                inputDialog2.setButton("确认绑定");
+                inputDialog2.setOnDialogClickListener(inputListener2);
+                inputDialog2.showAnim(new SlideRightEnter());
+                inputDialog2.show();
+            }
+
+            @Override
+            public void error(Response<CommonResp> response) {
+                EBLog.e(TAG, response.getCode() + "");
+                ToastUtil.makeText(getActivity(), response.getDesc());
+            }
+        });
+    }
+
+    //提交新手机号
+    private void doRevisePhone(String phone, String code) {
+        Map<String, String>params = new HashMap<>();
+        params.put("phone", phone);
+        params.put("code", code);
+
+        HttpUtil.post(Constants.URL.UPDATE_PHONE, params).subscribe(new BaseResponseObserver<CommonResp>() {
+
+            @Override
+            public void success(CommonResp commonResp) {
+                EBLog.i(TAG, commonResp.getDesc());
+                edit_user_phone.setText(phone);
+                inputDialog2.dismiss();
             }
 
             @Override
