@@ -55,14 +55,11 @@ public class CheckPhoneActivity extends BaseActivity {
     TextView tv_login_mode;
     @BindView(R.id.tv_submit)
     TextView tv_submit;
-    @BindView(R.id.edit_invite_code)
-    EditText edit_invite_code;
 
     private int type;
     private String uid;
     private String phone;
     private String identify_code;
-    private String invite_code;
 
     private static final String TAG = "校验手机号";
 
@@ -120,7 +117,6 @@ public class CheckPhoneActivity extends BaseActivity {
                 break;
             case R.id.tv_submit:
                 identify_code = edit_identify_code.getText().toString();
-                invite_code = edit_invite_code.getText().toString();
                 if (judgePhone(phone)) {
                     if (GeneralUtils.isNullOrZeroLenght(identify_code))
                         ToastUtil.makeText(CheckPhoneActivity.this, getString(R.string.input_identify_code));
@@ -157,7 +153,6 @@ public class CheckPhoneActivity extends BaseActivity {
         params.put("phone", phone);
         params.put("code", identify_code);
         params.put("uid", uid);
-        params.put("inviteCode", invite_code);
         HttpUtil.post(Constants.URL.VERIFY_CODE, params).subscribe(new BaseResponseObserver<LoginResp>() {
             @Override
             public void success(LoginResp result) {
