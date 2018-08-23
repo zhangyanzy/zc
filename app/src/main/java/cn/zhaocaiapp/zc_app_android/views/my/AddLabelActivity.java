@@ -165,6 +165,7 @@ public class AddLabelActivity extends BaseActivity {
                     Bundle bundle = new Bundle();
                     bundle.putInt("position", 0);
                     openActivity(MainActivity.class, bundle);
+                    finish();
                 } else {
                     setResult(RESULT_CODE);
                     finish();

@@ -154,6 +154,7 @@ public class UserInfoFragment extends BaseFragment {
         inputDialog1 = new NormalInputDialog(getActivity());
         inputDialog1.setTitle("验证原手机");
         inputDialog1.setOnDialogClickListener(inputListener1);
+
     }
 
     //城市选择器初始化和设置
@@ -286,6 +287,8 @@ public class UserInfoFragment extends BaseFragment {
             case R.id.tv_submit:
                 if (isNotEmpty() && isCanUpdate()) reviceBaseInfo();
                 break;
+            default:
+                break;
         }
     }
 
@@ -403,8 +406,7 @@ public class UserInfoFragment extends BaseFragment {
                 if (GeneralUtils.isNullOrZeroLenght(phone)) {
                     ToastUtil.makeText(getActivity(), getString(R.string.input_phone_number));
                 } else {
-                    waitTimer((TextView) view);
-                    requestIdentifyCode(phone);
+                    requestCheckIdentifyCode(phone,view);
                 }
             }
             if (view.getId() == R.id.tv_next) {
@@ -426,8 +428,9 @@ public class UserInfoFragment extends BaseFragment {
                 if (GeneralUtils.isNullOrZeroLenght(phone)) {
                     ToastUtil.makeText(getActivity(), getString(R.string.input_phone_number));
                 } else {
-                    waitTimer((TextView) view);
-                    requestIdentifyCode(phone);
+//                    waitTimer((TextView) view);
+                    modifyCheckIdentifyCode(phone,view);
+
                 }
             }
             if (view.getId() == R.id.tv_next) {
@@ -440,16 +443,38 @@ public class UserInfoFragment extends BaseFragment {
         }
     };
 
-    //获取验证码
-    private void requestIdentifyCode(String phone) {
+    //校验原手机号码页面请求验证码
+    private void requestCheckIdentifyCode(String phone,View view) {
         Map<String, String> params = new HashMap<>();
         params.put("phone", phone);
-        HttpUtil.post(Constants.URL.GET_IDENTIFY_CODE, params).subscribe(new BaseResponseObserver<ObtainCodeResp>() {
+        HttpUtil.post(Constants.URL.CHECK_PHONE_OBTAINCODE, params).subscribe(new BaseResponseObserver<ObtainCodeResp>() {
 
             @Override
             public void success(ObtainCodeResp result) {
                 EBLog.i(TAG, result.toString());
                 ToastUtil.makeText(getActivity(), result.getDesc());
+                waitTimer((TextView) view);
+            }
+
+            @Override
+            public void error(Response<ObtainCodeResp> response) {
+                ToastUtil.makeText(getActivity(), response.getDesc());
+                EBLog.i(TAG, response.getCode() + "");
+            }
+        });
+    }
+
+    //修改手机号码页面请求验证码
+    private void modifyCheckIdentifyCode(String phone,View view) {
+        Map<String, String> params = new HashMap<>();
+        params.put("phone", phone);
+        HttpUtil.post(Constants.URL.MODIFY_PHONE_OBTAINCODE, params).subscribe(new BaseResponseObserver<ObtainCodeResp>() {
+
+            @Override
+            public void success(ObtainCodeResp result) {
+                EBLog.i(TAG, result.toString());
+                ToastUtil.makeText(getActivity(), result.getDesc());
+                waitTimer((TextView) view);
             }
 
             @Override
@@ -490,11 +515,11 @@ public class UserInfoFragment extends BaseFragment {
 
     //提交新手机号
     private void doRevisePhone(String phone, String code) {
-        Map<String, String>params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put("phone", phone);
         params.put("code", code);
 
-        HttpUtil.post(Constants.URL.UPDATE_PHONE, params).subscribe(new BaseResponseObserver<CommonResp>() {
+        HttpUtil.post(Constants.URL.MODIFY_PHONR, params).subscribe(new BaseResponseObserver<CommonResp>() {
 
             @Override
             public void success(CommonResp commonResp) {
@@ -541,7 +566,7 @@ public class UserInfoFragment extends BaseFragment {
 
     /**
      * 开启计时器
-     * */
+     */
     protected void waitTimer(TextView identify_code) {
         this.identify_code = identify_code;
         identify_code.setBackgroundResource(R.drawable.button_shape_gray_bg);

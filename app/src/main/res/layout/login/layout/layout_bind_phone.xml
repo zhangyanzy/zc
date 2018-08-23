@@ -18,14 +18,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorFont3"
-            android:textSize="@dimen/font_size_14" />
+            android:textSize="@dimen/font_size_14"
+            android:visibility="gone"
+            />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/auth_success"
-            android:textColor="@color/colorFont3"
-            android:textSize="@dimen/font_size_14" />
+        <ImageView
+            android:id="@+id/iv_app_logo"
+            android:layout_width="158dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:src="@mipmap/logo_title" />
     </LinearLayout>
 
     <LinearLayout
@@ -36,14 +39,13 @@
         android:paddingEnd="@dimen/window_padding_bottom"
         android:paddingStart="@dimen/window_padding_bottom">
 
-        <TextView
+        <ImageView
             android:id="@+id/tv_account"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center_vertical"
-            android:text="手机号"
-            android:textColor="@color/colorFont3"
-            android:textSize="@dimen/font_size_15" />
+            android:src="@mipmap/register_dialog"
+           />
 
         <EditText
             android:id="@+id/input_phone"
@@ -72,14 +74,13 @@
         android:layout_marginRight="@dimen/window_padding_bottom"
         android:layout_marginTop="30dp">
 
-        <TextView
+        <ImageView
             android:id="@+id/tv_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_centerVertical="true"
-            android:text="验证码"
-            android:textColor="@color/colorFont3"
-            android:textSize="@dimen/font_size_15" />
+            android:src="@mipmap/code_dialog"
+            />
 
         <EditText
             android:id="@+id/edit_identify_code"
@@ -105,7 +106,7 @@
             android:background="@drawable/button_shape_orange_bg"
             android:gravity="center"
             android:text="获取验证码"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorBlack"
             android:textSize="@dimen/font_size_14"/>
 
         <View
@@ -114,6 +115,19 @@
             android:layout_toStartOf="@+id/tv_get_identify_code"
             android:layout_alignBottom="@+id/tv_get_identify_code" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_submit"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/button_shape_orange_round"
+        android:layout_marginStart="@dimen/window_padding_bottom"
+        android:layout_marginEnd="@dimen/window_padding_bottom"
+        android:gravity="center"
+        android:text="登录"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/font_size_18" />
 
     <LinearLayout
         android:id="@+id/layout_agreement"
@@ -138,25 +152,11 @@
             android:id="@+id/tv_agreement"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:layout_marginLeft="@dimen/edit_margin"
+            android:layout_marginEnd="@dimen/edit_margin"
             android:gravity="center_vertical"
             android:text="@string/agreement"
             android:textColor="@color/colorFont9"
             android:textSize="@dimen/font_size_12" />
     </LinearLayout>
-
-
-    <TextView
-        android:id="@+id/tv_submit"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/button_shape_orange_round"
-        android:layout_marginStart="@dimen/window_padding_bottom"
-        android:layout_marginEnd="@dimen/window_padding_bottom"
-        android:gravity="center"
-        android:text="提交"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/font_size_18" />
 
 </LinearLayout>

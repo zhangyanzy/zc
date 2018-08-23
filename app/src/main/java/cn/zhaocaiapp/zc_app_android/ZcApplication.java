@@ -21,6 +21,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.tendcloud.tenddata.TCAgent;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
 import com.umeng.socialize.Config;
@@ -128,6 +129,15 @@ public class ZcApplication extends MultiDexApplication {
         PgyUpdateManager.setIsForced(true);
 
         setWakeAppListener();
+
+        initTalkingData();
+    }
+
+    //初始化TalkingData数据
+    private void initTalkingData(){
+        TCAgent.LOG_ON = true;
+        TCAgent.init(this);
+        TCAgent.setReportUncaughtExceptions(true);
     }
 
     //开启子线程解析城市数据

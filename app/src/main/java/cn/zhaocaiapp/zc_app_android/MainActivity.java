@@ -49,7 +49,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
     private int currentPosition;
     private final String[] tags = {"task", "partner", "personal"};
     private int currentIndex = -1;
-    private Map<Integer, Fragment> fragmentMap = new HashMap<>();
+    private Map<Integer, Fragment> fragmentMap = new HashMap<>()    ;
     private MyResp userInfo;
 
     private UMShareAPI umShareAPI;

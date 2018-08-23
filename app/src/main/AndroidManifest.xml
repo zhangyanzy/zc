@@ -5,36 +5,35 @@
 
     <!-- 友盟集成权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!--用于进行网络定位-->
+    <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!--用于访问GPS定位-->
+    <!-- 用于访问GPS定位 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!--用于获取运营商信息，用于支持提供运营商信息相关的接口-->
+    <!-- 用于获取运营商信息，用于支持提供运营商信息相关的接口 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <!--用于访问网络，网络定位需要上网-->
+    <!-- 用于访问网络，网络定位需要上网 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!--用于读取手机当前的状态-->
+    <!-- 用于读取手机当前的状态 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!--用于写入缓存数据到扩展存储卡-->
+    <!-- 用于写入缓存数据到扩展存储卡 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--用于申请调用A-GPS模块-->
+    <!-- 用于申请调用A-GPS模块 -->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <!--用于申请获取蓝牙信息进行室内定位-->
+    <!-- 用于申请获取蓝牙信息进行室内定位 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <!--调起系统电话-->
+    <!-- 调起系统电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <!--更改系统设置权限-->
+    <!-- 更改系统设置权限 -->
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
-    <!--手机震动权限-->
+    <!-- 手机震动权限 -->
     <uses-permission android:name="android.permission.VIBRATE" />
-
 
     <application
         android:name=".ZcApplication"
@@ -51,6 +50,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -58,36 +58,34 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" >
-
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:scheme="com.zc.app"  />
+                <data android:scheme="com.zc.app" />
             </intent-filter>
-
         </activity>
-        <!--定位-->
+        <!-- 定位 -->
         <activity
             android:name=".views.home.LocationActivity"
             android:screenOrientation="portrait" />
-        <!--定位-->
+        <!-- 定位 -->
         <activity
             android:name=".views.home.newbieTaskActivity"
             android:screenOrientation="portrait" />
-        <!--搜索-->
+        <!-- 搜索 -->
         <activity
             android:name=".views.home.SearchActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <!--搜索结果页-->
+        <!-- 搜索结果页 -->
         <activity
             android:name=".views.home.SearchResulfActivity"
             android:screenOrientation="portrait" />
-        <!--活动详情-->
+        <!-- 活动详情 -->
         <activity
             android:name=".views.common.ActivityDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -102,7 +100,7 @@
                 <data android:scheme="com.zc.zcapp" />
             </intent-filter>
         </activity>
-        <!--资讯活动详情-->
+        <!-- 资讯活动详情 -->
         <activity
             android:name=".views.common.InformationDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -118,95 +116,95 @@
             </intent-filter>
         </activity>
 
-        <!--登录-->
+        <!-- 登录 -->
         <activity
             android:name=".views.login.LoginActivity"
             android:screenOrientation="portrait" />
-        <!--忘记密码-->
+        <!-- 忘记密码 -->
         <activity
             android:name=".views.login.ForgetPassActivity"
             android:screenOrientation="portrait" />
-        <!--注册-->
+        <!-- 注册 -->
         <activity
             android:name=".views.login.RegisterActivity"
             android:screenOrientation="portrait" />
-        <!--申请提现-->
+        <!-- 申请提现 -->
         <activity
             android:name=".views.my.ApplyCashActivity"
             android:screenOrientation="portrait" />
-        <!--邀请好友-->
+        <!-- 邀请好友 -->
         <activity
             android:name=".views.my.InviteActivity"
             android:screenOrientation="portrait" />
-        <!--我的关注-->
+        <!-- 我的关注 -->
         <activity
             android:name=".views.my.MyFollowAvtivity"
             android:screenOrientation="portrait" />
-        <!--设置-->
+        <!-- 设置 -->
         <activity
             android:name=".views.my.SettingActivity"
             android:screenOrientation="portrait" />
-        <!--验证手机号-->
+        <!-- 验证手机号 -->
         <activity
             android:name=".views.login.CheckPhoneActivity"
             android:screenOrientation="portrait" />
-        <!--绑定手机号-->
+        <!-- 绑定手机号 -->
         <activity
             android:name=".views.login.RegistPhoneActivity"
             android:screenOrientation="portrait" />
-        <!--用户资料-->
+        <!-- 用户资料 -->
         <activity
             android:name=".views.my.UserInfoActivity"
             android:screenOrientation="portrait" />
-        <!--收支明细-->
+        <!-- 收支明细 -->
         <activity
             android:name=".views.my.IncomeActivity"
             android:screenOrientation="portrait" />
-        <!--管理提现账户-->
+        <!-- 管理提现账户 -->
         <activity
             android:name=".views.my.ManageAccountActivity"
             android:screenOrientation="portrait" />
-        <!--微信账户-->
+        <!-- 微信账户 -->
         <activity
             android:name=".views.my.AccountActivity"
             android:screenOrientation="portrait" />
-        <!--关于我们-->
+        <!-- 关于我们 -->
         <activity
             android:name=".views.my.AboutUsActivity"
             android:screenOrientation="portrait" />
-        <!--更换手机号-->
+        <!-- 更换手机号 -->
         <activity
             android:name=".views.my.ChangePhoneActivity"
             android:screenOrientation="portrait" />
-        <!--消息列表-->
+        <!-- 消息列表 -->
         <activity
             android:name=".views.my.MessageActivity"
             android:screenOrientation="portrait" />
-        <!--个人中心-->
+        <!-- 个人中心 -->
         <activity
             android:name=".views.activity.MyActivity"
             android:screenOrientation="portrait" />
-        <!--添加个人标签-->
+        <!-- 添加个人标签 -->
         <activity
             android:name=".views.my.AddLabelActivity"
             android:screenOrientation="portrait" />
-        <!--绑定银行卡-->
+        <!-- 绑定银行卡 -->
         <activity
             android:name=".views.my.BindCardActivity"
             android:screenOrientation="portrait" />
-        <!--封禁账号-->
+        <!-- 封禁账号 -->
         <activity
             android:name=".views.login.ClosureActivity"
             android:screenOrientation="portrait" />
-        <!--用户协议-->
+        <!-- 用户协议 -->
         <activity
             android:name=".views.common.UserAgreementActivity"
             android:screenOrientation="portrait" />
-        <!--隐私条款-->
+        <!-- 隐私条款 -->
         <activity
             android:name=".views.common.PrivacyActivity"
             android:screenOrientation="portrait" />
-        <!--支付宝支付-->
+        <!-- 支付宝支付 -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
@@ -219,25 +217,24 @@
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <!--商家详情-->
+        <!-- 商家详情 -->
         <activity
             android:name=".views.member.MemberDetailActivity"
             android:screenOrientation="portrait" />
-        <!--收入分享-->
+        <!-- 收入分享 -->
         <activity
             android:name=".views.my.IncomeShareActivity"
             android:screenOrientation="portrait" />
-        <!--消息详情-->
+        <!-- 消息详情 -->
         <activity
             android:name=".views.my.MessageDetailActivity"
             android:screenOrientation="portrait" />
-        <!--意见反馈-->
+        <!-- 意见反馈 -->
         <activity
             android:name=".views.my.FeedbackActivity"
             android:screenOrientation="portrait" />
 
-
-        <!--注册友盟sdk需要的activity-->
+        <!-- 注册友盟sdk需要的activity -->
         <!-- tencent -->
         <activity
             android:name="com.umeng.qq.tencent.AuthActivity"
@@ -258,7 +255,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <!-- wechat callback-->
+        <!-- wechat callback -->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -266,7 +263,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <!--sina-->
+        <!-- sina -->
         <activity
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -279,6 +276,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -287,26 +285,46 @@
             android:excludeFromRecents="true"
             android:theme="@style/Theme.UMDefault" />
 
-        <!--注册友盟appkey和渠道id-->
+        <!-- 注册友盟appkey和渠道id -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5a72be74f29d981732000057" />     <!--5a4c6b93a40fa36a3900036f-->
+            android:value="5a72be74f29d981732000057" /> <!-- 5a4c6b93a40fa36a3900036f -->
         <meta-data
             android:name="UMENG_MESSAGE_SECRET"
-            android:value="d48fd4bf9b2c08b4081ed00e5fcf0c1a" />   <!-- 3a2be7cb8ebe1edc38b2eef221487361-->
+            android:value="d48fd4bf9b2c08b4081ed00e5fcf0c1a" /> <!-- 3a2be7cb8ebe1edc38b2eef221487361 -->
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="yingyongbao" />
-        <!--高德地图key-->
+        <!-- 高德地图key -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="aa4f768ae0c3930cafc268720afec5d7" />
+
         <service android:name="com.amap.api.location.APSService" />
-        <!--注册蒲公英-->
+        <!-- 注册蒲公英 -->
         <meta-data
             android:name="PGYER_APPID"
             android:value="7c10df58102b007d320b5a63cda7f74f" />
 
+        <activity
+            android:name=".views.activity.TestBindingActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <service android:name="com.talkingdata.sdk.TDAntiCheatingService"
+            android:process="com.talkingdata.sdk.TDAntiCheatingService">
+            <intent-filter>
+                <action android:name="com.talkingdata.sdk.TDAntiCheatingService" />
+            </intent-filter>
+        </service>
+
+
+        <!--注册TalkingData-->
+        <meta-data
+            android:name="TD_APP_ID"
+            android:value="C98DB509CE394E0D9E793DF881DDB095" />
+        <meta-data
+            android:name="TD_CHANNEL_ID"
+            android:value="360" />
     </application>
 
 </manifest>

@@ -53,7 +53,6 @@ public class NormalInputDialog extends BasesOsDialog<NormalInputDialog> {
 
         View view = View.inflate(context, R.layout.layout_dialog_input, null);
         ButterKnife.bind(this, view);
-
         view.setBackgroundDrawable(
                 CornerUtils.cornerDrawable(Color.parseColor("#ffffff"), dp2px(5)));
 
@@ -74,12 +73,10 @@ public class NormalInputDialog extends BasesOsDialog<NormalInputDialog> {
     public void setUiBeforShow() {
         setCanceledOnTouchOutside(false);
 //        setCancelable(false);
-
         tv_title.setText(title);
         tv_next.setText(butText);
         edit_phone_number.setText("");
         edit_identify_code.setText("");
-
         tv_get_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

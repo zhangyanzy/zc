@@ -148,7 +148,7 @@ public class RealInfoFragment extends BaseFragment {
                 iv_card_behind.setEnabled(false);
                 break;
             case 3:
-                tv_identify_state.setText("未通过");
+                tv_identify_state.setText("未通过，请重新认证");
                 break;
         }
 
@@ -225,8 +225,21 @@ public class RealInfoFragment extends BaseFragment {
             public void success(CommonResp commonResp) {
                 ToastUtil.makeText(getActivity(), commonResp.getDesc());
                 realInfoBean.setRealInfoAuditStatus(1);
-                tv_identify_state.setText("待审核");
                 SpUtils.init(Constants.SPREF.FILE_USER_NAME).put(Constants.SPREF.IS_CERTIFICATION, false);
+
+                if ("已认证".equals(commonResp.getDesc())) {
+                    tv_submit.setVisibility(View.GONE);
+                    tv_submit.setEnabled(false);
+                    tv_identify_state.setText(commonResp.getDesc());
+                } else if ("未通过".equals(commonResp.getDesc())) {
+                    tv_submit.setVisibility(View.VISIBLE);
+                    tv_submit.setEnabled(true);
+                    tv_identify_state.setText(commonResp.getDesc() + "，请重新认证");
+                } else {
+                    tv_submit.setVisibility(View.VISIBLE);
+                    tv_submit.setEnabled(true);
+                    tv_identify_state.setText(commonResp.getDesc());
+                }
             }
 
             @Override
@@ -288,13 +301,10 @@ public class RealInfoFragment extends BaseFragment {
                 if (isNotEmpty() && isCanUpdate()) {
                     if (realInfoBean.getRealInfoAuditStatus() != 1) {
                         if (realInfoBean.getRealInfoAlterCount() < 3) {
-//                            if (confirm_card.isChecked())
-//                                reviseRealInfo();
-//                            else
-//                                ToastUtil.makeText(getActivity(), getString(R.string.confirm_card));
                             reviseRealInfo();
                         } else showNormalDialog();
-                    } else ToastUtil.makeText(getActivity(), getString(R.string.wait_verify));
+                    }
+//                    else ToastUtil.makeText(getActivity(), getString(R.string.wait_verify));
                 }
                 break;
         }

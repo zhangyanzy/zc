@@ -29,6 +29,15 @@ public class AccountResp {
     private Boolean wechatIs;
     private String wechatOpenId;
     private String name;
+    private int cashAmount;
+
+    public int getCashAmount() {
+        return cashAmount;
+    }
+
+    public void setCashAmount(int cashAmount) {
+        this.cashAmount = cashAmount;
+    }
 
     public String getName() {
         return name;

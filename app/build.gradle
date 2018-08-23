@@ -1,6 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
+
+    dataBinding {
+        enabled = true
+    }
+
     signingConfigs {
         zhaocai {
             keyAlias 'jinxun2017'
@@ -17,23 +22,37 @@ android {
         applicationId "cn.zhaocaiapp.zc_app_android"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 9
-        versionName "1.0.2"
+        versionCode 10
+        versionName "1.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
-        ndk{
+        ndk {
             abiFilters 'armeabi'
         }
     }
     buildTypes {
         release {
+            //混淆
             minifyEnabled false
+            //zipalign优化
+            zipAlignEnabled true
+            //移除无用的resource资源
+//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.zhaocai
         }
         debug {
             signingConfig signingConfigs.zhaocai
+        }
+
+        applicationVariants.all { variant ->
+            variant.outputs.all {
+                def fileName = "zhaocai"+"_V${defaultConfig.versionName}_${buildTime()}_C${defaultConfig.versionCode}_" +
+                        variant.name
+                        ".apk"
+                outputFileName = fileName
+            }
         }
     }
     sourceSets {
@@ -61,7 +80,8 @@ android {
             maven { url 'https://jitpack.io' }
         }
     }
-    buildToolsVersion '26.0.3'
+    buildToolsVersion '27.0.3'
+
 }
 
 dependencies {
@@ -114,4 +134,8 @@ dependencies {
     implementation files('libs/alipaySdk-20170922.jar')
     //完整版引入
     compile 'com.shuyu:GSYVideoPlayer:4.1.0'
+    implementation files('libs/SaaS_AppAnalytics_Android_SDK_V4.0.21.jar')
+}
+static def buildTime() {
+    return new Date().format("yyyy-MM-dd_hhmmss", TimeZone.getTimeZone("GMT+8"))
 }

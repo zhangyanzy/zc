@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.tendcloud.tenddata.TCAgent;
+import com.tendcloud.tenddata.TDAccount;
 import com.umeng.message.PushAgent;
 import com.umeng.message.UTrack;
 import com.umeng.socialize.UMAuthListener;
@@ -179,7 +181,7 @@ public class LoginActivity extends BaseFragmentActivity {
             public void success(LoginResp result) {
                 EBLog.i(TAG, result.toString());
                 stopProgressDialog();
-
+                TCAgent.onLogin(phone,TDAccount.AccountType.TYPE1,phone);
                 setAlias(result);
                 saveUserData(result);
                 notifyWake();
@@ -202,7 +204,7 @@ public class LoginActivity extends BaseFragmentActivity {
 
                 if (type != 0 && response.getCode() == 5000) { //此三方账号未绑定
                     turnToCheckPhone();
-                } else if (response.getCode() == 5005) { // 此账号已被封禁
+                } else if (response.getCode() == 5005)  { // 此账号已被封禁
                     openActivity(ClosureActivity.class);
                 } else if (response.getCode() == 5983) { //该手机号为首次注册
                     LoginResp resp = new Gson().fromJson(response.getData().toString(), LoginResp.class);
@@ -211,6 +213,8 @@ public class LoginActivity extends BaseFragmentActivity {
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("isFirstAdd", true);
                     openActivity(AddLabelActivity.class, bundle);
+                }else if (response.getCode()==5777){
+                    ToastUtil.makeText(LoginActivity.this, response.getDesc());
                 } else {
                     ToastUtil.makeText(LoginActivity.this, response.getDesc());
                 }

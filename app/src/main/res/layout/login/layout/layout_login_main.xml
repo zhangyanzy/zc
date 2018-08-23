@@ -27,15 +27,15 @@
         android:layout_marginTop="30dp"
         android:src="@mipmap/logo_title" />
 
-    <TextView
+    <ImageView
         android:id="@+id/tv_account"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_below="@+id/iv_app_logo"
         android:layout_marginLeft="@dimen/window_padding_bottom"
         android:layout_marginTop="50dp"
         android:gravity="center"
-        android:text="账    号"
+        android:background="@mipmap/register_dialog"
         android:textColor="@color/colorFont3"
         android:textSize="@dimen/font_size_16" />
 
@@ -116,15 +116,15 @@
         <!--android:layout_marginRight="@dimen/window_padding_bottom"-->
         <!--android:layout_marginTop="@dimen/edit_line_top" />-->
 
-    <TextView
+    <ImageView
         android:id="@+id/tv_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_below="@id/line_phone"
         android:gravity="center_vertical"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
-        android:text="验证码"
+        android:background="@mipmap/code_dialog"
         android:textColor="@color/colorFont3"
         android:textSize="@dimen/font_size_16" />
 
@@ -176,13 +176,12 @@
         android:paddingEnd="@dimen/window_padding_bottom"
         android:paddingStart="@dimen/window_padding_bottom">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center_vertical"
-            android:text="邀请码"
-            android:textColor="@color/colorFont3"
-            android:textSize="@dimen/font_size_16" />
+            android:src="@drawable/code"
+            />
 
         <EditText
             android:id="@+id/edit_invite_code"
@@ -207,6 +206,25 @@
         android:layout_marginRight="@dimen/window_padding_bottom"
         android:layout_marginTop="@dimen/edit_line_top"/>
 
+
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/layout_code"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/window_padding_bottom"
+        android:layout_marginRight="@dimen/window_padding_bottom"
+        android:layout_marginTop="55dp"
+        android:background="@drawable/button_shape_orange_round"
+        android:gravity="center"
+        android:text="登录"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/font_size_18" />
+
+
+
+
     <LinearLayout
         android:id="@+id/layout_agreement"
         android:layout_width="wrap_content"
@@ -215,8 +233,8 @@
         android:layout_marginRight="@dimen/window_padding_bottom"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
-        android:layout_below="@+id/layout_code"
-        android:layout_alignParentRight="true">
+        android:layout_below="@+id/tv_login"
+        android:layout_alignParentEnd="true">
 
         <CheckBox
             android:id="@+id/check_agreement"
@@ -237,21 +255,6 @@
             android:textColor="@color/colorFont9"
             android:textSize="@dimen/font_size_12" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_login"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@+id/layout_agreement"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/window_padding_bottom"
-        android:layout_marginRight="@dimen/window_padding_bottom"
-        android:layout_marginTop="55dp"
-        android:background="@drawable/button_shape_orange_round"
-        android:gravity="center"
-        android:text="登录"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/font_size_18" />
 
     <TextView
         android:id="@+id/tv_register"

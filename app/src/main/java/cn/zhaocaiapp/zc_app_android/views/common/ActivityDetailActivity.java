@@ -212,7 +212,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         public void takePhoto(String code) {
             if (code.equals("-1")) { // 不检查二维码
                 photoHelper.onClick(0, getTakePhoto());
-            } else { // 需要校验二维码
+            } else { // 需要校验二维码x
                 if (EasyPermissions.hasPermissions(ActivityDetailActivity.this, Manifest.permission.CAMERA)) {
                     Intent intent = new Intent(ActivityDetailActivity.this, CaptureActivity.class);
                     startActivityForResult(intent, REQUEST_CODE);

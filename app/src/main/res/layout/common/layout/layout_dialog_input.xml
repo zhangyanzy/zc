@@ -25,13 +25,14 @@
         android:paddingEnd="@dimen/window_padding"
         android:paddingStart="@dimen/window_padding">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center_vertical"
-            android:text="手机号"
             android:textColor="@color/colorFont3"
-            android:textSize="@dimen/font_size_15" />
+            android:textSize="@dimen/font_size_15"
+            android:src="@mipmap/register_dialog"
+            />
 
         <EditText
             android:id="@+id/edit_phone_number"
@@ -61,14 +62,15 @@
         android:layout_marginRight="@dimen/window_padding"
         android:layout_marginTop="30dp">
 
-        <TextView
+        <ImageView
             android:id="@+id/tv_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_centerVertical="true"
-            android:text="验证码"
             android:textColor="@color/colorFont3"
-            android:textSize="@dimen/font_size_15" />
+            android:textSize="@dimen/font_size_15"
+            android:src="@mipmap/code_dialog"
+            />
 
         <EditText
             android:id="@+id/edit_identify_code"
@@ -91,7 +93,7 @@
             android:id="@+id/tv_get_idntify_code"
             android:layout_width="96dp"
             android:layout_height="36dp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:background="@drawable/button_shape_orange_bg"
             android:gravity="center"
             android:text="@string/get_identify_code"

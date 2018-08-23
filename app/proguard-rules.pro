@@ -31,6 +31,7 @@
 -dontwarn com.xiaomi.**
 -dontwarn com.huawei.**
 -dontwarn com.meizu.**
+-dontwarn com.tendcloud.tenddata.**
 
 -keepattributes *Annotation*
 
@@ -42,6 +43,7 @@
 -keep class com.huawei.** {*;}
 -keep class com.meizu.** {*;}
 -keep class org.apache.thrift.** {*;}
+-keep class com.tendcloud.** {*;}
 
 -keep class com.alibaba.sdk.android.**{*;}
 -keep class com.ut.**{*;}
@@ -50,6 +52,9 @@
 -keep public class **.R$*{
    public static final int *;
 }
+-keep public class com.tendcloud.tenddata.** {
+ public protected *;
+ }
 
 #（可选）避免Log打印输出
 -assumenosideeffects class android.util.Log {
@@ -99,6 +104,10 @@
  -keep class com.tencent.mm.sdk.modelmsg.** implements com.tencent.mm.sdk.modelmsg.WXMediaMessage$IMediaObject {*;}
  -keep class im.yixin.sdk.api.YXMessage {*;}
  -keep class im.yixin.sdk.api.** implements im.yixin.sdk.api.YXMessage$YXMessageData{*;}
+ -keep class com.talkingdata.sdk.TalkingDataSDK {public *;}
+ -keep class com.apptalkingdata.** {*;}
+ -keep class dice.** {*; }
+
  -keep class com.tencent.mm.sdk.** {
     *;
  }
@@ -129,6 +138,8 @@
      public static ** valueOf(java.lang.String);
  }
 
+
+
  -keep class com.tencent.open.TDialog$*
  -keep class com.tencent.open.TDialog$* {*;}
  -keep class com.tencent.open.PKDialog
@@ -145,6 +156,12 @@
  -keepnames class * implements android.os.Parcelable {
      public static final ** CREATOR;
  }
+
+ -keepclassmembers class com.tendcloud.tenddata.**{
+ public void *(***);
+ }
+
+
 
  -keep class com.linkedin.** { *; }
  -keep class com.android.dingtalk.share.ddsharemodule.** { *; }
@@ -174,6 +191,7 @@
 -keep class com.ta.utdid2.** { *;}
 -keep class com.ut.device.** { *;}
 
+-dontwarn dice.**
 -keep class com.shuyu.gsyvideoplayer.video.** { *; }
 -dontwarn com.shuyu.gsyvideoplayer.video.**
 -keep class com.shuyu.gsyvideoplayer.video.base.** { *; }

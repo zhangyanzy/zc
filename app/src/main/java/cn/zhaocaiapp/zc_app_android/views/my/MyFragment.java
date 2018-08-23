@@ -25,6 +25,7 @@ import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
 import cn.zhaocaiapp.zc_app_android.bean.response.common.CommonResp;
+import cn.zhaocaiapp.zc_app_android.bean.response.my.AccountResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.my.MyResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.dialog.widget.TrembleBasesOsDialog;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
@@ -150,6 +151,33 @@ public class MyFragment extends BaseFragment {
             public void error(Response<MyResp> response) {
                 EBLog.e(TAG, response.getCode() + "");
                 ToastUtil.makeText(getActivity(), response.getDesc());
+            }
+        });
+        getAccount();
+    }
+
+
+    //获取用户账户信息
+    private void getAccount() {
+        HttpUtil.get(Constants.URL.GET_ACCOUNT_INFO).subscribe(new BaseResponseObserver<AccountResp>() {
+
+            @Override
+            public void success(AccountResp accountResp) {
+                EBLog.i(TAG, accountResp.toString());
+                if (accountResp.getCashAmount()==1){
+                    tv_apply_cash.setText("首单1元提现");
+                    tv_apply_cash.setBackgroundResource(R.drawable.button_shape_orange_round);
+                }else {
+                    tv_apply_cash.setText("提现");
+                    tv_apply_cash.setBackgroundResource(R.drawable.button_shape_gray_round_conor);
+
+                }
+
+            }
+
+            @Override
+            public void error(Response<AccountResp> response) {
+                EBLog.e(TAG, response.getCode() + "");
             }
         });
     }

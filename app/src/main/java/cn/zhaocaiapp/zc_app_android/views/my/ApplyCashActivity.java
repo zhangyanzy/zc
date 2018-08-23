@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -11,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.umeng.socialize.UMShareAPI;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -37,6 +42,7 @@ import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.util.checkPhoneNumberDialog;
 
 /**
  * Created by ASUS on 2017/11/8.
@@ -88,14 +94,13 @@ public class ApplyCashActivity extends BaseActivity {
     public void init(Bundle savedInstanceState) {
         umShareAPI = ZcApplication.getUMShareAPI();
         balance = new BigDecimal(getIntent().getStringExtra("balance"));
-
         tv_top_title.setText("提现");
         iv_top_menu.setImageResource(R.mipmap.trade_detail);
-
         getAccount();
 
         //初始化输入框弹窗
         inputDialog = new NormalInputDialog(this);
+        inputDialog.setTitle("提现申请");
         inputDialog.setOnDialogClickListener(inputListener);
     }
 
@@ -133,6 +138,12 @@ public class ApplyCashActivity extends BaseActivity {
             withdraw_bank.setText("已绑定");
         else
             withdraw_bank.setText("未绑定");
+        if (account.getCashAmount() == 1) {
+            tv_withdraw_limit.setText("首单1元即可提现.注：请确保您单认证信息的正确性，否则不予提现");
+            tv_submit.setText("首单一元提现");
+        } else {
+            tv_withdraw_limit.setText(R.string.withdraw_min_limit);
+        }
         setSelect();
     }
 
@@ -179,6 +190,8 @@ public class ApplyCashActivity extends BaseActivity {
                 edit_apply_cash.setText(tv_balance.getText().toString());
                 break;
             case R.id.tv_submit:
+//                checkPhoneNumberDialog dialog = new checkPhoneNumberDialog();
+//                dialog.checkPhoneNumber(this);
                 verifyAmount();
                 break;
             case R.id.withdraw_wechat:
@@ -196,6 +209,7 @@ public class ApplyCashActivity extends BaseActivity {
                 } else {
                     showDialog();
                 }
+                Log.i(TAG, "onClick: 0");
                 break;
             case R.id.withdraw_bank:
                 type = 2;
@@ -205,27 +219,34 @@ public class ApplyCashActivity extends BaseActivity {
                     showDialog();
                 }
                 break;
+            default:
+                break;
         }
     }
 
     //校验是否达到提现条件
     private void verifyAmount() {
-        int limit = 20;
+        int limit = 30;
         boolean isCertification = (boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_CERTIFICATION, false);
         if (GeneralUtils.isNotNullOrZeroLenght(edit_apply_cash.getText().toString())) {
             BigDecimal money = new BigDecimal(edit_apply_cash.getText().toString());
-            if (selectType == 2) {
-                limit = 200;
-            }
-            if (selectType == -1) {
-                ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_type));
-            } else if (money.compareTo(new BigDecimal(limit)) == -1) {
-                ToastUtil.makeText(ApplyCashActivity.this, String.format(getString(R.string.withdraw_limit), String.valueOf(limit)));
-            }else if (!isCertification) {
-                ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.not_certification));
-            } else {
+            if (account.getCashAmount() == 1) {
                 amount = GeneralUtils.getBigDecimalToTwo(money);
                 inputDialog.show();
+            } else {
+                if (selectType == 2) {
+                    limit = 200;
+                }
+                if (selectType == -1) {
+                    ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.withdraw_type));
+                } else if (money.compareTo(new BigDecimal(limit)) == -1) {
+                    ToastUtil.makeText(ApplyCashActivity.this, String.format(getString(R.string.withdraw_limit), String.valueOf(limit)));
+                } else if (!isCertification) {
+                    ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.not_certification));
+                } else {
+                    amount = GeneralUtils.getBigDecimalToTwo(money);
+                    inputDialog.show();
+                }
             }
         } else
             ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.input_cash));
@@ -240,8 +261,7 @@ public class ApplyCashActivity extends BaseActivity {
                 if (GeneralUtils.isNullOrZeroLenght(phone)) {
                     ToastUtil.makeText(ApplyCashActivity.this, getString(R.string.input_phone_number));
                 } else {
-                    waitTimer((TextView) view);
-                    requestIdentifyCode(phone);
+                    requestIdentifyCode(phone, view);
                 }
             }
             if (view.getId() == R.id.tv_next) {
@@ -255,7 +275,7 @@ public class ApplyCashActivity extends BaseActivity {
     };
 
     //获取验证码
-    private void requestIdentifyCode(String phone) {
+    private void requestIdentifyCode(String phone, View view) {
         Map<String, String> params = new HashMap<>();
         params.put("phone", phone);
         HttpUtil.post(Constants.URL.GET_IDENTIFY_CODE, params).subscribe(new BaseResponseObserver<ObtainCodeResp>() {
@@ -264,6 +284,7 @@ public class ApplyCashActivity extends BaseActivity {
             public void success(ObtainCodeResp result) {
                 EBLog.i(TAG, result.toString());
                 ToastUtil.makeText(ApplyCashActivity.this, result.getDesc());
+                waitTimer((TextView) view);
             }
 
             @Override
@@ -326,16 +347,27 @@ public class ApplyCashActivity extends BaseActivity {
 
                 withdraw_wechat.setCompoundDrawables(null, null, unDrawable, null);
                 withdraw_bank.setCompoundDrawables(null, null, unDrawable, null);
-                tv_withdraw_limit.setText(getString(R.string.withdraw_min_limit));
+                if (account.getCashAmount() == 1) {
+                    tv_withdraw_limit.setText("首单1元即可提现.注：请确保您单认证信息的正确性，否则不予提现");
+                    tv_submit.setText("首单一元提现");
+                } else {
+                    tv_withdraw_limit.setText(R.string.withdraw_min_limit);
+                    tv_withdraw_limit.setText(getString(R.string.withdraw_min_limit));
+                }
                 tv_withdraw_limit.setTextColor(getResources().getColor(R.color.colorFont6));
                 break;
             case 1:
                 withdraw_wechat.setCompoundDrawables(null, null, selDrawable, null);
                 selectType = 1;
-
                 withdraw_ali.setCompoundDrawables(null, null, unDrawable, null);
                 withdraw_bank.setCompoundDrawables(null, null, unDrawable, null);
-                tv_withdraw_limit.setText(getString(R.string.withdraw_min_limit));
+                if (account.getCashAmount() == 1) {
+                    tv_withdraw_limit.setText("首单1元即可提现.注：请确保您单认证信息的正确性，否则不予提现");
+                    tv_submit.setText("首单一元提现");
+                } else {
+                    tv_withdraw_limit.setText(R.string.withdraw_min_limit);
+                    tv_withdraw_limit.setText(getString(R.string.withdraw_min_limit));
+                }
                 tv_withdraw_limit.setTextColor(getResources().getColor(R.color.colorFont6));
                 break;
             case 2:
@@ -346,6 +378,8 @@ public class ApplyCashActivity extends BaseActivity {
                 withdraw_ali.setCompoundDrawables(null, null, unDrawable, null);
                 tv_withdraw_limit.setText(getString(R.string.add_card_remaind));
                 tv_withdraw_limit.setTextColor(getResources().getColor(R.color.colorRemind));
+                break;
+            default:
                 break;
         }
     }
@@ -376,4 +410,11 @@ public class ApplyCashActivity extends BaseActivity {
             getAccount();
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+
 }

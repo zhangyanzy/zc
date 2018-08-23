@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.tendcloud.tenddata.TCAgent;
+import com.tendcloud.tenddata.TDAccount;
 import com.umeng.message.PushAgent;
 import com.umeng.message.UTrack;
 
@@ -162,7 +164,8 @@ public class RegisterActivity extends BaseActivity {
             public void success(SignupResp result) {
                 EBLog.i(TAG, result.toString());
                 ToastUtil.makeText(RegisterActivity.this, result.getDesc());
-
+                //talkingdata
+                TCAgent.onRegister(phone,TDAccount.AccountType.TYPE1,phone);
                 setAlias(result);
                 saveUserData(result);
                 notifyWake();

@@ -51,7 +51,8 @@ public class UserAgreementActivity extends BaseActivity {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
 
-        web.loadUrl("file:///android_asset/h5-assets/static/user_agreement.html");
+//        web.loadUrl("file:///android_asset/h5-assets/static/user_agreement.html");
+        web.loadUrl("https://m.zhaocaiapp.cn/register/user_agreement.html");
         web.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

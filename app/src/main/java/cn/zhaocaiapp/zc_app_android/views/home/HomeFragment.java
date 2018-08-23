@@ -55,6 +55,7 @@ import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.views.activity.TestBindingActivity;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 
 /**

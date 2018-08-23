@@ -61,16 +61,16 @@ public interface Constants {
          * <p>
          * 必须以／结尾否则初始化会报错
          */
-        String SERVER = "http://appapi.zhaocaiapp.local/"; //开发环境
+//        String SERVER = "http://appapi.zhaocaiappcaiapp.local/"; //开发环境
 //        String SERVER = "https://appapi-pre.zhaocaiapp.cn/"; //预生产环境
 //        String SERVER = "https://appapi.zhaocaiapp.cn/"; //生产环境
-//        String SERVER = "http://192.168.1.119:9090/"; //本地测试环境
+        String SERVER = "http://192.168.1.138:9090/"; //本地测试环境
 
         /**
          * H5页面地址
          */
-        String H5_URL = "http://m.zhaocaiapp.local"; //开发环境
-//        String H5_URL = "https://m-pre.zhaocaiapp.cn"; //预生产环境
+//        String H5_URL = "http://m.zhaocaiapp.local"; //开发环境
+        String H5_URL = "https://m-pre.zhaocaiapp.cn"; //预生产环境
 //        String H5_URL = "https://m.zhaocaiapp.cn"; //生产环境
 
         /**
@@ -316,6 +316,20 @@ public interface Constants {
          * */
         String VEIRFY_CODE = "/userinfo/checkOriginCode";
 
+        /**
+         * 绑定新手机号
+         */
+        String MODIFY_PHONR = "/userinfo/updateMobile";
+
+        /**
+         * 校验原手机号码页面请求验证码
+         */
+        String CHECK_PHONE_OBTAINCODE = "/register/checkPhoneObtaincode";
+
+        /**
+         * 修改手机号码页面请求验证码
+         */
+        String MODIFY_PHONE_OBTAINCODE = "/register/modifyPhoneObtaincode";
     }
 
     interface SPREF {
