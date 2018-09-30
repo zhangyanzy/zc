@@ -61,17 +61,17 @@ public interface Constants {
          * <p>
          * 必须以／结尾否则初始化会报错
          */
-//        String SERVER = "http://appapi.zhaocaiappcaiapp.local/"; //开发环境
+//        String SERVER = "http://appapi.zhaocaiapp.local/"; //开发环境
 //        String SERVER = "https://appapi-pre.zhaocaiapp.cn/"; //预生产环境
-//        String SERVER = "https://appapi.zhaocaiapp.cn/"; //生产环境
-        String SERVER = "http://192.168.1.138:9090/"; //本地测试环境
+        String SERVER = "https://appapi.zhaocaiapp.cn/"; //生产环境
+//        String SERVER = "http://192.168.1.125:9090/"; //本地测试环境
 
         /**
          * H5页面地址
          */
 //        String H5_URL = "http://m.zhaocaiapp.local"; //开发环境
-        String H5_URL = "https://m-pre.zhaocaiapp.cn"; //预生产环境
-//        String H5_URL = "https://m.zhaocaiapp.cn"; //生产环境
+//        String H5_URL = "https://m-pre.zhaocaiapp.cn"; //预生产环境
+        String H5_URL = "https://m.zhaocaiapp.cn"; //生产环境
 
         /**
          * 注册
@@ -107,7 +107,7 @@ public interface Constants {
          */
         String GET_BRIEF_USER_INFO = "userinfo/user";
         /**
-         * 获取用户详细信息
+         * 获取用户详细信息1
          */
         String GET_USER_INFO_DETAIL = "userinfo/userdetail";
         /**
@@ -232,7 +232,7 @@ public interface Constants {
         String WITHDRAW_VERIFU_PASS = "userinfo/check/witdraw/password";
         /**
          * 分享注册
-         * */
+         */
         String SHARE_REGISTER = "/register/goRegister.html?code=%s";
 
 
@@ -305,15 +305,15 @@ public interface Constants {
         String IS_SHOW_SHARE = "app/config/ios?appVersion=%s";
         /**
          * 反馈意见
-         * */
+         */
         String FEEDBACK = "userinfo/insertSuggestion";
         /**
          * 通知后台，应用已唤醒
-         * */
+         */
         String APP_WAKE = "userinfo/insertUserActive?type=s%";
         /**
          * 校验手机号和验证码
-         * */
+         */
         String VEIRFY_CODE = "/userinfo/checkOriginCode";
 
         /**
@@ -330,6 +330,96 @@ public interface Constants {
          * 修改手机号码页面请求验证码
          */
         String MODIFY_PHONE_OBTAINCODE = "/register/modifyPhoneObtaincode";
+        /**
+         * 首页banner
+         */
+        String BANNER = "/activity/foreverList";
+
+        /**
+         * 模糊查询
+         */
+        String BLURRED_SEARCH = "/activity/associateActivity";
+
+        /**
+         * 阅值个人资料详情
+         */
+        String PERSONAL_DATA = "/userinfo/userInfoDetail";
+
+        /**
+         * 阅值个人资料上传
+         */
+        String PUT_PERSONAL_DATA = "/userinfo/update/userBaseInfo";
+
+        /**
+         * 阅值实名认证
+         */
+        String REAL_NANE_DATA = "/userinfo/update/userRealInfo";
+
+        /**
+         * 阅值首页活动列表
+         */
+        String NEW_HOME_ACTIVITY_LIST = "/activity/listForYueZhi";
+
+        /**
+         * 商户端阅值商户信息提交审核
+         */
+        String MERCHANT_INFORMATION_SUBMITTED = "/platform/insertMember";
+
+        /**
+         * 商户端阅值判断商户是否审核通过
+         */
+        String CHECK_IS_MERCHANT = "/platform/judgeStatus";
+
+        /**
+         * 商户端阅值商家基本信息
+         */
+        String GET_MEMBER_INFO = "/platform/getMemberInfo";
+
+        /**
+         * 商户端阅值商户弹窗
+         */
+        String RECODE_RED_PACKAGE = "/platform/updateMemberFirst";
+
+        /**
+         * 商户端阅值商家充值
+         */
+        String PAY_ORDER = "/pay/generateOrder";
+
+        /**
+         * 阅值个人实名资料详情页
+         */
+        String REAL_NAME = "/userinfo/userRealInfoDetail";
+
+        /**
+         * 商户端阅值商家发布的活动列表
+         */
+        String MEMBER_ACTIVITY = "/platform/getMemberActivity";
+
+        /**
+         * 视频上传
+         */
+        String VIDEO_UPLOAD = "/common/upload/video";
+
+        /**
+         * 商户端阅值获取充值订单详情
+         */
+        String PAY_BILL_LIST = "/platform/getPlatformMemberBill";
+
+        /**
+         * 阅值商户端发布活动
+         */
+        String ADD_ACTIVITY = "/platform/addActivity";
+
+        /**
+         * 阅值商户端获取商户发布活动状态
+         */
+        String GET_ACTIVITY_STATUS = "/platform/getActivityStatus";
+
+        /**
+         * 阅值商户端获取完成用户账单
+         */
+        String USER_COMPLETE = "/platform/getPlatformCompleteUserBill";
+
     }
 
     interface SPREF {
@@ -363,7 +453,7 @@ public interface Constants {
         String IS_CERTIFICATION = "realInfoAuditStatus"; //是否通过实名认证
 
 
-//        int TYPE_PHONE = 0;    //手机登录
+        //        int TYPE_PHONE = 0;    //手机登录
         int TYPE_WECHAT = 1;   //微信登录
         int TYPE_QQ = 2;       //qq登陆
         int TYPE_SINA = 3;     //新浪微博登录

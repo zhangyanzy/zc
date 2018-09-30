@@ -33,18 +33,14 @@ import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar;
 
 /**
  * Created by Administrator on 2018/2/2.
  */
 
-public class AddLabelActivity extends BaseActivity {
-    @BindView(R.id.iv_top_back)
-    ImageView iv_back;
-    @BindView(R.id.tv_top_title)
-    TextView tv_title;
-    @BindView(R.id.iv_top_menu)
-    ImageView iv_menu;
+public class AddLabelActivity extends BaseActivity implements NavigationTopBar.NavigationTopBarClickListener {
+
     @BindView(R.id.label_list)
     TagFlowLayout label_list;
     @BindView(R.id.tv_submit)
@@ -53,6 +49,7 @@ public class AddLabelActivity extends BaseActivity {
     private TagAdapter tagAdapter;
     private List<LabelResp> labels;
     List<UserLabelResp> ids = new ArrayList<>();
+    private NavigationTopBar mNavigationTopBar;
     public static final int RESULT_CODE = 2011;
 
     private boolean isFirstAdd; //是否首次添加标签
@@ -67,11 +64,17 @@ public class AddLabelActivity extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         isFirstAdd = getIntent().getBooleanExtra("isFirstAdd", false);
-        if (isFirstAdd) iv_back.setVisibility(View.GONE);
-        else iv_back.setVisibility(View.VISIBLE);
-        tv_title.setText("添加个人标签");
-        iv_menu.setVisibility(View.GONE);
-
+        mNavigationTopBar = findViewById(R.id.layout_top_title);
+        mNavigationTopBar.setLeftImageResource(R.mipmap.finish_icon);
+        mNavigationTopBar.setCenterTitleTextColor(R.color.colorBlack);
+        mNavigationTopBar.setCenterTitleText("添加个人标签");
+        mNavigationTopBar.setNavigationTopBarClickListener(this);
+        ImageView leftImage = mNavigationTopBar.findViewById(R.id.left_image);
+        if (isFirstAdd) {
+            leftImage.setVisibility(View.GONE);
+        } else {
+            leftImage.setVisibility(View.VISIBLE);
+        }
         getLabels();
     }
 
@@ -107,7 +110,7 @@ public class AddLabelActivity extends BaseActivity {
                 ViewHolder holder = new ViewHolder(view);
 
                 holder.tv_label_name.setText(LabelResp.getName());
-                holder.tv_label_number.setVisibility(View.GONE);
+//                holder.tv_label_number.setVisibility(View.GONE);
                 if (LabelResp.getIsSelected() == 1) { //已添加
                     holder.layout_label.setBackground(getResources().getDrawable(R.drawable.button_shape_orange_alpha));
                     holder.itemView.setEnabled(false);
@@ -181,12 +184,9 @@ public class AddLabelActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.iv_top_back, R.id.tv_submit})
+    @OnClick({R.id.tv_submit})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_top_back:
-                finish();
-                break;
             case R.id.tv_submit:
                 if (ids.size() > 0) addLabel(ids);
                 else ToastUtil.makeText(AddLabelActivity.this, getString(R.string.add_label));
@@ -194,11 +194,26 @@ public class AddLabelActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void leftImageClick() {
+        finish();
+    }
+
+    @Override
+    public void rightImageClick() {
+
+    }
+
+    @Override
+    public void alignRightLeftImageClick() {
+
+    }
+
     public static class ViewHolder {
         @BindView(R.id.tv_label_name)
         TextView tv_label_name;
-        @BindView(R.id.tv_label_number)
-        TextView tv_label_number;
+//        @BindView(R.id.tv_label_number)
+//        TextView tv_label_number;
         @BindView(R.id.delete_label)
         ImageView delete_label;
         @BindView(R.id.layout_label)

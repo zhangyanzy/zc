@@ -2,12 +2,14 @@ package cn.zhaocaiapp.zc_app_android.views.login;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -38,8 +40,11 @@ import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
+import cn.zhaocaiapp.zc_app_android.util.PreferenceUtils;
+import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.views.activity.FirstAddLabelActivity;
 import cn.zhaocaiapp.zc_app_android.views.common.UserAgreementActivity;
 import cn.zhaocaiapp.zc_app_android.views.my.AddLabelActivity;
 import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
@@ -52,7 +57,7 @@ import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
  */
 public class LoginActivity extends BaseFragmentActivity {
     @BindView(R.id.iv_app_logo)
-    ImageView iv_log;
+    TextView iv_log;
     @BindView(R.id.tv_skip_login)
     TextView tv_skip_login;
     @BindView(R.id.edit_phone_number)
@@ -79,6 +84,11 @@ public class LoginActivity extends BaseFragmentActivity {
     EditText edit_invite_code;
     @BindView(R.id.tv_agreement)
     TextView tv_agreement;
+    @BindView(R.id.layout_code)
+    LinearLayout mLayoutCode;
+    @BindView(R.id.code_view)
+    View mCodeView;
+
 
     private String phone;
     private String pass;
@@ -103,12 +113,18 @@ public class LoginActivity extends BaseFragmentActivity {
 
         if (getIntent().getBooleanExtra("signOut", false))
             ActivityUtil.finishAllActivity();
+
         if (ActivityUtil.getActivityStackSize() > 0)
             lastActivity = ActivityUtil.currentActivity();
 
         ActivityUtil.addActivity(this);
 
         umShareAPI = ZcApplication.getUMShareAPI();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @OnClick({R.id.tv_skip_login, R.id.tv_register, R.id.tv_login, R.id.send_identify_code,
@@ -181,7 +197,7 @@ public class LoginActivity extends BaseFragmentActivity {
             public void success(LoginResp result) {
                 EBLog.i(TAG, result.toString());
                 stopProgressDialog();
-                TCAgent.onLogin(phone,TDAccount.AccountType.TYPE1,phone);
+                TCAgent.onLogin(phone, TDAccount.AccountType.TYPE1, phone);
                 setAlias(result);
                 saveUserData(result);
                 notifyWake();
@@ -204,7 +220,7 @@ public class LoginActivity extends BaseFragmentActivity {
 
                 if (type != 0 && response.getCode() == 5000) { //此三方账号未绑定
                     turnToCheckPhone();
-                } else if (response.getCode() == 5005)  { // 此账号已被封禁
+                } else if (response.getCode() == 5005) { // 此账号已被封禁
                     openActivity(ClosureActivity.class);
                 } else if (response.getCode() == 5983) { //该手机号为首次注册
                     LoginResp resp = new Gson().fromJson(response.getData().toString(), LoginResp.class);
@@ -212,8 +228,8 @@ public class LoginActivity extends BaseFragmentActivity {
                     saveUserData(resp);
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("isFirstAdd", true);
-                    openActivity(AddLabelActivity.class, bundle);
-                }else if (response.getCode()==5777){
+                    openActivity(FirstAddLabelActivity.class, bundle);
+                } else if (response.getCode() == 5777) {
                     ToastUtil.makeText(LoginActivity.this, response.getDesc());
                 } else {
                     ToastUtil.makeText(LoginActivity.this, response.getDesc());

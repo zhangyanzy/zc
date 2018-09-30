@@ -62,13 +62,14 @@ import cn.zhaocaiapp.zc_app_android.util.DialogUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
+import cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar;
 
 /**
  * @author 林子
  * @filename LocationActivity.java
  * @data 2018-01-15 13:36
  */
-public class LocationActivity extends BaseActivity {
+public class LocationActivity extends BaseActivity implements NavigationTopBar.NavigationTopBarClickListener {
     @BindView(R.id.home_location_recycler)
     RecyclerView home_location_recycler;
     @BindView(R.id.indexBar)
@@ -79,12 +80,12 @@ public class LocationActivity extends BaseActivity {
     TextView home_location_area_text;
     @BindView(R.id.home_location_switch)
     Button home_location_switch;
-    @BindView(R.id.iv_top_back)
-    ImageView iv_top_back;
-    @BindView(R.id.tv_top_title)
-    TextView tv_top_title;
-    @BindView(R.id.iv_top_menu)
-    ImageView iv_top_menu;
+//    @BindView(R.id.iv_top_back)
+//    ImageView iv_top_back;
+//    @BindView(R.id.tv_top_title)
+//    TextView tv_top_title;
+//    @BindView(R.id.iv_top_menu)
+//    ImageView iv_top_menu;
 
     private static final String TAG = "城市列表";
 
@@ -101,6 +102,7 @@ public class LocationActivity extends BaseActivity {
 
     private Gson gson1;
     private GsonBuilder builder1;
+    private NavigationTopBar mNavigationTopBar;
 
 
     @Override
@@ -113,7 +115,7 @@ public class LocationActivity extends BaseActivity {
         ActivityUtil.addActivity(this);
 
         EBLog.i("tag", "初始化");
-        iv_top_menu.setVisibility(View.GONE);
+//        iv_top_menu.setVisibility(View.GONE);
         initView();
         initData();
     }
@@ -125,11 +127,14 @@ public class LocationActivity extends BaseActivity {
 
 
     private void initView() {
+        mNavigationTopBar = findViewById(R.id.location_top_bar);
+        mNavigationTopBar.setLeftImageResource(R.mipmap.finish_icon);
+        mNavigationTopBar.setCenterTitleText("城市列表");
+        mNavigationTopBar.setCenterTitleTextColor(R.color.colorBlack);
+        mNavigationTopBar.setNavigationTopBarClickListener(this);
 
-        tv_top_title.setText(TAG);
-
+//        tv_top_title.setText(TAG);
         mContext = this;
-
         linearLayoutManager = new LinearLayoutManager(this);
         home_location_recycler.setLayoutManager(linearLayoutManager);
 
@@ -215,7 +220,6 @@ public class LocationActivity extends BaseActivity {
 
     @OnClick({
             R.id.home_location_switch,
-            R.id.iv_top_back
     })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -226,10 +230,27 @@ public class LocationActivity extends BaseActivity {
                 EventBus.getDefault().post(new MessageEvent<String>("home_location"));
                 LocationActivity.this.finish();
                 break;
-            case R.id.iv_top_back:
-                finish();
+//            case R.id.iv_top_back:
+//                finish();
+//                break;
+            default:
                 break;
         }
     }
 
+    @Override
+    public void leftImageClick() {
+        finish();
+
+    }
+
+    @Override
+    public void rightImageClick() {
+
+    }
+
+    @Override
+    public void alignRightLeftImageClick() {
+
+    }
 }

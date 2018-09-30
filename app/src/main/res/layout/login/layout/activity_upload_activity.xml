@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="presenter"
+            type="cn.zhaocaiapp.zc_app_android.views.commerclal.UploadActivityActivity.Presenter" />
+    </data>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="cn.zhaocaiapp.zc_app_android.views.commerclal.UploadActivityActivity">
+
+
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar
+                android:id="@+id/upload_activity_top"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y96"></cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x24"
+                android:layout_marginTop="@dimen/y20"
+                android:text="视频上传"
+                android:textSize="@dimen/x28" />
+
+            <RelativeLayout
+                android:id="@+id/up_down_video_root"
+                android:layout_width="@dimen/x702"
+                android:layout_height="@dimen/y396"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/y20"
+                android:background="@drawable/imaginary_line_bg"
+                android:onClick="@{presenter.onClick}">
+
+                <ImageView
+                    android:id="@+id/video_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+
+                <ImageView
+                    android:id="@+id/up_down_video"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/add_photo_icon" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x24"
+                android:layout_marginTop="@dimen/y40"
+                android:text="封面上传"
+                android:textSize="@dimen/x28" />
+
+            <RelativeLayout
+                android:id="@+id/up_down_cover_root"
+                android:layout_width="@dimen/x702"
+                android:layout_height="@dimen/y396"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/y20"
+                android:background="@drawable/imaginary_line_bg"
+                android:onClick="@{presenter.onClick}"
+                >
+
+                <ImageView
+                    android:id="@+id/cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/up_down_cover"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/add_photo_icon" />
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/activity_title"
+                android:layout_width="@dimen/x702"
+                android:layout_height="@dimen/y80"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/y40"
+                android:background="@drawable/edit_text_bg"
+                android:hint="活动标题"
+                android:paddingStart="@dimen/x20" />
+
+            <RelativeLayout
+                android:layout_width="@dimen/x702"
+                android:layout_height="@dimen/y80"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/y40">
+
+                <TextView
+                    android:id="@+id/start_time"
+                    android:layout_width="@dimen/x320"
+                    android:layout_height="@dimen/y80"
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/edit_text_bg"
+                    android:gravity="center"
+                    android:hint="活动开始时间"
+                    android:onClick="@{presenter.onClick}"
+                    android:paddingStart="@dimen/x20" />
+
+                <View
+                    android:layout_width="@dimen/x40"
+                    android:layout_height="@dimen/y2"
+                    android:layout_centerInParent="true"
+                    android:background="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/end_time"
+                    android:layout_width="@dimen/x320"
+                    android:layout_height="@dimen/y80"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/edit_text_bg"
+                    android:gravity="center"
+                    android:hint="活动结束时间"
+                    android:onClick="@{presenter.onClick}"
+                    android:paddingStart="@dimen/x20" />
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/max_user"
+                android:layout_width="@dimen/x702"
+                android:layout_height="@dimen/y80"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/y40"
+                android:background="@drawable/edit_text_bg"
+                android:hint="活动人数"
+                android:paddingStart="@dimen/x10" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x24"
+                android:layout_marginTop="@dimen/y40"
+                android:text="活动金额"
+                android:textSize="@dimen/x28" />
+
+            <RadioGroup
+                android:id="@+id/choose_activity_money"
+                android:layout_width="@dimen/x702"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/y40"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/item_one"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/y80"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/radio_button_bg"
+                    android:text="1元/人"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/x28" />
+
+                <RadioButton
+                    android:id="@+id/item_two"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/y80"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/radio_button_bg"
+                    android:text="2元/人"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/x28" />
+
+                <RadioButton
+                    android:id="@+id/item_five"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/y80"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/radio_button_bg"
+                    android:text="5元/人"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/x28" />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x24"
+                android:layout_marginTop="@dimen/y40"
+                android:text="活动要求" />
+
+            <EditText
+                android:id="@+id/activity_demand"
+                android:layout_width="@dimen/x702"
+                android:layout_height="@dimen/y352"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/y40"
+                android:background="@drawable/edit_text_bg" />
+
+            <TextView
+                android:id="@+id/merchant_ca_submit"
+                android:layout_width="@dimen/x702"
+                android:layout_height="@dimen/y80"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/y80"
+                android:layout_marginTop="@dimen/y40"
+                android:background="#EAEAEA"
+                android:gravity="center"
+                android:onClick="@{presenter.onClick}"
+                android:text="提交"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/x36" />
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+</layout>

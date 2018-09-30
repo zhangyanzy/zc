@@ -4,13 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_top_title" />
+    <include layout="@layout/layout_top_title"
+        android:visibility="gone"
+        />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="@dimen/x64"
+        android:layout_marginTop="@dimen/y160"
         android:orientation="horizontal">
 
         <TextView
@@ -19,16 +21,20 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorFont3"
             android:textSize="@dimen/font_size_14"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
-        <ImageView
+        <TextView
             android:id="@+id/iv_app_logo"
-            android:layout_width="158dp"
-            android:layout_height="80dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
-            android:src="@mipmap/logo_title" />
+            android:text="绑定手机号"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/x48"
+            android:textStyle="bold"
+
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -39,33 +45,26 @@
         android:paddingEnd="@dimen/window_padding_bottom"
         android:paddingStart="@dimen/window_padding_bottom">
 
-        <ImageView
-            android:id="@+id/tv_account"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical"
-            android:src="@mipmap/register_dialog"
-           />
 
         <EditText
             android:id="@+id/input_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/edit_margin"
-            android:background="@null"
             android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/edit_margin"
+            android:background="@null"
             android:hint="@string/input_phone_number"
+            android:inputType="phone"
             android:textColor="@color/colorFont6"
             android:textColorHint="@color/colorLine"
-            android:textSize="@dimen/font_size_14"
-            android:inputType="phone"/>
+            android:textSize="@dimen/font_size_14" />
     </LinearLayout>
 
     <View
         style="@style/horizontal_F0_line"
         android:layout_marginLeft="@dimen/window_padding_bottom"
         android:layout_marginRight="@dimen/window_padding_bottom"
-        android:layout_marginTop="@dimen/edit_line_top"/>
+        android:layout_marginTop="@dimen/edit_line_top" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -73,14 +72,6 @@
         android:layout_marginLeft="@dimen/window_padding_bottom"
         android:layout_marginRight="@dimen/window_padding_bottom"
         android:layout_marginTop="30dp">
-
-        <ImageView
-            android:id="@+id/tv_code"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/code_dialog"
-            />
 
         <EditText
             android:id="@+id/edit_identify_code"
@@ -93,40 +84,39 @@
             android:layout_toStartOf="@+id/tv_get_identify_code"
             android:background="@null"
             android:hint="@string/input_identify_code"
+            android:inputType="number"
             android:textColor="@color/colorFont6"
             android:textColorHint="@color/colorLine"
-            android:textSize="@dimen/font_size_14"
-            android:inputType="number"/>
+            android:textSize="@dimen/font_size_14" />
 
         <TextView
             android:id="@+id/tv_get_identify_code"
             android:layout_width="96dp"
             android:layout_height="36dp"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/button_shape_orange_bg"
+            android:layout_alignParentEnd="true"
             android:gravity="center"
             android:text="获取验证码"
             android:textColor="@color/colorBlack"
-            android:textSize="@dimen/font_size_14"/>
+            android:textSize="@dimen/font_size_14" />
 
         <View
-            style="@style/horizontal_F0_line"
             android:id="@+id/line_pass"
-            android:layout_toStartOf="@+id/tv_get_identify_code"
-            android:layout_alignBottom="@+id/tv_get_identify_code" />
+            style="@style/horizontal_F0_line"
+            android:layout_alignBottom="@+id/tv_get_identify_code"
+            android:layout_toStartOf="@+id/tv_get_identify_code" />
     </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_submit"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/button_shape_orange_round"
-        android:layout_marginStart="@dimen/window_padding_bottom"
         android:layout_marginEnd="@dimen/window_padding_bottom"
+        android:layout_marginStart="@dimen/window_padding_bottom"
+        android:layout_marginTop="60dp"
+        android:background="@color/colorBlack"
         android:gravity="center"
-        android:text="登录"
-        android:textColor="@color/colorBlack"
+        android:text="绑定"
+        android:textColor="@color/colorWhite"
         android:textSize="@dimen/font_size_18" />
 
     <LinearLayout
@@ -136,17 +126,16 @@
         android:layout_marginLeft="@dimen/window_padding_bottom"
         android:layout_marginRight="@dimen/window_padding_bottom"
         android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:layout_gravity="end">
+        android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/check_agreement"
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:background="@drawable/checkbox_selector_agreement"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/check_selector_privacy"
             android:button="@null"
-            android:checked="true"
-            android:layout_gravity="center_vertical"/>
+            android:checked="true" />
 
         <TextView
             android:id="@+id/tv_agreement"

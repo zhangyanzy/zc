@@ -86,7 +86,7 @@ public class BaseFragmentActivity extends FragmentActivity {
      * */
     protected void waitTimer(TextView identify_code) {
         this.identify_code = identify_code;
-        identify_code.setBackgroundResource(R.drawable.button_shape_gray_bg);
+//        identify_code.setBackgroundResource(R.drawable.button_shape_gray_bg);
         identify_code.setEnabled(false);
         timer.start();
     }
@@ -100,7 +100,7 @@ public class BaseFragmentActivity extends FragmentActivity {
 
         @Override
         public void onFinish() {
-            identify_code.setBackgroundResource(R.drawable.button_shape_orange_bg);
+//            identify_code.setBackgroundResource(R.drawable.button_shape_orange_bg);
             identify_code.setText(getString(R.string.get_identify_code));
             identify_code.setEnabled(true);
             cancel();

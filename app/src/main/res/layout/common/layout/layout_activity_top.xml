@@ -37,6 +37,7 @@
         android:layout_centerVertical="true"
         android:textColor="@color/colorFont3"
         android:textSize="@dimen/font_size_12"
+        android:text="csdsadasdsa"
         android:visibility="visible"/>
 
 </RelativeLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/item_root"
+    >
+
+    <TextView
+        android:id="@+id/item_blurred_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/x20"
+        android:text="模糊搜索"
+        android:textSize="@dimen/x36"
+        android:singleLine="true"
+        android:ellipsize="end"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y2"
+        android:layout_below="@+id/item_blurred_text"
+        android:background="#cacaca" />
+</RelativeLayout>

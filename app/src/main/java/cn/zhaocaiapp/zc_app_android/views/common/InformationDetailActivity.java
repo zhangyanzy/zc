@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -33,6 +34,7 @@ import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
+import cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar;
 import cn.zhaocaiapp.zc_app_android.widget.SampleControlPlayer;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -40,11 +42,11 @@ import pub.devrel.easypermissions.EasyPermissions;
  * Created by Administrator on 2018/4/23.
  */
 
-public class InformationDetailActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
-    @BindView(R.id.tv_top_title)
-    TextView tv_title;
-    @BindView(R.id.iv_top_menu)
-    ImageView iv_menu;
+public class InformationDetailActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks, NavigationTopBar.NavigationTopBarClickListener {
+    //    @BindView(R.id.tv_top_title)
+//    TextView tv_title;
+//    @BindView(R.id.iv_top_menu)
+//    ImageView iv_menu;
     @BindView(R.id.activity_detail_webView)
     WebView activity_detail_webView;
     @BindView(R.id.vp_player)
@@ -54,11 +56,16 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
 
     private long activityId;  // 活动id
     private String activityTitle; // 活动名称
+    private Integer activityForm;//
+    // 3咨询活动 4竞猜活动
+
+    private String userType;
     private UMShareAPI shareAPI;
     private MediaPlayer mMediaPlayer;
     private static final int REQUEST_CODE = 2002;
 
     private static final String TAG = "资讯详情页";
+    private NavigationTopBar mNavigationTopbar;
 
     @Override
     public int getContentViewResId() {
@@ -69,18 +76,22 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
     @Override
     public void init(Bundle savedInstanceState) {
         ActivityUtil.addActivity(this);
-
+        userType = getIntent().getStringExtra("userType");
         activityId = getIntent().getLongExtra("id", -1);
         activityTitle = getIntent().getStringExtra("title");
+        activityForm = getIntent().getIntExtra("activityForm", -0);
+
 
         //从浏览器跳转回活动详情
         Uri uri = getIntent().getData();
         if (uri != null) {
             activityId = Long.valueOf(uri.getQueryParameter("id"));
             activityTitle = uri.getQueryParameter("name");
+            userType = uri.getQueryParameter("userType");
+
         }
-        tv_title.setText(activityTitle);
-        iv_menu.setImageResource(R.mipmap.share);
+        initTorBar();
+//        iv_menu.setImageResource(R.mipmap.share);
 
         //加载H5活动详情
         activity_detail_webView.loadUrl("file:///android_asset/h5-assets/index.html");
@@ -110,6 +121,36 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
 
     }
 
+    private void initTorBar() {
+        mNavigationTopbar = findViewById(R.id.activity_information_top);
+        mNavigationTopbar.setLeftImageResource(R.mipmap.finish_icon);
+        mNavigationTopbar.setCenterTitleTextColor(R.color.colorBlack);
+        mNavigationTopbar.setRightImageResource(R.mipmap.share_activity_icon);
+        if (activityForm == 3) {
+            mNavigationTopbar.setCenterTitleText("资讯活动");
+        } else if (activityForm == 4) {
+            mNavigationTopbar.setCenterTitleText("竞猜活动");
+        }
+        mNavigationTopbar.setNavigationTopBarClickListener(this);
+
+    }
+
+    @Override
+    public void leftImageClick() {
+        ActivityUtil.finishActivity(this);
+    }
+
+    @Override
+    public void rightImageClick() {
+        String webUrl = String.format(Constants.URL.SHARE_INFORMATION_ACTIVITY_URL, activityId, 3);
+        shareActivity(webUrl);
+    }
+
+    @Override
+    public void alignRightLeftImageClick() {
+
+    }
+
     public class JavaScriptInterfaces {
         /**
          * 获取访问的页面
@@ -130,10 +171,18 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
             params.put("longitude", String.valueOf(LocationUtil.getGps().getLongitude()));
             //经度
             params.put("latitude", String.valueOf(LocationUtil.getGps().getLatitude()));
+            //用户
+            params.put("userType", userType);
 
             EBLog.i(TAG, GsonHelper.toJson(params));
 
             return GsonHelper.toJson(params);
+        }
+
+
+        @JavascriptInterface
+        public void toMemberDetail() {
+            Log.i(TAG, "toMemberDetail: ");
         }
 
         @JavascriptInterface
@@ -188,19 +237,19 @@ public class InformationDetailActivity extends BaseActivity implements EasyPermi
 //            }
 //        });
 //    }
-
-    @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.iv_top_back:
-                onBackPressed();
-                break;
-            case R.id.iv_top_menu:
-                String webUrl = String.format(Constants.URL.SHARE_INFORMATION_ACTIVITY_URL, activityId, 3);
-                shareActivity(webUrl);
-                break;
-        }
-    }
+//
+//    @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.iv_top_back:
+//                onBackPressed();
+//                break;
+//            case R.id.iv_top_menu:
+//                String webUrl = String.format(Constants.URL.SHARE_INFORMATION_ACTIVITY_URL, activityId, 3);
+//                shareActivity(webUrl);
+//                break;
+//        }
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

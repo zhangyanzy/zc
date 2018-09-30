@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="presenter"
+            type="cn.zhaocaiapp.zc_app_android.views.commerclal.MerchantCAActivity.Presenter" />
+    </data>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/merchant_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="cn.zhaocaiapp.zc_app_android.views.commerclal.MerchantCAActivity">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar
+                android:id="@+id/merchant_top"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y96"></cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y96">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/x16"
+                    android:text="商家名称"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/x26" />
+
+
+                <EditText
+                    android:id="@+id/merchant_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x26"
+                    android:background="@null"
+                    android:hint="请输入商户名"
+                    android:onClick="@{presenter.onClick}"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/x26" />
+            </RelativeLayout>
+
+            <View style="@style/horizontal_F0_line" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y98">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/x16"
+                    android:text="商家联系方式（手机号）"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/x26" />
+
+
+                <EditText
+                    android:id="@+id/merchant_phone_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x26"
+                    android:background="@null"
+                    android:hint="请输入手机号"
+                    android:onClick="@{presenter.onClick}"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/x26" />
+
+            </RelativeLayout>
+
+            <View style="@style/horizontal_F0_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y98">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/x16"
+                    android:text="商家地址"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/x26" />
+
+
+                <TextView
+                    android:id="@+id/choose_address_merchant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x13"
+                    android:layout_toStartOf="@+id/address_icon"
+                    android:background="@null"
+                    android:hint="请选择"
+                    android:onClick="@{presenter.onClick}"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/x26" />
+
+
+                <ImageView
+                    android:id="@+id/address_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x26"
+                    android:src="@mipmap/turn_right" />
+
+            </RelativeLayout>
+
+            <View style="@style/horizontal_F0_line" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y96">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/x16"
+                    android:text="详细地址"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/x26" />
+
+
+                <EditText
+                    android:id="@+id/detail_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x26"
+                    android:background="@null"
+                    android:hint="请输入详细地址"
+                    android:onClick="@{presenter.onClick}"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/x26" />
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x26"
+                android:layout_marginTop="@dimen/y40"
+                android:text="营业执照"
+                android:textSize="@dimen/x28" />
+
+
+            <RelativeLayout
+                android:id="@+id/business_license_root"
+                android:layout_width="@dimen/x702"
+                android:layout_height="@dimen/y396"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/y40"
+                android:background="@drawable/edit_text_bg"
+                android:onClick="@{presenter.onClick}">
+
+                <ImageView
+                    android:id="@+id/business_license_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <ImageView
+                    android:id="@+id/business_license"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/add_photo_icon" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/x40"
+                android:layout_marginTop="@dimen/y36"
+                android:text="保证上传清晰有效的证件图片" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x26"
+                android:layout_marginTop="@dimen/y40"
+                android:text="商家LOGO" />
+
+            <RelativeLayout
+                android:id="@+id/logo_icon"
+                android:layout_width="@dimen/x702"
+                android:layout_height="@dimen/y396"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/y40"
+                android:background="@drawable/edit_text_bg"
+                android:onClick="@{presenter.onClick}">
+
+                <ImageView
+                    android:id="@+id/logo_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/business_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/add_photo_icon" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/x40"
+                android:layout_marginTop="@dimen/y36"
+                android:text="认证默认同意《商户协议》" />
+
+
+            <TextView
+                android:id="@+id/error_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/y20"
+                android:text="视频内容太low"
+                android:textColor="@color/colorRemind"
+                android:textSize="@dimen/x36"
+                android:visibility="gone" />
+
+
+            <TextView
+                android:id="@+id/merchant_ca_submit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y80"
+                android:layout_marginBottom="@dimen/y80"
+                android:layout_marginEnd="@dimen/x24"
+                android:layout_marginStart="@dimen/x24"
+                android:layout_marginTop="@dimen/y40"
+                android:background="#EAEAEA"
+                android:gravity="center"
+                android:onClick="@{presenter.onClick}"
+                android:text="提交"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/x36" />
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+</layout>

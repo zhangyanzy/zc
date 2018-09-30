@@ -71,7 +71,7 @@ public class ActivityResp {
     private String sortType;
 
     /**
-     * 活动类型 0线下活动 1视频活动 2问卷活动
+     * 活动类型 0线下活动 1视频活动 2问卷活动 3咨询活动 4竞猜活动
      */
     private Integer activityForm;
 
@@ -386,6 +386,22 @@ public class ActivityResp {
      * 交付截止时间
      */
     private Date deadLine;
+
+
+    /**
+     * 当前时间
+     * @return
+     */
+
+    private String nowDateStr;
+
+    public String getNowDateStr() {
+        return nowDateStr;
+    }
+
+    public void setNowDateStr(String nowDateStr) {
+        this.nowDateStr = nowDateStr;
+    }
 
     public Long getKid() {
         return kid;

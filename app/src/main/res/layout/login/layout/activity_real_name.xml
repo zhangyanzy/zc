@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="presenter"
+            type="cn.zhaocaiapp.zc_app_android.views.activity.RealNameActivity.Presenter" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="cn.zhaocaiapp.zc_app_android.views.activity.RealNameActivity">
+
+        <cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar
+            android:id="@+id/real_name_top"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y96"></cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y94">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x24"
+                android:text="姓名"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/x28" />
+
+
+            <EditText
+                android:id="@+id/enter_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x36"
+                android:background="@null"
+                android:hint="请输入"
+                android:maxEms="18"
+                android:maxLines="1"
+                android:textColor="@color/colorFont6"
+                android:textSize="@dimen/font_size_14" />
+        </RelativeLayout>
+
+        <View style="@style/horizontal_F0_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y94">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x24"
+                android:text="身份证号"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/x28" />
+
+
+            <EditText
+                android:id="@+id/enter_id_card_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x36"
+                android:background="@null"
+                android:hint="请输入"
+                android:textColor="@color/colorFont6"
+                android:textSize="@dimen/font_size_14" />
+        </RelativeLayout>
+
+        <View style="@style/horizontal_F0_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y94">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x24"
+                android:text="学历"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/x28" />
+
+
+            <TextView
+                android:id="@+id/choose_education"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x36"
+                android:background="@null"
+                android:hint="请选择"
+                android:onClick="@{presenter.onClick}"
+                android:textColor="@color/colorFont6"
+                android:textSize="@dimen/font_size_14" />
+        </RelativeLayout>
+
+        <View style="@style/horizontal_F0_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y94">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x24"
+                android:text="职业"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/x28" />
+
+
+            <TextView
+                android:id="@+id/choose_occupation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x36"
+                android:background="@null"
+                android:hint="请选择"
+                android:onClick="@{presenter.onClick}"
+                android:textColor="@color/colorFont6"
+                android:textSize="@dimen/font_size_14" />
+        </RelativeLayout>
+
+        <View style="@style/horizontal_F0_line" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x24"
+            android:layout_marginTop="@dimen/y26"
+            android:text="@string/confirm_card_info"
+            android:textSize="@dimen/x20" />
+
+        <LinearLayout
+            android:id="@+id/agreement_root"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x24"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/check_agreement"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/check_selector_privacy"
+                android:button="@null"
+                android:checked="true"
+                android:onClick="@{presenter.onClick}" />
+
+            <TextView
+                android:id="@+id/tv_agreement"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginEnd="@dimen/edit_margin"
+                android:layout_marginStart="@dimen/x12"
+                android:gravity="center_vertical"
+                android:onClick="@{presenter.onClick}"
+                android:text="@string/privacy"
+                android:textColor="@color/colorFont9"
+                android:textSize="@dimen/font_size_12" />
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/y48">
+
+            <TextView
+                android:id="@+id/real_name_btn"
+                android:layout_width="@dimen/x622"
+                android:layout_height="@dimen/y80"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorBlack"
+                android:gravity="center"
+                android:onClick="@{presenter.onClick}"
+                android:text="提交"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/x36" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

@@ -10,47 +10,62 @@
         android:id="@+id/tv_skip_login"
         android:layout_width="52dp"
         android:layout_height="26dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/window_padding_15"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/window_padding_15"
         android:background="@drawable/button_shape_gray_round"
         android:gravity="center"
         android:text="跳过"
         android:textColor="@color/colorFont3"
         android:textSize="@dimen/font_size_12" />
 
-    <ImageView
+
+    <TextView
         android:id="@+id/iv_app_logo"
-        android:layout_width="158dp"
-        android:layout_height="80dp"
-        android:layout_below="@+id/tv_skip_login"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:src="@mipmap/logo_title" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/x64"
+        android:layout_marginTop="@dimen/y160"
+        android:text="快捷登录"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/x48"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/iv_app_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_app_logo"
+        android:layout_marginStart="@dimen/x64"
+        android:layout_marginTop="@dimen/x20"
+        android:text="新用户手机验证后自动登录" />
 
     <ImageView
         android:id="@+id/tv_account"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_below="@+id/iv_app_logo"
-        android:layout_marginLeft="@dimen/window_padding_bottom"
+        android:layout_marginStart="@dimen/window_padding_bottom"
         android:layout_marginTop="50dp"
-        android:gravity="center"
         android:background="@mipmap/register_dialog"
+        android:gravity="center"
         android:textColor="@color/colorFont3"
-        android:textSize="@dimen/font_size_16" />
+        android:textSize="@dimen/font_size_16"
+        android:visibility="gone" />
 
     <EditText
         android:id="@+id/edit_phone_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/tv_account"
-        android:layout_below="@+id/iv_app_logo"
-        android:layout_marginLeft="@dimen/edit_margin"
-        android:layout_marginRight="@dimen/window_padding_bottom"
+        android:layout_below="@+id/iv_app_text"
+        android:layout_marginEnd="@dimen/window_padding_bottom"
+        android:layout_marginStart="@dimen/x60"
+        android:layout_marginTop="@dimen/y100"
         android:layout_toEndOf="@+id/tv_account"
         android:background="@null"
         android:gravity="center_vertical"
-        android:hint="@string/input_phone_number"
+        android:hint="手机号"
         android:inputType="phone"
         android:maxLines="1"
         android:textColor="@color/colorFont6"
@@ -65,79 +80,31 @@
         android:layout_marginRight="@dimen/window_padding_bottom"
         android:layout_marginTop="@dimen/edit_line_top" />
 
-    <!--<TextView-->
-        <!--android:id="@+id/tv_pass"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/line_phone"-->
-        <!--android:layout_marginLeft="@dimen/window_padding_bottom"-->
-        <!--android:layout_marginTop="30dp"-->
-        <!--android:gravity="center"-->
-        <!--android:text="密码"-->
-        <!--android:textColor="@color/colorFont3"-->
-        <!--android:textSize="@dimen/font_size_16" />-->
-
-    <!--<EditText-->
-        <!--android:id="@+id/edit_pass_word"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignBottom="@+id/tv_pass"-->
-        <!--android:layout_alignTop="@+id/tv_pass"-->
-        <!--android:layout_marginLeft="@dimen/edit_margin"-->
-        <!--android:layout_marginRight="@dimen/edit_margin"-->
-        <!--android:layout_toEndOf="@+id/tv_pass"-->
-        <!--android:layout_toStartOf="@+id/tv_forget_pass"-->
-        <!--android:background="@null"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:hint="@string/input_pass_word"-->
-        <!--android:inputType="textPassword"-->
-        <!--android:maxLines="1"-->
-        <!--android:textColor="@color/colorFont6"-->
-        <!--android:textColorHint="@color/colorLine"-->
-        <!--android:textSize="@dimen/font_size_14" />-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/tv_forget_pass"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_alignTop="@+id/tv_pass"-->
-        <!--android:layout_marginRight="@dimen/window_padding_bottom"-->
-        <!--android:gravity="center"-->
-        <!--android:text="@string/forget_pass_word"-->
-        <!--android:textColor="@color/colorFont9"-->
-        <!--android:textSize="@dimen/font_size_14" />-->
-
-    <!--<View-->
-        <!--android:id="@+id/line_pass"-->
-        <!--style="@style/horizontal_F0_line"-->
-        <!--android:layout_below="@+id/edit_pass_word"-->
-        <!--android:layout_marginLeft="@dimen/window_padding_bottom"-->
-        <!--android:layout_marginRight="@dimen/window_padding_bottom"-->
-        <!--android:layout_marginTop="@dimen/edit_line_top" />-->
-
     <ImageView
         android:id="@+id/tv_code"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_below="@id/line_phone"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
-        android:background="@mipmap/code_dialog"
+        android:gravity="center_vertical"
         android:textColor="@color/colorFont3"
-        android:textSize="@dimen/font_size_16" />
+        android:textSize="@dimen/font_size_16"
+        android:visibility="gone" />
 
     <EditText
         android:id="@+id/edit_identify_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tv_code"
+        android:layout_alignTop="@id/tv_code"
+        android:layout_below="@+id/line_phone"
         android:layout_marginLeft="@dimen/edit_margin"
         android:layout_marginRight="@dimen/edit_margin"
+        android:layout_marginStart="@dimen/x60"
+        android:layout_marginTop="30dp"
         android:layout_toEndOf="@+id/tv_code"
         android:layout_toStartOf="@+id/send_identify_code"
-        android:layout_alignTop="@id/tv_code"
-        android:layout_alignBottom="@id/tv_code"
         android:background="@null"
         android:hint="@string/input_identify_code"
         android:inputType="number"
@@ -150,46 +117,46 @@
         android:id="@+id/send_identify_code"
         android:layout_width="96dp"
         android:layout_height="36dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
-        android:background="@drawable/button_shape_orange_bg"
+        android:layout_alignBottom="@id/edit_identify_code"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
         android:gravity="center"
         android:text="@string/get_identify_code"
-        android:textColor="@color/colorBg"
-        android:textSize="@dimen/font_size_14"
-        android:layout_alignBottom="@id/edit_identify_code"/>
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/font_size_14" />
 
     <View
+        android:id="@+id/view"
         style="@style/horizontal_F0_line"
         android:layout_below="@+id/send_identify_code"
-        android:layout_toStartOf="@+id/send_identify_code"
-        android:layout_marginLeft="@dimen/window_padding_bottom"
-        android:layout_marginTop="@dimen/edit_line_top"/>
+        android:layout_marginStart="@dimen/window_padding_bottom"
+        android:layout_marginTop="@dimen/edit_line_top"
+        android:layout_toStartOf="@+id/send_identify_code" />
 
     <LinearLayout
         android:id="@+id/layout_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/tv_code"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view"
+        android:layout_marginTop="21dp"
         android:orientation="horizontal"
-        android:paddingEnd="@dimen/window_padding_bottom"
-        android:paddingStart="@dimen/window_padding_bottom">
+        android:paddingEnd="@dimen/window_padding_bottom">
 
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/code"
-            />
+            android:visibility="gone" />
 
         <EditText
             android:id="@+id/edit_invite_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/edit_margin"
+            android:layout_marginStart="@dimen/x60"
+            android:background="@null"
             android:hint="@string/input_edit_invite_code"
             android:inputType="text"
             android:maxLines="1"
@@ -200,11 +167,13 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/code_view"
         style="@style/horizontal_F0_line"
         android:layout_below="@+id/layout_code"
         android:layout_marginLeft="@dimen/window_padding_bottom"
         android:layout_marginRight="@dimen/window_padding_bottom"
-        android:layout_marginTop="@dimen/edit_line_top"/>
+        android:layout_marginTop="@dimen/edit_line_top"
+        />
 
 
     <TextView
@@ -216,40 +185,38 @@
         android:layout_marginLeft="@dimen/window_padding_bottom"
         android:layout_marginRight="@dimen/window_padding_bottom"
         android:layout_marginTop="55dp"
-        android:background="@drawable/button_shape_orange_round"
+        android:background="@color/colorBlack"
         android:gravity="center"
         android:text="登录"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/font_size_18" />
 
 
-
-
     <LinearLayout
         android:id="@+id/layout_agreement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tv_login"
         android:layout_marginLeft="@dimen/window_padding_bottom"
         android:layout_marginRight="@dimen/window_padding_bottom"
         android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:layout_below="@+id/tv_login"
-        android:layout_alignParentEnd="true">
+        android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/check_agreement"
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:background="@drawable/checkbox_selector_agreement"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/check_selector_privacy"
             android:button="@null"
-            android:checked="true"
-            android:layout_gravity="center_vertical"/>
+            android:checked="true" />
 
         <TextView
             android:id="@+id/tv_agreement"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:layout_marginLeft="@dimen/edit_margin"
+            android:layout_marginStart="@dimen/edit_margin"
             android:gravity="center_vertical"
             android:text="@string/agreement"
             android:textColor="@color/colorFont9"
@@ -270,7 +237,7 @@
         android:text="注册"
         android:textColor="@color/colorFont3"
         android:textSize="@dimen/font_size_18"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_social_login"
@@ -299,7 +266,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginEnd="25dp"
-            android:src="@drawable/umeng_socialize_wechat"
+            android:src="@mipmap/we_chat_icon"
             app:civ_border_color="@color/colorLine"
             app:civ_border_width="1dp" />
 
@@ -308,7 +275,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginEnd="25dp"
-            android:src="@drawable/umeng_socialize_qq"
+            android:src="@mipmap/qq_icon"
             app:civ_border_color="@color/colorLine"
             app:civ_border_width="1dp" />
 
@@ -316,7 +283,7 @@
             android:id="@+id/login_sina"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:src="@drawable/umeng_socialize_sina"
+            android:src="@mipmap/sina_icon"
             app:civ_border_color="@color/colorLine"
             app:civ_border_width="1dp" />
     </LinearLayout>

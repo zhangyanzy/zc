@@ -65,20 +65,20 @@ public class MyFollowBusinerAdapter extends RecyclerView.Adapter<MyFollowBusiner
             holder.tv_businer_name.setText(members.get(position).getName());
             holder.tv_activity_count.setText("共" + members.get(position).getTotal() + "个活动");
             PictureLoadUtil.loadPicture(context, members.get(position).getLogo(), holder.iv_logo);
-            if (members.get(position).getIsFollow() == 1) { // 已关注
-                holder.tv_followed.setBackground(context.getResources().getDrawable(R.drawable.member_follow_on));
-                holder.tv_followed.setTextColor(context.getResources().getColor(R.color.colorLine));
-                holder.tv_followed.setText("已关注");
-                holder.tv_followed.setCompoundDrawables(null, null, null, null);
-            }
-            if (members.get(position).getIsFollow() == 0) { // 未关注
-                holder.tv_followed.setBackground(context.getResources().getDrawable(R.drawable.member_follow_off));
-                holder.tv_followed.setTextColor(context.getResources().getColor(R.color.colorWhite));
-                holder.tv_followed.setText("关注");
-                Drawable drawable = context.getResources().getDrawable(R.mipmap.add);
-                drawable.setBounds(0, 0, 35, 35);
-                holder.tv_followed.setCompoundDrawables(drawable, null, null, null);
-            }
+//            if (members.get(position).getIsFollow() == 1) { // 已关注
+//                holder.tv_followed.setBackground(context.getResources().getDrawable(R.drawable.member_follow_on));
+//                holder.tv_followed.setTextColor(context.getResources().getColor(R.color.colorLine));
+//                holder.tv_followed.setText("已关注");
+//                holder.tv_followed.setCompoundDrawables(null, null, null, null);
+//            }
+//            if (members.get(position).getIsFollow() == 0) { // 未关注
+//                holder.tv_followed.setBackground(context.getResources().getDrawable(R.drawable.memberfollow_off));
+//                holder.tv_followed.setTextColor(context.getResources().getColor(R.color.colorWhite));
+//                holder.tv_followed.setText("关注");
+//                Drawable drawable = context.getResources().getDrawable(R.mipmap.add);
+//                drawable.setBounds(0, 0, 35, 35);
+//                holder.tv_followed.setCompoundDrawables(drawable, null, null, null);
+//            }
 
             //点击item，跳转商家详情
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -89,12 +89,12 @@ public class MyFollowBusinerAdapter extends RecyclerView.Adapter<MyFollowBusiner
             });
 
             //点击已关注按钮，取消关注
-            holder.tv_followed.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listene.onItemCliclk(holder.getLayoutPosition(), holder.tv_followed);
-                }
-            });
+//            holder.tv_followed.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    listene.onItemCliclk(holder.getLayoutPosition(), holder.tv_followed);
+//                }
+//            });
         }
     }
 
@@ -118,8 +118,8 @@ public class MyFollowBusinerAdapter extends RecyclerView.Adapter<MyFollowBusiner
         TextView tv_businer_name;
         @BindView(R.id.tv_activity_count)
         TextView tv_activity_count;
-        @BindView(R.id.tv_followed)
-        TextView tv_followed;
+//        @BindView(R.id.tv_followed)
+//        TextView tv_followed;
 
         View itemView;
 

@@ -24,22 +24,28 @@ import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtils;
+import cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar;
 
 /**
  * Created by Administrator on 2018/5/15.
  */
 
-public class FeedbackActivity extends BaseActivity {
-    @BindView(R.id.iv_top_back)
-    ImageView iv_top_back;
-    @BindView(R.id.tv_top_title)
-    TextView tv_top_title;
-    @BindView(R.id.iv_top_menu)
-    ImageView iv_top_menu;
+public class FeedbackActivity extends BaseActivity implements NavigationTopBar.NavigationTopBarClickListener {
+    //    @BindView(R.id.iv_top_back)
+//    ImageView iv_top_back;
+//    @BindView(R.id.tv_top_title)
+//    TextView tv_top_title;
+//    @BindView(R.id.iv_top_menu)
+//    ImageView iv_top_menu;
+
+
+    private NavigationTopBar mNavigationTopBar;
     @BindView(R.id.et_feedback)
     EditText et_feedback;
     @BindView(R.id.tv_submit)
     TextView tv_submit;
+
 
     private String content;
     private static String TAG = "反馈意见";
@@ -51,23 +57,25 @@ public class FeedbackActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        tv_top_title.setText(getString(R.string.feedback));
-        iv_top_menu.setVisibility(View.GONE);
+        mNavigationTopBar = findViewById(R.id.feed_back_top);
+        mNavigationTopBar.setLeftImageResource(R.mipmap.finish_icon);
+        mNavigationTopBar.setCenterTitleText("意见反馈");
+        mNavigationTopBar.setCenterTitleTextColor(R.color.colorBlack);
+        mNavigationTopBar.setNavigationTopBarClickListener(this);
 
 //        addEditListener();
     }
 
-    @OnClick({R.id.iv_top_back, R.id.tv_submit})
+    @OnClick({R.id.tv_submit})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_top_back:
-                finish();
-                break;
             case R.id.tv_submit:
                 content = et_feedback.getText().toString().trim();
-                if (GeneralUtils.isNotNullOrZeroLenght(content))
+                if (GeneralUtils.isNotNullOrZeroLenght(content)) {
                     doSubmit();
-                else ToastUtil.makeText(FeedbackActivity.this, getString(R.string.feedback_empty));
+                } else {
+                    ToastUtil.makeText(FeedbackActivity.this, getString(R.string.feedback_empty));
+                }
                 break;
         }
     }
@@ -79,12 +87,13 @@ public class FeedbackActivity extends BaseActivity {
 
             @Override
             public void success(String s) {
-                EBLog.i(TAG, s);
+                et_feedback.setText("");
+                ToastUtils.showShortToast(FeedbackActivity.this, "反馈已提交，谢谢");
             }
 
             @Override
             public void error(Response<String> response) {
-                EBLog.i(TAG, response.getCode()+"");
+                EBLog.i(TAG, response.getCode() + "");
                 ToastUtil.makeText(FeedbackActivity.this, response.getDesc());
             }
         });
@@ -114,5 +123,20 @@ public class FeedbackActivity extends BaseActivity {
     public boolean onTouchEvent(MotionEvent event) {
         KeyBoardUtils.closeKeybord(tv_submit, this);
         return super.onTouchEvent(event);
+    }
+
+    @Override
+    public void leftImageClick() {
+        finish();
+    }
+
+    @Override
+    public void rightImageClick() {
+
+    }
+
+    @Override
+    public void alignRightLeftImageClick() {
+
     }
 }

@@ -32,6 +32,7 @@
             android:textColor="@color/colorFont3"
             android:textSize="@dimen/font_size_15"
             android:src="@mipmap/register_dialog"
+            android:visibility="gone"
             />
 
         <EditText
@@ -70,6 +71,7 @@
             android:textColor="@color/colorFont3"
             android:textSize="@dimen/font_size_15"
             android:src="@mipmap/code_dialog"
+            android:visibility="gone"
             />
 
         <EditText
@@ -94,7 +96,7 @@
             android:layout_width="96dp"
             android:layout_height="36dp"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/button_shape_orange_bg"
+            android:background="@drawable/button_black_bg"
             android:gravity="center"
             android:text="@string/get_identify_code"
             android:textColor="@color/colorGround"
@@ -113,7 +115,7 @@
         android:layout_marginStart="@dimen/window_padding_bottom"
         android:layout_marginEnd="@dimen/window_padding_bottom"
         android:layout_marginTop="30dp"
-        android:background="@drawable/button_shape_orange_round"
+        android:background="@drawable/button_black_bg"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="下一步"

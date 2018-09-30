@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.views.my;
 
+import android.nfc.tech.NfcA;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -28,25 +29,23 @@ import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar;
 
 /**
  * Created by Administrator on 2018/1/25.
  */
 
-public class MessageActivity extends BaseActivity {
-    @BindView(R.id.iv_top_back)
-    ImageView iv_top_back;
-    @BindView(R.id.tv_top_title)
-    TextView tv_top_title;
-    @BindView(R.id.iv_top_menu)
-    ImageView iv_top_menu;
+public class MessageActivity extends BaseActivity implements NavigationTopBar.NavigationTopBarClickListener {
+
     @BindView(R.id.tab_title)
     TabLayout titles;
     @BindView(R.id.pager)
     ViewPager pager;
 
+    private NavigationTopBar mNavigationTopBar;
+
     private List<Fragment> fragments = new ArrayList<>();
-    private String[]tabTitles = {"系统消息", "活动消息"};
+    private String[] tabTitles = {"系统消息", "活动消息"};
 
     @Override
     public int getContentViewResId() {
@@ -55,15 +54,33 @@ public class MessageActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        iv_top_menu.setVisibility(View.GONE);
-        tv_top_title.setText("消息中心");
 
+        mNavigationTopBar = findViewById(R.id.my_follow_top);
+        mNavigationTopBar.setLeftImageResource(R.mipmap.finish_icon);
+        mNavigationTopBar.setCenterTitleText("消息中心");
+        mNavigationTopBar.setCenterTitleTextColor(R.color.colorBlack);
+        mNavigationTopBar.setNavigationTopBarClickListener(this);
         fragments.add(new SystemMessageFragment());
         fragments.add(new ActivityMessageFragment());
 
         pager.setAdapter(new MessagePagerAdapter(getSupportFragmentManager()));
         titles.setupWithViewPager(pager);
         pager.setCurrentItem(0);
+    }
+
+    @Override
+    public void leftImageClick() {
+        finish();
+    }
+
+    @Override
+    public void rightImageClick() {
+
+    }
+
+    @Override
+    public void alignRightLeftImageClick() {
+
     }
 
     private class MessagePagerAdapter extends FragmentPagerAdapter {
@@ -88,8 +105,4 @@ public class MessageActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.iv_top_back})
-    public void onClicl(View view){
-        finish();
-    }
 }

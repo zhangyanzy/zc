@@ -279,4 +279,31 @@ public class SeriesActivityResp {
     public void setLastOne(Integer lastOne) {
         this.lastOne = lastOne;
     }
+
+    @Override
+    public String toString() {
+        return "SeriesActivityResp{" +
+                "kid=" + kid +
+                ", activityId=" + activityId +
+                ", serialActivityName='" + serialActivityName + '\'' +
+                ", serialNumber=" + serialNumber +
+                ", provinceCode=" + provinceCode +
+                ", provinceName='" + provinceName + '\'' +
+                ", cityCode=" + cityCode +
+                ", cityName='" + cityName + '\'' +
+                ", areaCode=" + areaCode +
+                ", areaName='" + areaName + '\'' +
+                ", addressDetail='" + addressDetail + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", referImage1='" + referImage1 + '\'' +
+                ", createId=" + createId +
+                ", createTime=" + createTime +
+                ", updateId=" + updateId +
+                ", updateTime=" + updateTime +
+                ", isDelete=" + isDelete +
+                ", lastOne=" + lastOne +
+                ", contentRich='" + contentRich + '\'' +
+                '}';
+    }
 }

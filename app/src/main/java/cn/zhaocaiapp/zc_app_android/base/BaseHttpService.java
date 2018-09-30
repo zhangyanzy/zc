@@ -5,12 +5,17 @@ import com.google.gson.JsonObject;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import retrofit2.http.Url;
@@ -111,6 +116,18 @@ public interface BaseHttpService {
     @POST
     Observable<JsonObject> post(@Url String url, @Query("token") String token, @Body Map params);
 
+
+    /**
+     * post视频请求
+     *
+     * @param url
+     * @param token
+     */
+    @Headers({"Accept: */*"})
+    @Multipart
+    @POST
+    Observable<JsonObject> post(@Url String url, @Query("token") String token, @Part MultipartBody.Part file,
+                                @Part("description") RequestBody description);
 
     /**
      * put请求

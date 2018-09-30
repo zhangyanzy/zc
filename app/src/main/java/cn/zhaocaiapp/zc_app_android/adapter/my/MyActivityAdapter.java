@@ -290,6 +290,9 @@ public class MyActivityAdapter extends RecyclerView.Adapter<MyActivityAdapter.Vi
         }
     }
 
+
+
+
     private void setCountdown(int position, ActivityViewHolder holder) {
         //启动倒计时
         long countdownTime = items.get(position).getDeadLine().getTime() - items.get(position).getNowDate().getTime();

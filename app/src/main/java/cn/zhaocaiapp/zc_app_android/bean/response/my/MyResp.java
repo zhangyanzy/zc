@@ -25,6 +25,7 @@ public class MyResp {
      * "realInfoAuditStatus":     Integer    实名认证状态码
      * "submit":                Integer    待交付
      * "unPass":               Intger     未通过
+     *
      */
     private BigDecimal accountBalanceAmount;
     private int audit;
@@ -41,6 +42,16 @@ public class MyResp {
     private int realInfoAuditStatus;
     private int submit;
     private int unPass;
+    private String memberAudit;//商家状态 0未提交 1待审核 2已通过 3未通过
+
+
+    public String getMemberAudit() {
+        return memberAudit;
+    }
+
+    public void setMemberAudit(String memberAudit) {
+        this.memberAudit = memberAudit;
+    }
 
     public BigDecimal getAccountBalanceAmount() {
         return accountBalanceAmount;

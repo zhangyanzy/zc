@@ -90,7 +90,9 @@
                     android:layout_width="26dp"
                     android:layout_height="26dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@mipmap/home_search" />
+                    android:src="@mipmap/home_search"
+                    android:visibility="gone"
+                    />
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>

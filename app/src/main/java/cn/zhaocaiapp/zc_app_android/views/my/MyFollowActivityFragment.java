@@ -21,6 +21,7 @@ import java.util.Map;
 import butterknife.BindView;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.adapter.common.ActivityAdapter;
+import cn.zhaocaiapp.zc_app_android.adapter.home.NewHomeAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseFragment;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
@@ -44,8 +45,8 @@ public class MyFollowActivityFragment extends BaseFragment implements OnRefreshL
     private int pageSize = 10;
     private int currentResult = 0;
 
-    private ActivityAdapter adapter;
-    private List<ActivityResp> activitys = new ArrayList<>();
+    private NewHomeAdapter adapter;
+    private ArrayList<ActivityResp> activitys = new ArrayList<>();
 
     private static final String TAG = "我关注的活动";
 
@@ -62,10 +63,12 @@ public class MyFollowActivityFragment extends BaseFragment implements OnRefreshL
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         list.setLayoutManager(manager);
-
-        adapter = new ActivityAdapter(getActivity(), activitys);
+        adapter = new NewHomeAdapter();
         list.setAdapter(adapter);
-        adapter.setOnItemCliclkListener(listener);
+
+//        adapter = new ActivityAdapter(getActivity(), activitys);
+//        list.setAdapter(adapter);
+//        adapter.setOnItemCliclkListener(listener);
     }
 
     //加载活动列表
@@ -87,14 +90,14 @@ public class MyFollowActivityFragment extends BaseFragment implements OnRefreshL
         params.put("pageSize", pageSize + "");
         params.put("currentResult", currentResult + "");
 
-        HttpUtil.get(Constants.URL.GET_FOLLOW_ACTIVITY, params).subscribe(new BaseResponseObserver<List<ActivityResp>>() {
+        HttpUtil.get(Constants.URL.GET_FOLLOW_ACTIVITY, params).subscribe(new BaseResponseObserver<ArrayList<ActivityResp>>() {
 
             @Override
-            public void success(List<ActivityResp> activityResps) {
+            public void success(ArrayList<ActivityResp> activityResps) {
                 EBLog.i(TAG, activityResps.toString());
                 if (currentResult == 0) activitys = activityResps;
                 else activitys.addAll(activityResps);
-                adapter.updata(activitys);
+                adapter.setList(activitys);
 
                 if (activityResps.size() < pageSize) {
                     //完成加载并标记没有更多数据
@@ -107,7 +110,7 @@ public class MyFollowActivityFragment extends BaseFragment implements OnRefreshL
             }
 
             @Override
-            public void error(Response<List<ActivityResp>> response) {
+            public void error(Response<ArrayList<ActivityResp>> response) {
                 EBLog.e(TAG, response.getCode()+"");
                 ToastUtil.makeText(getActivity(), response.getDesc());
             }

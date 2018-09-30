@@ -15,7 +15,7 @@ import java.io.File;
  * Created by Administrator on 2017/9/1.
  */
 
-public class    PhotoHelper {
+public class PhotoHelper {
     private View rootView;
     private static boolean isCrop;
 

@@ -13,6 +13,18 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical">
 
+
+        <ImageView
+            android:id="@+id/search_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x16"
+            android:layout_weight="0"
+            android:src="@mipmap/finish_icon"
+            android:visibility="visible"
+            android:layout_marginEnd="@dimen/x12"
+            />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,7 +32,7 @@
             android:background="@drawable/search_activity"
             android:gravity="center_vertical"
             android:paddingBottom="5dp"
-            android:paddingLeft="12dp"
+            android:paddingLeft="@dimen/x24"
             android:paddingRight="10dp"
             android:paddingTop="5dp">
 
@@ -51,18 +63,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:src="@mipmap/cancel" />
+                android:src="@mipmap/cancel"
+                android:visibility="gone"
+                />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/search_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="0"
-            android:text="@string/search_cancel"
-            android:textColor="@color/colorFont9"
-            android:textSize="14sp" />
     </LinearLayout>
 
     <ScrollView
@@ -81,7 +86,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="12dp"
-                android:gravity="center">
+                android:gravity="center"
+                >
 
                 <TextView
                     android:layout_width="match_parent"
@@ -106,13 +112,22 @@
 
             </com.zhy.view.flowlayout.TagFlowLayout>
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/search_blurred_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                ></android.support.v7.widget.RecyclerView>
+
             <!--推荐活动-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:visibility="gone"
+                >
 
                 <TextView
                     android:layout_width="match_parent"
@@ -136,7 +151,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:visibility="gone"
+                >
 
                 <TextView
                     android:layout_width="match_parent"
@@ -149,7 +166,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                >
 
                 <TextView
                     android:id="@+id/activity_class_0"
@@ -195,7 +214,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:visibility="gone"
+                >
 
                 <TextView
                     android:layout_width="match_parent"
@@ -208,7 +229,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                >
 
                 <TextView
                     android:id="@+id/activity_type_1"
@@ -254,7 +277,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:visibility="gone"
+                >
 
                 <TextView
                     android:layout_width="match_parent"
@@ -267,7 +292,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                >
 
                 <TextView
                     android:id="@+id/search_money_0"
@@ -332,7 +359,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                >
 
                 <EditText
                     android:id="@+id/search_edit_limit"
@@ -378,7 +407,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:visibility="gone"
+                >
 
                 <TextView
                     android:layout_width="match_parent"
@@ -399,7 +430,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="7.5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/search_class_off">
+                    android:background="@drawable/search_class_off"
+                    android:visibility="gone"
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -427,6 +460,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7.5dp"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     android:background="@drawable/search_class_off">
 
                     <TextView
@@ -468,7 +502,9 @@
             android:background="@drawable/search_btn_off"
             android:text="重置"
             android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_16" />
+            android:textSize="@dimen/font_size_16"
+            android:visibility="gone"
+            />
 
         <Button
             android:id="@+id/search_btn_on"
@@ -479,6 +515,7 @@
             android:layout_weight="1"
             android:background="@drawable/search_btn_on"
             android:text="完成"
+            android:visibility="gone"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/font_size_16" />
     </LinearLayout>

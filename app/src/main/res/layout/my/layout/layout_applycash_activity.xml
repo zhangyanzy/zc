@@ -19,9 +19,9 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="25dp"
-            android:text="100"
             android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_24" />
+            android:textSize="@dimen/font_size_24"
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -91,7 +91,8 @@
         android:layout_below="@+id/edit_apply_cash"
         android:layout_marginTop="8dp"
         android:textColor="@color/colorFont6"
-        android:textSize="@dimen/font_size_14" />
+        android:textSize="@dimen/font_size_14"
+        />
 
     <RelativeLayout
         android:id="@+id/layout_wechat"
@@ -184,7 +185,9 @@
         android:layout_height="@dimen/height_select_project"
         android:layout_below="@+id/layout_ali"
         android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp">
+        android:layout_marginRight="30dp"
+        android:visibility="gone"
+        >
 
         <TextView
             android:id="@+id/tv_bank"

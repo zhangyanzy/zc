@@ -9,8 +9,8 @@
     android:paddingEnd="12dp">
 
     <include layout="@layout/activity_item_member" />
-
     <include layout="@layout/activity_item_img" />
-
     <include layout="@layout/activity_item_text" />
+
+
 </LinearLayout>

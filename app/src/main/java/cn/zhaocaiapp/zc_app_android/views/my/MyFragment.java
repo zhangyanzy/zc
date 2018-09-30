@@ -164,10 +164,10 @@ public class MyFragment extends BaseFragment {
             @Override
             public void success(AccountResp accountResp) {
                 EBLog.i(TAG, accountResp.toString());
-                if (accountResp.getCashAmount()==1){
+                if (accountResp.getCashAmount() == 1) {
                     tv_apply_cash.setText("首单1元提现");
                     tv_apply_cash.setBackgroundResource(R.drawable.button_shape_orange_round);
-                }else {
+                } else {
                     tv_apply_cash.setText("提现");
                     tv_apply_cash.setBackgroundResource(R.drawable.button_shape_gray_round_conor);
 
@@ -255,6 +255,7 @@ public class MyFragment extends BaseFragment {
                 bundle.clear();
                 bundle.putString("balance", userInfo.getAccountBalanceAmount().toString());
                 openActivity(ApplyCashActivity.class, bundle);
+//                openActivity(PayActivity.class);
                 break;
             case R.id.layout_invite: // 邀请好友
                 bundle.clear();

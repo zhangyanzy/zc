@@ -23,18 +23,19 @@ import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar;
 
 /**
  * Created by Administrator on 2018/1/11.
  */
 
-public class MyFollowAvtivity extends BaseActivity {
-    @BindView(R.id.iv_top_back)
-    ImageView iv_top_back;
-    @BindView(R.id.tv_top_title)
-    TextView tv_top_titlel;
-    @BindView(R.id.iv_top_menu)
-    ImageView iv_top_menu;
+public class MyFollowAvtivity extends BaseActivity implements NavigationTopBar.NavigationTopBarClickListener{
+//    @BindView(R.id.iv_top_back)
+//    ImageView iv_top_back;
+//    @BindView(R.id.tv_top_title)
+//    TextView tv_top_titlel;
+//    @BindView(R.id.iv_top_menu)
+//    ImageView iv_top_menu;
     @BindView(R.id.tab_title)
     TabLayout tab_title;
     @BindView(R.id.pager)
@@ -45,6 +46,8 @@ public class MyFollowAvtivity extends BaseActivity {
 
     private UMShareAPI umShareAPI;
 
+    private NavigationTopBar mNavigationTopBar;
+
     @Override
     public int getContentViewResId() {
         return R.layout.layout_tab_fragment;
@@ -53,9 +56,12 @@ public class MyFollowAvtivity extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         umShareAPI = ZcApplication.getUMShareAPI();
+        mNavigationTopBar = findViewById(R.id.my_follow_top);
+        mNavigationTopBar.setCenterTitleText("我的关注");
+        mNavigationTopBar.setLeftImageResource(R.mipmap.finish_icon);
+        mNavigationTopBar.setCenterTitleTextColor(R.color.colorBlack);
+        mNavigationTopBar.setNavigationTopBarClickListener(this);
 
-        iv_top_menu.setVisibility(View.GONE);
-        tv_top_titlel.setText("我的关注");
 
         fragments.add(new MyFollowActivityFragment());
         fragments.add(new MyFollowBusinerFragment());
@@ -63,6 +69,21 @@ public class MyFollowAvtivity extends BaseActivity {
         pager.setAdapter(new MyFollowPagerAdapter(getSupportFragmentManager()));
         tab_title.setupWithViewPager(pager);
         pager.setCurrentItem(0);
+    }
+
+    @Override
+    public void leftImageClick() {
+        finish();
+    }
+
+    @Override
+    public void rightImageClick() {
+
+    }
+
+    @Override
+    public void alignRightLeftImageClick() {
+
     }
 
     private class MyFollowPagerAdapter extends FragmentPagerAdapter {
@@ -87,15 +108,15 @@ public class MyFollowAvtivity extends BaseActivity {
             return tabTitles[position];
         }
     }
-
-    @OnClick({R.id.iv_top_back})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.iv_top_back:
-                finish();
-                break;
-        }
-    }
+//
+//    @OnClick({R.id.iv_top_back})
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.iv_top_back:
+//                finish();
+//                break;
+//        }
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

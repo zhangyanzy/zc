@@ -2,8 +2,11 @@ package cn.zhaocaiapp.zc_app_android.views.home;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,9 +32,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.ZcApplication;
+import cn.zhaocaiapp.zc_app_android.adapter.home.BlurredAdapter;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.base.BaseResponseObserver;
 import cn.zhaocaiapp.zc_app_android.bean.Response;
+import cn.zhaocaiapp.zc_app_android.bean.response.home.BlurredEntity;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.LocationResp;
 import cn.zhaocaiapp.zc_app_android.bean.response.home.SearchRecommendResp;
 import cn.zhaocaiapp.zc_app_android.capabilities.log.EBLog;
@@ -47,12 +52,15 @@ import cn.zhaocaiapp.zc_app_android.util.SpUtils;
  * @data 2018-01-24 10:15
  */
 public class SearchActivity extends BaseActivity {
+
+    private static String TAG = "SearchActivity";
+
     @BindView(R.id.search_recommend_list)
     TagFlowLayout search_recommend_list;
     @BindView(R.id.search_history_list)
     TagFlowLayout search_history_list;
     @BindView(R.id.search_cancel)
-    TextView search_cancel;
+    ImageView search_cancel;
     @BindView(R.id.search_edit)
     EditText search_edit;
     @BindView(R.id.search_clear)
@@ -99,6 +107,8 @@ public class SearchActivity extends BaseActivity {
     Button search_btn_on;
     @BindView(R.id.layout_history)
     LinearLayout layout_history;
+    @BindView(R.id.search_blurred_list)
+    RecyclerView mBlurredRv;
 
 
     private List<SearchRecommendResp> searchRecommendRespList; //推荐活动
@@ -115,6 +125,9 @@ public class SearchActivity extends BaseActivity {
     private List<List<LocationResp>> towns;
     private OptionsPickerView optionsPickerView;
     private long city, town;
+    private String info;
+    private BlurredAdapter mAdapter;
+    private ArrayList<BlurredEntity> mBlurredList;
 
 
     @Override
@@ -154,12 +167,38 @@ public class SearchActivity extends BaseActivity {
                 EBLog.i("tag", result.toString());
                 searchRecommendRespList.clear();
                 searchRecommendRespList.addAll(result);
-                tagAdapter.notifyDataChanged();
+//                tagAdaptertagAdapter.notifyDataChanged();
             }
 
             @Override
             public void error(Response<List<SearchRecommendResp>> response) {
                 EBLog.i("tag", response.toString());
+            }
+        });
+    }
+
+
+    private void blurredSearch() {
+        Map<String, String> params = new HashMap<>();
+        params.put("name", search_edit.getText().toString());
+        params.put("pageSize", "6");
+        params.put("currentResult", "0");
+        HttpUtil.get(Constants.URL.BLURRED_SEARCH, params).subscribe(new BaseResponseObserver<ArrayList<BlurredEntity>>() {
+
+            @Override
+            public void success(ArrayList<BlurredEntity> entities) {
+                if (entities != null) {
+                    Log.i(TAG, "BlurredEntity" + entities);
+                    mAdapter = new BlurredAdapter();
+                    mBlurredRv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    mAdapter.setList(entities);
+                    mBlurredRv.setAdapter(mAdapter);
+                }
+            }
+
+            @Override
+            public void error(Response<ArrayList<BlurredEntity>> response) {
+
             }
         });
     }
@@ -195,29 +234,51 @@ public class SearchActivity extends BaseActivity {
         /**
          * 显示热门推荐
          */
-        final LayoutInflater mInflater = LayoutInflater.from(SearchActivity.this);
-        tagAdapter = new TagAdapter<SearchRecommendResp>(searchRecommendRespList) {
+//        final LayoutInflater mInflater = LayoutInflater.from(SearchActivity.this);
+//        tagAdapter = new TagAdapter<SearchRecommendResp>(searchRecommendRespList) {
+//
+//            @Override
+//            public View getView(FlowLayout parent, int position, SearchRecommendResp searchRecommendResp) {
+//                View view = mInflater.inflate(R.layout.search_item, search_recommend_list, false);
+//                ViewHolder holder = new ViewHolder(view);
+//                holder.search_item_text.setTextSize(14);
+//                holder.search_item_text.setText(searchRecommendResp.getName());
+//                EBLog.i("tag", searchRecommendResp.toString());
+//                return view;
+//            }
+//        };
+//        search_recommend_list.setAdapter(tagAdapter);
+//        search_recommend_list.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+//            @Override
+//            public boolean onTagClick(View view, int position, FlowLayout parent) {
+//                search_edit.setText(searchRecommendRespList.get(position).getName());
+//                EBLog.i("tag", searchRecommendRespList.get(position).toString());
+//                return true;
+//            }
+//        });
+        //头部edittext添加监听
+        search_edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
 
             @Override
-            public View getView(FlowLayout parent, int position, SearchRecommendResp searchRecommendResp) {
-                View view = mInflater.inflate(R.layout.search_item, search_recommend_list, false);
-                ViewHolder holder = new ViewHolder(view);
-                holder.search_item_text.setTextSize(14);
-                holder.search_item_text.setText(searchRecommendResp.getName());
-                EBLog.i("tag", searchRecommendResp.toString());
-                return view;
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() == 0) {
+
+                } else {
+                    blurredSearch();
+                    //显示模糊条件
+                    showBlurredSearch();
+                }
             }
-        };
-        search_recommend_list.setAdapter(tagAdapter);
-        search_recommend_list.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+
             @Override
-            public boolean onTagClick(View view, int position, FlowLayout parent) {
-                search_edit.setText(searchRecommendRespList.get(position).getName());
-                EBLog.i("tag", searchRecommendRespList.get(position).toString());
-                return true;
+            public void afterTextChanged(Editable s) {
+
             }
         });
-
 
         search_edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -279,6 +340,17 @@ public class SearchActivity extends BaseActivity {
         });
     }
 
+
+    /**
+     * 显示模糊查询list
+     */
+    private void showBlurredSearch() {
+//        Log.i(TAG, "showBlurredSearch: "+mBlurredList);
+//        mAdapter = new BlurredAdapter();
+//        mAdapter.setList(mBlurredList);
+
+    }
+
     /**
      * 确认搜索
      */
@@ -292,7 +364,7 @@ public class SearchActivity extends BaseActivity {
         bd.putString("cityCode", city == 0 ? "" : String.valueOf(city));
         bd.putString("areaCode", town == 0 ? "" : String.valueOf(town));
 
-        EBLog.i("搜索条件", "limit---"+ limit + "/toplimit---" + topLimit);
+        EBLog.i("搜索条件", "limit---" + limit + "/toplimit---" + topLimit);
         openActivity(SearchResulfActivity.class, bd);
     }
 
@@ -352,7 +424,7 @@ public class SearchActivity extends BaseActivity {
         historyList.addAll(stringList1);
         if (historyList.size() == 0) {
             layout_history.setVisibility(View.GONE);
-        }else {
+        } else {
             layout_history.setVisibility(View.VISIBLE);
         }
         hisTagAdapter.notifyDataChanged();
@@ -390,7 +462,8 @@ public class SearchActivity extends BaseActivity {
         switch (view.getId()) {
             //返回
             case R.id.search_cancel:
-                ActivityUtil.finishActivity(this);
+//                ActivityUtil.finishActivity(this);
+                finish();
                 break;
             //清空
             case R.id.search_clear:
@@ -591,7 +664,7 @@ public class SearchActivity extends BaseActivity {
     }
 
     //设置金钱搜索按钮的样式
-    private void setButMoneyStyle(){
+    private void setButMoneyStyle() {
         if (activityMoney.equals("0")) {
             search_money_0.setTextColor(this.getResources().getColor(R.color.colorPrimary));
             search_money_0.setBackground(this.getResources().getDrawable(R.drawable.search_class_on));

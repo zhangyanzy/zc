@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="cn.zhaocaiapp.zc_app_android.views.commerclal.CASuccessActivity">
+
+        <cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar
+            android:id="@+id/success_top"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y96"></cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="     您的信息已经提交审核，客服将在\n两个工作日内进行审核，请耐心等待\n谢谢！"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/x36" />
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="presenter"
+            type="cn.zhaocaiapp.zc_app_android.views.activity.FirstAddLabelActivity.Presenter" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="cn.zhaocaiapp.zc_app_android.views.activity.FirstAddLabelActivity">
+
+        <cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar
+            android:id="@+id/add_label_top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y96"></cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar>
+
+
+        <TextView
+            android:id="@+id/first_add_label_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x24"
+            android:layout_marginTop="@dimen/y120"
+            android:text="选择个人标签"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/x48"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:id="@+id/label_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x24"
+            android:layout_marginEnd="@dimen/x24"
+            android:layout_marginTop="@dimen/x256"
+            android:paddingBottom="@dimen/x60">
+
+        </com.zhy.view.flowlayout.TagFlowLayout>
+
+
+        <TextView
+            android:id="@+id/first_into_main"
+            android:layout_width="@dimen/x176"
+            android:layout_height="@dimen/y80"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/y80"
+            android:background="@drawable/add_label_bg"
+            android:gravity="center"
+            android:onClick="@{presenter.onClick}"
+            android:text="进入首页"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/x32"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+</layout>

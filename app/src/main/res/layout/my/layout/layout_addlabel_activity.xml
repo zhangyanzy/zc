@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/layout_top_title" />
+    <cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar
+        android:id="@+id/layout_top_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y96"></cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar>
 
     <com.zhy.view.flowlayout.TagFlowLayout
         android:id="@+id/label_list"
@@ -14,14 +17,24 @@
 
     </com.zhy.view.flowlayout.TagFlowLayout>
 
+
+    <ImageView
+        android:id="@+id/add_label"
+        android:layout_width="@dimen/x144"
+        android:layout_height="@dimen/y144"
+        android:layout_above="@+id/tv_submit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/y80"
+        android:src="@mipmap/add_label_icon" />
+
     <TextView
         android:id="@+id/tv_submit"
-        android:layout_width="225dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/x622"
+        android:layout_height="@dimen/y80"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/window_padding_bottom"
-        android:background="@drawable/button_shape_orange_round"
+        android:background="@drawable/button_black_bg"
         android:gravity="center"
         android:text="提交"
         android:textColor="@color/colorWhite"

@@ -74,4 +74,17 @@ public class FinishUserResp {
     public void setJoinTime(String joinTime) {
         this.joinTime = joinTime;
     }
+
+
+    @Override
+    public String toString() {
+        return "FinishUserResp{" +
+                "kid=" + kid +
+                ", avatar='" + avatar + '\'' +
+                ", joinTime='" + joinTime + '\'' +
+                ", userActivityId=" + userActivityId +
+                ", coopRoleType=" + coopRoleType +
+                ", nickname='" + nickname + '\'' +
+                '}';
+    }
 }

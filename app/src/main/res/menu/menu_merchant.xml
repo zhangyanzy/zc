@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/my_activity"
+        android:enabled="true"
+        android:icon="@drawable/merchant_my_activity_item"
+        android:title="我的活动"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/my_info"
+        android:icon="@drawable/merchant_my_info_item"
+        android:title="我的"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        />
+
+</menu>

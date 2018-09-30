@@ -274,14 +274,12 @@ public class MemberDetailActivity extends BaseActivity implements OnRefreshListe
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         pageNumber = 1;
-        EBLog.i(TAG, "refresh --pageNumber：" + pageNumber);
         initData();
     }
 
     @Override
     public void onLoadmore(RefreshLayout refreshlayout) {
         pageNumber = pageNumber + 1;
-        EBLog.i(TAG, "loadmore -- pageNumber：" + pageNumber);
         initData();
     }
 

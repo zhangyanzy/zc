@@ -209,7 +209,7 @@ public class ApplyCashActivity extends BaseActivity {
                 } else {
                     showDialog();
                 }
-                Log.i(TAG, "onClick: 0");
+                Log.i(TAG, "type: "+type);
                 break;
             case R.id.withdraw_bank:
                 type = 2;

@@ -39,18 +39,14 @@ import cn.zhaocaiapp.zc_app_android.util.DialogUtil;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar;
 
 /**
  * Created by Administrator on 2018/1/15.
  */
 
-public class ManageAccountActivity extends BaseActivity {
-    @BindView(R.id.iv_top_back)
-    ImageView iv_top_back;
-    @BindView(R.id.tv_top_title)
-    TextView tv_top_titlel;
-    @BindView(R.id.iv_top_menu)
-    ImageView iv_top_menu;
+public class ManageAccountActivity extends BaseActivity implements NavigationTopBar.NavigationTopBarClickListener {
+
     @BindView(R.id.layout_wechat)
     RelativeLayout layout_wechat;
     @BindView(R.id.wechat_name)
@@ -69,7 +65,7 @@ public class ManageAccountActivity extends BaseActivity {
     private AccountResp account;
     private int type; //0 支付宝  1 微信   2 银行卡
     private NormalDialog dialog;
-
+    private NavigationTopBar mNavigationTopBar;
     private static final int REQUEST_CODE = 6001;
 //    private static final int RESULT_CODE = 6010;
 
@@ -107,10 +103,11 @@ public class ManageAccountActivity extends BaseActivity {
     @Override
     public void init(Bundle savedInstanceState) {
         umShareAPI = ZcApplication.getUMShareAPI();
-
-        tv_top_titlel.setText("管理提现账户");
-        iv_top_menu.setVisibility(View.GONE);
-
+        mNavigationTopBar = findViewById(R.id.account_top);
+        mNavigationTopBar.setLeftImageResource(R.mipmap.finish_icon);
+        mNavigationTopBar.setCenterTitleText("账户管理");
+        mNavigationTopBar.setCenterTitleTextColor(R.color.colorBlack);
+        mNavigationTopBar.setNavigationTopBarClickListener(this);
         getAccount();
     }
 
@@ -202,13 +199,9 @@ public class ManageAccountActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.iv_top_back, R.id.layout_wechat, R.id.layout_ali, R.id.layout_bank})
+    @OnClick({R.id.layout_wechat, R.id.layout_ali, R.id.layout_bank})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_top_back:
-//                setResult(RESULT_CODE);
-                finish();
-                break;
             case R.id.layout_wechat://微信账户
                 type = 1;
                 if (account.getWechatIs()) showDialog(false);
@@ -348,5 +341,20 @@ public class ManageAccountActivity extends BaseActivity {
         if (requestCode == REQUEST_CODE) {
             getAccount();
         }
+    }
+
+    @Override
+    public void leftImageClick() {
+        finish();
+    }
+
+    @Override
+    public void rightImageClick() {
+
+    }
+
+    @Override
+    public void alignRightLeftImageClick() {
+
     }
 }

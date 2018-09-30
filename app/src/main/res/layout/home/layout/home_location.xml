@@ -11,7 +11,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/layout_top_title" />
+        <cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar
+            android:id="@+id/location_top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y96"></cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar>
 
         <LinearLayout
             android:layout_width="match_parent"

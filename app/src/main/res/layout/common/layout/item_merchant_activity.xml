@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/y600"
+    android:background="@color/colorWhite">
+
+    <RelativeLayout
+        android:id="@+id/item_root"
+        android:layout_width="@dimen/x702"
+        android:layout_height="@dimen/y396"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/y20">
+
+        <ImageView
+            android:id="@+id/item_activity_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/item_activity_statue"
+            android:layout_width="@dimen/x120"
+            android:layout_height="@dimen/y48"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/x20"
+            android:layout_marginTop="@dimen/y20"
+            android:background="@drawable/item_activity_photo_bg"
+            android:gravity="center"
+            android:text="未通过"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/x24"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/item_activity_name"
+            android:layout_width="@dimen/x120"
+            android:layout_height="@dimen/y48"
+            android:layout_marginStart="@dimen/x20"
+            android:layout_marginTop="@dimen/y20"
+            android:background="@drawable/item_activity_photo_bg"
+            android:gravity="center"
+            android:text="线下活动"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/x24" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y60"
+            android:layout_alignParentBottom="true"
+            android:background="@mipmap/activity_bottom_bg">
+
+            <cn.zhaocaiapp.zc_app_android.widget.CircleImageView
+                android:id="@+id/item_activity_user_photo"
+                android:layout_width="@dimen/x36"
+                android:layout_height="@dimen/y36"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x20"
+                android:src="@mipmap/uesr_photo" />
+
+            <TextView
+                android:id="@+id/item_activity_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x10"
+                android:layout_toEndOf="@+id/item_activity_user_photo"
+                android:textColor="@color/colorWhite" />
+
+
+            <TextView
+                android:id="@+id/item_activity_location_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x16"
+                android:textColor="@color/colorWhite"
+                android:visibility="gone"
+                />
+
+            <ImageView
+                android:id="@+id/activity_area_area"
+                android:layout_width="@dimen/x32"
+                android:layout_height="@dimen/y32"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/item_activity_location_text"
+                android:src="@mipmap/home_area"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/item_activity_reward_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="54dp"
+                android:layout_toEndOf="@+id/item_activity_user_name"
+                android:text="300元/人"
+                android:textColor="@color/yellow"
+                android:textSize="@dimen/x36" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/item_activity_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_root"
+        android:layout_marginStart="@dimen/x24"
+        android:layout_marginTop="@dimen/y20"
+        android:text="item标题"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/x28"
+
+        />
+
+
+    <ImageView
+        android:id="@+id/item_activity_is_finish"
+        android:layout_width="@dimen/x140"
+        android:layout_height="@dimen/y140"
+        android:layout_above="@+id/item_activity_text_amount_progress"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/x120"
+        android:src="@mipmap/activity_is_finish"
+        android:visibility="gone" />
+
+
+    <ProgressBar
+        android:id="@+id/item_activity_text_amount_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="@dimen/x570"
+        android:layout_height="@dimen/y4"
+        android:layout_below="@+id/item_activity_title"
+        android:layout_marginStart="@dimen/x24"
+        android:layout_marginTop="@dimen/x36"
+        android:progressDrawable="@drawable/progress_activity_list" />
+
+
+    <TextView
+        android:id="@+id/item_activity_text_amount_progress_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_activity_title"
+        android:layout_marginStart="@dimen/x28"
+        android:layout_toEndOf="@+id/item_activity_text_amount_progress"
+        android:text="100%"
+        android:textColor="@color/yellow"
+        android:textSize="@dimen/x36" />
+
+
+    <TextView
+        android:id="@+id/item_activity_reward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_activity_text_amount_progress"
+        android:layout_marginStart="@dimen/x24"
+        android:layout_marginTop="@dimen/y20"
+        android:text="奖励金额"
+        android:textColor="#8F8F8F"
+        android:textSize="@dimen/x24" />
+
+
+    <TextView
+        android:id="@+id/item_activity_over_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/item_activity_text_amount_progress"
+        android:layout_marginEnd="@dimen/x18"
+        android:layout_marginTop="@dimen/y10"
+        android:text="200/天"
+        android:textColor="@color/yellow"
+        android:textSize="@dimen/x36" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_activity_text_amount_progress"
+        android:layout_marginEnd="@dimen/x10"
+        android:layout_marginTop="@dimen/y20"
+        android:layout_toStartOf="@+id/item_activity_over_day"
+        android:text="剩余时间"
+        android:textColor="#8F8F8F"
+        android:textSize="@dimen/x24" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y40"
+        android:layout_below="@+id/item_activity_over_day"
+        android:layout_marginTop="@dimen/y20"
+        android:background="@color/textButton" />
+
+
+</RelativeLayout>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar
+        android:id="@+id/merchant_my_info_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y96"></cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar>
+
+    <RelativeLayout
+        android:id="@+id/merchant_my_info"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y200">
+
+
+        <ImageView
+            android:id="@+id/merchant_photo"
+            android:layout_width="@dimen/x120"
+            android:layout_height="@dimen/y120"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/x20" />
+
+
+        <TextView
+            android:id="@+id/merchant_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/x20"
+            android:layout_toEndOf="@+id/merchant_photo"
+            android:text="凯迪拉克"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/x36"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view"
+        style="@style/horizontal_F0_line" />
+
+    <RelativeLayout
+        android:id="@+id/merchant_my_account"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y96">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/x20"
+            android:text="我的账户"
+            android:textColor="@color/colorBlack" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x20"
+            android:src="@mipmap/turn_right" />
+    </RelativeLayout>
+
+    <View style="@style/horizontal_F0_line" />
+
+    <RelativeLayout
+        android:id="@+id/merchant_platform_message"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y96">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/x20"
+            android:text="平台消息"
+            android:textColor="@color/colorBlack" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x20"
+            android:src="@mipmap/turn_right" />
+    </RelativeLayout>
+
+    <View style="@style/horizontal_F0_line" />
+
+    <RelativeLayout
+        android:id="@+id/merchant_business_message"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y96">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/x20"
+            android:text="企业信息"
+            android:textColor="@color/colorBlack" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x20"
+            android:src="@mipmap/turn_right" />
+    </RelativeLayout>
+
+    <View style="@style/horizontal_F0_line" />
+
+    <RelativeLayout
+        android:id="@+id/merchant_phone"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y96">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/x20"
+            android:text="客服电话"
+            android:textColor="@color/colorBlack" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x20"
+            android:src="@mipmap/turn_right" />
+    </RelativeLayout>
+
+    <View style="@style/horizontal_F0_line" />
+
+    <TextView
+        android:id="@+id/check_user"
+        android:layout_width="@dimen/x622"
+        android:layout_height="@dimen/y80"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/y160"
+        android:background="@drawable/edit_text_bg"
+        android:gravity="center"
+        android:text="切换用户端"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/x36" />
+
+</LinearLayout>

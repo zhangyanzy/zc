@@ -10,27 +10,42 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/button_shape_orange_alpha1"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:background="@drawable/button_shape_orange_alpha1">
+        android:paddingStart="10dp">
 
         <TextView
             android:id="@+id/tv_label_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="阅读"
-            android:textColor="@color/colorFont3"
+            android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_14" />
 
         <TextView
-            android:id="@+id/tv_label_number"
+            android:id="@+id/tv_label_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="(30)"
-            android:textColor="@color/colorFont3"
-            android:textSize="@dimen/font_size_14" />
+            android:layout_marginStart="@dimen/x10"
+            android:text="+"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/x32"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_label_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/x10"
+            android:text="(12)"
+            android:textColor="@color/colorFont6"
+            android:textSize="@dimen/x32"
+            android:visibility="gone"
+
+            />
+
     </LinearLayout>
 
     <ImageView
@@ -39,6 +54,6 @@
         android:layout_height="16dp"
         android:layout_alignEnd="@+id/layout_label"
         android:src="@mipmap/delete_label"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

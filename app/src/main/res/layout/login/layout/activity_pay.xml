@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="presenter"
+            type="cn.zhaocaiapp.zc_app_android.views.commerclal.PayActivity.Presenter"></variable>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="cn.zhaocaiapp.zc_app_android.views.commerclal.PayActivity">
+
+        <cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar
+            android:id="@+id/main_top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y96"
+            android:background="@color/colorWhite">
+
+        </cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar>
+
+
+        <TextView
+            android:id="@+id/account_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/main_top_bar"
+            android:layout_marginStart="@dimen/x40"
+            android:layout_marginTop="@dimen/y40"
+            android:text="0000.00"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/x48" />
+
+        <TextView
+            android:id="@+id/account_balance_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/account_balance"
+            android:layout_marginStart="@dimen/x40"
+            android:layout_marginTop="@dimen/y20"
+            android:text="账户余额"
+            android:textSize="@dimen/x28" />
+
+
+        <EditText
+            android:id="@+id/pay_balance"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y96"
+            android:layout_below="@+id/account_balance_tv"
+            android:layout_marginEnd="@dimen/x40"
+            android:layout_marginStart="@dimen/x40"
+            android:layout_marginTop="@dimen/y80"
+            android:background="@drawable/edit_text_bg"
+            android:hint="请输入充值金额"
+            android:paddingStart="@dimen/x16" />
+
+        <Button
+            android:id="@+id/ali_pay_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y80"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="@dimen/x40"
+            android:layout_marginEnd="@dimen/x40"
+            android:layout_marginStart="@dimen/x40"
+            android:background="@drawable/button_bg"
+            android:text="支付宝充值"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/x36"
+            android:onClick="@{presenter.onClick}"
+            />
+    </RelativeLayout>
+
+
+</layout>

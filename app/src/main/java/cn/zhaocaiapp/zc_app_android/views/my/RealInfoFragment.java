@@ -20,7 +20,7 @@ import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.IDCardParams;
 import com.baidu.ocr.sdk.model.IDCardResult;
-import com.baidu.ocr.ui.camera.CameraActivity;
+//import com.baidu.ocr.ui.camera.CameraActivity;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
 
@@ -276,26 +276,26 @@ public class RealInfoFragment extends BaseFragment {
 //                timePickerView.show();
 //                break;
             case R.id.iv_card_front:
-                if (GeneralUtils.isNullOrZeroLenght(ZcApplication.getLicenceToken())) {
-                    ToastUtil.makeText(getActivity(), getString(R.string.getting_licence));
-                } else {
-                    Intent intent = new Intent(getActivity(), CameraActivity.class);
-                    intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
-                            FileUtil.getSaveFile(getActivity()).getAbsolutePath());
-                    intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_ID_CARD_FRONT);
-                    startActivityForResult(intent, REQUEST_CODE_CAMERA);
-                }
+//                if (GeneralUtils.isNullOrZeroLenght(ZcApplication.getLicenceToken())) {
+//                    ToastUtil.makeText(getActivity(), getString(R.string.getting_licence));
+//                } else {
+//                    Intent intent = new Intent(getActivity(), CameraActivity.class);
+//                    intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
+//                            FileUtil.getSaveFile(getActivity()).getAbsolutePath());
+//                    intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_ID_CARD_FRONT);
+//                    startActivityForResult(intent, REQUEST_CODE_CAMERA);
+//                }
                 break;
             case R.id.iv_card_behind:
-                if (GeneralUtils.isNullOrZeroLenght(ZcApplication.getLicenceToken())) {
-                    ToastUtil.makeText(getActivity(), getString(R.string.getting_licence));
-                } else {
-                    Intent intent = new Intent(getActivity(), CameraActivity.class);
-                    intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
-                            FileUtil.getSaveFile(getActivity()).getAbsolutePath());
-                    intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_ID_CARD_BACK);
-                    startActivityForResult(intent, REQUEST_CODE_CAMERA);
-                }
+//                if (GeneralUtils.isNullOrZeroLenght(ZcApplication.getLicenceToken())) {
+//                    ToastUtil.makeText(getActivity(), getString(R.string.getting_licence));
+//                } else {
+//                    Intent intent = new Intent(getActivity(), CameraActivity.class);
+//                    intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
+//                            FileUtil.getSaveFile(getActivity()).getAbsolutePath());
+//                    intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_ID_CARD_BACK);
+//                    startActivityForResult(intent, REQUEST_CODE_CAMERA);
+//                }
                 break;
             case R.id.tv_submit:
                 if (isNotEmpty() && isCanUpdate()) {
@@ -458,17 +458,17 @@ public class RealInfoFragment extends BaseFragment {
         startProgressDialog();
         // 识别成功回调，身份证识别
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
-            if (data != null) {
-                String contentType = data.getStringExtra(CameraActivity.KEY_CONTENT_TYPE);
-                String filePath = FileUtil.getSaveFile(getActivity()).getAbsolutePath();
-                if (!contentType.isEmpty()) {
-                    if (CameraActivity.CONTENT_TYPE_ID_CARD_FRONT.equals(contentType)) {
-                        recIDCard(filePath, IDCardParams.ID_CARD_SIDE_FRONT);
-                    } else if (CameraActivity.CONTENT_TYPE_ID_CARD_BACK.equals(contentType)) {
-                        recIDCard(filePath, IDCardParams.ID_CARD_SIDE_BACK);
-                    }
-                }
-            } else stopProgressDialog();
+//            if (data != null) {
+//                String contentType = data.getStringExtra(CameraActivity.KEY_CONTENT_TYPE);
+//                String filePath = FileUtil.getSaveFile(getActivity()).getAbsolutePath();
+//                if (!contentType.isEmpty()) {
+//                    if (CameraActivity.CONTENT_TYPE_ID_CARD_FRONT.equals(contentType)) {
+//                        recIDCard(filePath, IDCardParams.ID_CARD_SIDE_FRONT);
+//                    } else if (CameraActivity.CONTENT_TYPE_ID_CARD_BACK.equals(contentType)) {
+//                        recIDCard(filePath, IDCardParams.ID_CARD_SIDE_BACK);
+//                    }
+//                }
+//            } else stopProgressDialog();
         } else stopProgressDialog();
     }
 

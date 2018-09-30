@@ -1,18 +1,28 @@
 package cn.zhaocaiapp.zc_app_android.views.home;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +38,12 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -55,8 +71,10 @@ import cn.zhaocaiapp.zc_app_android.util.LocationUtil;
 import cn.zhaocaiapp.zc_app_android.util.PictureLoadUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
-import cn.zhaocaiapp.zc_app_android.views.activity.TestBindingActivity;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
+
+import static android.app.Activity.RESULT_OK;
+import static com.umeng.socialize.utils.ContextUtil.getPackageName;
 
 /**
  * @author 林子
@@ -123,6 +141,11 @@ public class HomeFragment extends BaseFragment {
     private Map<String, Integer> tabMap = new HashMap<>();
 
     private static final String TAG = "首页";
+    private static final String API_KEY = "25c0dceebb14cc8e48feb63bbda831a8";
+    private static final String APP_KEY = "7c10df58102b007d320b5a63cda7f74f";
+    private ProgressDialog dialog;
+    private File mFile;
+
 
     @Override
     public void onResume() {
@@ -167,7 +190,7 @@ public class HomeFragment extends BaseFragment {
                 if (tabCurPosition == 2) {
                     home_sort_area_text.setEnabled(true);
                     home_sort_area_layout.setEnabled(true);
-                }else {
+                } else {
                     home_sort_area_layout.setEnabled(false);
                     home_sort_area_text.setEnabled(false);
                 }
@@ -459,15 +482,15 @@ public class HomeFragment extends BaseFragment {
             final AppBean appBean = getAppBeanFromString(result);
             if (PgyUpdateManager.isForced()) { //强制更新
                 dialog = new AlertDialog.Builder(getActivity())
-                        .setTitle("更新")
+                        .setTitle("我们有更新的app版本发布了，请注意查收哦")
                         .setMessage(appBean.getReleaseNote())
                         .setPositiveButton("确定",
                                 new DialogInterface.OnClickListener() {
 
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        startDownloadTask(getActivity(), appBean.getDownloadURL());
-                                        SpUtils.init(Constants.SPREF.FILE_USER_NAME).clear();
+                                        getNewAppUri();
+
                                     }
                                 })
                         .show();
@@ -498,8 +521,165 @@ public class HomeFragment extends BaseFragment {
         }
     };
 
-    @OnClick({R.id.home_title_search, R.id.home_title_user_cart, R.id.home_title_area_layout,R.id.home_sort_time_layout,
-            R.id.home_sort_money_layout,R.id.home_sort_area_layout})
+
+    private void getNewAppUri() {
+        String downloadUrl = String.format("https://www.pgyer.com/apiv2/app/install?_api_key=%s&appKey=%s", API_KEY, APP_KEY);
+        dialog = new ProgressDialog(getActivity());
+        dialog.setMessage("正在下载中...请稍后");
+        dialog.setIndeterminate(true);
+        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        dialog.setCancelable(true);
+        dialog.setMax(100);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+        new DownloadAPK(dialog).execute(downloadUrl);
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class DownloadAPK extends AsyncTask<String, Integer, String> {
+
+        ProgressDialog mProgressDialog;
+
+
+        DownloadAPK(ProgressDialog mProgressDialog) {
+            this.mProgressDialog = mProgressDialog;
+        }
+
+        //根据url获取下载apk;
+        @Override
+        protected String doInBackground(String... strings) {
+            URL url;
+            HttpURLConnection conn;
+            BufferedInputStream bis = null;
+            FileOutputStream fos = null;
+
+            try {
+                url = new URL(strings[0]);
+                Log.i(TAG, "doInBackground: " + url);
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                conn.setConnectTimeout(5000);
+                int status = conn.getResponseCode();
+                Log.i(TAG, "status: " + status);
+                if (status == conn.HTTP_MOVED_TEMP || status == conn.HTTP_MOVED_PERM || status == conn.HTTP_SEE_OTHER) {
+                    String newUrl = conn.getHeaderField("Location");
+                    url = new URL(newUrl);
+                    conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setConnectTimeout(5000);
+                    int newStatus = conn.getResponseCode();
+                    Log.i(TAG, "newStatus: " + newStatus);
+                }
+                int fileLength = conn.getContentLength();
+                bis = new BufferedInputStream(conn.getInputStream());
+                String fileName = Environment.getExternalStorageDirectory().getPath() + "/zhaocai/zcapp.apk";
+                mFile = new File(fileName);
+                //判断文件是否存在
+                if (!mFile.exists()) {
+                    if (!mFile.getParentFile().exists()) {
+                        mFile.getParentFile().mkdirs();
+                    }
+                    mFile.createNewFile();
+                }
+                fos = new FileOutputStream(mFile);
+                byte data[] = new byte[4 * 1024];
+                long total = 0;
+                int count;
+                while ((count = bis.read(data)) != -1) {
+                    total += count;
+                    publishProgress((int) (total * 100 / fileLength));
+                    fos.write(data, 0, count);
+                    fos.flush();
+                }
+                fos.flush();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (fos != null) {
+                        fos.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (bis != null) {
+                        bis.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+            return null;
+        }
+
+
+        //改变ProgressDialog的进度
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            mProgressDialog.setProgress(values[0]);
+        }
+
+
+        //到这里说明下载完成，判断文件是否存在，如果存在，执行安装apk的操作
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            mProgressDialog.dismiss();
+            Log.i(TAG, "onPostExecute: "+mFile);
+
+            boolean haveInstaallPermission;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                haveInstaallPermission = getContext().getPackageManager().canRequestPackageInstalls();
+                if (!haveInstaallPermission) {
+                    //先判断是否安装未知来源权限
+                    AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                            .setTitle("安装权限")
+                            .setMessage("需要打开允许来自此来源，请去设置中开启此权限")
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        startInstallPermissionSettingActivity();
+                                    }
+                                }
+                            }).show();
+                    return;
+                }
+                installApk(mFile);
+            }
+
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 10086 && resultCode == RESULT_OK) {
+            installApk(mFile);
+        }
+    }
+
+    private void installApk(File file) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Uri apkUri = FileProvider.getUriForFile(getActivity(), "cn.zhaocaiapp.zc_app_android.fileProvider", file);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+        } else {
+            intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+        }
+        getActivity().startActivity(intent);
+    }
+
+
+    @OnClick({R.id.home_title_search, R.id.home_title_user_cart, R.id.home_title_area_layout, R.id.home_sort_time_layout,
+            R.id.home_sort_money_layout, R.id.home_sort_area_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.home_title_search: //搜索
@@ -568,7 +748,7 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
-    private void setPara(){
+    private void setPara() {
         tabMap.clear();
         tabMap.put("tabCurPosition", tabCurPosition);
         tabMap.put("pageNumber", pageNumber);
@@ -623,9 +803,9 @@ public class HomeFragment extends BaseFragment {
             home_sort_time_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
             home_sort_money_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
         }
-        if (tabCurPosition == 2){
+        if (tabCurPosition == 2) {
             home_sort_area_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont6));
-        }else {
+        } else {
             home_sort_area_text.setTextColor(getActivity().getResources().getColor(R.color.colorFont9));
         }
     }
@@ -634,6 +814,14 @@ public class HomeFragment extends BaseFragment {
     public void onDestroy() {
         super.onDestroy();
         isFirst = true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void startInstallPermissionSettingActivity() {
+        Uri packageURI = Uri.parse("package:" + getPackageName());
+        //注意这个是8.0新API
+        Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageURI);
+        startActivityForResult(intent, 10086);
     }
 
 

@@ -4,7 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_top_title" />
+
+    <cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar
+        android:id="@+id/account_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y96"></cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar>
 
     <RelativeLayout
         android:id="@+id/layout_wechat"
@@ -13,8 +17,7 @@
         android:layout_marginTop="30dp"
         android:paddingEnd="@dimen/window_padding"
         android:paddingStart="@dimen/window_padding"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_wechat"
@@ -22,8 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:button="@null"
-            android:drawableLeft="@mipmap/withdraw_wechat"
             android:drawablePadding="10dp"
+            android:drawableStart="@mipmap/withdraw_wechat"
             android:gravity="center_vertical"
             android:text="微信"
             android:textColor="@color/colorFont6"
@@ -33,17 +36,17 @@
             android:id="@+id/wechat_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:drawableEnd="@mipmap/turn_right"
             android:drawablePadding="10dp"
-            android:drawableRight="@mipmap/turn_right"
             android:gravity="center_vertical"
+            android:text="未绑定"
             android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_14"
-            android:text="未绑定"/>
+            android:textSize="@dimen/font_size_14" />
     </RelativeLayout>
 
-    <View style="@style/horizontal_F0_line"/>
+    <View style="@style/horizontal_F0_line" />
 
     <RelativeLayout
         android:id="@+id/layout_ali"
@@ -58,8 +61,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:button="@null"
-            android:drawableLeft="@mipmap/withdraw_ali"
             android:drawablePadding="10dp"
+            android:drawableStart="@mipmap/withdraw_ali"
             android:gravity="center_vertical"
             android:text="支付宝"
             android:textColor="@color/colorFont6"
@@ -69,35 +72,36 @@
             android:id="@+id/ali_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:drawableEnd="@mipmap/turn_right"
             android:drawablePadding="10dp"
-            android:drawableRight="@mipmap/turn_right"
             android:gravity="center_vertical"
+            android:text="未绑定"
             android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_14"
-            android:text="未绑定"/>
+            android:textSize="@dimen/font_size_14" />
 
     </RelativeLayout>
 
-    <View style="@style/horizontal_F0_line"/>
+    <View style="@style/horizontal_F0_line" />
 
     <RelativeLayout
         android:id="@+id/layout_bank"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_select_project"
         android:paddingEnd="@dimen/window_padding"
-        android:paddingStart="@dimen/window_padding">
+        android:paddingStart="@dimen/window_padding"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_bank_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:button="@null"
-            android:drawableLeft="@mipmap/withdraw_bank"
-            android:drawablePadding="10dp"
-            android:gravity="center_vertical"
             android:layout_centerVertical="true"
+            android:button="@null"
+            android:drawablePadding="10dp"
+            android:drawableStart="@mipmap/withdraw_bank"
+            android:gravity="center_vertical"
             android:text="银行卡"
             android:textColor="@color/colorFont6"
             android:textSize="@dimen/font_size_14" />
@@ -106,14 +110,14 @@
             android:id="@+id/bank_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:drawableEnd="@mipmap/turn_right"
             android:drawablePadding="10dp"
-            android:drawableRight="@mipmap/turn_right"
             android:gravity="center_vertical"
+            android:text="未绑定"
             android:textColor="@color/colorFont6"
-            android:textSize="@dimen/font_size_14"
-            android:text="未绑定"/>
+            android:textSize="@dimen/font_size_14" />
 
     </RelativeLayout>
 

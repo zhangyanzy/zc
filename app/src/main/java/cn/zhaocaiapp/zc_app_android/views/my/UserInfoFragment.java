@@ -214,6 +214,8 @@ public class UserInfoFragment extends BaseFragment {
         imgUrl = baseInfoBean.getAvatar();
         hAddress = baseInfoBean.getHomeProvinceName() + baseInfoBean.getHomeCityName() + baseInfoBean.getHomeAreaName();
         hDetail = baseInfoBean.getHomeAddressDetail();
+
+
         cAddress = baseInfoBean.getCompanyProvinceName() + baseInfoBean.getCompanyCityName() + baseInfoBean.getCompanyAreaName();
         cDetail = baseInfoBean.getCompanyAddressDetail();
 

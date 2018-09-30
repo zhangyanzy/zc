@@ -103,7 +103,7 @@ public class NewFragment extends BaseFragment implements OnRefreshListener, OnLo
      */
     private void initNetData() {
         Map<String, String> params = new HashMap<>();
-        params.put("listType", String.valueOf(listType));
+        params.put("listType", String.valueOf (listType));
         params.put("pageSize", String.valueOf(Constants.CONFIG.PAGE_SIZE));
         params.put("currentResult", String.valueOf((pageNumber - 1) * Constants.CONFIG.PAGE_SIZE));
         params.put("sortRule", String.valueOf(sortRule));

@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android.base;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,9 +20,12 @@ import com.umeng.message.PushAgent;
 import java.util.List;
 
 import cn.zhaocaiapp.zc_app_android.R;
+import cn.zhaocaiapp.zc_app_android.util.ActivityUtil;
 import cn.zhaocaiapp.zc_app_android.util.GeneralUtils;
+import cn.zhaocaiapp.zc_app_android.util.KeyBoardUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.widget.LoadingDialog;
+import cn.zhaocaiapp.zc_app_android.widget.TakePhotoActivity;
 import pub.devrel.easypermissions.EasyPermissions;
 
 /**
@@ -28,7 +33,7 @@ import pub.devrel.easypermissions.EasyPermissions;
  * activity基础类，所有activity继承   Databinding
  */
 
-public abstract class BaseCompatActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
+public abstract class BaseCompatActivity extends TakePhotoActivity implements EasyPermissions.PermissionCallbacks {
 
     private TextView identify_code;
 
@@ -36,8 +41,20 @@ public abstract class BaseCompatActivity extends AppCompatActivity implements Ea
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initComponent();
-        init(savedInstanceState);
+        initViews(savedInstanceState);
+        this.initToolbar(savedInstanceState);
+        initData();
+        initListeners();
         PushAgent.getInstance(this).onAppStart();
+        ActivityUtil.addActivity(this);
+    }
+
+    /**
+     * 管理软键盘的显示
+     */
+    public void manageKeyBord(View view, Activity mActivity) {
+        if (KeyBoardUtils.isKeyBordVisiable(mActivity))
+            KeyBoardUtils.closeKeybord(view, mActivity);
     }
 
     /**
@@ -48,7 +65,24 @@ public abstract class BaseCompatActivity extends AppCompatActivity implements Ea
     /**
      *初始化工程
      */
-    public abstract void init(Bundle savedInstanceState);
+    public abstract void initViews(Bundle savedInstanceState);
+
+    /**
+     * Initialize the toolbar in the layout
+     *
+     * @param savedInstanceState
+     */
+    protected abstract void initToolbar(Bundle savedInstanceState);
+
+    /**
+     * Initalize the view Of the listener
+     */
+    protected abstract void initListeners();
+
+    /**
+     * Initialize the Activity Data
+     */
+    protected abstract void initData();
 
 
 

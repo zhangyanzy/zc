@@ -28,21 +28,23 @@ import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
 import cn.zhaocaiapp.zc_app_android.constant.Constants;
 import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar;
 
 /**
  * Created by Administrator on 2018/1/11.
  */
 
-public class InviteActivity extends BaseActivity {
-    @BindView(R.id.iv_top_back)
-    ImageView iv_top_back;
-    @BindView(R.id.tv_top_title)
-    TextView tv_top_title;
-    @BindView(R.id.iv_top_menu)
-    ImageView iv_top_menu;
+public class    InviteActivity extends BaseActivity implements NavigationTopBar.NavigationTopBarClickListener {
+    //    @BindView(R.id.iv_top_back)
+//    ImageView iv_top_back;
+//    @BindView(R.id.tv_top_title)
+//    TextView tv_top_title;
+//    @BindView(R.id.iv_top_menu)
+//    ImageView iv_top_menu;
     @BindView(R.id.web)
     WebView web;
 
+    private NavigationTopBar mNavigationTopBar;
     private UMShareAPI umShareAPI;
     private String inviteCode; //邀请码
 
@@ -56,8 +58,14 @@ public class InviteActivity extends BaseActivity {
         umShareAPI = ZcApplication.getUMShareAPI();
         inviteCode = getIntent().getStringExtra("code");
 
-        iv_top_menu.setImageResource(R.mipmap.share);
-        tv_top_title.setText(R.string.invite_friend);
+//        iv_top_menu.setImageResource(R.mipmap.share);
+//        tv_top_title.setText(R.string.invite_friend);
+        mNavigationTopBar = findViewById(R.id.invite_friends_top);
+        mNavigationTopBar.setLeftImageResource(R.mipmap.finish_icon);
+        mNavigationTopBar.setCenterTitleText(R.string.invite_friend);
+        mNavigationTopBar.setCenterTitleTextColor(R.color.colorBlack);
+        mNavigationTopBar.setRightImageResource(R.mipmap.share_activity_icon);
+        mNavigationTopBar.setNavigationTopBarClickListener(this);
 
         WebSettings webSettings = web.getSettings();
         //设置自适应屏幕，两者合用
@@ -83,6 +91,29 @@ public class InviteActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void leftImageClick() {
+        finish();
+    }
+
+    @Override
+    public void rightImageClick() {
+        String shareTitle = getString(R.string.app_name);
+        String shareDesc = getString(R.string.share_desc);
+        String inviteUrl = String.format(Constants.URL.SHARE_REGISTER, inviteCode);
+        ShareUtil.init(this)
+                .setUrl(inviteUrl)
+                .setSourceId(R.mipmap.icon_launcher)
+                .setTitle(shareTitle)
+                .setDesc(shareDesc);
+        ShareUtil.openShare();
+    }
+
+    @Override
+    public void alignRightLeftImageClick() {
+
+    }
+
     //预留给js调用的回调
     class JavaScriptInterfaces {
 
@@ -96,7 +127,17 @@ public class InviteActivity extends BaseActivity {
 
         @JavascriptInterface
         public void inviteUser() { //邀请好友
-            onClick(iv_top_menu);
+//            onClick(iv_top_menu);
+            String shareTitle = getString(R.string.app_name);
+            String shareDesc = getString(R.string.share_desc);
+            String inviteUrl = String.format(Constants.URL.SHARE_REGISTER, inviteCode);
+            ShareUtil.init(InviteActivity.this)
+                    .setUrl(inviteUrl)
+                    .setSourceId(R.mipmap.icon_launcher)
+                    .setTitle(shareTitle)
+                    .setDesc(shareDesc);
+            ShareUtil.openShare();
+
         }
 
         @JavascriptInterface
@@ -110,26 +151,26 @@ public class InviteActivity extends BaseActivity {
             ToastUtil.makeText(InviteActivity.this, "已复制邀请码");
         }
     }
-
-    @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.iv_top_back:
-                finish();
-                break;
-            case R.id.iv_top_menu:
-                String shareTitle = getString(R.string.app_name);
-                String shareDesc = getString(R.string.share_desc);
-                String inviteUrl = String.format(Constants.URL.SHARE_REGISTER, inviteCode);
-                ShareUtil.init(this)
-                        .setUrl(inviteUrl)
-                        .setSourceId(R.mipmap.icon_launcher)
-                        .setTitle(shareTitle)
-                        .setDesc(shareDesc);
-                ShareUtil.openShare();
-                break;
-        }
-    }
+//
+//    @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.iv_top_back:
+//                finish();
+//                break;
+//            case R.id.iv_top_menu:
+//                String shareTitle = getString(R.string.app_name);
+//                String shareDesc = getString(R.string.share_desc);
+//                String inviteUrl = String.format(Constants.URL.SHARE_REGISTER, inviteCode);
+//                ShareUtil.init(this)
+//                        .setUrl(inviteUrl)
+//                        .setSourceId(R.mipmap.icon_launcher)
+//                        .setTitle(shareTitle)
+//                        .setDesc(shareDesc);
+//                ShareUtil.openShare();
+//                break;
+//        }
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

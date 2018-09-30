@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="presenter"
+            type="cn.zhaocaiapp.zc_app_android.views.activity.LabelActivity.Presenter" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        tools:context="cn.zhaocaiapp.zc_app_android.views.activity.LabelActivity">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar
+                android:id="@+id/top_bar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y96">
+
+            </cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar>
+
+
+            <com.zhy.view.flowlayout.TagFlowLayout
+                android:id="@+id/label_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/top_bar"
+                android:layout_marginTop="@dimen/x36"
+                >
+
+            </com.zhy.view.flowlayout.TagFlowLayout>
+
+
+            <ImageView
+                android:id="@+id/add_label_icon"
+                android:layout_width="@dimen/x124"
+                android:layout_height="@dimen/y124"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/y36"
+                android:onClick="@{presenter.onClick}"
+                android:src="@mipmap/add_label_icon"
+                android:visibility="visible" />
+        </RelativeLayout>
+
+    </ScrollView>
+</layout>

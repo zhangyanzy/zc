@@ -1,5 +1,6 @@
 package cn.zhaocaiapp.zc_app_android;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -29,10 +30,15 @@ import cn.zhaocaiapp.zc_app_android.util.AppUtil;
 import cn.zhaocaiapp.zc_app_android.util.HttpUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
+import cn.zhaocaiapp.zc_app_android.util.ToastUtils;
 import cn.zhaocaiapp.zc_app_android.views.home.HomeFragment;
+import cn.zhaocaiapp.zc_app_android.views.home.NewFragment;
+import cn.zhaocaiapp.zc_app_android.views.home.NewHomeFragment;
+import cn.zhaocaiapp.zc_app_android.views.home.NewMyFragment;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import cn.zhaocaiapp.zc_app_android.views.member.MemberFragment;
 import cn.zhaocaiapp.zc_app_android.views.my.MyFragment;
+import cn.zhaocaiapp.zc_app_android.widget.RedPackageDialog;
 
 /**
  * Created by ASUS on 2017/10/30.
@@ -49,7 +55,7 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
     private int currentPosition;
     private final String[] tags = {"task", "partner", "personal"};
     private int currentIndex = -1;
-    private Map<Integer, Fragment> fragmentMap = new HashMap<>()    ;
+    private Map<Integer, Fragment> fragmentMap = new HashMap<>();
     private MyResp userInfo;
 
     private UMShareAPI umShareAPI;
@@ -76,12 +82,15 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         setCheckButton(currentPosition);
 
         isLocationOpen(); //判断定位服务是否开启
+
+
     }
 
     /**
      * 获取用户未读消息
      */
     public void loadData() {
+
         HttpUtil.get(Constants.URL.GET_BRIEF_USER_INFO).subscribe(new BaseResponseObserver<MyResp>() {
 
             @Override
@@ -127,6 +136,8 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
                 break;
             case 2:
                 groupBotton.check(R.id.group_button_personal);
+                break;
+            default:
                 break;
         }
     }
@@ -189,13 +200,15 @@ public class MainActivity extends BaseFragmentActivity implements RadioGroup.OnC
         if (fragment == null) {
             switch (index) {
                 case 0:  //精选活动
-                    fragment = new HomeFragment();
+//                    fragment = new HomeFragment();
+                    fragment = new NewHomeFragment();
                     break;
                 case 1:  //商家活动
                     fragment = new MemberFragment();
                     break;
                 case 2:  //我的
-                    fragment = new MyFragment();
+//                    fragment = new MyFragment();
+                    fragment = new NewMyFragment();
                     break;
             }
             fragmentMap.put(index, fragment);

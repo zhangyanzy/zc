@@ -102,7 +102,7 @@ public class LabelFragment extends BaseFragment {
                     ViewHolder holder = new ViewHolder(view);
 
                     holder.tv_label_name.setText(UserLabelResp.getName());
-                    holder.tv_label_number.setText("(" + UserLabelResp.getTimes() + ")");
+//                    holder.tv_label_number.setText("(" + UserLabelResp.getTimes() + ")");
                     if (isShowDel) holder.delete_label.setVisibility(View.VISIBLE);
                     else holder.delete_label.setVisibility(View.GONE);
 
@@ -184,15 +184,7 @@ public class LabelFragment extends BaseFragment {
         }
     }
 
-//    private void getSelectedLabel() {
-//        StringBuilder sb = new StringBuilder();
-//        for (int i = 0; i < positions.size(); i++) {
-//            if (i == 0)
-//                sb.append(labels.get(i).getTagId());
-//            else sb.append(",").append(labels.get(i).getTagId());
-//        }
-//        deleteLabel(sb.toString());
-//    }
+
 
     private void deleteLabel(View view, int position) {
         String ids = String.valueOf(labels.get(position).getTagId());
@@ -226,8 +218,8 @@ public class LabelFragment extends BaseFragment {
     public static class ViewHolder {
         @BindView(R.id.tv_label_name)
         TextView tv_label_name;
-        @BindView(R.id.tv_label_number)
-        TextView tv_label_number;
+//        @BindView(R.id.tv_label_number)
+//        TextView tv_label_number;
         @BindView(R.id.delete_label)
         ImageView delete_label;
         @BindView(R.id.layout_label)

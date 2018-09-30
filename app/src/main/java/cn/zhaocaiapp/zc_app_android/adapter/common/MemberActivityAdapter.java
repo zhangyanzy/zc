@@ -42,6 +42,7 @@ import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.common.ActivityDetailActivity;
 import cn.zhaocaiapp.zc_app_android.views.common.InformationDetailActivity;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
+import cn.zhaocaiapp.zc_app_android.views.member.MemberDetailActivity;
 import cn.zhaocaiapp.zc_app_android.widget.CircleImageView;
 
 
@@ -62,7 +63,7 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.activity_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_new_home_activity, parent, false);
         return new ViewHolder(view);
     }
 
@@ -73,122 +74,173 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //商家logo
-        PictureLoadUtil.loadPicture(context, list.get(position).getMemberImg(), holder.activity_item_member_logo);
-        //商家名称
-        holder.activity_item_member_name.setText(list.get(position).getMemberName());
-        //活动区域
-        holder.activity_item_member_area.setText(list.get(position).getCityName());
-        //活动图片
-        PictureLoadUtil.loadPicture(context, list.get(position).getActivityImage1(), holder.activity_item_img_i);
-        //活动状态
-        holder.activity_item_img_state.setText(getOnlineString(list.get(position).getOnline()));
-        //活动类型
-        holder.activity_item_img_type.setText(getActivityFormString(list.get(position).getActivityForm()));
-        //活动名称
-        SpannableStringBuilder spannableString = new SpannableStringBuilder("#" + getActivityFormString(list.get(position).getActivityForm()) + "#" + list.get(position).getName());
-        spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.activity_item_text_title.setText(spannableString);
-        //剩余额度
-        holder.activity_item_text_amount.setText(GeneralUtils.getBigDecimalToTwo(list.get(position).getLeftAmount()));
-        //已领取人数
-        holder.activity_item_text_number.setText(String.valueOf(list.get(position).getActualUser()));
-        //剩余额度进度条
-        double leftAmount = list.get(position).getLeftAmount().doubleValue();
-        double totalAmount = list.get(position).getTotalAmount().doubleValue();
-        double amount = (leftAmount / totalAmount) * 100;
-        holder.activity_item_text_amount_progress.setProgress((int) amount);
-        //已领取人数进度条
-        double actualUser = list.get(position).getActualUser().intValue();
-        double getMaxUser = list.get(position).getMaxUser().intValue();
-        double pra = (actualUser / getMaxUser) * 100;
-        holder.activity_item_text_number_progress.setProgress((int) pra);
-        //地址logo 距离
-        if (list.get(position).getActivityForm() == 0 && LocationUtil.getGps().getOpen()) {
-            //起始位置 我的位置
-            DPoint startGps = new DPoint();
-            startGps.setLatitude(LocationUtil.getGps().getLatitude());
-            startGps.setLongitude(LocationUtil.getGps().getLongitude());
-            //结束位置 活动位置
-            DPoint stopGps = new DPoint(31.235221, 121.499508);
-            if (GeneralUtils.isNotNull(list.get(position).getLatitude()) && GeneralUtils.isNotNull(list.get(position).getLongitude())) {
-                stopGps.setLatitude(list.get(position).getLatitude().doubleValue());
-                stopGps.setLongitude(list.get(position).getLongitude().doubleValue());
-            }
-            //两点距离
-            float areaText = CoordinateConverter.calculateLineDistance(startGps, stopGps);
-            holder.activity_item_text_area_text.setText(areaText > 1000 ? String.format("%.1f", (areaText / 1000)) + "km" : String.format("%.1f", (areaText)) + "m");
-        }
-        if (list.get(position).getFollow()) {
-            holder.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
-        } else {
-            holder.activity_item_text_collection.setImageResource(R.mipmap.collection_off);
-        }
-        //奖励金额
-        holder.activity_item_text_reward.setText(GeneralUtils.getBigDecimalToTwo(list.get(position).getRewardAmount()));
-        //是否显示控件
-        isContentVisible(list.get(position).getActivityForm(), holder);
-        //参与人头像
-        showUserPhoto(list.get(position).getUserList(), holder);
 
-        //活动图片 点击
-        holder.activity_item_img_i.setOnClickListener(new View.OnClickListener() {
+        //商家图片
+        PictureLoadUtil.loadPicture(context, list.get(position).getMemberImg(), holder.mPhotoTitle);
+        //活动类型
+        holder.mActivityName.setText(getActivityFormString(list.get(position).getActivityForm()));
+        //活动城市
+        if (list.get(position).getActivityForm() == 0) {
+            holder.mActivitylocation.setText(list.get(position).getCityName());
+        }
+        PictureLoadUtil.loadPicture(context, list.get(position).getMemberImg(), holder.mActivityUserPhoto);
+        holder.mActivityUserName.setText(list.get(position).getMemberName());
+        holder.mActivityTitle.setText(list.get(position).getName());
+        //进度条
+        double actualUser = list.get(position).getActualUser().intValue();
+        double maxUser = list.get(position).getMaxUser().intValue();//最大参与人数
+        double pra = (actualUser / maxUser) * 100;
+        holder.mActivityBar.setProgress((int) pra);
+        holder.mActivityBarNum.setText((int) pra + "%");
+        holder.mActivityNum.setText(list.get(position).getRewardAmount() + "");
+
+        //剩余时间
+        //活动是否结束
+
+        //商户头像
+        holder.mActivityUserPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = null;
-                if (list.get(position).getActivityForm() == 3 || list.get(position).getActivityForm() == 4) { //资讯活动
-                    intent = new Intent(context, InformationDetailActivity.class);
-                } else {
-                    intent = new Intent(context, ActivityDetailActivity.class);
-                }
-                intent.putExtra("id", list.get(position).getKid());
-                intent.putExtra("title", list.get(position).getName());
-                intent.putExtra("isNeedQRCode", list.get(position).getIfCheck());
-                context.startActivity(intent);
-            }
-        });
-        //活动内容点击
-        holder.layout_activity_content.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = null;
-                if (list.get(position).getActivityForm() == 3 || list.get(position).getActivityForm() == 4) { //资讯活动
-                    intent = new Intent(context, InformationDetailActivity.class);
-                } else {
-                    intent = new Intent(context, ActivityDetailActivity.class);
-                }
-                intent.putExtra("id", list.get(position).getKid());
-                intent.putExtra("title", list.get(position).getName());
-                intent.putExtra("isNeedQRCode", list.get(position).getIfCheck());
-                context.startActivity(intent);
-            }
-        });
-        //收藏 点击
-        holder.activity_item_text_collection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
-                    if (list.get(position).getFollow()) { //已经收藏
-                        //取消收藏
-                        doFollow(position, 0, holder);
-                    } else {  //未收藏
-                        //收藏
-                        doFollow(position, 1, holder);
-                    }
-                } else { //未登录
-                    Intent intent = new Intent(context, LoginActivity.class);
+                if (list.get(position).getMemberId() != null) {
+                    Intent intent = new Intent(context, MemberDetailActivity.class);
+                    intent.putExtra("memberId", list.get(position).getMemberId());
                     context.startActivity(intent);
                 }
             }
         });
-        // 分享
-        holder.activity_item_text_share.setOnClickListener(new View.OnClickListener() {
+        holder.mPhotoTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(holder.getLayoutPosition());
+                Intent intent = null;
+                if (list.get(position).getActivityForm() == 3 || list.get(position).getActivityForm() == 4) {
+                    intent = new Intent(context, InformationDetailActivity.class);
+                }else {
+                    intent = new Intent(context, ActivityDetailActivity.class);
+                }
+                intent.putExtra("id", list.get(position).getKid());
+                intent.putExtra("title", list.get(position).getName());
+                intent.putExtra("isNeedQRCode", list.get(position).getIfCheck());
+                context.startActivity(intent);
             }
         });
+
     }
+//        //商家logo
+//        PictureLoadUtil.loadPicture(context, list.get(position).getMemberImg(), holder.activity_item_member_logo);
+//        //商家名称
+//        holder.activity_item_member_name.setText(list.get(position).getMemberName());
+//        //活动区域
+//        holder.activity_item_member_area.setText(list.get(position).getCityName());
+//        //活动图片
+//        PictureLoadUtil.loadPicture(context, list.get(position).getActivityImage1(), holder.activity_item_img_i);
+//        //活动状态
+//        holder.activity_item_img_state.setText(getOnlineString(list.get(position).getOnline()));
+//        //活动类型
+//        holder.activity_item_img_type.setText(getActivityFormString(list.get(position).getActivityForm()));
+//        //活动名称
+//        SpannableStringBuilder spannableString = new SpannableStringBuilder("#" + getActivityFormString(list.get(position).getActivityForm()) + "#" + list.get(position).getName());
+//        spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        holder.activity_item_text_title.setText(spannableString);
+//        //剩余额度
+//        holder.activity_item_text_amount.setText(GeneralUtils.getBigDecimalToTwo(list.get(position).getLeftAmount()));
+//        //已领取人数
+//        holder.activity_item_text_number.setText(String.valueOf(list.get(position).getActualUser()));
+//        //剩余额度进度条
+//        double leftAmount = list.get(position).getLeftAmount().doubleValue();
+//        double totalAmount = list.get(position).getTotalAmount().doubleValue();
+//        double amount = (leftAmount / totalAmount) * 100;
+//        holder.activity_item_text_amount_progress.setProgress((int) amount);
+//        //已领取人数进度条
+//        double actualUser = list.get(position).getActualUser().intValue();
+//        double getMaxUser = list.get(position).getMaxUser().intValue();
+//        double pra = (actualUser / getMaxUser) * 100;
+//        holder.activity_item_text_number_progress.setProgress((int) pra);
+//        //地址logo 距离
+//        if (list.get(position).getActivityForm() == 0 && LocationUtil.getGps().getOpen()) {
+//            //起始位置 我的位置
+//            DPoint startGps = new DPoint();
+//            startGps.setLatitude(LocationUtil.getGps().getLatitude());
+//            startGps.setLongitude(LocationUtil.getGps().getLongitude());
+//            //结束位置 活动位置
+//            DPoint stopGps = new DPoint(31.235221, 121.499508);
+//            if (GeneralUtils.isNotNull(list.get(position).getLatitude()) && GeneralUtils.isNotNull(list.get(position).getLongitude())) {
+//                stopGps.setLatitude(list.get(position).getLatitude().doubleValue());
+//                stopGps.setLongitude(list.get(position).getLongitude().doubleValue());
+//            }
+//            //两点距离
+//            float areaText = CoordinateConverter.calculateLineDistance(startGps, stopGps);
+//            holder.activity_item_text_area_text.setText(areaText > 1000 ? String.format("%.1f", (areaText / 1000)) + "km" : String.format("%.1f", (areaText)) + "m");
+//        }
+//        if (list.get(position).getFollow()) {
+//            holder.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
+//        } else {
+//            holder.activity_item_text_collection.setImageResource(R.mipmap.collection_off);
+//        }
+//        //奖励金额
+//        holder.activity_item_text_reward.setText(GeneralUtils.getBigDecimalToTwo(list.get(position).getRewardAmount()));
+//        //是否显示控件
+//        isContentVisible(list.get(position).getActivityForm(), holder);
+//        //参与人头像
+//        showUserPhoto(list.get(position).getUserList(), holder);
+//
+//        //活动图片 点击
+//        holder.activity_item_img_i.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = null;
+//                if (list.get(position).getActivityForm() == 3 || list.get(position).getActivityForm() == 4) { //资讯活动
+//                    intent = new Intent(context, InformationDetailActivity.class);
+//                } else {
+//                    intent = new Intent(context, ActivityDetailActivity.class);
+//                }
+//                intent.putExtra("id", list.get(position).getKid());
+//                intent.putExtra("title", list.get(position).getName());
+//                intent.putExtra("isNeedQRCode", list.get(position).getIfCheck());
+//                context.startActivity(intent);
+//            }
+//        });
+//        //活动内容点击
+//        holder.layout_activity_content.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = null;
+//                if (list.get(position).getActivityForm() == 3 || list.get(position).getActivityForm() == 4) { //资讯活动
+//                    intent = new Intent(context, InformationDetailActivity.class);
+//                } else {
+//                    intent = new Intent(context, ActivityDetailActivity.class);
+//                }
+//                intent.putExtra("id", list.get(position).getKid());
+//                intent.putExtra("title", list.get(position).getName());
+//                intent.putExtra("isNeedQRCode", list.get(position).getIfCheck());
+//                context.startActivity(intent);
+//            }
+//        });
+//        //收藏 点击
+//        holder.activity_item_text_collection.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if ((boolean) SpUtils.init(Constants.SPREF.FILE_USER_NAME).get(Constants.SPREF.IS_LOGIN, false)) {
+//                    if (list.get(position).getFollow()) { //已经收藏
+//                        //取消收藏
+//                        doFollow(position, 0, holder);
+//                    } else {  //未收藏
+//                        //收藏
+//                        doFollow(position, 1, holder);
+//                    }
+//                } else { //未登录
+//                    Intent intent = new Intent(context, LoginActivity.class);
+//                    context.startActivity(intent);
+//                }
+//            }
+//        });
+//        // 分享
+//        holder.activity_item_text_share.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                listener.onItemClick(holder.getLayoutPosition());
+//            }
+//        });
+//    }
 
     @Override
     public int getItemCount() {
@@ -196,89 +248,92 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
     }
 
     //根据活动类型和状态判断控件内容是否显示
-    private void isContentVisible(int activityType, ViewHolder holder) {
-        switch (activityType) {
-            case 0: //线下活动
-                holder.activity_item_text_area_logo.setVisibility(View.VISIBLE);
-                holder.activity_item_text_area_text.setVisibility(View.VISIBLE);
-                holder.activity_item_img_vide.setVisibility(View.GONE);
-                holder.tv_member_area_logo.setVisibility(View.VISIBLE);
-                holder.activity_item_member_area.setVisibility(View.VISIBLE);
-                break;
-            case 1: //视频活动
-                holder.activity_item_text_area_logo.setVisibility(View.GONE);
-                holder.activity_item_text_area_text.setVisibility(View.GONE);
-                holder.activity_item_img_vide.setVisibility(View.VISIBLE);
-                holder.tv_member_area_logo.setVisibility(View.GONE);
-                holder.activity_item_member_area.setVisibility(View.GONE);
-                break;
-            case 2: //问卷活动
-                holder.activity_item_text_area_logo.setVisibility(View.GONE);
-                holder.activity_item_text_area_text.setVisibility(View.GONE);
-                holder.activity_item_img_vide.setVisibility(View.GONE);
-                holder.tv_member_area_logo.setVisibility(View.GONE);
-                holder.activity_item_member_area.setVisibility(View.GONE);
-                break;
-            case 3: //资讯活动
-                holder.activity_item_text_area_logo.setVisibility(View.GONE);
-                holder.activity_item_text_area_text.setVisibility(View.GONE);
-                holder.activity_item_img_vide.setVisibility(View.GONE);
-                holder.tv_member_area_logo.setVisibility(View.GONE);
-                holder.activity_item_member_area.setVisibility(View.GONE);
-                break;
-            case 4: //竞猜活动
-                holder.activity_item_text_area_logo.setVisibility(View.GONE);
-                holder.activity_item_text_area_text.setVisibility(View.GONE);
-                holder.activity_item_img_vide.setVisibility(View.GONE);
-                holder.tv_member_area_logo.setVisibility(View.GONE);
-                holder.activity_item_member_area.setVisibility(View.GONE);
-                break;
-        }
-    }
+//    private void isContentVisible(int activityType, ViewHolder holder) {
+//        switch (activityType) {
+//            case 0: //线下活动
+//                holder.activity_item_text_area_logo.setVisibility(View.VISIBLE);
+//                holder.activity_item_text_area_text.setVisibility(View.VISIBLE);
+//                holder.activity_item_img_vide.setVisibility(View.GONE);
+//                holder.tv_member_area_logo.setVisibility(View.VISIBLE);
+//                holder.activity_item_member_area.setVisibility(View.VISIBLE);
+//                break;
+//            case 1: //视频活动
+//                holder.activity_item_text_area_logo.setVisibility(View.GONE);
+//                holder.activity_item_text_area_text.setVisibility(View.GONE);
+//                holder.activity_item_img_vide.setVisibility(View.VISIBLE);
+//                holder.tv_member_area_logo.setVisibility(View.GONE);
+//                holder.activity_item_member_area.setVisibility(View.GONE);
+//                break;
+//            case 2: //问卷活动
+//                holder.activity_item_text_area_logo.setVisibility(View.GONE);
+//                holder.activity_item_text_area_text.setVisibility(View.GONE);
+//                holder.activity_item_img_vide.setVisibility(View.GONE);
+//                holder.tv_member_area_logo.setVisibility(View.GONE);
+//                holder.activity_item_member_area.setVisibility(View.GONE);
+//                break;
+//            case 3: //资讯活动
+//                holder.activity_item_text_area_logo.setVisibility(View.GONE);
+//                holder.activity_item_text_area_text.setVisibility(View.GONE);
+//                holder.activity_item_img_vide.setVisibility(View.GONE);
+//                holder.tv_member_area_logo.setVisibility(View.GONE);
+//                holder.activity_item_member_area.setVisibility(View.GONE);
+//                break;
+//            case 4: //竞猜活动
+//                holder.activity_item_text_area_logo.setVisibility(View.GONE);
+//                holder.activity_item_text_area_text.setVisibility(View.GONE);
+//                holder.activity_item_img_vide.setVisibility(View.GONE);
+//                holder.tv_member_area_logo.setVisibility(View.GONE);
+//                holder.activity_item_member_area.setVisibility(View.GONE);
+//                break;
+//            default:
+//                break;
+//
+//        }
+//    }
 
     //显示报完成用户的额头像
     private void showUserPhoto(List<FinishUserResp> userList, ViewHolder holder) {
-        holder.layout_user.removeAllViewsInLayout();
-        for (int i = 0; i < userList.size(); i++) {
-            CircleImageView imageView = new CircleImageView(context);
-            int width = DensityUtil.dip2px(context, 30);
-            int height = DensityUtil.dip2px(context, 30);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
-            imageView.setLayoutParams(params);
-
-            if (GeneralUtils.isNotNullOrZeroLenght(userList.get(i).getAvatar())) {
-                PictureLoadUtil.loadPicture(context, userList.get(i).getAvatar(), imageView);
-            }else {
-                imageView.setImageResource(R.mipmap.user_default);
-            }
-            holder.layout_user.addView(imageView);
-        }
+//        holder.layout_user.removeAllViewsInLayout();
+//        for (int i = 0; i < userList.size(); i++) {
+//            CircleImageView imageView = new CircleImageView(context);
+//            int width = DensityUtil.dip2px(context, 30);
+//            int height = DensityUtil.dip2px(context, 30);
+//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
+//            imageView.setLayoutParams(params);
+//
+//            if (GeneralUtils.isNotNullOrZeroLenght(userList.get(i).getAvatar())) {
+//                PictureLoadUtil.loadPicture(context, userList.get(i).getAvatar(), imageView);
+//            }else {
+//                imageView.setImageResource(R.mipmap.user_default);
+//            }
+//            holder.layout_user.addView(imageView);
+//        }
     }
 
     //关注/取消关注
     private void doFollow(int position, int state, ViewHolder holder) {
-        Map<String, String> params = new HashMap<>();
-        params.put("follow", state + "");
-        EBLog.i("tag", params.toString());
-
-        HttpUtil.post(String.format(Constants.URL.POST_ACTIVITY_FOLLOW, list.get(position).getKid()), params).subscribe(new BaseResponseObserver<String>() {
-            @Override
-            public void success(String result) {
-                if (state == 1) { //收藏
-                    list.get(position).setFollow(true);
-                    holder.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
-                } else if (state == 0) { //取消收藏
-                    list.get(position).setFollow(false);
-                    holder.activity_item_text_collection.setImageResource(R.mipmap.collection_off);
-                }
-            }
-
-            @Override
-            public void error(Response<String> response) {
-                EBLog.e("tag", response.getCode() + "");
-                ToastUtil.makeText(context, response.getDesc());
-            }
-        });
+//        Map<String, String> params = new HashMap<>();
+//        params.put("follow", state + "");
+//        EBLog.i("tag", params.toString());
+//
+//        HttpUtil.post(String.format(Constants.URL.POST_ACTIVITY_FOLLOW, list.get(position).getKid()), params).subscribe(new BaseResponseObserver<String>() {
+//            @Override
+//            public void success(String result) {
+//                if (state == 1) { //收藏
+//                    list.get(position).setFollow(true);
+//                    holder.activity_item_text_collection.setImageResource(R.mipmap.collection_on);
+//                } else if (state == 0) { //取消收藏
+//                    list.get(position).setFollow(false);
+//                    holder.activity_item_text_collection.setImageResource(R.mipmap.collection_off);
+//                }
+//            }
+//
+//            @Override
+//            public void error(Response<String> response) {
+//                EBLog.e("tag", response.getCode() + "");
+//                ToastUtil.makeText(context, response.getDesc());
+//            }
+//        });
     }
 
     public void updata(List<ActivityResp> list) {
@@ -347,65 +402,79 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        //商家logo
-        @BindView(R.id.activity_item_member_logo)
-        ImageView activity_item_member_logo;
-        //商家名称
-        @BindView(R.id.activity_item_member_name)
-        TextView activity_item_member_name;
-        //活动区域
-        @BindView(R.id.activity_item_member_area)
-        TextView activity_item_member_area;
-        //活动图片
-        @BindView(R.id.activity_item_img_i)
-        SelectableRoundedImageView activity_item_img_i;
-        //活动状态
-        @BindView(R.id.activity_item_img_state)
-        TextView activity_item_img_state;
-        //活动类型
-        @BindView(R.id.activity_item_img_type)
-        TextView activity_item_img_type;
-        //活动名称
-        @BindView(R.id.activity_item_text_title)
-        TextView activity_item_text_title;
-        //视频活动播放
-        @BindView(R.id.activity_item_img_vide)
-        ImageView activity_item_img_vide;
-        //剩余额度
-        @BindView(R.id.activity_item_text_amount)
-        TextView activity_item_text_amount;
-        //已领取人数
-        @BindView(R.id.activity_item_text_number)
-        TextView activity_item_text_number;
-        //剩余额度进度条
-        @BindView(R.id.activity_item_text_amount_progress)
-        ProgressBar activity_item_text_amount_progress;
-        //已领取人数进度条
-        @BindView(R.id.activity_item_text_number_progress)
-        ProgressBar activity_item_text_number_progress;
-        //地址logo
-        @BindView(R.id.activity_item_text_area_logo)
-        ImageView activity_item_text_area_logo;
-        //地址距离
-        @BindView(R.id.activity_item_text_area_text)
-        TextView activity_item_text_area_text;
-        //收藏
-        @BindView(R.id.activity_item_text_collection)
-        ImageView activity_item_text_collection;
-        @BindView(R.id.activity_item_text_reward)
-        TextView activity_item_text_reward;
-        //分享
-        @BindView(R.id.activity_item_text_share)
-        ImageView activity_item_text_share;
-        //活动地区
-        @BindView(R.id.tv_member_area_logo)
-        TextView tv_member_area_logo;
-        //活动内容
-        @BindView(R.id.layout_activity_content)
-        LinearLayout layout_activity_content;
-        //报名的用户头像
-        @BindView(R.id.layout_user)
-        LinearLayout layout_user;
+//        //商家logo
+//        @BindView(R.id.activity_item_member_logo)
+//        ImageView activity_item_member_logo;
+//        //商家名称
+//        @BindView(R.id.activity_item_member_name)
+//        TextView activity_item_member_name;
+//        //活动区域
+//        @BindView(R.id.activity_item_member_area)
+//        TextView activity_item_member_area;
+//        //活动图片
+//        @BindView(R.id.activity_item_img_i)
+//        SelectableRoundedImageView activity_item_img_i;
+//        //活动状态
+//        @BindView(R.id.activity_item_img_state)
+//        TextView activity_item_img_state;
+//        //活动类型
+//        @BindView(R.id.activity_item_img_type)
+//        TextView activity_item_img_type;
+//        //活动名称
+//        @BindView(R.id.activity_item_text_title)
+//        TextView activity_item_text_title;
+//        //视频活动播放
+//        @BindView(R.id.activity_item_img_vide)
+//        ImageView activity_item_img_vide;
+//        //剩余额度
+//        @BindView(R.id.activity_item_text_amount)
+//        TextView activity_item_text_amount;
+//        //已领取人数
+//        @BindView(R.id.activity_item_text_number)
+//        TextView activity_item_text_number;
+//        //剩余额度进度条
+//        @BindView(R.id.activity_item_text_amount_progress)
+//        ProgressBar activity_item_text_amount_progress;
+//        //已领取人数进度条
+//        @BindView(R.id.activity_item_text_number_progress)
+//        ProgressBar activity_item_text_number_progress;
+//        //地址logo
+//        @BindView(R.id.activity_item_text_area_logo)
+//        ImageView activity_item_text_area_logo;
+//        //地址距离
+//        @BindView(R.id.activity_item_text_area_text)
+//        TextView activity_item_text_area_text;
+//        //收藏
+//        @BindView(R.id.activity_item_text_collection)
+//        ImageView activity_item_text_collection;
+//        @BindView(R.id.activity_item_text_reward)
+//        TextView activity_item_text_reward;
+//        //分享
+//        @BindView(R.id.activity_item_text_share)
+//        ImageView activity_item_text_share;
+//        //活动地区
+//        @BindView(R.id.tv_member_area_logo)
+//        TextView tv_member_area_logo;
+//        //活动内容
+//        @BindView(R.id.layout_activity_content)
+//        LinearLayout layout_activity_content;
+//        //报名的用户头像
+//        @BindView(R.id.layout_user)
+//        LinearLayout layout_user;
+
+
+        ImageView mPhotoTitle;//封面照片
+        TextView mActivityName;//活动名称
+        TextView mActivitylocation;//活动城市
+        ImageView mActivityUserPhoto;//用户头像
+        TextView mActivityUserName;//用户名
+        TextView mActivityTitle;//活动标题
+        ImageView mActivityFinish;//活动结束图标
+        ProgressBar mActivityBar;//活动进度条
+        TextView mActivityBarNum;//活动进度数
+        TextView mActivityNum;//奖励金额
+        TextView mActivityOverDay;//剩余天数
+
 
         View itemView;
 
@@ -414,6 +483,18 @@ public class MemberActivityAdapter extends RecyclerView.Adapter<MemberActivityAd
 
             ButterKnife.bind(this, itemView);
             this.itemView = itemView;
+
+            mPhotoTitle = itemView.findViewById(R.id.item_activity_photo);
+            mActivityName = itemView.findViewById(R.id.item_activity_name);
+            mActivitylocation = itemView.findViewById(R.id.item_activity_location_text);
+            mActivityUserPhoto = itemView.findViewById(R.id.item_activity_user_photo);
+            mActivityUserName = itemView.findViewById(R.id.item_activity_user_name);
+            mActivityTitle = itemView.findViewById(R.id.item_activity_title);
+            mActivityFinish = itemView.findViewById(R.id.item_activity_is_finish);
+            mActivityBar = itemView.findViewById(R.id.item_activity_text_amount_progress);
+            mActivityBarNum = itemView.findViewById(R.id.item_activity_text_amount_progress_num);
+            mActivityNum = itemView.findViewById(R.id.item_activity_reward_num);
+            mActivityOverDay = itemView.findViewById(R.id.item_activity_over_day);
         }
     }
 

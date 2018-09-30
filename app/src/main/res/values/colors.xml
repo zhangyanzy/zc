@@ -23,7 +23,15 @@
     <!--文字提醒 错误 金额-->
     <color name="colorRemind">#FF4949</color>
     <color name="colorSuccess">#1DCB00</color>
+    <color name="yellow">#FFB433</color>
+    <color name="color1">#4A4A4A</color>
+    <color name="colorRemind1">#F34A32</color>
 
+    <!--RadioButton背景选择器-->
+    <color name="choosed">#FFB433</color>
+    <color name="choose">#EAEAEA</color>
+
+    <color name="colorFont8">#8F8F8F</color>
 
     <!--切图包含颜色-->
 
@@ -41,6 +49,10 @@
     <color name="colorLink">#3B70E3</color>
     <!--警告-->
     <color name="colorWarning">#f68306</color>
+
+
+
+    <color name="textButton">#B1B1B1</color>
 
 
 </resources>

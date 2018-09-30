@@ -22,9 +22,25 @@ public class TestBindingActivity extends BaseCompatActivity {
     }
 
     @Override
-    public void init(Bundle savedInstanceState) {
+    public void initViews(Bundle savedInstanceState) {
 
     }
+
+    @Override
+    protected void initToolbar(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void initListeners() {
+
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
 
     public class Presenter {
         public void onClick(View view) {

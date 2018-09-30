@@ -17,24 +17,21 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.zhaocaiapp.zc_app_android.R;
 import cn.zhaocaiapp.zc_app_android.base.BaseActivity;
+import cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar;
 
 /**
  * Created by Administrator on 2018/1/15.
  */
 
-public class IncomeActivity extends BaseActivity {
-    @BindView(R.id.iv_top_back)
-    ImageView iv_top_back;
-    @BindView(R.id.iv_top_menu)
-    ImageView iv_top_menu;
-    @BindView(R.id.tv_top_title)
-    TextView tv_top_title;
+public class IncomeActivity extends BaseActivity implements NavigationTopBar.NavigationTopBarClickListener {
+
     @BindView(R.id.tab_title)
     TabLayout tab_title;
     @BindView(R.id.pager)
     ViewPager pager;
 
-    private String[]tabTitles = new String[]{"收入明细", "提现"};
+    private NavigationTopBar mNavigationTopBar;
+    private String[] tabTitles = new String[]{"收入明细", "提现"};
     private Map<Integer, Fragment> fragments = new HashMap<>();
 
 
@@ -45,25 +42,42 @@ public class IncomeActivity extends BaseActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
-        iv_top_menu.setImageResource(R.mipmap.share);
-        tv_top_title.setText("交易明细");
-
+        mNavigationTopBar = findViewById(R.id.my_follow_top);
+        mNavigationTopBar.setLeftImageResource(R.mipmap.finish_icon);
+        mNavigationTopBar.setCenterTitleTextColor(R.color.colorBlack);
+        mNavigationTopBar.setCenterTitleText("交易明细");
+        mNavigationTopBar.setNavigationTopBarClickListener(this);
         pager.setAdapter(new IncomePagerAdapter(getSupportFragmentManager()));
         tab_title.setupWithViewPager(pager);
         pager.setCurrentItem(0);
     }
 
-    @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
-    public void onClick(View view){
-        switch (view.getId()){
-            case R.id.iv_top_back:
-                finish();
-                break;
-            case R.id.iv_top_menu:
-                openActivity(IncomeShareActivity.class);
-                break;
-        }
+    @Override
+    public void leftImageClick() {
+        finish();
     }
+
+    @Override
+    public void rightImageClick() {
+
+    }
+
+    @Override
+    public void alignRightLeftImageClick() {
+
+    }
+
+//    @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
+//    public void onClick(View view){
+//        switch (view.getId()){
+//            case R.id.iv_top_back:
+//                finish();
+//                break;
+//            case R.id.iv_top_menu:
+//                openActivity(IncomeShareActivity.class);
+//                break;
+//        }
+//    }
 
     private class IncomePagerAdapter extends FragmentPagerAdapter {
         public IncomePagerAdapter(FragmentManager fm) {
@@ -86,10 +100,10 @@ public class IncomeActivity extends BaseActivity {
         }
     }
 
-    private Fragment getFragment(int position){
+    private Fragment getFragment(int position) {
         Fragment fragment = fragments.get(position);
-        if (fragment == null){
-            switch (position){
+        if (fragment == null) {
+            switch (position) {
                 case 0: // 收入明细
                     fragment = new IncomeFragment();
                     break;

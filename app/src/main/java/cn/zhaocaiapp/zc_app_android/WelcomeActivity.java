@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +32,7 @@ import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
 import pub.devrel.easypermissions.EasyPermissions;
 
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class WelcomeActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     @BindView(R.id.view_pager)
     ViewPager viewPager;
@@ -41,7 +43,7 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
 
     private MyViewPagerAdapter myViewPagerAdapter;
     private String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE};
+            Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.REQUEST_INSTALL_PACKAGES};
 
     private List<ImageView> views = new ArrayList<>();
 
@@ -79,7 +81,7 @@ public class WelcomeActivity extends AppCompatActivity implements EasyPermission
         //设置状态栏透明
         changeStatusBarColor();
 
-        int[] ids = new int[]{R.mipmap.welcome_slide1, R.mipmap.welcome_slide2, R.mipmap.welcome_slide3};
+        int[] ids = new int[]{R.mipmap.new_welcome_slide1, R.mipmap.new_welcome_slide2, R.mipmap.new_welcome_slide3};
         for (int i = 0; i < ids.length; i++) {
             ImageView imageView = new ImageView(this);
             imageView.setImageResource(ids[i]);

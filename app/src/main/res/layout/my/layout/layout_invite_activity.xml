@@ -4,7 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_top_title" />
+    <!--<include layout="@layout/layout_top_title" />-->
+
+    <cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y96"
+        android:id="@+id/invite_friends_top"
+        ></cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar>
 
     <WebView
         android:id="@+id/web"

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="presenter"
+            type="cn.zhaocaiapp.zc_app_android.views.activity.HomeAddressActivity.Presenter"></variable>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="cn.zhaocaiapp.zc_app_android.views.activity.HomeAddressActivity">
+
+
+        <cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar
+            android:id="@+id/home_address_top"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y96"></cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar>
+
+
+        <RelativeLayout
+            android:id="@+id/choose_home_address"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y120"
+            android:layout_below="@+id/home_address_top"
+            android:onClick="@{presenter.onClick}">
+
+            <TextView
+                android:id="@+id/choose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x24"
+                android:text="请选择"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/x28" />
+
+
+            <TextView
+                android:id="@+id/home_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x20"
+                android:layout_toEndOf="@+id/choose"
+                android:textSize="@dimen/x28" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x24"
+                android:src="@mipmap/turn_right" />
+        </RelativeLayout>
+
+
+        <EditText
+            android:id="@+id/enter_home_address"
+            android:layout_width="@dimen/x702"
+            android:layout_height="@dimen/y352"
+            android:layout_below="@+id/choose_home_address"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/edit_text_bg"
+            android:gravity="center"
+            android:hint="请填写详细地址" />
+
+
+        <TextView
+            android:id="@+id/post_home_address"
+            android:layout_width="@dimen/x622"
+            android:layout_height="@dimen/y80"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="@dimen/y60"
+            android:background="@color/colorBlack"
+            android:gravity="center"
+            android:text="提交"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/x36"
+            android:onClick="@{presenter.onClick}"
+            />
+
+
+    </RelativeLayout>
+</layout>

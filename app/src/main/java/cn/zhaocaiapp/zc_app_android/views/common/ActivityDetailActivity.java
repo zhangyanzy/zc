@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.transition.Transition;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -62,17 +63,19 @@ import cn.zhaocaiapp.zc_app_android.util.ShareUtil;
 import cn.zhaocaiapp.zc_app_android.util.SpUtils;
 import cn.zhaocaiapp.zc_app_android.util.ToastUtil;
 import cn.zhaocaiapp.zc_app_android.views.login.LoginActivity;
+import cn.zhaocaiapp.zc_app_android.views.member.MemberDetailActivity;
+import cn.zhaocaiapp.zc_app_android.widget.NavigationTopBar;
 import cn.zhaocaiapp.zc_app_android.widget.OnTransitionListener;
 import cn.zhaocaiapp.zc_app_android.widget.SampleControlPlayer;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class ActivityDetailActivity extends BasePhotoActivity implements EasyPermissions.PermissionCallbacks {
-    @BindView(R.id.iv_top_back)
-    ImageView iv_back;
-    @BindView(R.id.tv_top_title)
-    TextView tv_title;
-    @BindView(R.id.iv_top_menu)
-    ImageView iv_menu;
+public class ActivityDetailActivity extends BasePhotoActivity implements EasyPermissions.PermissionCallbacks, NavigationTopBar.NavigationTopBarClickListener {
+    //    @BindView(R.id.iv_top_back)
+//    ImageView iv_back;
+//    @BindView(R.id.tv_top_title)
+//    TextView tv_title;
+//    @BindView(R.id.iv_top_menu)
+//    ImageView iv_menu;
     @BindView(R.id.activity_detail_webView)
     WebView activity_detail_webView;
     @BindView(R.id.vp_player)
@@ -96,6 +99,11 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     private String inviteCode = "0";  //活動邀請碼
     private String activityTitle; // 活动名称
 
+    private Integer activityForm;//活动类型 0线下活动 1视频活动 2问卷活动 3咨询活动 4竞猜活动
+    // 0线下活动 1视频活动
+
+    private String userType;//用户标示
+    private long memberId;
     private ImageView backBut;//返回键
     private View startBut;//播放键
     private TextView vp_title;//视频标题
@@ -108,6 +116,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
     private int isPlayComplete = 0;//是否播放完毕  0-未播放完毕  1-已播放完毕
     private GSYVideoOptionBuilder gsyVideoOption;
     private MediaPlayer mMediaPlayer;
+    private NavigationTopBar mNavigationTopBar;
 
 
     @Override
@@ -123,6 +132,9 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
         activityId = getIntent().getLongExtra("id", -1);
         activityTitle = getIntent().getStringExtra("title");
+        userType = getIntent().getStringExtra("userType");
+        activityForm = getIntent().getIntExtra("activityForm", -0);
+//        memberId = getIntent().getLongExtra("memberId", -2);
 
         //从浏览器跳转回活动详情
         Uri uri = getIntent().getData();
@@ -131,8 +143,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             inviteCode = uri.getQueryParameter("code");
             activityTitle = uri.getQueryParameter("name");
         }
-        tv_title.setText(activityTitle);
-        iv_menu.setImageResource(R.mipmap.share);
+        initTopBar();
 
 
         //加载H5活动详情
@@ -153,6 +164,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 //返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
                 view.loadUrl(url);
+                Log.i(TAG, "shouldOverrideUrlLoading: " + url);
                 return true;
             }
         });
@@ -164,7 +176,37 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         ZXingLibrary.initDisplayOpinion(this);
 
         //初始化音频播放器
-        mMediaPlayer =MediaPlayer.create(this, R.raw.radio);
+        mMediaPlayer = MediaPlayer.create(this, R.raw.radio);
+    }
+
+    private void initTopBar() {
+        mNavigationTopBar = findViewById(R.id.activity_information_top);
+        mNavigationTopBar.setLeftImageResource(R.mipmap.finish_icon);
+        if (activityForm == 0) {
+            mNavigationTopBar.setCenterTitleText("线下活动");
+        } else if (activityForm == 1) {
+            mNavigationTopBar.setCenterTitleText("视频活动");
+        }
+        mNavigationTopBar.setRightImageResource(R.mipmap.share_activity_icon);
+        mNavigationTopBar.setNavigationTopBarClickListener(this);
+
+    }
+
+    @Override
+    public void leftImageClick() {
+        ActivityUtil.finishActivity(this);
+    }
+
+    @Override
+    public void rightImageClick() {
+        String webUrl = String.format(activityUrl, activityId);
+        shareActivity(webUrl);
+    }
+
+    @Override
+    public void alignRightLeftImageClick() {
+
+
     }
 
     //预留给js调用的回调
@@ -188,6 +230,7 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
             params.put("longitude", String.valueOf(LocationUtil.getGps().getLongitude()));
             //经度
             params.put("latitude", String.valueOf(LocationUtil.getGps().getLatitude()));
+            params.put("userType", userType + "");
             //邀請码
             if (!inviteCode.equals("0")) {
                 params.put("code", inviteCode);
@@ -196,6 +239,8 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
 
             return GsonHelper.toJson(params);
         }
+
+
 
         @JavascriptInterface
         public String getUser() {
@@ -419,18 +464,18 @@ public class ActivityDetailActivity extends BasePhotoActivity implements EasyPer
         });
     }
 
-    @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.iv_top_back:
-                goBack();
-                break;
-            case R.id.iv_top_menu:
-                String webUrl = String.format(activityUrl, activityId);
-                shareActivity(webUrl);
-                break;
-        }
-    }
+//    @OnClick({R.id.iv_top_back, R.id.iv_top_menu})
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.iv_top_back:
+//                goBack();
+//                break;
+//            case R.id.iv_top_menu:
+//                String webUrl = String.format(activityUrl, activityId);
+//                shareActivity(webUrl);
+//                break;
+//        }
+//    }
 
     //未登录，跳转至登录页
     private void turnToLogin() {
